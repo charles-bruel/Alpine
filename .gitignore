@@ -73,5 +73,9 @@ crashlytics-build.properties
 
 # Exclude all folders named "exclude"
 # I sometimes use copyright assets for tested and dont want to send them to github
-**/[Ee]xclude/*
+**/[Ee]xclude/**
 **/[Ee]xclude.meta
+
+# We're going to be nice on github and not upload a GB of textures
+**/[Tt]extures/**
+**/[Tt]extures.meta
