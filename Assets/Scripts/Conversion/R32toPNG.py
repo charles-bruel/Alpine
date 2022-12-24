@@ -3,9 +3,9 @@ from PIL import Image
 
 path = r".\\..\\..\\Textures\\Map\\"
 inname = "raw.r32"
-size = 8192
+size = 8193
 divisions = 4
-outsize = int(8192/divisions)
+outsize = int((size - 1)/divisions) + 1
 resultarray = []
 
 f = open(path + inname, "rb")
@@ -25,8 +25,8 @@ while texture_index < divisions * divisions:
         x = int(lookup_index % outsize)
         y = int(lookup_index / outsize)
 
-        absX = x + imageX * outsize
-        absY = y + imageY * outsize
+        absX = x + imageX * (outsize - 1)
+        absY = y + imageY * (outsize - 1)
 
         raw_data_index = int(absY * size + absX)
 
@@ -44,7 +44,7 @@ while texture_index < divisions * divisions:
         pixel_count += 1
 
         if pixel_count % 262144 == 0:
-            percent = (pixel_count / (size * size)) * 100
+            percent = (pixel_count / (outsize * outsize * divisions * divisions)) * 100
             print("%.2f%%" % percent)
     print("Saving Image: " + str(texture_index))
 
