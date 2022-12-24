@@ -383,11 +383,11 @@ MonoBehaviour:
   TreeLODS:
   - {fileID: 4300000, guid: 84f1e9984c1532848b56af6bfdcca3bd, type: 2}
   - {fileID: 4300000, guid: eaee35da5dcc8f24e838c04e7af1c83d, type: 2}
-  - {fileID: 4300000, guid: 57d2dc8fd16d9b643b93d7dad6e88b1d, type: 2}
+  - {fileID: -1723568291865931400, guid: 60575d7ebbe98f442986faa876a0a6bb, type: 3}
   RockModel: {fileID: 4013275331872712965, guid: bc9ea1b2d012c874883a85416bf1318c,
     type: 3}
   DecoMap: {fileID: 2800000, guid: 04cf854aed7dc1443a8f7d7b1a75113c, type: 3}
-  NumTrees: 800000
+  NumTrees: 1200000
   NumRocks: 350000
 --- !u!4 &868449665
 Transform:
@@ -494,7 +494,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 100, z: 0}
+  m_LocalPosition: {x: 400, y: 100, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -16,10 +16,14 @@ public class LoadTerrainJob : Job {
         for (int i = 0; i < InputData.Length; i++)
 		{
 			Color color = InputData[i];
-			int num = (int)(color.b * 255f) << 16 | (int)(color.g * 255f) << 8 | (int)(color.r * 255f);
+			int b = (int)(color.b * 255f);
+			int g = (int)(color.g * 255f);
+			if(g == 0) b++;
+			int r = (int)(color.r * 255f);
+			if(r == 0) g++;
+			int num = b << 16 | g << 8 | r;
 			OutputData[i / Width, i % Width] = (float)num / 16777215f;
 		}
-        OutputData = Smooth(OutputData, Width, 2);
 		
 		lock(ASyncJobManager.completedJobsLock) {
         	ASyncJobManager.Instance.completedJobs.Enqueue(this);
@@ -37,32 +41,4 @@ public class LoadTerrainJob : Job {
 
 		Interlocked.Decrement(ref ActiveJobs);
     }
-
-    public static float[,] Smooth(float[,] data, int size, int blurSize)
-	{
-		float[,] array = new float[size, size];
-		for (int i = 0; i < size; i++)
-		{
-			for (int j = 0; j < size; j++)
-			{
-				if (i < blurSize || j < blurSize || i >= size - blurSize || j >= size - blurSize)
-				{
-					array[j, i] = data[j, i];
-				}
-				else
-				{
-					float num = 0f;
-					for (int k = -blurSize; k <= blurSize; k++)
-					{
-						for (int l = -blurSize; l <= blurSize; l++)
-						{
-							num += data[j + k, i + l];
-						}
-					}
-					array[j, i] = num / (float)((blurSize * 2 + 1) * (blurSize * 2 + 1));
-				}
-			}
-		}
-		return array;
-	}
 }

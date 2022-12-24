@@ -32,7 +32,7 @@ public class CreateRockMeshJob : Job
             if(Bounds.Contains(pos)) {
                 Quaternion rotation = Quaternion.FromToRotation(Vector3.up, Data[i].normal);
 
-                float scaleMul = Data[i].scale * 100f;
+                float scaleMul = Data[i].scale;
 
                 //Copy a single rock
                 for(int j = 0;j < numVerticesPerModel;j ++) {
