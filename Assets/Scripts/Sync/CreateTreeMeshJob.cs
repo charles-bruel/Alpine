@@ -4,7 +4,7 @@ using UnityEngine.Rendering;
 public class CreateTreeMeshJob : Job
 {
     public Bounds Bounds;
-    public Mesh Mesh;
+    public Mesh MeshTarget;
     public Vector3[] Vertices;
     public Vector2[] UVs;
     public int[] Triangles;
@@ -61,22 +61,24 @@ public class CreateTreeMeshJob : Job
         var watch = new System.Diagnostics.Stopwatch();  
         watch.Start();
 
-        Mesh.Clear();
-        Mesh.indexFormat = IndexFormat.UInt32;
-        Mesh.vertices = Vertices;
-        Mesh.uv = UVs;
-        Mesh.triangles = Triangles;
+        Mesh.AllocateWritableMeshData(1);
+
+        MeshTarget.Clear();
+        MeshTarget.SetVertices(Vertices);
+        MeshTarget.SetUVs(0, UVs);
+        MeshTarget.SetTriangles(Triangles, 0, false);
+        MeshTarget.bounds = Bounds;
 
         watch.Stop();
-        // Debug.Log($"Mesh Set Execution Time: {watch.ElapsedMilliseconds} ms");
+        Debug.Log($"Mesh Set Execution Time: {watch.ElapsedMilliseconds} ms");
 
         watch = new System.Diagnostics.Stopwatch();  
         watch.Start();
 
 
-        Mesh.RecalculateNormals();
+        MeshTarget.RecalculateNormals();
 
         watch.Stop();
-        // Debug.Log($"Mesh Normals Execution Time: {watch.ElapsedMilliseconds} ms");
+        Debug.Log($"Mesh Normals Execution Time: {watch.ElapsedMilliseconds} ms");
     }
 }

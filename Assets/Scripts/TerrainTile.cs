@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class TerrainTile : MonoBehaviour {
     
@@ -27,6 +28,7 @@ public class TerrainTile : MonoBehaviour {
         TerrainComponent = terrain.AddComponent<Terrain>();
         TerrainComponent.terrainData = new TerrainData();
         TerrainComponent.materialTemplate = TerrainMaterial;
+        TerrainComponent.heightmapPixelError = 1;
 
         TerrainCollider collider = terrain.AddComponent<TerrainCollider>();
         collider.terrainData = TerrainComponent.terrainData;
@@ -41,6 +43,8 @@ public class TerrainTile : MonoBehaviour {
         TreesComponent = trees.AddComponent<MeshFilter>();
         Mesh mesh = new Mesh();
         TreesComponent.mesh = mesh;
+        mesh.indexFormat = IndexFormat.UInt32;
+        mesh.MarkDynamic();
     }
 
     public void LoadTerrain(Texture2D texture2D)
@@ -84,7 +88,7 @@ public class TerrainTile : MonoBehaviour {
         
         CreateTreeMeshJob job = new CreateTreeMeshJob();
 		job.Bounds = bounds;
-        job.Mesh = TreesComponent.mesh;
+        job.MeshTarget = TreesComponent.mesh;
         job.NumTrees = numTrees;
         job.OldVertices = template.vertices;
         job.OldUVs = template.uv;
