@@ -24,7 +24,7 @@ public class TerrainManager : MonoBehaviour {
     [NonSerialized]
     public Queue<TerrainTile> Dirty = new Queue<TerrainTile>();
     [NonSerialized]
-    public float[] TreesData;
+    public TreePos[] TreesData;
 
     void Start() {
         // Assert.AreEqual(NumTilesX * NumTilesY, Textures.Length);

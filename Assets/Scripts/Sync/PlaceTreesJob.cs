@@ -3,13 +3,11 @@ using UnityEngine;
 
 public class PlaceTreesJob : Job
 {
-    public float[] Data;
+    public TreePos[] Data;
     public Bounds MapBounds;
     public Color[] DecoMap;
     public int DecoMapSize;
     public int TreeCount;
-
-    public static readonly int FloatsPerTree = 4;
 
     public void Run() {
         // Simple spin lock
@@ -23,7 +21,7 @@ public class PlaceTreesJob : Job
         //    1     | y pos
         //    2     | z pos
         //    3     | rotation
-        Data = new float[TreeCount * FloatsPerTree];
+        Data = new TreePos[TreeCount];
 
         System.Random random = new System.Random();
 		int i = 0;
@@ -31,8 +29,6 @@ public class PlaceTreesJob : Job
         Vector2 size = MapBounds.size.ToHorizontal();
         Vector2 min = MapBounds.min.ToHorizontal();
 
-        Debug.Log(size);
-        Debug.Log(min);
 		while (i < TreeCount)
 		{
 			Vector2 normalized = new Vector2((float)random.NextDouble(), (float)random.NextDouble());
@@ -44,13 +40,11 @@ public class PlaceTreesJob : Job
 			float g = DecoMap[index].g - 0.1f;
 			if (random.NextDouble() <= (double)g)
 			{
-				// Scale = (float)(random.NextDouble() + 0.5),
-				float RotationY = (float)(random.NextDouble() * 2.0 * 3.141592653589793);
-                Data[i * FloatsPerTree + 0] = position.x;
-                Data[i * FloatsPerTree + 1] = 0;//Will get populated later
-                Data[i * FloatsPerTree + 2] = position.y;
-                Data[i * FloatsPerTree + 3] = RotationY;
-
+                Data[i].pos.x = position.x;
+                Data[i].pos.y = 0;//Will get populated later
+                Data[i].pos.z = position.y;
+                Data[i].rot = (float)(random.NextDouble() * 2.0 * 3.141592653589793);
+                Data[i].scale = (float)(random.NextDouble() * 0.5 + 0.75);
 				i++;
 			}
 		}

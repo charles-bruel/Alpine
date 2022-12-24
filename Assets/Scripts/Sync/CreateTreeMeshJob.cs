@@ -21,11 +21,11 @@ public class CreateTreeMeshJob : Job
         UVs = new Vector2[numVerticesPerModel * NumTrees];
         Triangles = new int[numTrianglesPerModel * NumTrees];
 
-        float[] Data = TerrainManager.Instance.TreesData;
+        TreePos[] Data = TerrainManager.Instance.TreesData;
 
         //Copy
-        for(int i = 0, t = 0;i < Data.Length;i += PlaceTreesJob.FloatsPerTree) {
-            Vector3 pos = new Vector3(Data[i + 0], Data[i + 1], Data[i + 2]);
+        for(int i = 0, t = 0;i < Data.Length;i ++) {
+            Vector3 pos = Data[i].pos;
             if(Bounds.Contains(pos)) {
                 //Copy a single tree
                 for(int j = 0;j < numVerticesPerModel;j ++) {

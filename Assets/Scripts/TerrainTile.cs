@@ -68,22 +68,20 @@ public class TerrainTile : MonoBehaviour {
 	}
 
     public void RecreateTreeMesh(Bounds bounds, Mesh template) {
-        float[] Data = TerrainManager.Instance.TreesData;
+        TreePos[] Data = TerrainManager.Instance.TreesData;
 
         //First we need to do our raycasts
         //We also use this to count the number of trees we need to place
         int numTrees = 0;
 
-        for(int i = 0;i < Data.Length;i += PlaceTreesJob.FloatsPerTree) {
-            Vector3 pos = new Vector3(Data[i + 0], Data[i + 1], Data[i + 2]);
+        for(int i = 0;i < Data.Length;i ++) {
+            Vector3 pos = Data[i].pos;
             if(bounds.Contains(pos)) {
-                Data[i + 1] = TerrainManager.Instance.Project(pos.ToHorizontal()).y;
+                Data[i].pos = TerrainManager.Instance.Project(pos.ToHorizontal());
                 numTrees ++;
             }
         }
         
-        // Debug.Log(numTrees);
-
         CreateTreeMeshJob job = new CreateTreeMeshJob();
 		job.Bounds = bounds;
         job.Mesh = TreesComponent.mesh;
