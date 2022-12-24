@@ -45,9 +45,9 @@ public class TerrainManager : MonoBehaviour {
         job.DecoMapSize = DecoMap.width;
         job.TreeCount = NumTrees;
         job.MapBounds = new Bounds(Vector3.zero, Vector3.zero);
-        job.MapBounds.min = new Vector3((-NumTilesX/2) * TileSize, 0, (-NumTilesY/2) * TileSize);
-        job.MapBounds.max = new Vector3((NumTilesX + 1 -NumTilesX/2) * TileSize, 0, (NumTilesY + 1 -NumTilesY/2) * TileSize);
-        
+        job.MapBounds.min = new Vector3((-NumTilesX/2) * TileSize, 0, (1 - NumTilesY/2) * TileSize);
+        job.MapBounds.max = new Vector3((NumTilesX -NumTilesX/2) * TileSize, 0, (NumTilesY + 1 -NumTilesY/2) * TileSize);
+
         Thread thread = new Thread(new ThreadStart(job.Run));
 		thread.Start();
     }

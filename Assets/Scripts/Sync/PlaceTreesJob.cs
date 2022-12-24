@@ -27,12 +27,16 @@ public class PlaceTreesJob : Job
 
         System.Random random = new System.Random();
 		int i = 0;
+
+        Vector2 size = MapBounds.size.ToHorizontal();
+        Vector2 min = MapBounds.min.ToHorizontal();
+
+        Debug.Log(size);
+        Debug.Log(min);
 		while (i < TreeCount)
 		{
 			Vector2 normalized = new Vector2((float)random.NextDouble(), (float)random.NextDouble());
-			Vector2 size = MapBounds.size.ToHorizontal();
-            Vector2 min = MapBounds.min.ToHorizontal();
-            Vector2 normalizedWorldPos = new Vector2(1 - normalized.y, 1 - normalized.x);
+            Vector2 normalizedWorldPos = new Vector2(1 - normalized.x, 1 - normalized.y);
 			Vector2 position = new Vector2(normalizedWorldPos.x * size.x + min.x, normalizedWorldPos.y * size.y + min.y);
 			int x = Mathf.FloorToInt(normalized.x * DecoMapSize);
 			int y = Mathf.FloorToInt(normalized.y * DecoMapSize);
