@@ -37,6 +37,7 @@ public class PlaceTreesJob : Job
 			int x = Mathf.FloorToInt(normalized.x * DecoMapSize);
 			int y = Mathf.FloorToInt(normalized.y * DecoMapSize);
             int index = x * DecoMapSize + y;
+            if(index < 0 || index > DecoMap.Length) continue;
 			float g = DecoMap[index].g - 0.1f;
 			if (random.NextDouble() <= (double)g)
 			{
