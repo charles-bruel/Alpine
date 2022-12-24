@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using UnityEngine.Assertions;
+using System.Threading;
 
 public class TerrainManager : MonoBehaviour {
     public static float LOD1 = 100.0f;
@@ -9,16 +10,21 @@ public class TerrainManager : MonoBehaviour {
     public static float LOD3 = 400000.0f;
     public float TileSize = 400.0f;
     public float TileHeight = 4000.0f;
-    public Material Material;
-
+    public Material TerrainMaterial;
+    public Material TreeMaterial;
     public Texture2D[] Textures;
     public int NumTilesX;
     public int NumTilesY;
+    public Mesh[] TreeLODS;
+    public Texture2D DecoMap;
+    public int NumTrees = 16384;
 
     [NonSerialized]
-    public List<TerrainTile> tiles = new List<TerrainTile>();
+    public List<TerrainTile> Tiles = new List<TerrainTile>();
     [NonSerialized]
-    public Queue<TerrainTile> dirty = new Queue<TerrainTile>();
+    public Queue<TerrainTile> Dirty = new Queue<TerrainTile>();
+    [NonSerialized]
+    public float[] TreesData;
 
     void Start() {
         // Assert.AreEqual(NumTilesX * NumTilesY, Textures.Length);
@@ -29,10 +35,21 @@ public class TerrainManager : MonoBehaviour {
             for(int y = 0;y < NumTilesY;y ++,id ++) {
                 TerrainTile temp = CreateTerrainTile(x - NumTilesX/2, y - NumTilesY/2);
                 temp.id = id;
-                tiles.Add(temp);
-                dirty.Enqueue(temp);
+                Tiles.Add(temp);
+                Dirty.Enqueue(temp);
             }
         }
+
+        PlaceTreesJob job = new PlaceTreesJob();
+        job.DecoMap = DecoMap.GetPixels();
+        job.DecoMapSize = DecoMap.width;
+        job.TreeCount = NumTrees;
+        job.MapBounds = new Bounds(Vector3.zero, Vector3.zero);
+        job.MapBounds.min = new Vector3((-NumTilesX/2) * TileSize, 0, (-NumTilesY/2) * TileSize);
+        job.MapBounds.max = new Vector3((NumTilesX + 1 -NumTilesX/2) * TileSize, 0, (NumTilesY + 1 -NumTilesY/2) * TileSize);
+        
+        Thread thread = new Thread(new ThreadStart(job.Run));
+		thread.Start();
     }
 
     private TerrainTile CreateTerrainTile(int posx, int posy) {
@@ -41,14 +58,37 @@ public class TerrainManager : MonoBehaviour {
         gameObject.transform.localPosition = new Vector3(posx * TileSize, 0, -posy * TileSize);
 
         TerrainTile terrainTile = gameObject.AddComponent<TerrainTile>();
-        terrainTile.Material = Material;
+        terrainTile.TerrainMaterial = TerrainMaterial;
+        terrainTile.TreeMaterial = TreeMaterial;
+
+        terrainTile.posx = posx;
+        terrainTile.posy = posy;
+
         return terrainTile;
     }
 
     void Update() {
-        if(dirty.Count == 0) return;
-        TerrainTile nextDirty = dirty.Dequeue();
-        nextDirty.LoadTerrain(Textures[nextDirty.id]);
+        if(Dirty.Count == 0) return;
+        TerrainTile nextDirty = Dirty.Dequeue();
+        if(nextDirty.HasTerrain) {
+            Bounds bounds = new Bounds(Vector3.zero, Vector3.zero);
+            bounds.min = new Vector3(nextDirty.posx * TileSize, -1, -nextDirty.posy * TileSize);
+            bounds.max = new Vector3((nextDirty.posx + 1) * TileSize, TileSize + 1, (-nextDirty.posy + 1) * TileSize);
+
+            //For now, just taking the 3rd LOD
+            nextDirty.RecreateTreeMesh(bounds, TreeLODS[2]);
+        } else {
+            nextDirty.LoadTerrain(Textures[nextDirty.id]);
+        }
+    }
+
+    public Vector3 Project(Vector2 coord) {
+        Vector3 startCoord = new Vector3(coord.x, TileHeight * 1.1f, coord.y);
+        RaycastHit hit;
+        if(Physics.Raycast(startCoord, Vector3.down, out hit, Mathf.Infinity)) {
+            return hit.point;
+        }
+        return new Vector3(coord.x, 0, coord.y);
     }
 
     #region sqr_lods

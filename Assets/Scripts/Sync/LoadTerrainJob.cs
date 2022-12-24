@@ -1,13 +1,18 @@
 using System;
+using System.Threading;
 using UnityEngine;
 
-public class LoadTerrain : CompletedJob {
+public class LoadTerrainJob : Job {
     public Color[] InputData;
     public float[,] OutputData;
     public int Width;
     public TerrainData TerrainData;
 
+	public static int ActiveJobs = 0;
+
     public void Run() {
+		Interlocked.Increment(ref ActiveJobs);
+
         for (int i = 0; i < InputData.Length; i++)
 		{
 			Color color = InputData[i];
@@ -15,7 +20,10 @@ public class LoadTerrain : CompletedJob {
 			OutputData[i / Width, i % Width] = (float)num / 16777215f;
 		}
         OutputData = Smooth(OutputData, Width, 2);
-        ASyncJobManager.Instance.completedJobs.Enqueue(this);
+		
+		lock(ASyncJobManager.completedJobsLock) {
+        	ASyncJobManager.Instance.completedJobs.Enqueue(this);
+		}
     }
 
     public override void Complete() {
@@ -26,6 +34,8 @@ public class LoadTerrain : CompletedJob {
 			Debug.Log(ex.StackTrace);
 			Debug.Log("Error setting size. Make sure your heightmap is square and 2^n or 2^n+1 in size.");
 		}
+
+		Interlocked.Decrement(ref ActiveJobs);
     }
 
     public static float[,] Smooth(float[,] data, int size, int blurSize)
