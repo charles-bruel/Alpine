@@ -50,11 +50,25 @@ public class CreateTreeMeshJob : Job
 
     public override void Complete()
     {
+        var watch = new System.Diagnostics.Stopwatch();  
+        watch.Start();
+
         Mesh.Clear();
         Mesh.indexFormat = IndexFormat.UInt32;
         Mesh.vertices = Vertices;
         Mesh.uv = UVs;
         Mesh.triangles = Triangles;
+
+        watch.Stop();
+        // Debug.Log($"Mesh Set Execution Time: {watch.ElapsedMilliseconds} ms");
+
+        watch = new System.Diagnostics.Stopwatch();  
+        watch.Start();
+
+
         Mesh.RecalculateNormals();
+
+        watch.Stop();
+        // Debug.Log($"Mesh Normals Execution Time: {watch.ElapsedMilliseconds} ms");
     }
 }

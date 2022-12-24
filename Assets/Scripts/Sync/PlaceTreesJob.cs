@@ -32,13 +32,12 @@ public class PlaceTreesJob : Job
 			Vector2 normalized = new Vector2((float)random.NextDouble(), (float)random.NextDouble());
 			Vector2 size = MapBounds.size.ToHorizontal();
             Vector2 min = MapBounds.min.ToHorizontal();
-			Vector2 position = new Vector2(normalized.x * size.x + min.x, normalized.y * size.y + min.y);
-            normalized.x = 1 - normalized.x;
-            normalized.y = 1 - normalized.y;
+            Vector2 normalizedWorldPos = new Vector2(1 - normalized.y, 1 - normalized.x);
+			Vector2 position = new Vector2(normalizedWorldPos.x * size.x + min.x, normalizedWorldPos.y * size.y + min.y);
 			int x = Mathf.FloorToInt(normalized.x * DecoMapSize);
 			int y = Mathf.FloorToInt(normalized.y * DecoMapSize);
             int index = x * DecoMapSize + y;
-			float g = DecoMap[index].g;
+			float g = DecoMap[index].g - 0.1f;
 			if (random.NextDouble() <= (double)g)
 			{
 				// Scale = (float)(random.NextDouble() + 0.5),
