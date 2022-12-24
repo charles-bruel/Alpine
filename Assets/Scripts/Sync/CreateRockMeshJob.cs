@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class CreateTreeMeshJob : Job
+public class CreateRockMeshJob : Job
 {
     public Bounds Bounds;
     public Mesh MeshTarget;
@@ -9,7 +9,7 @@ public class CreateTreeMeshJob : Job
     public Vector3[] Normals;
     public Vector2[] UVs;
     public int[] Triangles;
-    public int NumTrees;
+    public int NumRocks;
     public Vector3[] OldVertices;
     public Vector3[] OldNormals;
     public Vector2[] OldUVs;
@@ -19,36 +19,36 @@ public class CreateTreeMeshJob : Job
         //Create data structures
         int numVerticesPerModel = OldVertices.Length;
         int numTrianglesPerModel = OldTriangles.Length;
-        Vertices = new Vector3[numVerticesPerModel * NumTrees];
-        Normals = new Vector3[numVerticesPerModel * NumTrees];
-        UVs = new Vector2[numVerticesPerModel * NumTrees];
-        Triangles = new int[numTrianglesPerModel * NumTrees];
+        Vertices = new Vector3[numVerticesPerModel * NumRocks];
+        Normals = new Vector3[numVerticesPerModel * NumRocks];
+        UVs = new Vector2[numVerticesPerModel * NumRocks];
+        Triangles = new int[numTrianglesPerModel * NumRocks];
 
-        TreePos[] Data = TerrainManager.Instance.TreesData;
+        RockPos[] Data = TerrainManager.Instance.RocksData;
 
         //Copy
         for(int i = 0, t = 0;i < Data.Length;i ++) {
             Vector3 pos = Data[i].pos;
             if(Bounds.Contains(pos)) {
-                float sinTheta = Mathf.Sin(Data[i].rot);
-                float cosTheta = Mathf.Cos(Data[i].rot);
-                float scaleMul = Data[i].scale;
+                Quaternion rotation = Quaternion.FromToRotation(Vector3.up, Data[i].normal);
 
-                //Copy a single tree
+                float scaleMul = Data[i].scale * 100f;
+
+                //Copy a single rock
                 for(int j = 0;j < numVerticesPerModel;j ++) {
-                    Vector3 transformedVertex = new Vector3(
-                        OldVertices[j].y * cosTheta - OldVertices[j].x * sinTheta, 
-                        OldVertices[j].z, 
-                        OldVertices[j].y * sinTheta + OldVertices[j].x * cosTheta
-                    ) * scaleMul;
-                    Vertices[t * numVerticesPerModel + j] = transformedVertex + pos;
+                    //This turns "hashes" a vector3 into an int
+                    Vector3 temp = OldVertices[j] * 1000;
+                    int vertex_id = (int) temp.x + (int) temp.y + (int) temp.z;
+                    if(vertex_id < 0) vertex_id *= -1;
 
-                    Vector3 transformedNormal = new Vector3(
-                        OldNormals[j].y * cosTheta - OldNormals[j].x * sinTheta, 
-                        OldNormals[j].z, 
-                        OldNormals[j].y * sinTheta + OldNormals[j].x * cosTheta
-                    ); 
-                    Normals[t * numVerticesPerModel + j] = transformedNormal;
+                    Vector4 transformedVertex = new Vector4(OldVertices[j].y, OldVertices[j].z, OldVertices[j].x, 1) * scaleMul;
+                    transformedVertex = rotation * transformedVertex;
+                    Vertices[t * numVerticesPerModel + j] = transformedVertex.DropW() + pos;
+                    Vertices[t * numVerticesPerModel + j] += BumpValues.Values[(i + vertex_id) % BumpValues.Values.Length] * 0.5f;
+
+                    Vector4 transformedNormal = new Vector4(OldNormals[j].y, OldNormals[j].z, OldNormals[j].x, 1); 
+                    transformedNormal = rotation * transformedNormal;
+                    Normals[t * numVerticesPerModel + j] = transformedNormal.DropW();
 
                     UVs[t * numVerticesPerModel + j] = OldUVs[j];
                 }

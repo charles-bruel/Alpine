@@ -1,13 +1,13 @@
 using System.Threading;
 using UnityEngine;
 
-public class PlaceTreesJob : Job
+public class PlaceRocksJob : Job
 {
-    public TreePos[] Data;
+    public RockPos[] Data;
     public Bounds MapBounds;
     public Color[] DecoMap;
     public int DecoMapSize;
-    public int TreeCount;
+    public int RockCount;
 
     public void Run() {
         // Simple spin lock
@@ -15,7 +15,7 @@ public class PlaceTreesJob : Job
             Thread.Sleep(100);
         }
 
-        Data = new TreePos[TreeCount];
+        Data = new RockPos[RockCount];
 
         System.Random random = new System.Random();
 		int i = 0;
@@ -23,7 +23,7 @@ public class PlaceTreesJob : Job
         Vector2 size = MapBounds.size.ToHorizontal();
         Vector2 min = MapBounds.min.ToHorizontal();
 
-		while (i < TreeCount)
+		while (i < RockCount)
 		{
 			Vector2 normalized = new Vector2((float)random.NextDouble(), (float)random.NextDouble());
             Vector2 normalizedWorldPos = new Vector2(1 - normalized.x, 1 - normalized.y);
@@ -32,13 +32,13 @@ public class PlaceTreesJob : Job
 			int y = Mathf.FloorToInt(normalized.y * DecoMapSize);
             int index = x * DecoMapSize + y;
             if(index < 0 || index > DecoMap.Length) continue;
-			float g = DecoMap[index].g - 0.1f;
-			if (random.NextDouble() <= (double)g)
+			float b = DecoMap[index].b - 0.1f;
+			if (random.NextDouble() <= (double)b)
 			{
                 Data[i].pos.x = position.x;
                 Data[i].pos.y = 0;//Will get populated later
                 Data[i].pos.z = position.y;
-                Data[i].rot = (float)(random.NextDouble() * 2.0 * 3.141592653589793);
+                Data[i].normal = Vector3.zero;//Will get populated later
                 Data[i].scale = (float)(random.NextDouble() * 0.5 + 0.75);
 				i++;
 			}
@@ -50,7 +50,7 @@ public class PlaceTreesJob : Job
     }
 
     public override void Complete() {
-        TerrainManager.Instance.TreesData = Data;
+        TerrainManager.Instance.RocksData = Data;
         for(int i = 0;i < TerrainManager.Instance.Tiles.Count;i ++) {
             TerrainManager.Instance.Dirty.Enqueue(TerrainManager.Instance.Tiles[i]);
         }

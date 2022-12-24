@@ -14,6 +14,8 @@ public class TerrainTile : MonoBehaviour {
     [NonSerialized]
     public MeshFilter TreesComponent;
     [NonSerialized]
+    public MeshFilter RocksComponent;
+    [NonSerialized]
     public Material TerrainMaterial;
     [NonSerialized]
     public Material TreeMaterial;
@@ -37,14 +39,28 @@ public class TerrainTile : MonoBehaviour {
         trees.transform.parent = transform;
         trees.transform.position = Vector3.zero;
 
-        MeshRenderer meshRenderer = trees.AddComponent<MeshRenderer>();
-        meshRenderer.material = TreeMaterial;
+        GameObject rocks = new GameObject("Rocks");
+        rocks.transform.parent = transform;
+        rocks.transform.position = Vector3.zero;
+
+        MeshRenderer treeMeshRenderer = trees.AddComponent<MeshRenderer>();
+        treeMeshRenderer.material = TreeMaterial;
 
         TreesComponent = trees.AddComponent<MeshFilter>();
-        Mesh mesh = new Mesh();
-        TreesComponent.mesh = mesh;
-        mesh.indexFormat = IndexFormat.UInt32;
-        mesh.MarkDynamic();
+        Mesh treeMesh = new Mesh();
+        TreesComponent.mesh = treeMesh;
+        treeMesh.indexFormat = IndexFormat.UInt32;
+        treeMesh.MarkDynamic();
+
+        MeshRenderer rockMeshRenderer = rocks.AddComponent<MeshRenderer>();
+        rockMeshRenderer.material = TreeMaterial;
+
+        RocksComponent = rocks.AddComponent<MeshFilter>();
+        Mesh rockMesh = new Mesh();
+        RocksComponent.mesh = rockMesh;
+        rockMesh.indexFormat = IndexFormat.UInt32;
+        rockMesh.MarkDynamic();
+
     }
 
     public void LoadTerrain(Texture2D texture2D)
@@ -74,7 +90,7 @@ public class TerrainTile : MonoBehaviour {
     public void RecreateTreeMesh(Bounds bounds, Mesh template) {
         TreePos[] Data = TerrainManager.Instance.TreesData;
 
-        //First we need to do our raycasts
+        //First we need to do our raycasts to assign height
         //We also use this to count the number of trees we need to place
         int numTrees = 0;
 
@@ -90,6 +106,39 @@ public class TerrainTile : MonoBehaviour {
 		job.Bounds = bounds;
         job.MeshTarget = TreesComponent.mesh;
         job.NumTrees = numTrees;
+        job.OldVertices = template.vertices;
+        job.OldUVs = template.uv;
+        job.OldTriangles = template.triangles;
+        job.OldNormals = template.normals;
+
+		Thread thread = new Thread(new ThreadStart(job.Run));
+		thread.Start();
+    }
+
+    public void RecreateRockMesh(Bounds bounds, Mesh template) {
+        RockPos[] Data = TerrainManager.Instance.RocksData;
+
+        //First we need to do our raycasts to assign height and angle
+        //We also use this to count the number of rocks we need to place
+        int numRocks = 0;
+
+        for(int i = 0;i < Data.Length;i ++) {
+            Vector3 pos = Data[i].pos;
+            if(bounds.Contains(pos)) {
+                RaycastHit? hit = TerrainManager.Instance.Raycast(pos.ToHorizontal());
+                if(hit == null) {
+                    continue;
+                }
+                Data[i].pos = hit.Value.point;
+                Data[i].normal = hit.Value.normal;
+                numRocks ++;
+            }
+        }
+        
+        CreateRockMeshJob job = new CreateRockMeshJob();
+		job.Bounds = bounds;
+        job.MeshTarget = RocksComponent.mesh;
+        job.NumRocks = numRocks;
         job.OldVertices = template.vertices;
         job.OldUVs = template.uv;
         job.OldTriangles = template.triangles;

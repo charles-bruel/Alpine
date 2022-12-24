@@ -16,8 +16,10 @@ public class TerrainManager : MonoBehaviour {
     public int NumTilesX;
     public int NumTilesY;
     public Mesh[] TreeLODS;
+    public Mesh RockModel;
     public Texture2D DecoMap;
     public int NumTrees = 16384;
+    public int NumRocks = 16384;
 
     [NonSerialized]
     public List<TerrainTile> Tiles = new List<TerrainTile>();
@@ -25,6 +27,7 @@ public class TerrainManager : MonoBehaviour {
     public Queue<TerrainTile> Dirty = new Queue<TerrainTile>();
     [NonSerialized]
     public TreePos[] TreesData;
+    public RockPos[] RocksData;
 
     void Start() {
         // Assert.AreEqual(NumTilesX * NumTilesY, Textures.Length);
@@ -40,6 +43,10 @@ public class TerrainManager : MonoBehaviour {
             }
         }
 
+        StartPlacementJobs();
+    }
+
+    private void StartPlacementJobs() {
         PlaceTreesJob job = new PlaceTreesJob();
         job.DecoMap = DecoMap.GetPixels();
         job.DecoMapSize = DecoMap.width;
@@ -50,6 +57,15 @@ public class TerrainManager : MonoBehaviour {
 
         Thread thread = new Thread(new ThreadStart(job.Run));
 		thread.Start();
+
+        PlaceRocksJob job2 = new PlaceRocksJob();
+        job2.DecoMap = job.DecoMap;
+        job2.DecoMapSize = DecoMap.width;
+        job2.RockCount = NumRocks;
+        job2.MapBounds = job.MapBounds;
+
+        Thread thread2 = new Thread(new ThreadStart(job2.Run));
+		thread2.Start();
     }
 
     private TerrainTile CreateTerrainTile(int posx, int posy) {
@@ -77,6 +93,7 @@ public class TerrainManager : MonoBehaviour {
 
             //For now, just taking the 3rd LOD
             nextDirty.RecreateTreeMesh(bounds, TreeLODS[2]);
+            nextDirty.RecreateRockMesh(bounds, RockModel);
         } else {
             nextDirty.LoadTerrain(Textures[nextDirty.id]);
         }
@@ -89,6 +106,15 @@ public class TerrainManager : MonoBehaviour {
             return hit.point;
         }
         return new Vector3(coord.x, 0, coord.y);
+    }
+
+    public RaycastHit? Raycast(Vector2 coord) {
+        Vector3 startCoord = new Vector3(coord.x, TileHeight * 1.1f, coord.y);
+        RaycastHit hit;
+        if(Physics.Raycast(startCoord, Vector3.down, out hit, Mathf.Infinity)) {
+            return hit;
+        }
+        return null;
     }
 
     #region sqr_lods
