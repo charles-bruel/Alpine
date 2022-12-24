@@ -309,8 +309,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a37f9193a6551f4f8da429dce4cacc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TileSize: 100
-  TileHeight: 133
+  TileSize: 300
+  TileHeight: 400
   TerrainMaterial: {fileID: 2100000, guid: d4ae1937bbdc3974aa47cd91f071f017, type: 2}
   TreeMaterial: {fileID: 2100000, guid: 7f80dbcdfc3d64c4d9be9b41d02df88f, type: 2}
   Textures:
@@ -385,7 +385,7 @@ MonoBehaviour:
   - {fileID: 4300000, guid: eaee35da5dcc8f24e838c04e7af1c83d, type: 2}
   - {fileID: 4300000, guid: 57d2dc8fd16d9b643b93d7dad6e88b1d, type: 2}
   DecoMap: {fileID: 2800000, guid: 04cf854aed7dc1443a8f7d7b1a75113c, type: 3}
-  NumTrees: 900000
+  NumTrees: 1000000
 --- !u!4 &868449665
 Transform:
   m_ObjectHideFlags: 0

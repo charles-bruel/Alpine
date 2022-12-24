@@ -93,6 +93,7 @@ public class TerrainTile : MonoBehaviour {
         job.OldVertices = template.vertices;
         job.OldUVs = template.uv;
         job.OldTriangles = template.triangles;
+        job.OldNormals = template.normals;
 
 		Thread thread = new Thread(new ThreadStart(job.Run));
 		thread.Start();
