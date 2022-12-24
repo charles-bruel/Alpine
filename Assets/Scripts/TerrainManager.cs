@@ -15,7 +15,8 @@ public class TerrainManager : MonoBehaviour {
     public Texture2D[] Textures;
     public int NumTilesX;
     public int NumTilesY;
-    public Mesh[] TreeLODS;
+    public Mesh[] TreeLODS1;
+    public Mesh[] TreeLODS2;
     public Mesh RockModel;
     public Texture2D DecoMap;
     public int NumTrees = 16384;
@@ -92,7 +93,7 @@ public class TerrainManager : MonoBehaviour {
             bounds.max = new Vector3((nextDirty.posx + 1) * TileSize, TileSize + 1, (-nextDirty.posy + 1) * TileSize);
 
             //For now, just taking the 3rd LOD
-            nextDirty.RecreateTreeMesh(bounds, TreeLODS[2]);
+            nextDirty.RecreateTreeMesh(bounds, TreeLODS1[2], TreeLODS2[2]);
             nextDirty.RecreateRockMesh(bounds, RockModel);
         } else {
             nextDirty.LoadTerrain(Textures[nextDirty.id]);

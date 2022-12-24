@@ -32,9 +32,16 @@ public class PlaceTreesJob : Job
 			int y = Mathf.FloorToInt(normalized.y * DecoMapSize);
             int index = x * DecoMapSize + y;
             if(index < 0 || index > DecoMap.Length) continue;
-			float g = DecoMap[index].g - 0.1f;
-			if (random.NextDouble() <= (double)g)
+            //We check again place a tree there, then choose
+			float v = DecoMap[index].g + DecoMap[index].r;
+			if (random.NextDouble() <= (double)v)
 			{
+                float treeChoose = (float) random.NextDouble() * v;
+                if(DecoMap[index].r < treeChoose) {
+                    Data[i].type = 1;
+                } else {
+                    Data[i].type = 2;
+                }
                 Data[i].pos.x = position.x;
                 Data[i].pos.y = 0;//Will get populated later
                 Data[i].pos.z = position.y;

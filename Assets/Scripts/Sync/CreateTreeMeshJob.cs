@@ -9,27 +9,59 @@ public class CreateTreeMeshJob : Job
     public Vector3[] Normals;
     public Vector2[] UVs;
     public int[] Triangles;
-    public int NumTrees;
-    public Vector3[] OldVertices;
-    public Vector3[] OldNormals;
-    public Vector2[] OldUVs;
-    public int[] OldTriangles;
+
+    //TODO: Make number of template meshes variable
+    public int NumTrees1;
+    public int NumTrees2;
+    public Vector3[] OldVertices1;
+    public Vector3[] OldNormals1;
+    public Vector2[] OldUVs1;
+    public int[] OldTriangles1;
+    public Vector3[] OldVertices2;
+    public Vector3[] OldNormals2;
+    public Vector2[] OldUVs2;
+    public int[] OldTriangles2;
 
     public void Run() {
         //Create data structures
-        int numVerticesPerModel = OldVertices.Length;
-        int numTrianglesPerModel = OldTriangles.Length;
-        Vertices = new Vector3[numVerticesPerModel * NumTrees];
-        Normals = new Vector3[numVerticesPerModel * NumTrees];
-        UVs = new Vector2[numVerticesPerModel * NumTrees];
-        Triangles = new int[numTrianglesPerModel * NumTrees];
+        int numVerticesPerModel1 = OldVertices1.Length;
+        int numTrianglesPerModel1 = OldTriangles1.Length;
+        int numVerticesPerModel2 = OldVertices2.Length;
+        int numTrianglesPerModel2 = OldTriangles2.Length;
+        Vertices = new Vector3[numVerticesPerModel1 * NumTrees1 + numVerticesPerModel2 * NumTrees2];
+        Normals = new Vector3[numVerticesPerModel1 * NumTrees1 + numVerticesPerModel2 * NumTrees2];
+        UVs = new Vector2[numVerticesPerModel1 * NumTrees1 + numVerticesPerModel2 * NumTrees2];
+        Triangles = new int[numTrianglesPerModel1 * NumTrees1 + numTrianglesPerModel2 * NumTrees2];
+
+        //Copy
+        Copy(
+            1, 0, 0,
+            OldVertices1, OldNormals1, OldUVs1, OldTriangles1,
+            numVerticesPerModel1, numTrianglesPerModel1
+        );
+
+        Copy(
+            2, numVerticesPerModel1 * NumTrees1, numTrianglesPerModel1 * NumTrees1,
+            OldVertices2, OldNormals2, OldUVs2, OldTriangles2,
+            numVerticesPerModel2, numTrianglesPerModel2
+        );
+
+        lock(ASyncJobManager.completedJobsLock) {
+        	ASyncJobManager.Instance.completedJobs.Enqueue(this);
+		}
+    }
+
+    private void Copy(
+        byte TypeToLookFor, int verticesBaseIndex, int trianglesBaseIndex,
+        Vector3[] OldVertices, Vector3[] OldNormals, Vector2[] OldUVs, int[] OldTriangles,
+        int numVerticesPerModel, int numTrianglesPerModel
+    ) {
 
         TreePos[] Data = TerrainManager.Instance.TreesData;
 
-        //Copy
         for(int i = 0, t = 0;i < Data.Length;i ++) {
             Vector3 pos = Data[i].pos;
-            if(Bounds.Contains(pos)) {
+            if(Data[i].type == TypeToLookFor && Bounds.Contains(pos)) {
                 float sinTheta = Mathf.Sin(Data[i].rot);
                 float cosTheta = Mathf.Cos(Data[i].rot);
                 float scaleMul = Data[i].scale;
@@ -41,29 +73,25 @@ public class CreateTreeMeshJob : Job
                         OldVertices[j].z, 
                         OldVertices[j].y * sinTheta + OldVertices[j].x * cosTheta
                     ) * scaleMul;
-                    Vertices[t * numVerticesPerModel + j] = transformedVertex + pos;
+                    Vertices[t * numVerticesPerModel + j + verticesBaseIndex] = transformedVertex + pos;
 
                     Vector3 transformedNormal = new Vector3(
                         OldNormals[j].y * cosTheta - OldNormals[j].x * sinTheta, 
                         OldNormals[j].z, 
                         OldNormals[j].y * sinTheta + OldNormals[j].x * cosTheta
                     ); 
-                    Normals[t * numVerticesPerModel + j] = transformedNormal;
+                    Normals[t * numVerticesPerModel + j + verticesBaseIndex] = transformedNormal;
 
-                    UVs[t * numVerticesPerModel + j] = OldUVs[j];
+                    UVs[t * numVerticesPerModel + j + verticesBaseIndex] = OldUVs[j];
                 }
                 for(int j = 0;j < numTrianglesPerModel;j ++) {
-                    Triangles[t * numTrianglesPerModel + j] = OldTriangles[j] + t * numVerticesPerModel;
+                    Triangles[t * numTrianglesPerModel + j + trianglesBaseIndex] = OldTriangles[j] + t * numVerticesPerModel + verticesBaseIndex;
                 }
 
                 t++;
             }
 
         }
-
-        lock(ASyncJobManager.completedJobsLock) {
-        	ASyncJobManager.Instance.completedJobs.Enqueue(this);
-		}
     }
 
     public override void Complete()

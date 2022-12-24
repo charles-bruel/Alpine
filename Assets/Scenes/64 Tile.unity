@@ -380,10 +380,14 @@ MonoBehaviour:
   - {fileID: 2800000, guid: dbf64b2c8e7422040ad54509755bed63, type: 3}
   NumTilesX: 8
   NumTilesY: 8
-  TreeLODS:
-  - {fileID: 4300000, guid: 84f1e9984c1532848b56af6bfdcca3bd, type: 2}
-  - {fileID: 4300000, guid: eaee35da5dcc8f24e838c04e7af1c83d, type: 2}
+  TreeLODS1:
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: -1723568291865931400, guid: 60575d7ebbe98f442986faa876a0a6bb, type: 3}
+  TreeLODS2:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 8345969570725863240, guid: 60575d7ebbe98f442986faa876a0a6bb, type: 3}
   RockModel: {fileID: 4013275331872712965, guid: bc9ea1b2d012c874883a85416bf1318c,
     type: 3}
   DecoMap: {fileID: 2800000, guid: 04cf854aed7dc1443a8f7d7b1a75113c, type: 3}
