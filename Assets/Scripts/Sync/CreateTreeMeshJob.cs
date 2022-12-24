@@ -29,6 +29,7 @@ public class CreateTreeMeshJob : Job
             if(Bounds.Contains(pos)) {
                 float sinTheta = Mathf.Sin(Data[i].rot);
                 float cosTheta = Mathf.Cos(Data[i].rot);
+                float scaleMul = 0.25f * Data[i].scale;
 
                 //Copy a single tree
                 for(int j = 0;j < numVerticesPerModel;j ++) {
@@ -36,7 +37,7 @@ public class CreateTreeMeshJob : Job
                         OldVertices[j].y * cosTheta - OldVertices[j].x * sinTheta, 
                         OldVertices[j].z, 
                         OldVertices[j].y * sinTheta + OldVertices[j].x * cosTheta
-                    ) * 0.25f;
+                    ) * scaleMul;
 
                     Vertices[t * numVerticesPerModel + j] = transformedPoint + pos;
                     UVs[t * numVerticesPerModel + j] = OldUVs[j];
