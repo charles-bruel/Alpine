@@ -21,6 +21,10 @@ public class TerrainTile : MonoBehaviour {
     public Material TreeMaterial;
     [NonSerialized]
     public bool HasTerrain = false;
+    [NonSerialized]
+    public TreePos[] LocalTreeData;
+    [NonSerialized]
+    public RockPos[] LocalRockData;
 
     void Start() {
         GameObject terrain = new GameObject("Terrain");
@@ -106,6 +110,15 @@ public class TerrainTile : MonoBehaviour {
                 }
             }
         }
+
+        LocalTreeData = new TreePos[numTrees1 + numTrees2];
+        for(int i = 0, t = 0;i < Data.Length;i ++) {
+            Vector3 pos = Data[i].pos;
+            if(bounds.Contains(pos)) {
+                LocalTreeData[t] = Data[i];
+                t++;
+            }
+        }
         
         CreateTreeMeshJob job = new CreateTreeMeshJob();
 		job.Bounds = bounds;
@@ -142,6 +155,15 @@ public class TerrainTile : MonoBehaviour {
                 Data[i].pos = hit.Value.point;
                 Data[i].normal = hit.Value.normal;
                 numRocks ++;
+            }
+        }
+
+        LocalRockData = new RockPos[numRocks];
+        for(int i = 0, t = 0;i < Data.Length;i ++) {
+            Vector3 pos = Data[i].pos;
+            if(bounds.Contains(pos)) {
+                LocalRockData[t] = Data[i];
+                t++;
             }
         }
         
