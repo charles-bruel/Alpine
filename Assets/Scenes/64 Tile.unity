@@ -311,8 +311,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TileSize: 300
   TileHeight: 400
-  TerrainMaterial: {fileID: 2100000, guid: d4ae1937bbdc3974aa47cd91f071f017, type: 2}
-  ObjectMaterial: {fileID: 2100000, guid: 6906962458554cb41b630b2aed44400f, type: 2}
   Textures:
   - {fileID: 2800000, guid: e0c6e8776bcabef42bd5ff6352109497, type: 3}
   - {fileID: 2800000, guid: a3031f1b3e9642847ae55b20f7626d1c, type: 3}
@@ -380,6 +378,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: dbf64b2c8e7422040ad54509755bed63, type: 3}
   NumTilesX: 8
   NumTilesY: 8
+  TerrainMaterial: {fileID: 2100000, guid: d4ae1937bbdc3974aa47cd91f071f017, type: 2}
+  ObjectMaterial: {fileID: 2100000, guid: 6906962458554cb41b630b2aed44400f, type: 2}
   TreeLODS1:
   - {fileID: 0}
   - {fileID: 0}
@@ -396,6 +396,7 @@ MonoBehaviour:
   DecoMap: {fileID: 2800000, guid: 04cf854aed7dc1443a8f7d7b1a75113c, type: 3}
   NumTrees: 1200000
   NumRocks: 400000
+  SharedRuntimeObjectMaterial: {fileID: 0}
 --- !u!4 &868449665
 Transform:
   m_ObjectHideFlags: 0

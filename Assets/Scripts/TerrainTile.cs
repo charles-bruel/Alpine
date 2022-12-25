@@ -20,7 +20,7 @@ public class TerrainTile : MonoBehaviour {
     [NonSerialized]
     public Material TerrainMaterial;
     [NonSerialized]
-    public Material TreeMaterial;
+    public Material ObjectMaterial;
     [NonSerialized]
     public TreePos[] LocalTreeData;
     [NonSerialized]
@@ -48,7 +48,7 @@ public class TerrainTile : MonoBehaviour {
         rocks.transform.position = Vector3.zero;
 
         MeshRenderer treeMeshRenderer = trees.AddComponent<MeshRenderer>();
-        treeMeshRenderer.material = TreeMaterial;
+        treeMeshRenderer.material = ObjectMaterial;
 
         TreesComponent = trees.AddComponent<MeshFilter>();
         Mesh treeMesh = new Mesh();
@@ -57,7 +57,7 @@ public class TerrainTile : MonoBehaviour {
         treeMesh.MarkDynamic();
 
         MeshRenderer rockMeshRenderer = rocks.AddComponent<MeshRenderer>();
-        rockMeshRenderer.material = TreeMaterial;
+        rockMeshRenderer.material = ObjectMaterial;
 
         RocksComponent = rocks.AddComponent<MeshFilter>();
         Mesh rockMesh = new Mesh();
