@@ -8,6 +8,8 @@ public class TerrainTile : MonoBehaviour {
     public int posx;
     public int posy;
     public int id;
+    [NonSerialized]
+    public TerrainTileDirtyStates DirtyStates = TerrainTileDirtyStates.TERRAIN;
 
     [NonSerialized]
     public Terrain TerrainComponent;
@@ -19,8 +21,6 @@ public class TerrainTile : MonoBehaviour {
     public Material TerrainMaterial;
     [NonSerialized]
     public Material TreeMaterial;
-    [NonSerialized]
-    public bool HasTerrain = false;
     [NonSerialized]
     public TreePos[] LocalTreeData;
     [NonSerialized]
@@ -87,8 +87,6 @@ public class TerrainTile : MonoBehaviour {
 
 		Thread thread = new Thread(new ThreadStart(job.Run));
 		thread.Start();
-
-        HasTerrain = true;
 	}
 
     public void RecreateTreeMesh(Bounds bounds, Mesh template1, Mesh template2) {
@@ -170,7 +168,7 @@ public class TerrainTile : MonoBehaviour {
         }
         
         CreateRockMeshJob job = new CreateRockMeshJob();
-        
+
 		job.Bounds = bounds;
         job.MeshTarget = RocksComponent.mesh;
         job.NumRocks = numRocks;
@@ -196,5 +194,11 @@ public class TerrainTile : MonoBehaviour {
             return LODLevel.LOD3;
         }
         return LODLevel.LOD4;
+    }
+
+    public enum TerrainTileDirtyStates : uint {
+        TERRAIN = 1,
+        TREES = 2,
+        ROCKS = 4,
     }
 }

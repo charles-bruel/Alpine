@@ -59,6 +59,7 @@ public class PlaceTreesJob : Job
     public override void Complete() {
         TerrainManager.Instance.TreesData = Data;
         for(int i = 0;i < TerrainManager.Instance.Tiles.Count;i ++) {
+            TerrainManager.Instance.Tiles[i].DirtyStates |= TerrainTile.TerrainTileDirtyStates.TREES;
             TerrainManager.Instance.Dirty.Enqueue(TerrainManager.Instance.Tiles[i]);
         }
     }

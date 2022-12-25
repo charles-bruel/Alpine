@@ -87,16 +87,21 @@ public class TerrainManager : MonoBehaviour {
     void Update() {
         if(Dirty.Count == 0) return;
         TerrainTile nextDirty = Dirty.Dequeue();
-        if(nextDirty.HasTerrain) {
+        if((nextDirty.DirtyStates & TerrainTile.TerrainTileDirtyStates.TERRAIN) != 0) {
+            nextDirty.LoadTerrain(Textures[nextDirty.id]);
+            nextDirty.DirtyStates &= ~TerrainTile.TerrainTileDirtyStates.TERRAIN;
+        } else {
             Bounds bounds = new Bounds(Vector3.zero, Vector3.zero);
             bounds.min = new Vector3(nextDirty.posx * TileSize, -1, -nextDirty.posy * TileSize);
             bounds.max = new Vector3((nextDirty.posx + 1) * TileSize, TileSize + 1, (-nextDirty.posy + 1) * TileSize);
-
-            //For now, just taking the 3rd LOD
-            nextDirty.RecreateTreeMesh(bounds, TreeLODS1[2], TreeLODS2[2]);
-            nextDirty.RecreateRockMesh(bounds, RockModel);
-        } else {
-            nextDirty.LoadTerrain(Textures[nextDirty.id]);
+            if((nextDirty.DirtyStates & TerrainTile.TerrainTileDirtyStates.TREES) != 0) {
+                nextDirty.RecreateTreeMesh(bounds, TreeLODS1[2], TreeLODS2[2]);
+                nextDirty.DirtyStates &= ~TerrainTile.TerrainTileDirtyStates.TREES;
+            }
+            if((nextDirty.DirtyStates & TerrainTile.TerrainTileDirtyStates.ROCKS) != 0) {
+                nextDirty.RecreateRockMesh(bounds, RockModel);
+                nextDirty.DirtyStates &= ~TerrainTile.TerrainTileDirtyStates.ROCKS;
+            }
         }
     }
 

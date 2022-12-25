@@ -52,6 +52,7 @@ public class PlaceRocksJob : Job
     public override void Complete() {
         TerrainManager.Instance.RocksData = Data;
         for(int i = 0;i < TerrainManager.Instance.Tiles.Count;i ++) {
+            TerrainManager.Instance.Tiles[i].DirtyStates |= TerrainTile.TerrainTileDirtyStates.ROCKS;
             TerrainManager.Instance.Dirty.Enqueue(TerrainManager.Instance.Tiles[i]);
         }
     }
