@@ -184,13 +184,13 @@ public class TerrainTile : MonoBehaviour {
 
     public LODLevel GetLODLevel() {
         float sqrDist = (transform.position - Camera.main.transform.position).sqrMagnitude;
-        if(sqrDist < TerrainManager.LOD1_sqr) {
+        if(sqrDist < TerrainManager.Instance.LOD1 * TerrainManager.Instance.LOD1) {
             return LODLevel.LOD1;
         }
-        if(sqrDist < TerrainManager.LOD2_sqr) {
+        if(sqrDist < TerrainManager.Instance.LOD2 * TerrainManager.Instance.LOD2) {
             return LODLevel.LOD2;
         }
-        if(sqrDist < TerrainManager.LOD3_sqr) {
+        if(sqrDist < TerrainManager.Instance.LOD3 * TerrainManager.Instance.LOD3) {
             return LODLevel.LOD3;
         }
         return LODLevel.LOD4;

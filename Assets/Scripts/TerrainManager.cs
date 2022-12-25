@@ -139,14 +139,9 @@ public class TerrainManager : MonoBehaviour {
 
     #region lods
 
-    //TODO: Sort this out
-    public static float LOD1 = 100.0f;
-    public static float LOD2 = 200.0f;
-    public static float LOD3 = 400000.0f;
-
-    public static float LOD1_sqr = LOD1 * LOD1;
-    public static float LOD2_sqr = LOD2 * LOD2;
-    public static float LOD3_sqr = LOD3 * LOD3;
+    public float LOD1 = 100.0f;
+    public float LOD2 = 200.0f;
+    public float LOD3 = 400000.0f;
 
     #endregion
 
