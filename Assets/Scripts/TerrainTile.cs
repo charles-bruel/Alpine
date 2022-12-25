@@ -30,7 +30,7 @@ public class TerrainTile : MonoBehaviour {
         TerrainComponent = terrain.AddComponent<Terrain>();
         TerrainComponent.terrainData = new TerrainData();
         TerrainComponent.materialTemplate = TerrainMaterial;
-        TerrainComponent.heightmapPixelError = 3;
+        TerrainComponent.heightmapPixelError = 10;
 
         TerrainCollider collider = terrain.AddComponent<TerrainCollider>();
         collider.terrainData = TerrainComponent.terrainData;
