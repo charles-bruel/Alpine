@@ -121,6 +121,7 @@ public class TerrainTile : MonoBehaviour {
         }
         
         CreateTreeMeshJob job = new CreateTreeMeshJob();
+
 		job.Bounds = bounds;
         job.MeshTarget = TreesComponent.mesh;
         job.NumTrees1 = numTrees1;
@@ -134,6 +135,7 @@ public class TerrainTile : MonoBehaviour {
         job.OldTriangles2 = template2.triangles;
         job.OldNormals2 = template2.normals;
 
+        job.Initialize();
 		Thread thread = new Thread(new ThreadStart(job.Run));
 		thread.Start();
     }
@@ -168,6 +170,7 @@ public class TerrainTile : MonoBehaviour {
         }
         
         CreateRockMeshJob job = new CreateRockMeshJob();
+        
 		job.Bounds = bounds;
         job.MeshTarget = RocksComponent.mesh;
         job.NumRocks = numRocks;
@@ -176,6 +179,7 @@ public class TerrainTile : MonoBehaviour {
         job.OldTriangles = template.triangles;
         job.OldNormals = template.normals;
 
+        job.Initialize();
 		Thread thread = new Thread(new ThreadStart(job.Run));
 		thread.Start();
     }

@@ -392,7 +392,7 @@ MonoBehaviour:
     type: 3}
   DecoMap: {fileID: 2800000, guid: 04cf854aed7dc1443a8f7d7b1a75113c, type: 3}
   NumTrees: 1200000
-  NumRocks: 350000
+  NumRocks: 400000
 --- !u!4 &868449665
 Transform:
   m_ObjectHideFlags: 0
@@ -471,7 +471,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 2000
   field of view: 60
   orthographic: 0
   orthographic size: 5

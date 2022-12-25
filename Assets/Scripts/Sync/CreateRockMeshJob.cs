@@ -1,3 +1,4 @@
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -5,24 +6,42 @@ public class CreateRockMeshJob : Job
 {
     public Bounds Bounds;
     public Mesh MeshTarget;
-    public Vector3[] Vertices;
-    public Vector3[] Normals;
-    public Vector2[] UVs;
-    public int[] Triangles;
+    private NativeArray<Vector3> Vertices;
+    private NativeArray<Vector3> Normals;
+    //Array is Vec3 so that stride matches
+    //TODO: Find away to fix this
+    private NativeArray<Vector3> UVs;
+    private NativeArray<int> Triangles;
+    private Mesh.MeshDataArray OutputMeshData;
     public int NumRocks;
     public Vector3[] OldVertices;
     public Vector3[] OldNormals;
     public Vector2[] OldUVs;
     public int[] OldTriangles;
 
+    public void Initialize() {
+        int numVerticesPerModel = OldVertices.Length;
+        int numTrianglesPerModel = OldTriangles.Length;
+
+        OutputMeshData = Mesh.AllocateWritableMeshData(1);
+        Mesh.MeshData outputMesh = OutputMeshData[0];
+        outputMesh.SetIndexBufferParams(numTrianglesPerModel * NumRocks, IndexFormat.UInt32);
+        outputMesh.SetVertexBufferParams(numVerticesPerModel * NumRocks,
+            new VertexAttributeDescriptor(VertexAttribute.Position),
+            new VertexAttributeDescriptor(VertexAttribute.Normal, stream:1),
+            new VertexAttributeDescriptor(VertexAttribute.TexCoord0, stream:2)
+        );
+
+        Vertices = outputMesh.GetVertexData<Vector3>();
+        Normals = outputMesh.GetVertexData<Vector3>(stream:1);
+        UVs = outputMesh.GetVertexData<Vector3>(stream:2);
+        Triangles = outputMesh.GetIndexData<int>();
+    }
+
     public void Run() {
         //Create data structures
         int numVerticesPerModel = OldVertices.Length;
         int numTrianglesPerModel = OldTriangles.Length;
-        Vertices = new Vector3[numVerticesPerModel * NumRocks];
-        Normals = new Vector3[numVerticesPerModel * NumRocks];
-        UVs = new Vector2[numVerticesPerModel * NumRocks];
-        Triangles = new int[numTrianglesPerModel * NumRocks];
 
         RockPos[] Data = TerrainManager.Instance.RocksData;
 
@@ -68,18 +87,19 @@ public class CreateRockMeshJob : Job
 
     public override void Complete()
     {
-        var watch = new System.Diagnostics.Stopwatch();  
-        watch.Start();
+        SubMeshDescriptor subMesh = new SubMeshDescriptor(0, Triangles.Length, MeshTopology.Triangles);
+        subMesh.firstVertex = 0;
+        subMesh.vertexCount = Vertices.Length;
 
-        MeshTarget.Clear();
-        MeshTarget.SetVertices(Vertices);
-        MeshTarget.SetNormals(Normals);
-        MeshTarget.SetUVs(0, UVs);
-        MeshTarget.SetTriangles(Triangles, 0, false);
+        Mesh.MeshData outputMesh = OutputMeshData[0];
+
+        outputMesh.subMeshCount = 1;
+        outputMesh.SetSubMesh(0, subMesh, MeshUpdateFlags.DontRecalculateBounds | MeshUpdateFlags.DontValidateIndices | MeshUpdateFlags.DontNotifyMeshUsers);
+        Mesh.ApplyAndDisposeWritableMeshData(OutputMeshData, new[]{ MeshTarget }, 
+            MeshUpdateFlags.DontRecalculateBounds |
+            MeshUpdateFlags.DontValidateIndices   |
+            MeshUpdateFlags.DontNotifyMeshUsers
+        );
         MeshTarget.bounds = Bounds;
-        MeshTarget.Optimize();
-
-        watch.Stop();
-        // Debug.Log($"Mesh Set Execution Time: {watch.ElapsedMilliseconds} ms");
     }
 }

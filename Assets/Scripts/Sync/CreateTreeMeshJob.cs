@@ -1,3 +1,4 @@
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -5,10 +6,13 @@ public class CreateTreeMeshJob : Job
 {
     public Bounds Bounds;
     public Mesh MeshTarget;
-    public Vector3[] Vertices;
-    public Vector3[] Normals;
-    public Vector2[] UVs;
-    public int[] Triangles;
+    private NativeArray<Vector3> Vertices;
+    private NativeArray<Vector3> Normals;
+    //Array is Vec3 so that stride matches
+    //TODO: Find away to fix this
+    private NativeArray<Vector3> UVs;
+    private NativeArray<int> Triangles;
+    private Mesh.MeshDataArray OutputMeshData;
 
     //TODO: Make number of template meshes variable
     public int NumTrees1;
@@ -22,16 +26,37 @@ public class CreateTreeMeshJob : Job
     public Vector2[] OldUVs2;
     public int[] OldTriangles2;
 
+    // Based on
+    // https://github.com/Unity-Technologies/MeshApiExamples/blob/master/Assets/CreateMeshFromAllSceneMeshes/CreateMeshFromWholeScene.cs
+
+    public void Initialize() {
+        int numVerticesPerModel1 = OldVertices1.Length;
+        int numTrianglesPerModel1 = OldTriangles1.Length;
+        int numVerticesPerModel2 = OldVertices2.Length;
+        int numTrianglesPerModel2 = OldTriangles2.Length;
+
+        OutputMeshData = Mesh.AllocateWritableMeshData(1);
+        Mesh.MeshData outputMesh = OutputMeshData[0];
+        outputMesh.SetIndexBufferParams(numTrianglesPerModel1 * NumTrees1 + numTrianglesPerModel2 * NumTrees2, IndexFormat.UInt32);
+        outputMesh.SetVertexBufferParams(numVerticesPerModel1 * NumTrees1 + numVerticesPerModel2 * NumTrees2,
+            new VertexAttributeDescriptor(VertexAttribute.Position),
+            new VertexAttributeDescriptor(VertexAttribute.Normal, stream:1),
+            new VertexAttributeDescriptor(VertexAttribute.TexCoord0, stream:2)
+        );
+
+        Vertices = outputMesh.GetVertexData<Vector3>();
+        Normals = outputMesh.GetVertexData<Vector3>(stream:1);
+        UVs = outputMesh.GetVertexData<Vector3>(stream:2);
+        Triangles = outputMesh.GetIndexData<int>();
+
+    }
+
     public void Run() {
         //Create data structures
         int numVerticesPerModel1 = OldVertices1.Length;
         int numTrianglesPerModel1 = OldTriangles1.Length;
         int numVerticesPerModel2 = OldVertices2.Length;
         int numTrianglesPerModel2 = OldTriangles2.Length;
-        Vertices = new Vector3[numVerticesPerModel1 * NumTrees1 + numVerticesPerModel2 * NumTrees2];
-        Normals = new Vector3[numVerticesPerModel1 * NumTrees1 + numVerticesPerModel2 * NumTrees2];
-        UVs = new Vector2[numVerticesPerModel1 * NumTrees1 + numVerticesPerModel2 * NumTrees2];
-        Triangles = new int[numTrianglesPerModel1 * NumTrees1 + numTrianglesPerModel2 * NumTrees2];
 
         //Copy
         Copy(
@@ -96,18 +121,21 @@ public class CreateTreeMeshJob : Job
 
     public override void Complete()
     {
-        var watch = new System.Diagnostics.Stopwatch();  
-        watch.Start();
+        // MeshTarget.Optimize();
 
-        MeshTarget.Clear();
-        MeshTarget.SetVertices(Vertices);
-        MeshTarget.SetNormals(Normals);
-        MeshTarget.SetUVs(0, UVs);
-        MeshTarget.SetTriangles(Triangles, 0, false);
+        SubMeshDescriptor subMesh = new SubMeshDescriptor(0, Triangles.Length, MeshTopology.Triangles);
+        subMesh.firstVertex = 0;
+        subMesh.vertexCount = Vertices.Length;
+
+        Mesh.MeshData outputMesh = OutputMeshData[0];
+
+        outputMesh.subMeshCount = 1;
+        outputMesh.SetSubMesh(0, subMesh, MeshUpdateFlags.DontRecalculateBounds | MeshUpdateFlags.DontValidateIndices | MeshUpdateFlags.DontNotifyMeshUsers);
+        Mesh.ApplyAndDisposeWritableMeshData(OutputMeshData, new[]{ MeshTarget }, 
+            MeshUpdateFlags.DontRecalculateBounds |
+            MeshUpdateFlags.DontValidateIndices   |
+            MeshUpdateFlags.DontNotifyMeshUsers
+        );
         MeshTarget.bounds = Bounds;
-        MeshTarget.Optimize();
-
-        watch.Stop();
-        // Debug.Log($"Mesh Set Execution Time: {watch.ElapsedMilliseconds} ms");
     }
 }
