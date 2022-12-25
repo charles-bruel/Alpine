@@ -7,6 +7,7 @@ public class CreateTreeMeshJob : Job
     public Bounds Bounds;
     public Mesh MeshTarget;
     private NativeArray<Vector3> Vertices;
+    private NativeArray<Vector3> LocalCoords;
     private NativeArray<Vector3> Normals;
     //Array is Vec3 so that stride matches
     //TODO: Find away to fix this
@@ -41,10 +42,12 @@ public class CreateTreeMeshJob : Job
         outputMesh.SetVertexBufferParams(numVerticesPerModel1 * NumTrees1 + numVerticesPerModel2 * NumTrees2,
             new VertexAttributeDescriptor(VertexAttribute.Position),
             new VertexAttributeDescriptor(VertexAttribute.Normal, stream:1),
-            new VertexAttributeDescriptor(VertexAttribute.TexCoord0, stream:2)
+            new VertexAttributeDescriptor(VertexAttribute.TexCoord0, stream:2),
+            new VertexAttributeDescriptor(VertexAttribute.Color, stream:3)
         );
 
-        Vertices = outputMesh.GetVertexData<Vector3>();
+        Vertices = outputMesh.GetVertexData<Vector3>(stream:0);
+        LocalCoords = outputMesh.GetVertexData<Vector3>(stream:3);
         Normals = outputMesh.GetVertexData<Vector3>(stream:1);
         UVs = outputMesh.GetVertexData<Vector3>(stream:2);
         Triangles = outputMesh.GetIndexData<int>();
@@ -60,13 +63,13 @@ public class CreateTreeMeshJob : Job
 
         //Copy
         Copy(
-            1, 0, 0,
+            1, 0, 0, TerrainManager.Instance.Tree1SnowMultiplier,
             OldVertices1, OldNormals1, OldUVs1, OldTriangles1,
             numVerticesPerModel1, numTrianglesPerModel1
         );
 
         Copy(
-            2, numVerticesPerModel1 * NumTrees1, numTrianglesPerModel1 * NumTrees1,
+            2, numVerticesPerModel1 * NumTrees1, numTrianglesPerModel1 * NumTrees1, TerrainManager.Instance.Tree2SnowMultiplier,
             OldVertices2, OldNormals2, OldUVs2, OldTriangles2,
             numVerticesPerModel2, numTrianglesPerModel2
         );
@@ -77,7 +80,7 @@ public class CreateTreeMeshJob : Job
     }
 
     private void Copy(
-        byte TypeToLookFor, int verticesBaseIndex, int trianglesBaseIndex,
+        byte TypeToLookFor, int verticesBaseIndex, int trianglesBaseIndex, float Stickiness,
         Vector3[] OldVertices, Vector3[] OldNormals, Vector2[] OldUVs, int[] OldTriangles,
         int numVerticesPerModel, int numTrianglesPerModel
     ) {
@@ -97,8 +100,11 @@ public class CreateTreeMeshJob : Job
                         OldVertices[j].y * cosTheta - OldVertices[j].x * sinTheta, 
                         OldVertices[j].z, 
                         OldVertices[j].y * sinTheta + OldVertices[j].x * cosTheta
-                    ) * scaleMul;
-                    Vertices[t * numVerticesPerModel + j + verticesBaseIndex] = transformedVertex + pos;
+                    );
+                    Vector3 temp = transformedVertex;
+                    temp.y *= Stickiness;
+                    LocalCoords[t * numVerticesPerModel + j + verticesBaseIndex] = temp; 
+                    Vertices[t * numVerticesPerModel + j + verticesBaseIndex] = transformedVertex * scaleMul + pos;
 
                     Vector3 transformedNormal = new Vector3(
                         OldNormals[j].y * cosTheta - OldNormals[j].x * sinTheta, 

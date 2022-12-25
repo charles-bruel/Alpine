@@ -11,13 +11,16 @@ public class TerrainManager : MonoBehaviour {
     public float TileSize = 400.0f;
     public float TileHeight = 4000.0f;
     public Material TerrainMaterial;
-    public Material TreeMaterial;
+    public Material ObjectMaterial;
     public Texture2D[] Textures;
     public int NumTilesX;
     public int NumTilesY;
     public Mesh[] TreeLODS1;
     public Mesh[] TreeLODS2;
     public Mesh RockModel;
+    public float RockSnowMultiplier;
+    public float Tree1SnowMultiplier;
+    public float Tree2SnowMultiplier;
     public Texture2D DecoMap;
     public int NumTrees = 16384;
     public int NumRocks = 16384;
@@ -76,7 +79,7 @@ public class TerrainManager : MonoBehaviour {
 
         TerrainTile terrainTile = gameObject.AddComponent<TerrainTile>();
         terrainTile.TerrainMaterial = TerrainMaterial;
-        terrainTile.TreeMaterial = TreeMaterial;
+        terrainTile.TreeMaterial = ObjectMaterial;
 
         terrainTile.posx = posx;
         terrainTile.posy = posy;

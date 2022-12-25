@@ -312,7 +312,7 @@ MonoBehaviour:
   TileSize: 300
   TileHeight: 400
   TerrainMaterial: {fileID: 2100000, guid: d4ae1937bbdc3974aa47cd91f071f017, type: 2}
-  TreeMaterial: {fileID: 2100000, guid: 7f80dbcdfc3d64c4d9be9b41d02df88f, type: 2}
+  ObjectMaterial: {fileID: 2100000, guid: 6906962458554cb41b630b2aed44400f, type: 2}
   Textures:
   - {fileID: 2800000, guid: e0c6e8776bcabef42bd5ff6352109497, type: 3}
   - {fileID: 2800000, guid: a3031f1b3e9642847ae55b20f7626d1c, type: 3}
@@ -390,6 +390,9 @@ MonoBehaviour:
   - {fileID: 8345969570725863240, guid: 60575d7ebbe98f442986faa876a0a6bb, type: 3}
   RockModel: {fileID: 4013275331872712965, guid: bc9ea1b2d012c874883a85416bf1318c,
     type: 3}
+  RockSnowMultiplier: 2.5
+  Tree1SnowMultiplier: 0.6
+  Tree2SnowMultiplier: 0.05
   DecoMap: {fileID: 2800000, guid: 04cf854aed7dc1443a8f7d7b1a75113c, type: 3}
   NumTrees: 1200000
   NumRocks: 400000
