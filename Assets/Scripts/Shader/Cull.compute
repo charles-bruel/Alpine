@@ -1,0 +1,27 @@
+﻿#pragma kernel CullShader
+
+struct Data
+{
+	float3 position;
+	float yRot;
+	float scale;
+};
+
+StructuredBuffer<Data> input;
+StructuredBuffer<uint> args;
+AppendStructuredBuffer<Data> output;
+float4x4 camera;
+
+[numthreads(64,1,1)]
+void CullShader(uint3 id : SV_DispatchThreadID)
+{
+	if (id.x < args[1]) {
+		Data data = input[id.x];
+		float4 temp = { data.position.x, data.position.y, data.position.z, 1 };
+		temp = mul(camera, temp);
+		float3 final = { temp.x / temp.w, temp.y / temp.w, temp.z / temp.w };
+		if (final.x > -1 && final.x < 1 && final.y > -1 && final.y < 1 && final.z > 0 && final.z < 1) {
+			output.Append(data);
+		}
+	}
+}

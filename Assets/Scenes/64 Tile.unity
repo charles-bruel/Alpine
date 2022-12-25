@@ -339,6 +339,8 @@ GameObject:
   - component: {fileID: 868449665}
   - component: {fileID: 868449664}
   - component: {fileID: 868449666}
+  - component: {fileID: 868449667}
+  - component: {fileID: 868449668}
   m_Layer: 0
   m_Name: Statics
   m_TagString: Untagged
@@ -445,9 +447,10 @@ MonoBehaviour:
   DecoMap: {fileID: 2800000, guid: 04cf854aed7dc1443a8f7d7b1a75113c, type: 3}
   NumTrees: 1200000
   NumRocks: 400000
-  SharedRuntimeObjectMaterial: {fileID: 0}
-  LOD1: 100
-  LOD2: 200
+  TreeLODRenderer1: {fileID: 868449667}
+  TreeLODRenderer2: {fileID: 868449668}
+  LOD1: 150
+  LOD2: 300
   LOD3: 400000
 --- !u!4 &868449665
 Transform:
@@ -476,6 +479,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cc89d835c033d6419730e45c37fc13d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &868449667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868449663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85adbb3a36bdf544d833187a63fe4f02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  instanceMesh: {fileID: -1723568291865931400, guid: 60575d7ebbe98f442986faa876a0a6bb,
+    type: 3}
+  instanceMaterial: {fileID: 2100000, guid: 5b8132a7796d5e8499c4d0b3d787999e, type: 2}
+  subMeshIndex: 0
+  Parameters:
+    SnowMultiplier: 0.6
+--- !u!114 &868449668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868449663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85adbb3a36bdf544d833187a63fe4f02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  instanceMesh: {fileID: 8345969570725863240, guid: 60575d7ebbe98f442986faa876a0a6bb,
+    type: 3}
+  instanceMaterial: {fileID: 2100000, guid: 5b8132a7796d5e8499c4d0b3d787999e, type: 2}
+  subMeshIndex: 0
+  Parameters:
+    SnowMultiplier: 0.05
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

@@ -34,7 +34,7 @@ public class TerrainTile : MonoBehaviour {
         TerrainComponent = terrain.AddComponent<Terrain>();
         TerrainComponent.terrainData = new TerrainData();
         TerrainComponent.materialTemplate = TerrainMaterial;
-        TerrainComponent.heightmapPixelError = 10;
+        TerrainComponent.heightmapPixelError = 5;
 
         TerrainCollider collider = terrain.AddComponent<TerrainCollider>();
         collider.terrainData = TerrainComponent.terrainData;
@@ -182,8 +182,25 @@ public class TerrainTile : MonoBehaviour {
 		thread.Start();
     }
 
+    private LODLevel PrevLODLevel = LODLevel.LOD3;
+    
+    void Update() {
+        if(DirtyStates == 0) {
+            LODLevel currentLODLevel = GetLODLevel();
+            if(currentLODLevel != PrevLODLevel) {
+                TreesComponent.gameObject.SetActive(currentLODLevel == LODLevel.LOD3);
+                TerrainManager.Instance.TreeLODRenderersDirty = true;
+                PrevLODLevel = currentLODLevel;
+            }
+        }
+    }
+
     public LODLevel GetLODLevel() {
-        float sqrDist = (transform.position - Camera.main.transform.position).sqrMagnitude;
+        Vector3 centerPos = transform.position;
+        centerPos.x += TerrainManager.Instance.TileSize / 2;
+        centerPos.y += TerrainManager.Instance.TileHeight / 2;
+        centerPos.z += TerrainManager.Instance.TileSize / 2;
+        float sqrDist = (centerPos - Camera.main.transform.position).sqrMagnitude;
         if(sqrDist < TerrainManager.Instance.LOD1 * TerrainManager.Instance.LOD1) {
             return LODLevel.LOD1;
         }

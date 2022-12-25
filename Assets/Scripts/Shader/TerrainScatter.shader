@@ -1,4 +1,4 @@
-Shader "Custom/SnowEffect"
+Shader "Custom/TerrainScatter"
 {
     Properties
     {
@@ -62,8 +62,6 @@ Shader "Custom/SnowEffect"
                 o.Albedo = c.rgb;
                 o.Alpha = c.a;
             }
-            // o.Albedo = float3(IN.height, IN.height, IN.height);
-            // Metallic and smoothness come from slider variables
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
         }

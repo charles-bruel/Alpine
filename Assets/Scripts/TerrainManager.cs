@@ -25,26 +25,48 @@ public class TerrainManager : MonoBehaviour {
     public Texture2D DecoMap;
     public int NumTrees = 16384;
     public int NumRocks = 16384;
+    public TreeLODRenderer TreeLODRenderer1;
+    public TreeLODRenderer TreeLODRenderer2;
+    [Header("LOD distances")]
+    public float LOD1 = 100.0f;
+    public float LOD2 = 200.0f;
+    public float LOD3 = 400000.0f;
 
-    // [NonSerialized]
+    [NonSerialized]
     // We create a copy of the ObjectMaterial so we can give it settings without messing up the main material
     public Material SharedRuntimeObjectMaterial;
     [NonSerialized]
     public List<TerrainTile> Tiles = new List<TerrainTile>();
     [NonSerialized]
     public Queue<TerrainTile> Dirty = new Queue<TerrainTile>();
+    [NonSerialized]
+    public bool TreeLODRenderersDirty = false;
+        [NonSerialized]
     public TreePos[] TreesData;
+        [NonSerialized]
     public RockPos[] RocksData;
 
     void Start() {
         // Assert.AreEqual(NumTilesX * NumTilesY, Textures.Length);
 
+        TreeLODRenderer1.instanceMaterial = new Material(TreeLODRenderer1.instanceMaterial);
+        TreeLODRenderer2.instanceMaterial = new Material(TreeLODRenderer2.instanceMaterial);
+
         SharedRuntimeObjectMaterial = new Material(ObjectMaterial);
+
+        Vector4 bounds = new Vector4(
+            (-NumTilesX/2) * TileSize, (1 - NumTilesY/2) * TileSize,
+            (NumTilesX -NumTilesX/2) * TileSize, (NumTilesY + 1 -NumTilesY/2) * TileSize
+        );
+
         if(SharedRuntimeObjectMaterial.HasVector("_Bounds")) {
-            SharedRuntimeObjectMaterial.SetVector("_Bounds", new Vector4(
-                (-NumTilesX/2) * TileSize, (1 - NumTilesY/2) * TileSize,
-                (NumTilesX -NumTilesX/2) * TileSize, (NumTilesY + 1 -NumTilesY/2) * TileSize
-            ));
+            SharedRuntimeObjectMaterial.SetVector("_Bounds", bounds);
+        }
+        if(TreeLODRenderer1.instanceMaterial.HasVector("_Bounds")) {
+            TreeLODRenderer1.instanceMaterial.SetVector("_Bounds", bounds);
+        }
+        if(TreeLODRenderer2.instanceMaterial.HasVector("_Bounds")) {
+            TreeLODRenderer2.instanceMaterial.SetVector("_Bounds", bounds);
         }
 
         Instance = this;
@@ -99,6 +121,11 @@ public class TerrainManager : MonoBehaviour {
     }
 
     void Update() {
+        if(TreeLODRenderersDirty) {
+            UpdateTreeLODBuffers();
+            return;
+        }
+
         if(Dirty.Count == 0) return;
         TerrainTile nextDirty = Dirty.Dequeue();
         if((nextDirty.DirtyStates & TerrainTile.TerrainTileDirtyStates.TERRAIN) != 0) {
@@ -137,13 +164,43 @@ public class TerrainManager : MonoBehaviour {
         return null;
     }
 
-    #region lods
+    private void UpdateTreeLODBuffers() {
+        int numTrees1 = 0;
+        int numTrees2 = 0;
+        //We go through things twice to reduce memory allocations
+        //TODO: Have the tiles cache their tree counts
+        for(int i = 0;i < Tiles.Count;i ++) {
+            if(Tiles[i].GetLODLevel() == LODLevel.LOD3) continue;
+            
+            for(int j = 0;j < Tiles[i].LocalTreeData.Length;j ++) {
+                if(Tiles[i].LocalTreeData[j].type == 1) {
+                    numTrees1++;
+                } else {
+                    numTrees2++;
+                }
+            }
+        }
+        TreePos[] treePosses1 = new TreePos[numTrees1];
+        TreePos[] treePosses2 = new TreePos[numTrees2];
+        int id1 = 0;
+        int id2 = 0;
+        for(int i = 0;i < Tiles.Count;i ++) {
+            for(int j = 0;j < Tiles[i].LocalTreeData.Length;j ++) {
+                if(Tiles[i].GetLODLevel() == LODLevel.LOD3) continue;
 
-    public float LOD1 = 100.0f;
-    public float LOD2 = 200.0f;
-    public float LOD3 = 400000.0f;
+                if(Tiles[i].LocalTreeData[j].type == 1) {
+                    treePosses1[id1++] = Tiles[i].LocalTreeData[j];
+                } else {
+                    treePosses2[id2++] = Tiles[i].LocalTreeData[j];
+                }
+            }
+        }
 
-    #endregion
+        TreeLODRenderer1.UpdateBuffers(treePosses1);
+        TreeLODRenderer2.UpdateBuffers(treePosses2);
+
+        TreeLODRenderersDirty = false;
+    }
 
     public static TerrainManager Instance;
 
