@@ -15,8 +15,9 @@ public class TerrainManager : MonoBehaviour {
     public Material TerrainMaterial;
     public Material ObjectMaterial;
     [Header("Scatter Models")]
-    public Mesh[] TreeLODS1;
-    public Mesh[] TreeLODS2;
+    //TODO: move all settings here, so auto gen LOD renderers
+    public Mesh TreeLOD1;
+    public Mesh TreeLOD2;
     public Mesh RockModel;
     public float RockSnowMultiplier;
     public float Tree1SnowMultiplier;
@@ -28,10 +29,7 @@ public class TerrainManager : MonoBehaviour {
     public TreeLODRenderer TreeLODRenderer1;
     public TreeLODRenderer TreeLODRenderer2;
     [Header("LOD distances")]
-    public float LOD1 = 100.0f;
-    public float LOD2 = 200.0f;
-    public float LOD3 = 400000.0f;
-
+    public float LOD_Distance = 200.0f;
     [NonSerialized]
     // We create a copy of the ObjectMaterial so we can give it settings without messing up the main material
     public Material SharedRuntimeObjectMaterial;
@@ -136,7 +134,7 @@ public class TerrainManager : MonoBehaviour {
             bounds.min = new Vector3(nextDirty.posx * TileSize, -128, -nextDirty.posy * TileSize);
             bounds.max = new Vector3((nextDirty.posx + 1) * TileSize, TileSize + 128, (-nextDirty.posy + 1) * TileSize);
             if((nextDirty.DirtyStates & TerrainTile.TerrainTileDirtyStates.TREES) != 0) {
-                nextDirty.RecreateTreeMesh(bounds, TreeLODS1[2], TreeLODS2[2]);
+                nextDirty.RecreateTreeMesh(bounds, TreeLOD1, TreeLOD2);
                 nextDirty.DirtyStates &= ~TerrainTile.TerrainTileDirtyStates.TREES;
             }
             if((nextDirty.DirtyStates & TerrainTile.TerrainTileDirtyStates.ROCKS) != 0) {
@@ -170,7 +168,7 @@ public class TerrainManager : MonoBehaviour {
         //We go through things twice to reduce memory allocations
         //TODO: Have the tiles cache their tree counts
         for(int i = 0;i < Tiles.Count;i ++) {
-            if(Tiles[i].GetLODLevel() == LODLevel.LOD3) continue;
+            if(!Tiles[i].GetWithinLOD() || Tiles[i].DirtyStates != 0) continue;
             
             for(int j = 0;j < Tiles[i].LocalTreeData.Length;j ++) {
                 if(Tiles[i].LocalTreeData[j].type == 1) {
@@ -182,11 +180,17 @@ public class TerrainManager : MonoBehaviour {
         }
         TreePos[] treePosses1 = new TreePos[numTrees1];
         TreePos[] treePosses2 = new TreePos[numTrees2];
+        Vector4 bounds = new Vector4();
         int id1 = 0;
         int id2 = 0;
         for(int i = 0;i < Tiles.Count;i ++) {
             for(int j = 0;j < Tiles[i].LocalTreeData.Length;j ++) {
-                if(Tiles[i].GetLODLevel() == LODLevel.LOD3) continue;
+                if(!Tiles[i].GetWithinLOD()) continue;
+
+                bounds.x = Mathf.Min(bounds.x, Tiles[i].posx * TileSize);
+                bounds.y = Mathf.Min(bounds.y, -Tiles[i].posy * TileSize);
+                bounds.z = Mathf.Max(bounds.z, (Tiles[i].posx + 1) * TileSize);
+                bounds.w = Mathf.Max(bounds.w, (-Tiles[i].posy + 1) * TileSize);
 
                 if(Tiles[i].LocalTreeData[j].type == 1) {
                     treePosses1[id1++] = Tiles[i].LocalTreeData[j];
@@ -196,6 +200,10 @@ public class TerrainManager : MonoBehaviour {
             }
         }
 
+        Bounds boundsFinal = new Bounds();
+        boundsFinal.min = new Vector3(bounds.x, 0, bounds.y);
+        boundsFinal.max = new Vector3(bounds.z, TileHeight + 128, bounds.w);
+        TreeLODRenderer1.Bounds = boundsFinal;
         TreeLODRenderer1.UpdateBuffers(treePosses1);
         TreeLODRenderer2.UpdateBuffers(treePosses2);
 

@@ -182,35 +182,26 @@ public class TerrainTile : MonoBehaviour {
 		thread.Start();
     }
 
-    private LODLevel PrevLODLevel = LODLevel.LOD3;
+    private bool PrevLODLevel = false;
     
     void Update() {
         if(DirtyStates == 0) {
-            LODLevel currentLODLevel = GetLODLevel();
+            bool currentLODLevel = GetWithinLOD();
             if(currentLODLevel != PrevLODLevel) {
-                TreesComponent.gameObject.SetActive(currentLODLevel == LODLevel.LOD3);
+                TreesComponent.gameObject.SetActive(!currentLODLevel);
                 TerrainManager.Instance.TreeLODRenderersDirty = true;
                 PrevLODLevel = currentLODLevel;
             }
         }
     }
 
-    public LODLevel GetLODLevel() {
+    public bool GetWithinLOD() {
         Vector3 centerPos = transform.position;
         centerPos.x += TerrainManager.Instance.TileSize / 2;
         centerPos.y += TerrainManager.Instance.TileHeight / 2;
         centerPos.z += TerrainManager.Instance.TileSize / 2;
         float sqrDist = (centerPos - Camera.main.transform.position).sqrMagnitude;
-        if(sqrDist < TerrainManager.Instance.LOD1 * TerrainManager.Instance.LOD1) {
-            return LODLevel.LOD1;
-        }
-        if(sqrDist < TerrainManager.Instance.LOD2 * TerrainManager.Instance.LOD2) {
-            return LODLevel.LOD2;
-        }
-        if(sqrDist < TerrainManager.Instance.LOD3 * TerrainManager.Instance.LOD3) {
-            return LODLevel.LOD3;
-        }
-        return LODLevel.LOD4;
+        return sqrDist < TerrainManager.Instance.LOD_Distance * TerrainManager.Instance.LOD_Distance;
     }
 
     public enum TerrainTileDirtyStates : uint {

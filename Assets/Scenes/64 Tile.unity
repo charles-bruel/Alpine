@@ -431,14 +431,10 @@ MonoBehaviour:
   NumTilesY: 8
   TerrainMaterial: {fileID: 2100000, guid: d4ae1937bbdc3974aa47cd91f071f017, type: 2}
   ObjectMaterial: {fileID: 2100000, guid: 6906962458554cb41b630b2aed44400f, type: 2}
-  TreeLODS1:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: -1723568291865931400, guid: 60575d7ebbe98f442986faa876a0a6bb, type: 3}
-  TreeLODS2:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 8345969570725863240, guid: 60575d7ebbe98f442986faa876a0a6bb, type: 3}
+  TreeLOD1: {fileID: -8342124974956431378, guid: 60575d7ebbe98f442986faa876a0a6bb,
+    type: 3}
+  TreeLOD2: {fileID: -5904110200254674192, guid: 60575d7ebbe98f442986faa876a0a6bb,
+    type: 3}
   RockModel: {fileID: 4013275331872712965, guid: bc9ea1b2d012c874883a85416bf1318c,
     type: 3}
   RockSnowMultiplier: 2.5
@@ -449,9 +445,7 @@ MonoBehaviour:
   NumRocks: 400000
   TreeLODRenderer1: {fileID: 868449667}
   TreeLODRenderer2: {fileID: 868449668}
-  LOD1: 150
-  LOD2: 300
-  LOD3: 400000
+  LOD_Distance: 200
 --- !u!4 &868449665
 Transform:
   m_ObjectHideFlags: 0
@@ -491,12 +485,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85adbb3a36bdf544d833187a63fe4f02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instanceMesh: {fileID: -1723568291865931400, guid: 60575d7ebbe98f442986faa876a0a6bb,
+  instanceMesh: {fileID: -1208472929742125437, guid: 60575d7ebbe98f442986faa876a0a6bb,
     type: 3}
   instanceMaterial: {fileID: 2100000, guid: 5b8132a7796d5e8499c4d0b3d787999e, type: 2}
   subMeshIndex: 0
   Parameters:
-    SnowMultiplier: 0.6
+    SnowMultiplier: 0.2
 --- !u!114 &868449668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -509,7 +503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85adbb3a36bdf544d833187a63fe4f02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instanceMesh: {fileID: 8345969570725863240, guid: 60575d7ebbe98f442986faa876a0a6bb,
+  instanceMesh: {fileID: -5904110200254674192, guid: 60575d7ebbe98f442986faa876a0a6bb,
     type: 3}
   instanceMaterial: {fileID: 2100000, guid: 5b8132a7796d5e8499c4d0b3d787999e, type: 2}
   subMeshIndex: 0

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 //This is a pretty dumb class and relies on something else to drive it
 public class TreeLODRenderer : MonoBehaviour
@@ -14,13 +15,16 @@ public class TreeLODRenderer : MonoBehaviour
     private ComputeBuffer argsBuffer;
     private uint[] args = new uint[5] { 0, 0, 0, 0, 0 };
 
+    [NonSerialized]
+    public Bounds Bounds;
+
     void Start()
     {
         UpdateBuffers(new TreePos[0]);
     }
 
     void Update() {
-        Graphics.DrawMeshInstancedIndirect(instanceMesh, subMeshIndex, instanceMaterial, new Bounds(Vector3.zero, new Vector3(100.0f, 100.0f, 100.0f)), argsBuffer);
+        Graphics.DrawMeshInstancedIndirect(instanceMesh, subMeshIndex, instanceMaterial, Bounds, argsBuffer);
     }
 
     public void UpdateBuffers(TreePos[] data) {
