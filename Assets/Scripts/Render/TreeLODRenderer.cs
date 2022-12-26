@@ -6,7 +6,7 @@ using System;
 public class TreeLODRenderer : MonoBehaviour
 {
     public Mesh instanceMesh;
-    public Material instanceMaterial;
+    public Material InstanceMaterial;
     public int subMeshIndex = 0;
     public Params Parameters;
     public ComputeShader CullingShader;
@@ -42,9 +42,9 @@ public class TreeLODRenderer : MonoBehaviour
         CullingShader.SetMatrix("camera", camera.projectionMatrix * camera.worldToCameraMatrix);
         CullingShader.Dispatch(kernelIndex, dataBuffer.count / 64 + 1, 1, 1);
         ComputeBuffer.CopyCount(dataBufferCulled, argsBuffer, 4);
-        instanceMaterial.SetBuffer("dataBuffer", dataBufferCulled);
-        instanceMaterial.SetBuffer("paramBuffer", paramBuffer);
-        Graphics.DrawMeshInstancedIndirect(instanceMesh, subMeshIndex, instanceMaterial, Bounds, argsBuffer);
+        InstanceMaterial.SetBuffer("dataBuffer", dataBufferCulled);
+        InstanceMaterial.SetBuffer("paramBuffer", paramBuffer);
+        Graphics.DrawMeshInstancedIndirect(instanceMesh, subMeshIndex, InstanceMaterial, Bounds, argsBuffer);
     }
 
     public void UpdateBuffers(TreePos[] data) {

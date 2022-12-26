@@ -63,13 +63,13 @@ public class CreateTreeMeshJob : Job
 
         //Copy
         Copy(
-            1, 0, 0, TerrainManager.Instance.Tree1SnowMultiplier,
+            1, 0, 0, TerrainManager.Instance.TreeLOD1SnowMultiplier,
             OldVertices1, OldNormals1, OldUVs1, OldTriangles1,
             numVerticesPerModel1, numTrianglesPerModel1
         );
 
         Copy(
-            2, numVerticesPerModel1 * NumTrees1, numTrianglesPerModel1 * NumTrees1, TerrainManager.Instance.Tree2SnowMultiplier,
+            2, numVerticesPerModel1 * NumTrees1, numTrianglesPerModel1 * NumTrees1, TerrainManager.Instance.TreeLOD2SnowMultiplier,
             OldVertices2, OldNormals2, OldUVs2, OldTriangles2,
             numVerticesPerModel2, numTrianglesPerModel2
         );

@@ -11,23 +11,27 @@ public class TerrainManager : MonoBehaviour {
     public Texture2D[] Textures;
     public int NumTilesX;
     public int NumTilesY;
-    [Header("Materials")]
+    [Header("Materials & Shaders")]
     public Material TerrainMaterial;
     public Material ObjectMaterial;
+    public Material ObjectInstanceMaterial;
+    public ComputeShader CullingShader;
     [Header("Scatter Models")]
-    //TODO: move all settings here, so auto gen LOD renderers
+    public Mesh Tree1;
+    public Mesh Tree2;
     public Mesh TreeLOD1;
     public Mesh TreeLOD2;
     public Mesh RockModel;
     public float RockSnowMultiplier;
     public float Tree1SnowMultiplier;
     public float Tree2SnowMultiplier;
+    public float TreeLOD1SnowMultiplier;
+    public float TreeLOD2SnowMultiplier;
+
     [Header("Scatter Settings")]
     public Texture2D DecoMap;
     public int NumTrees = 16384;
     public int NumRocks = 16384;
-    public TreeLODRenderer TreeLODRenderer1;
-    public TreeLODRenderer TreeLODRenderer2;
     [Header("LOD distances")]
     public float LOD_Distance = 200.0f;
     [NonSerialized]
@@ -39,16 +43,19 @@ public class TerrainManager : MonoBehaviour {
     public Queue<TerrainTile> Dirty = new Queue<TerrainTile>();
     [NonSerialized]
     public bool TreeLODRenderersDirty = false;
-        [NonSerialized]
+    [NonSerialized]
     public TreePos[] TreesData;
-        [NonSerialized]
+    [NonSerialized]
     public RockPos[] RocksData;
+    [NonSerialized]
+    public TreeLODRenderer TreeLODRenderer1;
+    [NonSerialized]
+    public TreeLODRenderer TreeLODRenderer2;
+
 
     void Start() {
         // Assert.AreEqual(NumTilesX * NumTilesY, Textures.Length);
-
-        TreeLODRenderer1.instanceMaterial = new Material(TreeLODRenderer1.instanceMaterial);
-        TreeLODRenderer2.instanceMaterial = new Material(TreeLODRenderer2.instanceMaterial);
+        CreateTreeLODRenderers();
 
         SharedRuntimeObjectMaterial = new Material(ObjectMaterial);
 
@@ -60,11 +67,11 @@ public class TerrainManager : MonoBehaviour {
         if(SharedRuntimeObjectMaterial.HasVector("_Bounds")) {
             SharedRuntimeObjectMaterial.SetVector("_Bounds", bounds);
         }
-        if(TreeLODRenderer1.instanceMaterial.HasVector("_Bounds")) {
-            TreeLODRenderer1.instanceMaterial.SetVector("_Bounds", bounds);
+        if(TreeLODRenderer1.InstanceMaterial.HasVector("_Bounds")) {
+            TreeLODRenderer1.InstanceMaterial.SetVector("_Bounds", bounds);
         }
-        if(TreeLODRenderer2.instanceMaterial.HasVector("_Bounds")) {
-            TreeLODRenderer2.instanceMaterial.SetVector("_Bounds", bounds);
+        if(TreeLODRenderer2.InstanceMaterial.HasVector("_Bounds")) {
+            TreeLODRenderer2.InstanceMaterial.SetVector("_Bounds", bounds);
         }
 
         Instance = this;
@@ -79,6 +86,27 @@ public class TerrainManager : MonoBehaviour {
         }
 
         StartPlacementJobs();
+    }
+
+    private void CreateTreeLODRenderers() {
+        TreeLODRenderer1 = CreateTreeLODRenderer(1, Tree1, Tree1SnowMultiplier);
+        TreeLODRenderer2 = CreateTreeLODRenderer(2, Tree2, Tree2SnowMultiplier);
+
+        TreeLODRenderer1.InstanceMaterial = new Material(ObjectInstanceMaterial);
+        TreeLODRenderer2.InstanceMaterial = new Material(ObjectInstanceMaterial);
+    }
+
+    private TreeLODRenderer CreateTreeLODRenderer(uint type, Mesh mesh, float snowMultiplier) {
+        TreeLODRenderer treeLODRenderer = gameObject.AddComponent<TreeLODRenderer>();
+
+        treeLODRenderer.instanceMesh = mesh;
+        treeLODRenderer.subMeshIndex = 0;
+        treeLODRenderer.Parameters = new TreeLODRenderer.Params();
+        treeLODRenderer.Parameters.SnowMultiplier = snowMultiplier;
+        treeLODRenderer.CullingShader = CullingShader;
+        treeLODRenderer.TargetType = type;
+
+        return treeLODRenderer;
     }
 
     private void StartPlacementJobs() {

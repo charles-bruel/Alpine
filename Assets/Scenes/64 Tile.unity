@@ -431,6 +431,11 @@ MonoBehaviour:
   NumTilesY: 8
   TerrainMaterial: {fileID: 2100000, guid: d4ae1937bbdc3974aa47cd91f071f017, type: 2}
   ObjectMaterial: {fileID: 2100000, guid: 6906962458554cb41b630b2aed44400f, type: 2}
+  ObjectInstanceMaterial: {fileID: 2100000, guid: 5b8132a7796d5e8499c4d0b3d787999e,
+    type: 2}
+  CullingShader: {fileID: 7200000, guid: 021a9d138cb223d448b43c715cbdf9d7, type: 3}
+  Tree1: {fileID: -1208472929742125437, guid: 60575d7ebbe98f442986faa876a0a6bb, type: 3}
+  Tree2: {fileID: -1759674330777327466, guid: 60575d7ebbe98f442986faa876a0a6bb, type: 3}
   TreeLOD1: {fileID: -8342124974956431378, guid: 60575d7ebbe98f442986faa876a0a6bb,
     type: 3}
   TreeLOD2: {fileID: -5904110200254674192, guid: 60575d7ebbe98f442986faa876a0a6bb,
@@ -438,13 +443,13 @@ MonoBehaviour:
   RockModel: {fileID: 4013275331872712965, guid: bc9ea1b2d012c874883a85416bf1318c,
     type: 3}
   RockSnowMultiplier: 2.5
-  Tree1SnowMultiplier: 0.6
+  Tree1SnowMultiplier: 0.225
   Tree2SnowMultiplier: 0.05
+  TreeLOD1SnowMultiplier: 0.6
+  TreeLOD2SnowMultiplier: 0.05
   DecoMap: {fileID: 2800000, guid: 04cf854aed7dc1443a8f7d7b1a75113c, type: 3}
   NumTrees: 1200000
   NumRocks: 400000
-  TreeLODRenderer1: {fileID: 868449667}
-  TreeLODRenderer2: {fileID: 868449668}
   LOD_Distance: 300
 --- !u!4 &868449665
 Transform:
@@ -487,7 +492,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instanceMesh: {fileID: -1208472929742125437, guid: 60575d7ebbe98f442986faa876a0a6bb,
     type: 3}
-  instanceMaterial: {fileID: 2100000, guid: 5b8132a7796d5e8499c4d0b3d787999e, type: 2}
+  InstanceMaterial: {fileID: 0}
   subMeshIndex: 0
   Parameters:
     SnowMultiplier: 0.225
@@ -505,9 +510,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85adbb3a36bdf544d833187a63fe4f02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instanceMesh: {fileID: -5904110200254674192, guid: 60575d7ebbe98f442986faa876a0a6bb,
+  instanceMesh: {fileID: -1759674330777327466, guid: 60575d7ebbe98f442986faa876a0a6bb,
     type: 3}
-  instanceMaterial: {fileID: 2100000, guid: 5b8132a7796d5e8499c4d0b3d787999e, type: 2}
+  InstanceMaterial: {fileID: 0}
   subMeshIndex: 0
   Parameters:
     SnowMultiplier: 0.05
