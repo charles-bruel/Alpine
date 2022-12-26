@@ -166,6 +166,8 @@ public class TerrainManager : MonoBehaviour {
         int numTrees = 0;
         //We go through things twice to reduce memory allocations
         for(int i = 0;i < Tiles.Count;i ++) {
+            Tiles[i].AdjustTreeRendering();
+
             if(!Tiles[i].GetWithinLOD() || Tiles[i].DirtyStates != 0) continue;
             
             for(int j = 0;j < Tiles[i].LocalTreeData.Length;j ++) {
@@ -193,7 +195,7 @@ public class TerrainManager : MonoBehaviour {
         boundsFinal.max = new Vector3(bounds.z, TileHeight + 128, bounds.w);
         TreeLODRenderer1.Bounds = boundsFinal;
         TreeLODRenderer2.Bounds = boundsFinal;
-        
+
         TreeLODRenderer1.UpdateBuffers(treePosses);
         TreeLODRenderer2.UpdateBuffers(treePosses);
 

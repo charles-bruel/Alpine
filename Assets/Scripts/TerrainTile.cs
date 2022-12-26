@@ -188,11 +188,15 @@ public class TerrainTile : MonoBehaviour {
         if(DirtyStates == 0) {
             bool currentLODLevel = GetWithinLOD();
             if(currentLODLevel != PrevLODLevel) {
-                TreesComponent.gameObject.SetActive(!currentLODLevel);
                 TerrainManager.Instance.TreeLODRenderersDirty = true;
                 PrevLODLevel = currentLODLevel;
             }
         }
+    }
+
+    public void AdjustTreeRendering() {
+        bool currentLODLevel = GetWithinLOD();
+        TreesComponent.gameObject.SetActive(!currentLODLevel);
     }
 
     public bool GetWithinLOD() {
