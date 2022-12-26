@@ -21,7 +21,11 @@ void CullShader(uint3 id : SV_DispatchThreadID)
 		float4 temp = { data.position.x, data.position.y, data.position.z, 1 };
 		temp = mul(camera, temp);
 		float3 final = { temp.x / temp.w, temp.y / temp.w, temp.z / temp.w };
-		if (final.x > -1.05 && final.x < 1.05 && final.y > -1.5 && final.y < 1 && final.z > 0 && final.z < 1) {
+		float4 temp2 = { data.position.x, data.position.y + 7.5, data.position.z, 1 };
+		temp2 = mul(camera, temp2);
+		float yTest = temp2.y / temp2.w;
+
+		if (final.x > -1.05 && final.x < 1.05 && yTest > -1.05 && final.y < 1.05 && final.z > 0 && final.z < 1) {
 			output.Append(data);
 		}
 	}
