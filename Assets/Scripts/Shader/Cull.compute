@@ -5,11 +5,11 @@ struct Data
 	float3 position;
 	float yRot;
 	float scale;
-	int type;
+	uint type;
 };
 
 StructuredBuffer<Data> input;
-StructuredBuffer<int> args;
+StructuredBuffer<uint> args;
 AppendStructuredBuffer<Data> output;
 float4x4 camera;
 

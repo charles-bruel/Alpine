@@ -10,7 +10,7 @@ public class TreeLODRenderer : MonoBehaviour
     public int subMeshIndex = 0;
     public Params Parameters;
     public ComputeShader CullingShader;
-    public int TargetType;
+    public uint TargetType;
 
     private ComputeBuffer dataBuffer;
     private ComputeBuffer dataBufferCulled;
@@ -34,7 +34,7 @@ public class TreeLODRenderer : MonoBehaviour
     public void Draw(Camera camera) {
         //Render
         dataBufferCulled.SetCounterValue(0U);
-        cullShaderArgsBuffer.SetData(new int[] { dataBuffer.count, TargetType });
+        cullShaderArgsBuffer.SetData(new uint[] { (uint) dataBuffer.count, TargetType });
         int kernelIndex = CullingShader.FindKernel("CullShader");
         CullingShader.SetBuffer(kernelIndex, "input", dataBuffer);
         CullingShader.SetBuffer(kernelIndex, "args", cullShaderArgsBuffer);
@@ -114,7 +114,7 @@ public class TreeLODRenderer : MonoBehaviour
     void OnEnable() {
         unsafe {
             argsBuffer = new ComputeBuffer(1, args.Length * sizeof(uint), ComputeBufferType.IndirectArguments);
-            cullShaderArgsBuffer = new ComputeBuffer(2, sizeof(int), ComputeBufferType.IndirectArguments);
+            cullShaderArgsBuffer = new ComputeBuffer(2, sizeof(uint), ComputeBufferType.IndirectArguments);
             paramBuffer = new ComputeBuffer(1, sizeof(Params));
         }
     }
