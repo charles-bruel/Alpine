@@ -16,17 +16,10 @@ public class TerrainManager : MonoBehaviour {
     public Material ObjectMaterial;
     public Material ObjectInstanceMaterial;
     public ComputeShader CullingShader;
-    [Header("Scatter Models")]
-    public Mesh Tree1;
-    public Mesh Tree2;
-    public Mesh TreeLOD1;
-    public Mesh TreeLOD2;
+    [Header("Scatters")]
     public Mesh RockModel;
     public float RockSnowMultiplier;
-    public float Tree1SnowMultiplier;
-    public float Tree2SnowMultiplier;
-    public float TreeLOD1SnowMultiplier;
-    public float TreeLOD2SnowMultiplier;
+    public TreeTypeDescriptor[] TreeTypeDescriptors;
 
     [Header("Scatter Settings")]
     public Texture2D DecoMap;
@@ -48,9 +41,7 @@ public class TerrainManager : MonoBehaviour {
     [NonSerialized]
     public RockPos[] RocksData;
     [NonSerialized]
-    public TreeLODRenderer TreeLODRenderer1;
-    [NonSerialized]
-    public TreeLODRenderer TreeLODRenderer2;
+    public TreeLODRenderer[] TreeLODRenderers;
 
 
     void Start() {
@@ -67,11 +58,11 @@ public class TerrainManager : MonoBehaviour {
         if(SharedRuntimeObjectMaterial.HasVector("_Bounds")) {
             SharedRuntimeObjectMaterial.SetVector("_Bounds", bounds);
         }
-        if(TreeLODRenderer1.InstanceMaterial.HasVector("_Bounds")) {
-            TreeLODRenderer1.InstanceMaterial.SetVector("_Bounds", bounds);
-        }
-        if(TreeLODRenderer2.InstanceMaterial.HasVector("_Bounds")) {
-            TreeLODRenderer2.InstanceMaterial.SetVector("_Bounds", bounds);
+
+        for(int i = 0;i < TreeLODRenderers.Length;i ++) {
+            if(TreeLODRenderers[i].InstanceMaterial.HasVector("_Bounds")) {
+                TreeLODRenderers[i].InstanceMaterial.SetVector("_Bounds", bounds);
+            }
         }
 
         Instance = this;
@@ -89,11 +80,11 @@ public class TerrainManager : MonoBehaviour {
     }
 
     private void CreateTreeLODRenderers() {
-        TreeLODRenderer1 = CreateTreeLODRenderer(1, Tree1, Tree1SnowMultiplier);
-        TreeLODRenderer2 = CreateTreeLODRenderer(2, Tree2, Tree2SnowMultiplier);
-
-        TreeLODRenderer1.InstanceMaterial = new Material(ObjectInstanceMaterial);
-        TreeLODRenderer2.InstanceMaterial = new Material(ObjectInstanceMaterial);
+        TreeLODRenderers = new TreeLODRenderer[TreeTypeDescriptors.Length];
+        for(uint i = 0;i < TreeTypeDescriptors.Length;i ++) {
+            TreeLODRenderers[i] = CreateTreeLODRenderer(i, TreeTypeDescriptors[i].Mesh, TreeTypeDescriptors[i].SnowMultiplier);
+            TreeLODRenderers[i].InstanceMaterial = new Material(ObjectInstanceMaterial);
+        }
     }
 
     private TreeLODRenderer CreateTreeLODRenderer(uint type, Mesh mesh, float snowMultiplier) {
@@ -162,7 +153,7 @@ public class TerrainManager : MonoBehaviour {
             bounds.min = new Vector3(nextDirty.posx * TileSize, -128, -nextDirty.posy * TileSize);
             bounds.max = new Vector3((nextDirty.posx + 1) * TileSize, TileSize + 128, (-nextDirty.posy + 1) * TileSize);
             if((nextDirty.DirtyStates & TerrainTile.TerrainTileDirtyStates.TREES) != 0) {
-                nextDirty.RecreateTreeMesh(bounds, TreeLOD1, TreeLOD2);
+                nextDirty.RecreateTreeMesh(bounds, TreeTypeDescriptors);
                 nextDirty.DirtyStates &= ~TerrainTile.TerrainTileDirtyStates.TREES;
             }
             if((nextDirty.DirtyStates & TerrainTile.TerrainTileDirtyStates.ROCKS) != 0) {
@@ -219,15 +210,23 @@ public class TerrainManager : MonoBehaviour {
         Bounds boundsFinal = new Bounds();
         boundsFinal.min = new Vector3(bounds.x, 0, bounds.y);
         boundsFinal.max = new Vector3(bounds.z, TileHeight + 128, bounds.w);
-        TreeLODRenderer1.Bounds = boundsFinal;
-        TreeLODRenderer2.Bounds = boundsFinal;
 
-        TreeLODRenderer1.UpdateBuffers(treePosses);
-        TreeLODRenderer2.UpdateBuffers(treePosses);
+        for(int i = 0;i < TreeLODRenderers.Length;i ++) {
+            TreeLODRenderers[i].Bounds = boundsFinal;
+            TreeLODRenderers[i].UpdateBuffers(treePosses);
+        }
 
         TreeLODRenderersDirty = false;
     }
 
     public static TerrainManager Instance;
+
+    [System.Serializable]
+    public class TreeTypeDescriptor {
+        public Mesh Mesh;
+        public Mesh LODMesh;
+        public float SnowMultiplier;
+        public float LODSnowMultiplier;
+    } 
 
 }

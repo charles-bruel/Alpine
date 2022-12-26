@@ -89,27 +89,24 @@ public class TerrainTile : MonoBehaviour {
 		thread.Start();
 	}
 
-    public void RecreateTreeMesh(Bounds bounds, Mesh template1, Mesh template2) {
+    public void RecreateTreeMesh(Bounds bounds, TerrainManager.TreeTypeDescriptor[] descriptors) {
         TreePos[] Data = TerrainManager.Instance.TreesData;
 
         //First we need to do our raycasts to assign height
         //We also use this to count the number of trees we need to place
-        int numTrees1 = 0;
-        int numTrees2 = 0;
+        int[] numTrees = new int[descriptors.Length];
+        int totalTrees = 0;
 
         for(int i = 0;i < Data.Length;i ++) {
             Vector3 pos = Data[i].pos;
             if(bounds.Contains(pos)) {
                 Data[i].pos = TerrainManager.Instance.Project(pos.ToHorizontal());
-                if(Data[i].type == 1) {
-                    numTrees1++;
-                } else {
-                    numTrees2++;
-                }
+                numTrees[Data[i].type]++;
+                totalTrees++;
             }
         }
 
-        LocalTreeData = new TreePos[numTrees1 + numTrees2];
+        LocalTreeData = new TreePos[totalTrees];
         for(int i = 0, t = 0;i < Data.Length;i ++) {
             Vector3 pos = Data[i].pos;
             if(bounds.Contains(pos)) {
@@ -122,16 +119,16 @@ public class TerrainTile : MonoBehaviour {
 
 		job.Bounds = bounds;
         job.MeshTarget = TreesComponent.mesh;
-        job.NumTrees1 = numTrees1;
-        job.NumTrees2 = numTrees2;
-        job.OldVertices1 = template1.vertices;
-        job.OldUVs1 = template1.uv;
-        job.OldTriangles1 = template1.triangles;
-        job.OldNormals1 = template1.normals;
-        job.OldVertices2 = template2.vertices;
-        job.OldUVs2 = template2.uv;
-        job.OldTriangles2 = template2.triangles;
-        job.OldNormals2 = template2.normals;
+        job.Descriptors = new CreateTreeMeshJob.TreeTypeDescriptorForJob[descriptors.Length];
+        for(int i = 0;i < descriptors.Length;i ++) {
+            job.Descriptors[i] = new CreateTreeMeshJob.TreeTypeDescriptorForJob();
+            job.Descriptors[i].NumTrees = numTrees[i];
+
+            job.Descriptors[i].OldNormals   = descriptors[i].LODMesh.normals;
+            job.Descriptors[i].OldTriangles = descriptors[i].LODMesh.triangles;
+            job.Descriptors[i].OldUVs       = descriptors[i].LODMesh.uv;
+            job.Descriptors[i].OldVertices  = descriptors[i].LODMesh.vertices;
+        }
 
         job.Initialize();
 		Thread thread = new Thread(new ThreadStart(job.Run));

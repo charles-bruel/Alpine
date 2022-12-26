@@ -38,9 +38,9 @@ public class PlaceTreesJob : Job
 			{
                 float treeChoose = (float) random.NextDouble() * v;
                 if(DecoMap[index].r < treeChoose) {
-                    Data[i].type = 1;
+                    Data[i].type = 0;
                 } else {
-                    Data[i].type = 2;
+                    Data[i].type = 1;
                 }
                 Data[i].pos.x = position.x;
                 Data[i].pos.y = 0;//Will get populated later
