@@ -9,9 +9,7 @@ public class CreateTreeMeshJob : Job
     private NativeArray<Vector3> Vertices;
     private NativeArray<Vector3> LocalCoords;
     private NativeArray<Vector3> Normals;
-    //Array is Vec3 so that stride matches
-    //TODO: Find away to fix this
-    private NativeArray<Vector3> UVs;
+    private NativeArray<Vector2> UVs;
     private NativeArray<int> Triangles;
     private Mesh.MeshDataArray OutputMeshData;
 
@@ -42,14 +40,14 @@ public class CreateTreeMeshJob : Job
         outputMesh.SetVertexBufferParams(numVerticesPerModel1 * NumTrees1 + numVerticesPerModel2 * NumTrees2,
             new VertexAttributeDescriptor(VertexAttribute.Position),
             new VertexAttributeDescriptor(VertexAttribute.Normal, stream:1),
-            new VertexAttributeDescriptor(VertexAttribute.TexCoord0, stream:2),
+            new VertexAttributeDescriptor(VertexAttribute.TexCoord0, stream:2, dimension:2),
             new VertexAttributeDescriptor(VertexAttribute.Color, stream:3)
         );
 
         Vertices = outputMesh.GetVertexData<Vector3>(stream:0);
         LocalCoords = outputMesh.GetVertexData<Vector3>(stream:3);
         Normals = outputMesh.GetVertexData<Vector3>(stream:1);
-        UVs = outputMesh.GetVertexData<Vector3>(stream:2);
+        UVs = outputMesh.GetVertexData<Vector2>(stream:2);
         Triangles = outputMesh.GetIndexData<int>();
 
     }
