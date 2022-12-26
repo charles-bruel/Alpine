@@ -1,10 +1,10 @@
 import numpy as np
 from PIL import Image
 
-path = r".\\..\\..\\Textures\\Map\\"
+path = r".\\..\\..\\Textures\\Map\\Spruce Example\\"
 inname = "raw.r32"
 size = 8193
-divisions = 4
+divisions = 8
 outsize = int((size - 1)/divisions) + 1
 resultarray = []
 
@@ -17,8 +17,8 @@ texture_index = 0
 while texture_index < divisions * divisions:
     resultarray = np.zeros((outsize, outsize, 3))
 
-    imageX = texture_index % divisions
-    imageY = int(texture_index / divisions)
+    imageX = (texture_index % divisions)
+    imageY = divisions - 1 - int(texture_index / divisions)
 
     lookup_index = 0
     while lookup_index < outsize * outsize:

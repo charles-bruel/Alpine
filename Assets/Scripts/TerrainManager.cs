@@ -67,8 +67,8 @@ public class TerrainManager : MonoBehaviour {
 
         Instance = this;
         int id = 0;
-        for(int x = 0;x < NumTilesX;x ++) {
-            for(int y = 0;y < NumTilesY;y ++,id ++) {
+        for(int y = 0;y < NumTilesY;y ++) {
+            for(int x = 0;x < NumTilesX;x ++,id ++) {
                 TerrainTile temp = CreateTerrainTile(x - NumTilesX/2, y - NumTilesY/2);
                 temp.id = id;
                 Tiles.Add(temp);
@@ -125,7 +125,7 @@ public class TerrainManager : MonoBehaviour {
     private TerrainTile CreateTerrainTile(int posx, int posy) {
         GameObject gameObject = new GameObject("TerrainTile: " + posx + ", " + posy);
         gameObject.transform.parent = transform;
-        gameObject.transform.localPosition = new Vector3(posx * TileSize, 0, -posy * TileSize);
+        gameObject.transform.localPosition = new Vector3(posx * TileSize, 0, (posy + 1) * TileSize);
 
         TerrainTile terrainTile = gameObject.AddComponent<TerrainTile>();
         terrainTile.TerrainMaterial = TerrainMaterial;
@@ -150,8 +150,8 @@ public class TerrainManager : MonoBehaviour {
             nextDirty.DirtyStates &= ~TerrainTile.TerrainTileDirtyStates.TERRAIN;
         } else {
             Bounds bounds = new Bounds(Vector3.zero, Vector3.zero);
-            bounds.min = new Vector3(nextDirty.posx * TileSize, -128, -nextDirty.posy * TileSize);
-            bounds.max = new Vector3((nextDirty.posx + 1) * TileSize, TileSize + 128, (-nextDirty.posy + 1) * TileSize);
+            bounds.min = new Vector3(nextDirty.posx * TileSize, -128, (nextDirty.posy + 1) * TileSize);
+            bounds.max = new Vector3((nextDirty.posx + 1) * TileSize, TileSize + 128, (nextDirty.posy + 2) * TileSize);
             if((nextDirty.DirtyStates & TerrainTile.TerrainTileDirtyStates.TREES) != 0) {
                 nextDirty.RecreateTreeMesh(bounds, TreeTypeDescriptors);
                 nextDirty.DirtyStates &= ~TerrainTile.TerrainTileDirtyStates.TREES;
@@ -199,9 +199,9 @@ public class TerrainManager : MonoBehaviour {
 
             for(int j = 0;j < Tiles[i].LocalTreeData.Length;j ++) {
                 bounds.x = Mathf.Min(bounds.x, Tiles[i].posx * TileSize);
-                bounds.y = Mathf.Min(bounds.y, -Tiles[i].posy * TileSize);
+                bounds.y = Mathf.Min(bounds.y, (Tiles[i].posy + 1) * TileSize);
                 bounds.z = Mathf.Max(bounds.z, (Tiles[i].posx + 1) * TileSize);
-                bounds.w = Mathf.Max(bounds.w, (-Tiles[i].posy + 1) * TileSize);
+                bounds.w = Mathf.Max(bounds.w, (Tiles[i].posy + 2) * TileSize);
 
                 treePosses[id++] = Tiles[i].LocalTreeData[j];
             }

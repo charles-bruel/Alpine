@@ -22,7 +22,9 @@ public class LoadTerrainJob : Job {
 			int r = (int)(color.r * 255f);
 			if(r == 0) g++;
 			int num = b << 16 | g << 8 | r;
-			OutputData[i / Width, i % Width] = (float)num / 16777215f;
+			int x = Width - 1 - (i / Width);
+			int y = Width - 1 - (i % Width);
+			OutputData[y, x] = (float)num / 16777215f;
 		}
 		
 		lock(ASyncJobManager.completedJobsLock) {

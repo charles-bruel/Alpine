@@ -26,11 +26,10 @@ public class PlaceTreesJob : Job
 		while (i < TreeCount)
 		{
 			Vector2 normalized = new Vector2((float)random.NextDouble(), (float)random.NextDouble());
-            Vector2 normalizedWorldPos = new Vector2(1 - normalized.x, 1 - normalized.y);
-			Vector2 position = new Vector2(normalizedWorldPos.x * size.x + min.x, normalizedWorldPos.y * size.y + min.y);
+			Vector2 position = new Vector2(normalized.x * size.x + min.x, normalized.y * size.y + min.y);
 			int x = Mathf.FloorToInt(normalized.x * DecoMapSize);
 			int y = Mathf.FloorToInt(normalized.y * DecoMapSize);
-            int index = x * DecoMapSize + y;
+            int index = x + y * DecoMapSize;
             if(index < 0 || index > DecoMap.Length) continue;
             //We check again place a tree there, then choose
 			float v = DecoMap[index].g + DecoMap[index].r;
