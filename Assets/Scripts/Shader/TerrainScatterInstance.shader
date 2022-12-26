@@ -103,14 +103,12 @@
 				half uvy = (IN.worldPos.z - _Bounds.y) / (_Bounds.w - _Bounds.y);
 				half2 snow_tex_uv = half2(uvx, uvy);
 				half snowThreshold = tex2D (_SnowTex, snow_tex_uv).b;
-				//TODO: Branchless?
-				if (dot(float3(0, 1, 0), IN.worldNormal) * IN.height > snowThreshold) {
-					o.Albedo = float3(1, 1, 1);
-				} else {
-					fixed4 c = tex2D (_MainTex, IN.uv_MainTex);
-					o.Albedo = c.rgb;
-					o.Alpha = c.a;
-				}
+				fixed4 c = tex2D (_MainTex, IN.uv_MainTex);
+				o.Albedo = c.rgb;
+				o.Alpha = c.a;
+				float sgn = max(sign(dot(float3(0, 1, 0), IN.worldNormal) * IN.height - snowThreshold), 0);
+				o.Albedo *= (1-sgn);
+				o.Albedo += float3(sgn, sgn, sgn);
 				o.Metallic = _Metallic;
 				o.Smoothness = _Glossiness;
 			}

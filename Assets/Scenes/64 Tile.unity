@@ -445,7 +445,7 @@ MonoBehaviour:
   NumRocks: 400000
   TreeLODRenderer1: {fileID: 868449667}
   TreeLODRenderer2: {fileID: 868449668}
-  LOD_Distance: 200
+  LOD_Distance: 300
 --- !u!4 &868449665
 Transform:
   m_ObjectHideFlags: 0
@@ -490,7 +490,9 @@ MonoBehaviour:
   instanceMaterial: {fileID: 2100000, guid: 5b8132a7796d5e8499c4d0b3d787999e, type: 2}
   subMeshIndex: 0
   Parameters:
-    SnowMultiplier: 0.2
+    SnowMultiplier: 0.225
+  CullingShader: {fileID: 7200000, guid: 021a9d138cb223d448b43c715cbdf9d7, type: 3}
+  TargetType: 1
 --- !u!114 &868449668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -509,6 +511,8 @@ MonoBehaviour:
   subMeshIndex: 0
   Parameters:
     SnowMultiplier: 0.05
+  CullingShader: {fileID: 7200000, guid: 021a9d138cb223d448b43c715cbdf9d7, type: 3}
+  TargetType: 2
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -588,7 +592,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 400, y: 100, z: 0}
+  m_LocalPosition: {x: 400, y: 300, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

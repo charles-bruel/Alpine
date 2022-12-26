@@ -149,12 +149,12 @@ public class TerrainTile : MonoBehaviour {
             Vector3 pos = Data[i].pos;
             if(bounds.Contains(pos)) {
                 RaycastHit? hit = TerrainManager.Instance.Raycast(pos.ToHorizontal());
+                numRocks ++;
                 if(hit == null) {
                     continue;
                 }
                 Data[i].pos = hit.Value.point;
                 Data[i].normal = hit.Value.normal;
-                numRocks ++;
             }
         }
 

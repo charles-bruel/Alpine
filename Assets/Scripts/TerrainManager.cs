@@ -163,40 +163,28 @@ public class TerrainManager : MonoBehaviour {
     }
 
     private void UpdateTreeLODBuffers() {
-        int numTrees1 = 0;
-        int numTrees2 = 0;
+        int numTrees = 0;
         //We go through things twice to reduce memory allocations
-        //TODO: Have the tiles cache their tree counts
         for(int i = 0;i < Tiles.Count;i ++) {
             if(!Tiles[i].GetWithinLOD() || Tiles[i].DirtyStates != 0) continue;
             
             for(int j = 0;j < Tiles[i].LocalTreeData.Length;j ++) {
-                if(Tiles[i].LocalTreeData[j].type == 1) {
-                    numTrees1++;
-                } else {
-                    numTrees2++;
-                }
+                numTrees++;
             }
         }
-        TreePos[] treePosses1 = new TreePos[numTrees1];
-        TreePos[] treePosses2 = new TreePos[numTrees2];
+        TreePos[] treePosses = new TreePos[numTrees];
         Vector4 bounds = new Vector4();
-        int id1 = 0;
-        int id2 = 0;
+        int id = 0;
         for(int i = 0;i < Tiles.Count;i ++) {
-            for(int j = 0;j < Tiles[i].LocalTreeData.Length;j ++) {
-                if(!Tiles[i].GetWithinLOD()) continue;
+            if(!Tiles[i].GetWithinLOD() || Tiles[i].DirtyStates != 0) continue;
 
+            for(int j = 0;j < Tiles[i].LocalTreeData.Length;j ++) {
                 bounds.x = Mathf.Min(bounds.x, Tiles[i].posx * TileSize);
                 bounds.y = Mathf.Min(bounds.y, -Tiles[i].posy * TileSize);
                 bounds.z = Mathf.Max(bounds.z, (Tiles[i].posx + 1) * TileSize);
                 bounds.w = Mathf.Max(bounds.w, (-Tiles[i].posy + 1) * TileSize);
 
-                if(Tiles[i].LocalTreeData[j].type == 1) {
-                    treePosses1[id1++] = Tiles[i].LocalTreeData[j];
-                } else {
-                    treePosses2[id2++] = Tiles[i].LocalTreeData[j];
-                }
+                treePosses[id++] = Tiles[i].LocalTreeData[j];
             }
         }
 
@@ -204,8 +192,10 @@ public class TerrainManager : MonoBehaviour {
         boundsFinal.min = new Vector3(bounds.x, 0, bounds.y);
         boundsFinal.max = new Vector3(bounds.z, TileHeight + 128, bounds.w);
         TreeLODRenderer1.Bounds = boundsFinal;
-        TreeLODRenderer1.UpdateBuffers(treePosses1);
-        TreeLODRenderer2.UpdateBuffers(treePosses2);
+        TreeLODRenderer2.Bounds = boundsFinal;
+        
+        TreeLODRenderer1.UpdateBuffers(treePosses);
+        TreeLODRenderer2.UpdateBuffers(treePosses);
 
         TreeLODRenderersDirty = false;
     }

@@ -9,10 +9,14 @@ public class TreeLODRenderer : MonoBehaviour
     public Material instanceMaterial;
     public int subMeshIndex = 0;
     public Params Parameters;
+    public ComputeShader CullingShader;
+    public int TargetType;
 
     private ComputeBuffer dataBuffer;
+    private ComputeBuffer dataBufferCulled;
     private ComputeBuffer paramBuffer;
     private ComputeBuffer argsBuffer;
+    private ComputeBuffer cullShaderArgsBuffer;
     private uint[] args = new uint[5] { 0, 0, 0, 0, 0 };
 
     [NonSerialized]
@@ -24,6 +28,22 @@ public class TreeLODRenderer : MonoBehaviour
     }
 
     void Update() {
+        Draw(Camera.main);
+    }
+
+    public void Draw(Camera camera) {
+        //Render
+        dataBufferCulled.SetCounterValue(0U);
+        cullShaderArgsBuffer.SetData(new int[] { dataBuffer.count, TargetType });
+        int kernelIndex = CullingShader.FindKernel("CullShader");
+        CullingShader.SetBuffer(kernelIndex, "input", dataBuffer);
+        CullingShader.SetBuffer(kernelIndex, "args", cullShaderArgsBuffer);
+        CullingShader.SetBuffer(kernelIndex, "output", dataBufferCulled);
+        CullingShader.SetMatrix("camera", camera.projectionMatrix * camera.worldToCameraMatrix);
+        CullingShader.Dispatch(kernelIndex, dataBuffer.count / 64 + 1, 1, 1);
+        ComputeBuffer.CopyCount(dataBufferCulled, argsBuffer, 4);
+        instanceMaterial.SetBuffer("dataBuffer", dataBufferCulled);
+        instanceMaterial.SetBuffer("paramBuffer", paramBuffer);
         Graphics.DrawMeshInstancedIndirect(instanceMesh, subMeshIndex, instanceMaterial, Bounds, argsBuffer);
     }
 
@@ -45,11 +65,12 @@ public class TreeLODRenderer : MonoBehaviour
             // Positions
             if (dataBuffer != null)
                 dataBuffer.Release();
+            if (dataBufferCulled != null)
+                dataBufferCulled.Release();
             dataBuffer = new ComputeBuffer(data.Length, sizeof(TreePos));
             dataBuffer.SetData(data);
-            instanceMaterial.SetBuffer("dataBuffer", dataBuffer);
+            dataBufferCulled = new ComputeBuffer(data.Length, sizeof(TreePos), ComputeBufferType.Append);
             paramBuffer.SetData(new Params[] { Parameters });
-            instanceMaterial.SetBuffer("paramBuffer", paramBuffer);
 
             // Indirect args
             if (instanceMesh != null)
@@ -63,6 +84,7 @@ public class TreeLODRenderer : MonoBehaviour
             {
                 args[0] = args[1] = args[2] = args[3] = 0;
             }
+
             argsBuffer.SetData(args);
         }
     }
@@ -72,9 +94,17 @@ public class TreeLODRenderer : MonoBehaviour
             dataBuffer.Release();
         dataBuffer = null;
 
+        if (dataBufferCulled != null)
+            dataBufferCulled.Release();
+        dataBufferCulled = null;
+
         if (argsBuffer != null)
             argsBuffer.Release();
         argsBuffer = null;
+
+        if (cullShaderArgsBuffer != null)
+            cullShaderArgsBuffer.Release();
+        cullShaderArgsBuffer = null;
 
         if (paramBuffer != null)
             paramBuffer.Release();
@@ -84,6 +114,7 @@ public class TreeLODRenderer : MonoBehaviour
     void OnEnable() {
         unsafe {
             argsBuffer = new ComputeBuffer(1, args.Length * sizeof(uint), ComputeBufferType.IndirectArguments);
+            cullShaderArgsBuffer = new ComputeBuffer(2, sizeof(int), ComputeBufferType.IndirectArguments);
             paramBuffer = new ComputeBuffer(1, sizeof(Params));
         }
     }
