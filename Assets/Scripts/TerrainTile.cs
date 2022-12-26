@@ -124,6 +124,8 @@ public class TerrainTile : MonoBehaviour {
             job.Descriptors[i] = new CreateTreeMeshJob.TreeTypeDescriptorForJob();
             job.Descriptors[i].NumTrees = numTrees[i];
 
+            job.Descriptors[i].SnowMultiplier = descriptors[i].LODSnowMultiplier;
+
             job.Descriptors[i].OldNormals   = descriptors[i].LODMesh.normals;
             job.Descriptors[i].OldTriangles = descriptors[i].LODMesh.triangles;
             job.Descriptors[i].OldUVs       = descriptors[i].LODMesh.uv;
