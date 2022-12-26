@@ -197,10 +197,8 @@ public class TerrainManager : MonoBehaviour {
             Tiles[i].AdjustTreeRendering();
 
             if(!Tiles[i].GetWithinLOD() || Tiles[i].DirtyStates != 0) continue;
-            
-            for(int j = 0;j < Tiles[i].LocalTreeData.Length;j ++) {
-                numTrees++;
-            }
+
+            numTrees += Tiles[i].LocalTreeData.Length;
         }
         TreePos[] treePosses = new TreePos[numTrees];
         Vector4 bounds = new Vector4();
