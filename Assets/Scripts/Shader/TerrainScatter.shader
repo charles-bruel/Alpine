@@ -4,6 +4,7 @@ Shader "Custom/TerrainScatter"
     {
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _SnowTex ("Snow Level (B channel)", 2D) = "white" {}
+        _DetailTex ("Snow Detail (R channel)", 2D) = "white" {}
         _Bounds ("Snow Level Area", Vector) = (-1, -1, 1, 1)
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
@@ -23,6 +24,7 @@ Shader "Custom/TerrainScatter"
 
         sampler2D _MainTex;
         sampler2D _SnowTex;
+		sampler2D _DetailTex;
 
         struct Input
         {
@@ -51,19 +53,20 @@ Shader "Custom/TerrainScatter"
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
             half uvx = (IN.worldPos.x - _Bounds.x) / (_Bounds.z - _Bounds.x);
-            half uvy = (IN.worldPos.z - _Bounds.y) / (_Bounds.w - _Bounds.y);
-            half2 snow_tex_uv = half2(uvx, uvy);
-            half snowThreshold = tex2D (_SnowTex, snow_tex_uv).b;
-            //TODO: Branchless?
-            if (dot(float3(0, 1, 0), IN.worldNormal) * IN.height > snowThreshold) {
-                o.Albedo = float3(1, 1, 1);
-            } else {
-                fixed4 c = tex2D (_MainTex, IN.uv_MainTex);
-                o.Albedo = c.rgb;
-                o.Alpha = c.a;
-            }
-            o.Metallic = _Metallic;
-            o.Smoothness = _Glossiness;
+			half uvy = (IN.worldPos.z - _Bounds.y) / (_Bounds.w - _Bounds.y);
+			half2 snow_tex_uv = half2(uvx, uvy);
+			half snowThreshold = tex2D (_SnowTex, snow_tex_uv).b;
+			fixed4 c = tex2D (_MainTex, IN.uv_MainTex);
+			o.Albedo = c.rgb;
+			o.Alpha = c.a;
+			float snowVal = dot(float3(0, 1, 0), IN.worldNormal);
+			snowVal += tex2D(_DetailTex, IN.worldPos.xy * 0.1).r * 0.2 - 0.1;
+			snowVal *= IN.height;
+			float sgn = max(sign(snowVal - snowThreshold), 0);
+			o.Albedo *= (1-sgn);
+			o.Albedo += float3(sgn, sgn, sgn);
+			o.Metallic = _Metallic;
+			o.Smoothness = _Glossiness;
         }
         ENDCG
     }

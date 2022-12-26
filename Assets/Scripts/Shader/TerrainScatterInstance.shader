@@ -2,6 +2,7 @@
 	Properties{
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _SnowTex ("Snow Level (B channel)", 2D) = "white" {}
+		_DetailTex ("Snow Detail (R channel)", 2D) = "white" {}
         _Bounds ("Snow Level Area", Vector) = (-1, -1, 1, 1)
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
@@ -18,6 +19,7 @@
 
         	sampler2D _MainTex;
         	sampler2D _SnowTex;
+			sampler2D _DetailTex;
 
 			struct Input {
 				float2 uv_MainTex;
@@ -106,7 +108,10 @@
 				fixed4 c = tex2D (_MainTex, IN.uv_MainTex);
 				o.Albedo = c.rgb;
 				o.Alpha = c.a;
-				float sgn = max(sign(dot(float3(0, 1, 0), IN.worldNormal) * IN.height - snowThreshold), 0);
+				float snowVal = dot(float3(0, 1, 0), IN.worldNormal);
+				snowVal += tex2D(_DetailTex, IN.worldPos.xy * 0.1).r * 0.2 - 0.1;
+				snowVal *= IN.height;
+				float sgn = max(sign(snowVal - snowThreshold), 0);
 				o.Albedo *= (1-sgn);
 				o.Albedo += float3(sgn, sgn, sgn);
 				o.Metallic = _Metallic;
