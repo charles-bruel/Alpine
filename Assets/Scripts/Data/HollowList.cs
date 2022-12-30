@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// This is a list where items are moved upon removing an item, increasing the speed of removal to O(N).
@@ -122,10 +123,11 @@ public class HollowList<T> : ICollection<T>
 
         internal Enumerator(HollowList<T> list) {
             this.holes = list.Holes.GetEnumerator();
+            this.holes.MoveNext();
             this.list = list;
             this.version = list.Version;
             currentIndex = -1;
-            holesDone = false;
+            holesDone = list.Holes.Count == 0;
         }
 
         public T Current {
@@ -158,8 +160,9 @@ public class HollowList<T> : ICollection<T>
         }
 
         public void Reset() {
-            currentIndex = -1;
-            holes = list.Holes.GetEnumerator();
+            this.currentIndex = -1;
+            this.holes = list.Holes.GetEnumerator();
+            this.holes.MoveNext();
         }
     }
 }

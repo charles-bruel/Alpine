@@ -7,7 +7,7 @@ using System.Collections.Generic;
 /// </summary>
 
 //TODO: Add bounds checking
-public class GridArray<T> : ICollection<T> where T : IGriddable {
+public class GridArray<T> : ICollection<T> where T : IGridable {
 
     private HollowList<T> Backing;
     public byte GridWidth { get; private set; }
