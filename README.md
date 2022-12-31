@@ -5,3 +5,9 @@ A Unity terrain rendering system for alpine enviorments. Currently it is just te
 The creation system is throttled to one update/frame, so while that is active, it is quite laggy. Once it finishes FPS should improve dramatically. You also might have to fly around a little bit. I get 60-100 FPS on a 3080.
 
 I believe all the correct files are here for a working demo, but not everything is there (because the raw files from World Machine are massive).
+
+## Using Spruce yourself
+
+If you want to use spruce yourself, note there are some things you will have to do yourself. There are some textures you'll have to find yourself, look at Assets/Textures/Terrain/README.md for details.
+
+Finally, I ask you to give credit. I licensed this under the MIT license, so you techincally don't have to, but I'd really appreciate it.
