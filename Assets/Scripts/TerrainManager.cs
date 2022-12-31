@@ -51,8 +51,8 @@ public class TerrainManager : MonoBehaviour {
         SharedRuntimeObjectMaterial = new Material(ObjectMaterial);
 
         Vector4 bounds = new Vector4(
-            (-NumTilesX/2) * TileSize, (1 - NumTilesY/2) * TileSize,
-            (NumTilesX -NumTilesX/2) * TileSize, (NumTilesY + 1 -NumTilesY/2) * TileSize
+            (-NumTilesX/2) * TileSize, (-NumTilesY/2) * TileSize,
+            (NumTilesX -NumTilesX/2) * TileSize, (NumTilesY -NumTilesY/2) * TileSize
         );
 
         if(SharedRuntimeObjectMaterial.HasVector("_Bounds")) {
@@ -106,8 +106,8 @@ public class TerrainManager : MonoBehaviour {
         job.DecoMapSize = DecoMap.width;
         job.TreeCount = NumTrees;
         job.MapBounds = new Bounds(Vector3.zero, Vector3.zero);
-        job.MapBounds.min = new Vector3((-NumTilesX/2) * TileSize, 0, (1 - NumTilesY/2) * TileSize);
-        job.MapBounds.max = new Vector3((NumTilesX -NumTilesX/2) * TileSize, 0, (NumTilesY + 1 -NumTilesY/2) * TileSize);
+        job.MapBounds.min = new Vector3((-NumTilesX/2) * TileSize, 0, (-NumTilesY/2) * TileSize);
+        job.MapBounds.max = new Vector3((NumTilesX -NumTilesX/2) * TileSize, 0, (NumTilesY -NumTilesY/2) * TileSize);
 
         Thread thread = new Thread(new ThreadStart(job.Run));
 		thread.Start();
@@ -125,7 +125,7 @@ public class TerrainManager : MonoBehaviour {
     private TerrainTile CreateTerrainTile(int posx, int posy) {
         GameObject gameObject = new GameObject("TerrainTile: " + posx + ", " + posy);
         gameObject.transform.parent = transform;
-        gameObject.transform.localPosition = new Vector3(posx * TileSize, 0, (posy + 1) * TileSize);
+        gameObject.transform.localPosition = new Vector3(posx * TileSize, 0, posy * TileSize);
 
         TerrainTile terrainTile = gameObject.AddComponent<TerrainTile>();
         terrainTile.TerrainMaterial = TerrainMaterial;
@@ -150,8 +150,8 @@ public class TerrainManager : MonoBehaviour {
             nextDirty.DirtyStates &= ~TerrainTile.TerrainTileDirtyStates.TERRAIN;
         } else {
             Bounds bounds = new Bounds(Vector3.zero, Vector3.zero);
-            bounds.min = new Vector3(nextDirty.posx * TileSize, -128, (nextDirty.posy + 1) * TileSize);
-            bounds.max = new Vector3((nextDirty.posx + 1) * TileSize, TileSize + 128, (nextDirty.posy + 2) * TileSize);
+            bounds.min = new Vector3(nextDirty.posx * TileSize, -128, nextDirty.posy * TileSize);
+            bounds.max = new Vector3((nextDirty.posx + 1) * TileSize, TileSize + 128, (nextDirty.posy + 1) * TileSize);
             if((nextDirty.DirtyStates & TerrainTile.TerrainTileDirtyStates.TREES) != 0) {
                 nextDirty.RecreateTreeMesh(bounds, TreeTypeDescriptors);
                 nextDirty.DirtyStates &= ~TerrainTile.TerrainTileDirtyStates.TREES;
@@ -217,6 +217,14 @@ public class TerrainManager : MonoBehaviour {
         }
 
         TreeLODRenderersDirty = false;
+    }
+
+    public Vector2Int GetTilePos(Vector3 position) {
+        int x = Mathf.FloorToInt(position.x / TileSize);
+        int y = Mathf.FloorToInt(position.y / TileSize);
+        x += NumTilesX / 2;
+        y += NumTilesY / 2;
+        return new Vector2Int(x, y);
     }
 
     public static TerrainManager Instance;
