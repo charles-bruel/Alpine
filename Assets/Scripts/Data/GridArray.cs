@@ -13,6 +13,7 @@ public class GridArray<T> : ICollection<T> where T : IGridable {
     public byte GridWidth { get; private set; }
     public byte GridHeight { get; private set; }
     private HollowList<int>[,] IndicesReference;
+    private int Version;
 
     public int Count => Backing.Count;
 
@@ -29,6 +30,8 @@ public class GridArray<T> : ICollection<T> where T : IGridable {
                 IndicesReference[x, y] = new HollowList<int>();
             }
         }
+
+        this.Version = 0;
     }
 
     public T this[int index]
@@ -42,6 +45,7 @@ public class GridArray<T> : ICollection<T> where T : IGridable {
         byte x = item.GetGridX();
         byte y = item.GetGridY();
         IndicesReference[x, y].Add(idx);
+        Version++;
     }
 
     public void Clear() {
@@ -51,6 +55,7 @@ public class GridArray<T> : ICollection<T> where T : IGridable {
                 IndicesReference[x, y].Clear();
             }
         }
+        Version++;
     }
 
     public bool Contains(T item) {
@@ -75,6 +80,7 @@ public class GridArray<T> : ICollection<T> where T : IGridable {
     }
 
     public bool Remove(T item) {
+        Version++;
         byte x = item.GetGridX();
         byte y = item.GetGridY();
         foreach(int i in IndicesReference[x, y]) {
@@ -89,5 +95,57 @@ public class GridArray<T> : ICollection<T> where T : IGridable {
 
     IEnumerator IEnumerable.GetEnumerator() {
         return Backing.GetEnumerator();
+    }
+
+    public IEnumerator<T> GetEnumerator(byte x, byte y) {
+        return new GridCellEnumerator(this, x, y);
+    }
+
+    internal struct GridCellEnumerator : IEnumerator<T> {
+        private GridArray<T> array;
+        private int version;
+        private IEnumerator<int> cellIndex;
+        private byte x, y;
+
+        public GridCellEnumerator(GridArray<T> array, byte x, byte y) {
+            this.array = array;
+            this.x = x;
+            this.y = y;
+            this.version = array.Version;
+            cellIndex = array.IndicesReference[x, y].GetEnumerator();
+        }
+
+        public T Current {
+            get {
+                if(this.version != array.Version) {
+                    throw new InvalidOperationException("Tried to use enumeration after collection change");
+                }
+                return array[cellIndex.Current];
+            }
+        }
+
+        object IEnumerator.Current {
+            get {
+                if(this.version != array.Version) {
+                    throw new InvalidOperationException("Tried to use enumeration after collection change");
+                }
+                return array[cellIndex.Current];
+            }
+        }
+
+        public void Dispose() {}
+
+        public bool MoveNext()
+        {
+            if(this.version != array.Version) {
+                throw new InvalidOperationException("Tried to use enumeration after collection change");
+            }
+            return cellIndex.MoveNext();
+        }
+
+        public void Reset()
+        {
+            cellIndex.Reset();
+        }
     }
 }

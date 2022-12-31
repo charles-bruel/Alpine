@@ -135,7 +135,7 @@ public class HollowList<T> : ICollection<T>
                 if(this.version != list.Version) {
                     throw new InvalidOperationException("Tried to use enumeration after collection change");
                 }
-                return list.Backing[currentIndex];
+                return list[currentIndex];
             }
         }
 
@@ -144,13 +144,16 @@ public class HollowList<T> : ICollection<T>
                 if(this.version != list.Version) {
                     throw new InvalidOperationException("Tried to use enumeration after collection change");
                 }
-                return list.Backing[currentIndex];
+                return list[currentIndex];
             }
         }
 
         public void Dispose() {}
 
         public bool MoveNext() {
+            if(this.version != list.Version) {
+                throw new InvalidOperationException("Tried to use enumeration after collection change");
+            }
             currentIndex++;
             while(!holesDone && holes.Current == currentIndex) {
                 currentIndex ++;

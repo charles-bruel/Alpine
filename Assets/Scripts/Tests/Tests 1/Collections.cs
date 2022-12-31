@@ -244,6 +244,22 @@ public class Collections
         Assert.AreEqual(new GriddableDummy(5), enumerator.Current);
     }
 
+    [Test]
+    public void GridArrayGriddedEnum()
+    {
+        GridArray<GriddableDummy> GridArray = new GridArray<GriddableDummy>(2, 2);
+
+        GridArray.Add(new GriddableDummy(0, 0, 1));
+        GridArray.Add(new GriddableDummy(0, 1, 2));
+        GridArray.Add(new GriddableDummy(1, 0, 3));
+        GridArray.Add(new GriddableDummy(1, 1, 4));
+
+        var enumerator = GridArray.GetEnumerator(0, 1);
+        enumerator.MoveNext();
+        Assert.AreEqual(new GriddableDummy(0, 1, 2), enumerator.Current);
+        Assert.IsFalse(enumerator.MoveNext());
+    }
+
     #endregion
 
     internal class GriddableDummy : IGridable
