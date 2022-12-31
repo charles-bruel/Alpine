@@ -19,8 +19,8 @@ public class GridArray<T> : ICollection<T> where T : IGridable {
 
     public bool IsReadOnly => false;
 
-    public GridArray(byte GridWidth, byte GridHeight) {
-        this.Backing = new HollowList<T>();
+    public GridArray(int capacity, byte GridWidth, byte GridHeight) {
+        this.Backing = new HollowList<T>(capacity);
         this.GridWidth = GridWidth;
         this.GridHeight = GridHeight;
         this.IndicesReference = new HollowList<int>[GridWidth, GridHeight];
@@ -33,6 +33,8 @@ public class GridArray<T> : ICollection<T> where T : IGridable {
 
         this.Version = 0;
     }
+
+    public GridArray(byte GridWidth, byte GridHeight) : this(0, GridWidth, GridHeight) {}
 
     public T this[int index]
     {

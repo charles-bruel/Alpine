@@ -28,12 +28,7 @@ public class HollowList<T> : ICollection<T>
         this.Version = 0;
     }
 
-    public HollowList() {
-        this.Backing = new List<T>();
-        this.Holes = new SortedSet<int>();
-        this.TrueCount = 0;
-        this.Version = 0;
-    }
+    public HollowList() : this(0) {}
 
     public T this[int index]
     {
