@@ -1,4 +1,5 @@
-public class ContourLayersDefinition {
+[System.Serializable]
+public struct ContourLayersDefinition {
     public float[] Major;
     public float[] Minor;
 
@@ -7,6 +8,4 @@ public class ContourLayersDefinition {
         Major = major;
         Minor = minor;
     }
-
-    public static ContourLayersDefinition tester = new ContourLayersDefinition(new float[] { 25, 50, 75, 100, 125, 150, 175, 200, 225 }, new float[] {});
 }

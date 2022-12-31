@@ -330,6 +330,7 @@ MonoBehaviour:
   NumTilesY: 8
   TerrainMaterial: {fileID: 2100000, guid: d4ae1937bbdc3974aa47cd91f071f017, type: 2}
   ObjectMaterial: {fileID: 2100000, guid: 6906962458554cb41b630b2aed44400f, type: 2}
+  ContourMaterial: {fileID: 2100000, guid: 5e6eaeb52f5d9734c8771ee3ac16ae71, type: 2}
   ObjectInstanceMaterial: {fileID: 2100000, guid: 5b8132a7796d5e8499c4d0b3d787999e,
     type: 2}
   CullingShader: {fileID: 7200000, guid: 021a9d138cb223d448b43c715cbdf9d7, type: 3}
@@ -351,6 +352,18 @@ MonoBehaviour:
   NumTrees: 0
   NumRocks: 0
   LOD_Distance: 300
+  ContourLayersDefinition:
+    Major:
+    - 25
+    - 50
+    - 75
+    - 100
+    - 125
+    - 150
+    - 175
+    - 200
+    - 225
+    Minor: []
 --- !u!4 &757753260
 Transform:
   m_ObjectHideFlags: 0

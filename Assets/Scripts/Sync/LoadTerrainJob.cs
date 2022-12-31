@@ -7,9 +7,7 @@ public class LoadTerrainJob : Job {
     public float[,] OutputData;
     public int Width;
     public TerrainData TerrainData;
-	public Bounds Bounds;
-
-	private ContourDefinition temp;
+	public TerrainTile Reference;
 
 	public static int ActiveJobs = 0;
 
@@ -29,15 +27,11 @@ public class LoadTerrainJob : Job {
 			int y = Width - 1 - (i % Width);
 			OutputData[y, x] = (float)num / 16777215f;
 		}
-		
-		temp = ContoursUtils.GetContours(ContourLayersDefinition.tester, OutputData, Bounds);
-		for(int l = 0;l < temp.Layers.Major.Length;l ++) {
-			var array = temp.MajorPoints[l];
-			for(int i = 0;i < array.Count;i += 2) {
-				Debug.DrawLine(new Vector3(array[i].x, temp.Layers.Major[l], array[i].y), new Vector3(array[i+1].x, temp.Layers.Major[l], array[i+1].y), Color.red, 1000);
-			}
-		}
 
+		Reference.HeightData = OutputData;
+
+		Reference.DirtyStates |= TerrainTile.TerrainTileDirtyStates.CONTOURS;
+		
 		lock(ASyncJobManager.completedJobsLock) {
         	ASyncJobManager.Instance.completedJobs.Enqueue(this);
 		}

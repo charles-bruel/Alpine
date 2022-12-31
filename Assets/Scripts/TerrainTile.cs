@@ -20,9 +20,17 @@ public class TerrainTile : MonoBehaviour {
     [NonSerialized]
     public MeshFilter RocksComponent;
     [NonSerialized]
+    public MeshFilter ContoursComponent;
+    [NonSerialized]
     public Material TerrainMaterial;
     [NonSerialized]
     public Material ObjectMaterial;
+    [NonSerialized]
+    public Material ContourMaterial;
+    [NonSerialized]
+    public float[,] HeightData;
+    [NonSerialized]
+    public ContourDefinition Contours;
 
     void Start() {
         GameObject terrain = new GameObject("Terrain");
@@ -63,6 +71,18 @@ public class TerrainTile : MonoBehaviour {
         rockMesh.indexFormat = IndexFormat.UInt32;
         rockMesh.MarkDynamic();
 
+        GameObject contours = new GameObject("Contours");
+        contours.transform.parent = transform;
+        contours.transform.position = Vector3.zero;
+
+        MeshRenderer contoursMeshRenderer = contours.AddComponent<MeshRenderer>();
+        contoursMeshRenderer.material = ContourMaterial;
+
+        ContoursComponent = contours.AddComponent<MeshFilter>();
+        Mesh contoursMesh = new Mesh();
+        ContoursComponent.mesh = contoursMesh;
+        contoursMesh.indexFormat = IndexFormat.UInt32;
+        contoursMesh.MarkDynamic();
     }
 
     public void LoadTerrain(Texture2D texture2D, Bounds bounds)
@@ -82,7 +102,7 @@ public class TerrainTile : MonoBehaviour {
 		job.OutputData = array;
 		job.Width = width;
 		job.TerrainData = TerrainComponent.terrainData;
-        job.Bounds = bounds;
+        job.Reference = this;
 
 		Thread thread = new Thread(new ThreadStart(job.Run));
 		thread.Start();
@@ -166,6 +186,21 @@ public class TerrainTile : MonoBehaviour {
 		thread.Start();
     }
 
+    public void RecreateContours(Bounds bounds, ContourLayersDefinition layers) {
+        RecreateContourMeshJob job = new RecreateContourMeshJob();
+
+		job.Bounds = bounds;
+        job.PosX = IndexX;
+        job.PosY = IndexY;
+        job.MeshTarget = ContoursComponent.mesh;
+        job.Tile = this;
+        job.LayersDefinition = layers;
+
+        job.Initialize();
+		Thread thread = new Thread(new ThreadStart(job.Run));
+		thread.Start();
+    }
+
     private bool PrevLODLevel = false;
     
     void Update() {
@@ -196,5 +231,6 @@ public class TerrainTile : MonoBehaviour {
         TERRAIN = 1,
         TREES = 2,
         ROCKS = 4,
+        CONTOURS = 8,
     }
 }
