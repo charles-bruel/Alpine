@@ -5,6 +5,7 @@ using UnityEngine;
 public class TestTreeBrush : MonoBehaviour {
 
     private readonly float DIST = 20;
+    private readonly int TREESPERSECOND = 100;
 
     void Update() {
         if(Input.GetKey("1")) {
@@ -41,7 +42,7 @@ public class TestTreeBrush : MonoBehaviour {
             TerrainManager.Instance.TreeLODRenderersDirty = true;
         }
         if(Input.GetKey("2")) {
-            List<TreePos> toAdd = GetToAdd(100);
+            List<TreePos> toAdd = GetToAdd((int) (TREESPERSECOND * Time.deltaTime) + 1);
             List<TerrainTile> dirty = new List<TerrainTile>();
             
             foreach(TreePos pos in toAdd) {
