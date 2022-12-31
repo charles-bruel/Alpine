@@ -189,7 +189,7 @@ public class TerrainManager : MonoBehaviour {
         for(int i = 0;i < Tiles.Count;i ++) {
             Tiles[i].AdjustTreeRendering();
 
-            if(!Tiles[i].GetWithinLOD() || Tiles[i].DirtyStates != 0) continue;
+            if(!Tiles[i].GetWithinLOD()/* || Tiles[i].DirtyStates != 0*/) continue;
 
             numTrees += TreesData.GetCountInCell(Tiles[i].IndexX, Tiles[i].IndexY);
         }
@@ -197,7 +197,7 @@ public class TerrainManager : MonoBehaviour {
         Vector4 bounds = new Vector4();
         int id = 0;
         for(int i = 0;i < Tiles.Count;i ++) {
-            if(!Tiles[i].GetWithinLOD() || Tiles[i].DirtyStates != 0) continue;
+            if(!Tiles[i].GetWithinLOD()/* || Tiles[i].DirtyStates != 0*/) continue;
 
             bounds.x = Mathf.Min(bounds.x, Tiles[i].PosX * TileSize);
             bounds.y = Mathf.Min(bounds.y, (Tiles[i].PosY + 1) * TileSize);

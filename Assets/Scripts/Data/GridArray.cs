@@ -99,6 +99,13 @@ public class GridArray<T> : ICollection<T> where T : IGridable {
         return false;
     }
 
+    public bool RemoveAt(int i) {
+        T value = Backing[i];
+        IndicesReference[value.GetGridX(), value.GetGridY()].Remove(i);
+        Backing.RemoveAt(i);
+        return true;
+    }
+
     IEnumerator IEnumerable.GetEnumerator() {
         return Backing.GetEnumerator();
     }
@@ -109,6 +116,10 @@ public class GridArray<T> : ICollection<T> where T : IGridable {
 
     public IWriteableEnumerator<T> GetEnumerator(byte x, byte y) {
         return new GridCellEnumerator(this, x, y);
+    }
+
+    public IEnumerator<int> GetIndexEnumerator(byte x, byte y) {
+        return IndicesReference[x, y].GetEnumerator();
     }
 
     internal struct GridCellEnumerator : IWriteableEnumerator<T> {

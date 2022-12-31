@@ -1,3 +1,4 @@
+using System;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -15,6 +16,7 @@ public class CreateTreeMeshJob : Job
     private NativeArray<Vector2> UVs;
     private NativeArray<int> Triangles;
     private Mesh.MeshDataArray OutputMeshData;
+    private bool JobFailed = false;
 
     // Based on
     // https://github.com/Unity-Technologies/MeshApiExamples/blob/master/Assets/CreateMeshFromAllSceneMeshes/CreateMeshFromWholeScene.cs
@@ -55,7 +57,26 @@ public class CreateTreeMeshJob : Job
         int totalVertices = 0;
         int totalTriangles = 0;
         for(uint i = 0;i < Descriptors.Length;i ++) {
-            Copy(i, totalVertices, totalTriangles, Descriptors[i]);
+            try{
+                Copy(i, totalVertices, totalTriangles, Descriptors[i]);
+            } catch (InvalidOperationException) {
+                // This occurs when the backing tree collection is updated while we are generating a new mesh.
+                // We simply swallow the error and abort the job. We do have to trigger the dirty status in case
+                // the update is in another tile and this would not be marked dirty.
+
+                // We need to clean up from the main thread, so we mark the job as failed and "complete" it
+                JobFailed = true;
+                lock(ASyncJobManager.completedJobsLock) {
+        	        ASyncJobManager.Instance.completedJobs.Enqueue(this);
+		        }
+
+                //We remark the job as dirty
+                TerrainTile tile = TerrainManager.Instance.Tiles[PosX + TerrainManager.Instance.NumTilesX * PosY];
+                tile.DirtyStates |= TerrainTile.TerrainTileDirtyStates.TREES;
+                TerrainManager.Instance.Dirty.Enqueue(tile);
+
+                return;
+            }
 
             totalVertices  += Descriptors[i].OldVertices .Length * Descriptors[i].NumTrees;
             totalTriangles += Descriptors[i].OldTriangles.Length * Descriptors[i].NumTrees;
@@ -114,7 +135,12 @@ public class CreateTreeMeshJob : Job
 
     public override void Complete()
     {
-        // MeshTarget.Optimize();
+        // The job had to be aborted for some reason
+        // The aborter cleaned up everything it could, be these resources need to be freed from the main thread
+        if(JobFailed) {
+            OutputMeshData.Dispose();
+            return;
+        }
 
         SubMeshDescriptor subMesh = new SubMeshDescriptor(0, Triangles.Length, MeshTopology.Triangles);
         subMesh.firstVertex = 0;
