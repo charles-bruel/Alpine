@@ -1,9 +1,9 @@
 import numpy as np
 from PIL import Image
 
-path = r".\\..\\..\\Textures\\Map\\Spruce Example\\"
-inname = "raw.r32"
-size = 8193
+path = r".\\..\\..\\Textures\\Map\\Poseidon Mons\\"
+inname = "Temp\\height-raw.r32"
+size = 4097
 divisions = 8
 outsize = int((size - 1)/divisions) + 1
 resultarray = []
@@ -49,7 +49,7 @@ while texture_index < divisions * divisions:
     print("Saving Image: " + str(texture_index))
 
     final = Image.fromarray((resultarray * 255).astype(np.uint8))
-    final.save(path + r"Out\\" + "height-" + str(texture_index) + ".png")
+    final.save(path + r"Height\\" + "height-" + str(texture_index) + ".png")
 
     print("Saved Image: " + str(texture_index))
 

@@ -80,5 +80,6 @@ crashlytics-build.properties
 *.r32
 *.r32.meta
 *_raw*
+*-raw*
 **/[Tt]emp/**
 **/[Tt]emp.meta
