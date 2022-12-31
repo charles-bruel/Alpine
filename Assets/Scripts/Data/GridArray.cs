@@ -50,6 +50,10 @@ public class GridArray<T> : ICollection<T> where T : IGridable {
         Version++;
     }
 
+    public int GetCountInCell(byte x, byte y) {
+        return IndicesReference[x, y].Count;
+    }
+
     public void Clear() {
         Backing.Clear();
         for(byte x = 0;x < GridWidth;x ++) {

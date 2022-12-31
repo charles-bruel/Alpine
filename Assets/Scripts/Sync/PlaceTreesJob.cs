@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlaceTreesJob : Job
 {
-    public TreePos[] Data;
+    public GridArray<TreePos> Data;
     public Bounds MapBounds;
     public Color[] DecoMap;
     public int DecoMapSize;
@@ -15,7 +15,7 @@ public class PlaceTreesJob : Job
             Thread.Sleep(100);
         }
 
-        Data = new TreePos[TreeCount];
+        Data = new GridArray<TreePos>(TreeCount, (byte) TerrainManager.Instance.NumTilesX, (byte) TerrainManager.Instance.NumTilesY);
 
         System.Random random = new System.Random();
 		int i = 0;
@@ -36,16 +36,18 @@ public class PlaceTreesJob : Job
 			if (random.NextDouble() <= (double)v)
 			{
                 float treeChoose = (float) random.NextDouble() * v;
+                TreePos value = new TreePos();
                 if(DecoMap[index].r < treeChoose) {
-                    Data[i].type = 0;
+                    value.type = 0;
                 } else {
-                    Data[i].type = 1;
+                    value.type = 1;
                 }
-                Data[i].pos.x = position.x;
-                Data[i].pos.y = 0;//Will get populated later
-                Data[i].pos.z = position.y;
-                Data[i].rot = (float)(random.NextDouble() * 2.0 * 3.141592653589793);
-                Data[i].scale = (float)(random.NextDouble() * 0.5 + 0.75);
+                value.pos.x = position.x;
+                value.pos.y = 0;//Will get populated later
+                value.pos.z = position.y;
+                value.rot = (float)(random.NextDouble() * 2.0 * 3.141592653589793);
+                value.scale = (float)(random.NextDouble() * 0.5 + 0.75);
+                Data.Add(value);
 				i++;
 			}
 		}

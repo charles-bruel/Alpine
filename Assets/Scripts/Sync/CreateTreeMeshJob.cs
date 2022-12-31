@@ -4,6 +4,8 @@ using UnityEngine.Rendering;
 
 public class CreateTreeMeshJob : Job
 {
+    public byte PosX;
+    public byte PosY;
     public Bounds Bounds;
     public Mesh MeshTarget;
     public TreeTypeDescriptorForJob[] Descriptors;
@@ -65,17 +67,19 @@ public class CreateTreeMeshJob : Job
     }
 
     private void Copy(uint TypeToLookFor, int verticesBaseIndex, int trianglesBaseIndex, TreeTypeDescriptorForJob descriptor) {
-        TreePos[] Data = TerrainManager.Instance.TreesData;
+        GridArray<TreePos> Data = TerrainManager.Instance.TreesData;
 
         int numVerticesPerModel  = descriptor.OldVertices .Length;
         int numTrianglesPerModel = descriptor.OldTriangles.Length;
 
-        for(int i = 0, t = 0;i < Data.Length;i ++) {
-            Vector3 pos = Data[i].pos;
-            if(Data[i].type == TypeToLookFor && Bounds.Contains(pos)) {
-                float sinTheta = Mathf.Sin(Data[i].rot);
-                float cosTheta = Mathf.Cos(Data[i].rot);
-                float scaleMul = Data[i].scale;
+        int t = 0;
+        var enumerator = Data.GetEnumerator(PosX, PosY);
+        while(enumerator.MoveNext()) {
+            Vector3 pos = enumerator.Current.pos;
+            if(enumerator.Current.type == TypeToLookFor) {
+                float sinTheta = Mathf.Sin(enumerator.Current.rot);
+                float cosTheta = Mathf.Cos(enumerator.Current.rot);
+                float scaleMul = enumerator.Current.scale;
 
                 //Copy a single tree
                 for(int j = 0;j < numVerticesPerModel;j ++) {

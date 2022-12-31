@@ -279,11 +279,11 @@ public class Collections
             this.value = value;
         }
 
-        public override byte GetGridX() {
+        public byte GetGridX() {
             return x;
         }
 
-        public override byte GetGridY() {
+        public byte GetGridY() {
             return y;
         }
 
