@@ -97,11 +97,15 @@ public class GridArray<T> : ICollection<T> where T : IGridable {
         return Backing.GetEnumerator();
     }
 
-    public IEnumerator<T> GetEnumerator(byte x, byte y) {
+    public IWriteableEnumerator<T> GetMutEnumerator() {
+        return Backing.GetMutEnumerator();
+    }
+
+    public IWriteableEnumerator<T> GetEnumerator(byte x, byte y) {
         return new GridCellEnumerator(this, x, y);
     }
 
-    internal struct GridCellEnumerator : IEnumerator<T> {
+    internal struct GridCellEnumerator : IWriteableEnumerator<T> {
         private GridArray<T> array;
         private int version;
         private IEnumerator<int> cellIndex;
@@ -121,6 +125,21 @@ public class GridArray<T> : ICollection<T> where T : IGridable {
                     throw new InvalidOperationException("Tried to use enumeration after collection change");
                 }
                 return array[cellIndex.Current];
+            }
+        }
+
+        public T CurrentMut { 
+            get {
+                if(this.version != array.Version) {
+                    throw new InvalidOperationException("Tried to use enumeration after collection change");
+                }
+                return array[cellIndex.Current];
+            }
+            set {
+                if(this.version != array.Version) {
+                    throw new InvalidOperationException("Tried to use enumeration after collection change");
+                }
+                array[cellIndex.Current] = value;
             }
         }
 

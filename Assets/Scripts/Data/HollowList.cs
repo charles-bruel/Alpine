@@ -84,6 +84,10 @@ public class HollowList<T> : ICollection<T>
         return new Enumerator(this);
     }
 
+    public IWriteableEnumerator<T> GetMutEnumerator() {
+        return new Enumerator(this);
+    }
+
     public bool Remove(T item) {
         return RemoveGetIndex(item) != -1;
     }
@@ -113,7 +117,7 @@ public class HollowList<T> : ICollection<T>
         return new Enumerator(this);
     }
 
-    internal struct Enumerator : IEnumerator<T>
+    internal struct Enumerator : IWriteableEnumerator<T>
     {
         private IEnumerator<int> holes;
         private int version;
@@ -136,6 +140,21 @@ public class HollowList<T> : ICollection<T>
                     throw new InvalidOperationException("Tried to use enumeration after collection change");
                 }
                 return list[currentIndex];
+            }
+        }
+
+        public T CurrentMut {
+            get {
+                if(this.version != list.Version) {
+                    throw new InvalidOperationException("Tried to use enumeration after collection change");
+                }
+                return list[currentIndex];
+            }
+            set {
+                if(this.version != list.Version) {
+                    throw new InvalidOperationException("Tried to use enumeration after collection change");
+                }
+                list[currentIndex] = value;
             }
         }
 
