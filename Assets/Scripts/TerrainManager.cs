@@ -42,6 +42,8 @@ public class TerrainManager : MonoBehaviour {
     public GridArray<RockPos> RocksData;
     [NonSerialized]
     public TreeLODRenderer[] TreeLODRenderers;
+    [NonSerialized]
+    public Bounds TerrainBounds;
 
 
     void Start() {
@@ -64,6 +66,10 @@ public class TerrainManager : MonoBehaviour {
                 TreeLODRenderers[i].InstanceMaterial.SetVector("_Bounds", bounds);
             }
         }
+
+        TerrainBounds = new Bounds();
+        TerrainBounds.min = new Vector3(bounds.x, 0, bounds.y);
+        TerrainBounds.max = new Vector3(bounds.z, TileHeight, bounds.w);
 
         Instance = this;
         int id = 0;

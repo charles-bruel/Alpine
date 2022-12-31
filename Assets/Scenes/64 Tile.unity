@@ -447,7 +447,7 @@ MonoBehaviour:
     SnowMultiplier: 0.05
     LODSnowMultiplier: 0.05
   DecoMap: {fileID: 2800000, guid: 04cf854aed7dc1443a8f7d7b1a75113c, type: 3}
-  NumTrees: 1200000
+  NumTrees: 0
   NumRocks: 400000
   LOD_Distance: 300
 --- !u!4 &868449665
