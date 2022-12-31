@@ -5,8 +5,10 @@ using UnityEngine.Rendering;
 
 public class TerrainTile : MonoBehaviour {
     
-    public int posx;
-    public int posy;
+    public int PosX;
+    public int PosY;
+    public byte IndexX;
+    public byte IndexY;
     public int id;
     [NonSerialized]
     public TerrainTileDirtyStates DirtyStates = TerrainTileDirtyStates.TERRAIN;
@@ -21,10 +23,6 @@ public class TerrainTile : MonoBehaviour {
     public Material TerrainMaterial;
     [NonSerialized]
     public Material ObjectMaterial;
-    [NonSerialized]
-    public TreePos[] LocalTreeData;
-    [NonSerialized]
-    public RockPos[] LocalRockData;
 
     void Start() {
         GameObject terrain = new GameObject("Terrain");
@@ -90,34 +88,27 @@ public class TerrainTile : MonoBehaviour {
 	}
 
     public void RecreateTreeMesh(Bounds bounds, TerrainManager.TreeTypeDescriptor[] descriptors) {
-        TreePos[] Data = TerrainManager.Instance.TreesData;
+        GridArray<TreePos> Data = TerrainManager.Instance.TreesData;
 
         //First we need to do our raycasts to assign height
         //We also use this to count the number of trees we need to place
         int[] numTrees = new int[descriptors.Length];
         int totalTrees = 0;
 
-        for(int i = 0;i < Data.Length;i ++) {
-            Vector3 pos = Data[i].pos;
-            if(bounds.Contains(pos)) {
-                Data[i].pos = TerrainManager.Instance.Project(pos.ToHorizontal());
-                numTrees[Data[i].type]++;
-                totalTrees++;
-            }
+        var enumerator = Data.GetEnumerator(IndexX, IndexY);
+        while(enumerator.MoveNext()) {
+            TreePos temp = enumerator.Current;
+            temp.pos = TerrainManager.Instance.Project(enumerator.Current.pos.ToHorizontal());
+            enumerator.CurrentMut = temp;
+            numTrees[enumerator.Current.type]++;
+            totalTrees++;
         }
 
-        LocalTreeData = new TreePos[totalTrees];
-        for(int i = 0, t = 0;i < Data.Length;i ++) {
-            Vector3 pos = Data[i].pos;
-            if(bounds.Contains(pos)) {
-                LocalTreeData[t] = Data[i];
-                t++;
-            }
-        }
-        
         CreateTreeMeshJob job = new CreateTreeMeshJob();
 
 		job.Bounds = bounds;
+        job.PosX = IndexX;
+        job.PosY = IndexY;
         job.MeshTarget = TreesComponent.mesh;
         job.Descriptors = new CreateTreeMeshJob.TreeTypeDescriptorForJob[descriptors.Length];
         for(int i = 0;i < descriptors.Length;i ++) {
@@ -138,37 +129,30 @@ public class TerrainTile : MonoBehaviour {
     }
 
     public void RecreateRockMesh(Bounds bounds, Mesh template) {
-        RockPos[] Data = TerrainManager.Instance.RocksData;
+        GridArray<RockPos> Data = TerrainManager.Instance.RocksData;
 
         //First we need to do our raycasts to assign height and angle
         //We also use this to count the number of rocks we need to place
         int numRocks = 0;
 
-        for(int i = 0;i < Data.Length;i ++) {
-            Vector3 pos = Data[i].pos;
-            if(bounds.Contains(pos)) {
-                RaycastHit? hit = TerrainManager.Instance.Raycast(pos.ToHorizontal());
-                numRocks ++;
-                if(hit == null) {
-                    continue;
-                }
-                Data[i].pos = hit.Value.point;
-                Data[i].normal = hit.Value.normal;
+        var enumerator = Data.GetEnumerator(IndexX, IndexY);
+        while(enumerator.MoveNext()) {
+            RaycastHit? hit = TerrainManager.Instance.Raycast(enumerator.Current.pos.ToHorizontal());
+            numRocks ++;
+            if(hit == null) {
+                continue;
             }
-        }
-
-        LocalRockData = new RockPos[numRocks];
-        for(int i = 0, t = 0;i < Data.Length;i ++) {
-            Vector3 pos = Data[i].pos;
-            if(bounds.Contains(pos)) {
-                LocalRockData[t] = Data[i];
-                t++;
-            }
+            RockPos temp = enumerator.Current;
+            temp.pos = hit.Value.point;
+            temp.normal = hit.Value.normal;
+            enumerator.CurrentMut = temp;
         }
         
         CreateRockMeshJob job = new CreateRockMeshJob();
 
 		job.Bounds = bounds;
+        job.PosX = IndexX;
+        job.PosY = IndexY;
         job.MeshTarget = RocksComponent.mesh;
         job.NumRocks = numRocks;
         job.OldVertices = template.vertices;

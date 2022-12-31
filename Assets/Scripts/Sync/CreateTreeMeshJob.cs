@@ -1,9 +1,12 @@
+using System;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 public class CreateTreeMeshJob : Job
 {
+    public byte PosX;
+    public byte PosY;
     public Bounds Bounds;
     public Mesh MeshTarget;
     public TreeTypeDescriptorForJob[] Descriptors;
@@ -13,6 +16,7 @@ public class CreateTreeMeshJob : Job
     private NativeArray<Vector2> UVs;
     private NativeArray<int> Triangles;
     private Mesh.MeshDataArray OutputMeshData;
+    private bool JobFailed = false;
 
     // Based on
     // https://github.com/Unity-Technologies/MeshApiExamples/blob/master/Assets/CreateMeshFromAllSceneMeshes/CreateMeshFromWholeScene.cs
@@ -53,7 +57,26 @@ public class CreateTreeMeshJob : Job
         int totalVertices = 0;
         int totalTriangles = 0;
         for(uint i = 0;i < Descriptors.Length;i ++) {
-            Copy(i, totalVertices, totalTriangles, Descriptors[i]);
+            try{
+                Copy(i, totalVertices, totalTriangles, Descriptors[i]);
+            } catch (InvalidOperationException) {
+                // This occurs when the backing tree collection is updated while we are generating a new mesh.
+                // We simply swallow the error and abort the job. We do have to trigger the dirty status in case
+                // the update is in another tile and this would not be marked dirty.
+
+                // We need to clean up from the main thread, so we mark the job as failed and "complete" it
+                JobFailed = true;
+                lock(ASyncJobManager.completedJobsLock) {
+        	        ASyncJobManager.Instance.completedJobs.Enqueue(this);
+		        }
+
+                //We remark the job as dirty
+                TerrainTile tile = TerrainManager.Instance.Tiles[PosX + TerrainManager.Instance.NumTilesX * PosY];
+                tile.DirtyStates |= TerrainTile.TerrainTileDirtyStates.TREES;
+                TerrainManager.Instance.Dirty.Enqueue(tile);
+
+                return;
+            }
 
             totalVertices  += Descriptors[i].OldVertices .Length * Descriptors[i].NumTrees;
             totalTriangles += Descriptors[i].OldTriangles.Length * Descriptors[i].NumTrees;
@@ -65,17 +88,19 @@ public class CreateTreeMeshJob : Job
     }
 
     private void Copy(uint TypeToLookFor, int verticesBaseIndex, int trianglesBaseIndex, TreeTypeDescriptorForJob descriptor) {
-        TreePos[] Data = TerrainManager.Instance.TreesData;
+        GridArray<TreePos> Data = TerrainManager.Instance.TreesData;
 
         int numVerticesPerModel  = descriptor.OldVertices .Length;
         int numTrianglesPerModel = descriptor.OldTriangles.Length;
 
-        for(int i = 0, t = 0;i < Data.Length;i ++) {
-            Vector3 pos = Data[i].pos;
-            if(Data[i].type == TypeToLookFor && Bounds.Contains(pos)) {
-                float sinTheta = Mathf.Sin(Data[i].rot);
-                float cosTheta = Mathf.Cos(Data[i].rot);
-                float scaleMul = Data[i].scale;
+        int t = 0;
+        var enumerator = Data.GetEnumerator(PosX, PosY);
+        while(enumerator.MoveNext()) {
+            Vector3 pos = enumerator.Current.pos;
+            if(enumerator.Current.type == TypeToLookFor) {
+                float sinTheta = Mathf.Sin(enumerator.Current.rot);
+                float cosTheta = Mathf.Cos(enumerator.Current.rot);
+                float scaleMul = enumerator.Current.scale;
 
                 //Copy a single tree
                 for(int j = 0;j < numVerticesPerModel;j ++) {
@@ -110,7 +135,12 @@ public class CreateTreeMeshJob : Job
 
     public override void Complete()
     {
-        // MeshTarget.Optimize();
+        // The job had to be aborted for some reason
+        // The aborter cleaned up everything it could, be these resources need to be freed from the main thread
+        if(JobFailed) {
+            OutputMeshData.Dispose();
+            return;
+        }
 
         SubMeshDescriptor subMesh = new SubMeshDescriptor(0, Triangles.Length, MeshTopology.Triangles);
         subMesh.firstVertex = 0;
