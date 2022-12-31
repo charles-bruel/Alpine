@@ -7,6 +7,7 @@ public class LoadTerrainJob : Job {
     public float[,] OutputData;
     public int Width;
     public TerrainData TerrainData;
+	public TerrainTile Reference;
 
 	public static int ActiveJobs = 0;
 
@@ -26,6 +27,10 @@ public class LoadTerrainJob : Job {
 			int y = Width - 1 - (i % Width);
 			OutputData[y, x] = (float)num / 16777215f;
 		}
+
+		Reference.HeightData = OutputData;
+
+		Reference.DirtyStates |= TerrainTile.TerrainTileDirtyStates.CONTOURS;
 		
 		lock(ASyncJobManager.completedJobsLock) {
         	ASyncJobManager.Instance.completedJobs.Enqueue(this);

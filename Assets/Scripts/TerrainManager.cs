@@ -14,6 +14,7 @@ public class TerrainManager : MonoBehaviour {
     [Header("Materials & Shaders")]
     public Material TerrainMaterial;
     public Material ObjectMaterial;
+    public Material ContourMaterial;
     public Material ObjectInstanceMaterial;
     public ComputeShader CullingShader;
     [Header("Scatters")]
@@ -25,8 +26,10 @@ public class TerrainManager : MonoBehaviour {
     public Texture2D DecoMap;
     public int NumTrees = 16384;
     public int NumRocks = 16384;
-    [Header("LOD distances")]
+    [Header("LOD settings")]
     public float LOD_Distance = 200.0f;
+    [Header("Other")]
+    public ContourLayersDefinition ContourLayersDefinition;
     [NonSerialized]
     // We create a copy of the ObjectMaterial so we can give it settings without messing up the main material
     public Material SharedRuntimeObjectMaterial;
@@ -136,6 +139,7 @@ public class TerrainManager : MonoBehaviour {
         TerrainTile terrainTile = gameObject.AddComponent<TerrainTile>();
         terrainTile.TerrainMaterial = TerrainMaterial;
         terrainTile.ObjectMaterial = SharedRuntimeObjectMaterial;
+        terrainTile.ContourMaterial = ContourMaterial;
 
         terrainTile.PosX = posx;
         terrainTile.PosY = posy;
@@ -154,12 +158,21 @@ public class TerrainManager : MonoBehaviour {
         if(Dirty.Count == 0) return;
         TerrainTile nextDirty = Dirty.Dequeue();
         if((nextDirty.DirtyStates & TerrainTile.TerrainTileDirtyStates.TERRAIN) != 0) {
-            nextDirty.LoadTerrain(Textures[nextDirty.id]);
+            Bounds bounds = new Bounds(Vector3.zero, Vector3.zero);
+            bounds.min = new Vector3(nextDirty.PosX * TileSize, 0, nextDirty.PosY * TileSize);
+            bounds.max = new Vector3((nextDirty.PosX + 1) * TileSize, TileHeight, (nextDirty.PosY + 1) * TileSize);
+            nextDirty.LoadTerrain(Textures[nextDirty.id], bounds);
             nextDirty.DirtyStates &= ~TerrainTile.TerrainTileDirtyStates.TERRAIN;
+        } else if((nextDirty.DirtyStates & TerrainTile.TerrainTileDirtyStates.CONTOURS) != 0) {
+            Bounds bounds = new Bounds(Vector3.zero, Vector3.zero);
+            bounds.min = new Vector3(nextDirty.PosX * TileSize, 0, nextDirty.PosY * TileSize);
+            bounds.max = new Vector3((nextDirty.PosX + 1) * TileSize, TileHeight, (nextDirty.PosY + 1) * TileSize);
+            nextDirty.RecreateContours(bounds, ContourLayersDefinition);
+            nextDirty.DirtyStates &= ~TerrainTile.TerrainTileDirtyStates.CONTOURS;
         } else {
             Bounds bounds = new Bounds(Vector3.zero, Vector3.zero);
             bounds.min = new Vector3(nextDirty.PosX * TileSize, -128, nextDirty.PosY * TileSize);
-            bounds.max = new Vector3((nextDirty.PosX + 1) * TileSize, TileSize + 128, (nextDirty.PosY + 1) * TileSize);
+            bounds.max = new Vector3((nextDirty.PosX + 1) * TileSize, TileHeight + 128, (nextDirty.PosY + 1) * TileSize);
             if((nextDirty.DirtyStates & TerrainTile.TerrainTileDirtyStates.TREES) != 0) {
                 nextDirty.RecreateTreeMesh(bounds, TreeTypeDescriptors);
                 nextDirty.DirtyStates &= ~TerrainTile.TerrainTileDirtyStates.TREES;
