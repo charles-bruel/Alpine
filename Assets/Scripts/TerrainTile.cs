@@ -65,7 +65,7 @@ public class TerrainTile : MonoBehaviour {
 
     }
 
-    public void LoadTerrain(Texture2D texture2D)
+    public void LoadTerrain(Texture2D texture2D, Bounds bounds)
 	{
 		TerrainComponent.terrainData.heightmapResolution = texture2D.width;
 		Vector3 size = TerrainComponent.terrainData.size;
@@ -82,6 +82,7 @@ public class TerrainTile : MonoBehaviour {
 		job.OutputData = array;
 		job.Width = width;
 		job.TerrainData = TerrainComponent.terrainData;
+        job.Bounds = bounds;
 
 		Thread thread = new Thread(new ThreadStart(job.Run));
 		thread.Start();
