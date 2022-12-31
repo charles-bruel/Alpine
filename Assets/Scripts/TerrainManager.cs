@@ -39,7 +39,7 @@ public class TerrainManager : MonoBehaviour {
     [NonSerialized]
     public GridArray<TreePos> TreesData;
     [NonSerialized]
-    public RockPos[] RocksData;
+    public GridArray<RockPos> RocksData;
     [NonSerialized]
     public TreeLODRenderer[] TreeLODRenderers;
 

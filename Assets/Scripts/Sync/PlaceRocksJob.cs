@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlaceRocksJob : Job
 {
-    public RockPos[] Data;
+    public GridArray<RockPos> Data;
     public Bounds MapBounds;
     public Color[] DecoMap;
     public int DecoMapSize;
@@ -15,7 +15,7 @@ public class PlaceRocksJob : Job
             Thread.Sleep(100);
         }
 
-        Data = new RockPos[RockCount];
+        Data = new GridArray<RockPos>(RockCount, (byte) TerrainManager.Instance.NumTilesX, (byte) TerrainManager.Instance.NumTilesY);
 
         System.Random random = new System.Random();
 		int i = 0;
@@ -34,11 +34,13 @@ public class PlaceRocksJob : Job
 			float b = DecoMap[index].b - 0.1f;
 			if (random.NextDouble() <= (double)b)
 			{
-                Data[i].pos.x = position.x;
-                Data[i].pos.y = 0;//Will get populated later
-                Data[i].pos.z = position.y;
-                Data[i].normal = Vector3.zero;//Will get populated later
-                Data[i].scale = (float)(random.NextDouble() * 0.5 + 0.75);
+                RockPos value = new RockPos();
+                value.pos.x = position.x;
+                value.pos.y = 0;//Will get populated later
+                value.pos.z = position.y;
+                value.normal = Vector3.zero;//Will get populated later
+                value.scale = (float)(random.NextDouble() * 0.5 + 0.75);
+                Data.Add(value);
 				i++;
 			}
 		}

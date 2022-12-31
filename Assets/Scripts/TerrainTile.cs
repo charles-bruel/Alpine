@@ -23,8 +23,6 @@ public class TerrainTile : MonoBehaviour {
     public Material TerrainMaterial;
     [NonSerialized]
     public Material ObjectMaterial;
-    [NonSerialized]
-    public RockPos[] LocalRockData;
 
     void Start() {
         GameObject terrain = new GameObject("Terrain");
@@ -131,37 +129,30 @@ public class TerrainTile : MonoBehaviour {
     }
 
     public void RecreateRockMesh(Bounds bounds, Mesh template) {
-        RockPos[] Data = TerrainManager.Instance.RocksData;
+        GridArray<RockPos> Data = TerrainManager.Instance.RocksData;
 
         //First we need to do our raycasts to assign height and angle
         //We also use this to count the number of rocks we need to place
         int numRocks = 0;
 
-        for(int i = 0;i < Data.Length;i ++) {
-            Vector3 pos = Data[i].pos;
-            if(bounds.Contains(pos)) {
-                RaycastHit? hit = TerrainManager.Instance.Raycast(pos.ToHorizontal());
-                numRocks ++;
-                if(hit == null) {
-                    continue;
-                }
-                Data[i].pos = hit.Value.point;
-                Data[i].normal = hit.Value.normal;
+        var enumerator = Data.GetEnumerator(IndexX, IndexY);
+        while(enumerator.MoveNext()) {
+            RaycastHit? hit = TerrainManager.Instance.Raycast(enumerator.Current.pos.ToHorizontal());
+            numRocks ++;
+            if(hit == null) {
+                continue;
             }
-        }
-
-        LocalRockData = new RockPos[numRocks];
-        for(int i = 0, t = 0;i < Data.Length;i ++) {
-            Vector3 pos = Data[i].pos;
-            if(bounds.Contains(pos)) {
-                LocalRockData[t] = Data[i];
-                t++;
-            }
+            RockPos temp = enumerator.Current;
+            temp.pos = hit.Value.point;
+            temp.normal = hit.Value.normal;
+            enumerator.CurrentMut = temp;
         }
         
         CreateRockMeshJob job = new CreateRockMeshJob();
 
 		job.Bounds = bounds;
+        job.PosX = IndexX;
+        job.PosY = IndexY;
         job.MeshTarget = RocksComponent.mesh;
         job.NumRocks = numRocks;
         job.OldVertices = template.vertices;

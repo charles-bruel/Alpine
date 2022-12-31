@@ -5,6 +5,8 @@ using UnityEngine.Rendering;
 public class CreateRockMeshJob : Job
 {
     public Bounds Bounds;
+    public byte PosX;
+    public byte PosY;
     public Mesh MeshTarget;
     private NativeArray<Vector3> Vertices;
     private NativeArray<Vector3> LocalCoords;
@@ -44,44 +46,42 @@ public class CreateRockMeshJob : Job
         int numVerticesPerModel = OldVertices.Length;
         int numTrianglesPerModel = OldTriangles.Length;
 
-        RockPos[] Data = TerrainManager.Instance.RocksData;
+        GridArray<RockPos> Data = TerrainManager.Instance.RocksData;
 
-        //Copy
-        for(int i = 0, t = 0;i < Data.Length;i ++) {
-            Vector3 pos = Data[i].pos;
-            if(Bounds.Contains(pos)) {
-                Quaternion rotation = Quaternion.FromToRotation(Vector3.up, Data[i].normal);
+        int t = 0;
+        var enumerator = Data.GetEnumerator(PosX, PosY);
+        while(enumerator.MoveNext()) {
+            Quaternion rotation = Quaternion.FromToRotation(Vector3.up, enumerator.Current.normal);
 
-                float scaleMul = Data[i].scale;
+            float scaleMul = enumerator.Current.scale;
 
-                //Copy a single rock
-                for(int j = 0;j < numVerticesPerModel;j ++) {
-                    //This turns "hashes" a vector3 into an int
-                    Vector3 temp = OldVertices[j] * 1000;
-                    int vertex_id = (int) temp.x + (int) temp.y + (int) temp.z;
-                    if(vertex_id < 0) vertex_id *= -1;
+            //Copy a single rock
+            for(int j = 0;j < numVerticesPerModel;j ++) {
+                //This turns "hashes" a vector3 into an int
+                Vector3 temp = OldVertices[j] * 1000;
+                int vertex_id = (int) temp.x + (int) temp.y + (int) temp.z;
+                if(vertex_id < 0) vertex_id *= -1;
+                
+                Vector4 transformedVertex = new Vector4(OldVertices[j].y, OldVertices[j].z, OldVertices[j].x, 1);
+                Vector3 temp2 = transformedVertex;
+                temp2.y *= TerrainManager.Instance.RockSnowMultiplier;
+                LocalCoords[t * numVerticesPerModel + j] = temp2;
+                transformedVertex = (rotation * transformedVertex) * scaleMul;
+                Vertices[t * numVerticesPerModel + j] = transformedVertex.DropW() + enumerator.Current.pos;
+                Vertices[t * numVerticesPerModel + j] += BumpValues.Values[(t + vertex_id) % BumpValues.Values.Length] * 0.5f;
+                
+                Vector4 transformedNormal = new Vector4(OldNormals[j].y, OldNormals[j].z, OldNormals[j].x, 1); 
+                transformedNormal = rotation * transformedNormal;
+                Normals[t * numVerticesPerModel + j] = transformedNormal.DropW();
 
-                    Vector4 transformedVertex = new Vector4(OldVertices[j].y, OldVertices[j].z, OldVertices[j].x, 1);
-                    Vector3 temp2 = transformedVertex;
-                    temp2.y *= TerrainManager.Instance.RockSnowMultiplier;
-                    LocalCoords[t * numVerticesPerModel + j] = temp2;
-                    transformedVertex = (rotation * transformedVertex) * scaleMul;
-                    Vertices[t * numVerticesPerModel + j] = transformedVertex.DropW() + pos;
-                    Vertices[t * numVerticesPerModel + j] += BumpValues.Values[(i + vertex_id) % BumpValues.Values.Length] * 0.5f;
-
-                    Vector4 transformedNormal = new Vector4(OldNormals[j].y, OldNormals[j].z, OldNormals[j].x, 1); 
-                    transformedNormal = rotation * transformedNormal;
-                    Normals[t * numVerticesPerModel + j] = transformedNormal.DropW();
-
-                    UVs[t * numVerticesPerModel + j] = OldUVs[j];
-                }
-                for(int j = 0;j < numTrianglesPerModel;j ++) {
-                    Triangles[t * numTrianglesPerModel + j] = OldTriangles[j] + t * numVerticesPerModel;
-                }
-
-                t++;
+                UVs[t * numVerticesPerModel + j] = OldUVs[j];
             }
 
+            for(int j = 0;j < numTrianglesPerModel;j ++) {
+                Triangles[t * numTrianglesPerModel + j] = OldTriangles[j] + t * numVerticesPerModel;
+            }
+
+            t++;
         }
 
         lock(ASyncJobManager.completedJobsLock) {
