@@ -5,15 +5,8 @@ using UnityEngine;
 public class WeatherController : MonoBehaviour {
 
     [Header("Driven Values")]
-    [Range(0, 1)]
-    public float BaseSnowThreshold;
-    [Range(0, 1)]
-    public float BaseSnowDepth;
-    [Range(0, 1)]
-    public float RecentSnowThreshold;
-    [Range(0, 1)]
-    public float RecentSnowDepth;
-
+    SnowLevelBuffer Recent;
+    SnowLevelBuffer Base;
     [Header("Driver settings")]
     public float TimeFactor;
     public float MaxStormTime;
@@ -30,23 +23,23 @@ public class WeatherController : MonoBehaviour {
     public float StormPower;
     public float Timer;
 
+    void Start() {
+        Recent = new SnowLevelBuffer();
+        Base = new SnowLevelBuffer();
+    }
+
     public void UpdateMaterial(Material material, SnowCatcherType type) {
-        float depth, threshold;
+        SnowLevelBuffer reference;
         if(type == SnowCatcherType.Base) {
-            depth = BaseSnowDepth;
-            threshold = BaseSnowThreshold;
+            reference = Base;
         } else {
-            depth = RecentSnowDepth;
-            threshold = RecentSnowThreshold;
-        }
-             
-        if(material.HasFloat("_Depth")) {
-            material.SetFloat("_Depth", depth);
+            reference = Recent;
         }
 
-        if(material.HasFloat("_Threshold")) {
-            material.SetFloat("_Threshold", threshold);
-        }
+        reference.SendBufferUpdate();
+
+        //TODO: Reduce call frequency
+        material.SetBuffer("snowCurve", reference.Buffer);
     }
 
     void Update() {
@@ -54,18 +47,18 @@ public class WeatherController : MonoBehaviour {
         Timer -= delta;
 
         if(Storm) {
-            RecentSnowDepth += StormPower * delta * RecentSnowPowerMultiplier;
-            BaseSnowDepth += StormPower * delta;
+            // RecentSnowDepth += StormPower * delta * RecentSnowPowerMultiplier;
+            // BaseSnowDepth += StormPower * delta;
 
-            if(RecentSnowThreshold > StormHeight) {
-                RecentSnowThreshold += (StormHeight - RecentSnowThreshold) * delta * RecentSnowPowerMultiplier * StormPower;
-            }
+            // if(RecentSnowThreshold > StormHeight) {
+            //     RecentSnowThreshold += (StormHeight - RecentSnowThreshold) * delta * RecentSnowPowerMultiplier * StormPower;
+            // }
 
-            if(BaseSnowThreshold > StormHeight) {
-                BaseSnowThreshold += (StormHeight - BaseSnowThreshold) * delta * StormPower;
-            }
+            // if(BaseSnowThreshold > StormHeight) {
+            //     BaseSnowThreshold += (StormHeight - BaseSnowThreshold) * delta * StormPower;
+            // }
             
-            BaseSnowThreshold = Mathf.Min(BaseSnowThreshold, StormHeight);
+            // BaseSnowThreshold = Mathf.Min(BaseSnowThreshold, StormHeight);
 
             if(Timer < 0) {
                 Storm = false;
@@ -74,10 +67,10 @@ public class WeatherController : MonoBehaviour {
                 Timer = (float)(MaxCalmTime * random.NextDouble());
             }
         } else {
-            RecentSnowDepth -= RecentDepthDecay * delta;
-            RecentSnowThreshold += RecentThresholdDecay * delta;
-            BaseSnowDepth -= BaseDepthDecay * delta;
-            BaseSnowThreshold += BaseThresholdDecay * delta;
+            // RecentSnowDepth -= RecentDepthDecay * delta;
+            // RecentSnowThreshold += RecentThresholdDecay * delta;
+            // BaseSnowDepth -= BaseDepthDecay * delta;
+            // BaseSnowThreshold += BaseThresholdDecay * delta;
 
             if(Timer < 0) {
                 Storm = true;
@@ -89,14 +82,13 @@ public class WeatherController : MonoBehaviour {
             }
         }
 
-        if(RecentSnowDepth < 0) RecentSnowDepth = 0;
-        if(RecentSnowDepth > 1) RecentSnowDepth = 1;
-        if(RecentSnowThreshold < 0) RecentSnowThreshold = 0;
-        if(RecentSnowThreshold > 1) RecentSnowThreshold = 1;
-        if(BaseSnowDepth < 0) BaseSnowDepth = 0;
-        if(BaseSnowDepth > 1) BaseSnowDepth = 1;
-        if(BaseSnowThreshold < 0) BaseSnowThreshold = 0;
-        if(BaseSnowThreshold > 1) BaseSnowThreshold = 1;
+        Recent.SendBufferUpdate();
+        Base.SendBufferUpdate();
+    }
+
+    void OnDestroy() {
+        Recent.Dispose();
+        Base.Dispose();
     }
 
     public enum SnowCatcherType {

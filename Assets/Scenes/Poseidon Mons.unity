@@ -267,7 +267,7 @@ MonoBehaviour:
     NumTilesX: 8
     NumTilesY: 8
     DecoMap: {fileID: 2800000, guid: cb5c29d78289d374eab91c12ed321931, type: 3}
-    NumTrees: 250000
+    NumTrees: 25000
     NumRocks: 250000
     WeatherMap: {fileID: 2800000, guid: ca79cfd4c9b7adf41a9a595f44f99285, type: 3}
   TerrainMaterial: {fileID: 2100000, guid: d4ae1937bbdc3974aa47cd91f071f017, type: 2}
@@ -290,7 +290,7 @@ MonoBehaviour:
       type: 3}
     SnowMultiplier: 0.05
     LODSnowMultiplier: 0.05
-  LOD_Distance: 300
+  LOD_Distance: 300000
   WeatherController: {fileID: 757753261}
   ContourLayersDefinition:
     Major:
@@ -331,11 +331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ff829cfa9674445b386208d0e0d218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BaseSnowThreshold: 1
-  BaseSnowDepth: 0
-  RecentSnowThreshold: 1
-  RecentSnowDepth: 0
-  TimeFactor: 0.7
+  TimeFactor: 10
   MaxStormTime: 2
   MaxCalmTime: 11
   MaxStormPower: 0.75
