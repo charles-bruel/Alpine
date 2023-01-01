@@ -227,6 +227,7 @@ GameObject:
   m_Component:
   - component: {fileID: 757753260}
   - component: {fileID: 757753259}
+  - component: {fileID: 757753261}
   - component: {fileID: 757753258}
   m_Layer: 0
   m_Name: Statics
@@ -290,6 +291,7 @@ MonoBehaviour:
     SnowMultiplier: 0.05
     LODSnowMultiplier: 0.05
   LOD_Distance: 300
+  WeatherController: {fileID: 757753261}
   ContourLayersDefinition:
     Major:
     - 25
@@ -317,6 +319,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &757753261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757753257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ff829cfa9674445b386208d0e0d218, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BaseSnowThreshold: 0
+  BaseSnowDepth: 0
+  RecentSnowThreshold: 0
+  RecentSnowDepth: 0
 --- !u!1 &1611339070
 GameObject:
   m_ObjectHideFlags: 0

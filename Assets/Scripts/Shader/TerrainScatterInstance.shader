@@ -6,6 +6,8 @@
         _Bounds ("Snow Level Area", Vector) = (-1, -1, 1, 1)
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
+		_Depth ("Depth", Range(0, 1)) = 0.0
+		_Threshold ("Threshold", Range(0, 1)) = 0.0
 	}
 		SubShader{
 			Tags { "RenderType" = "Opaque" }
@@ -31,6 +33,8 @@
 			half _Glossiness;
 			half _Metallic;
         	float4 _Bounds;
+			half _Threshold;
+        	half _Depth;
 
 			struct TreePos {
 				float3 pos;
@@ -101,21 +105,46 @@
         	}
 
 			void surf(Input IN, inout SurfaceOutputStandard o) {
-				half uvx = (IN.worldPos.x - _Bounds.x) / (_Bounds.z - _Bounds.x);
-				half uvy = (IN.worldPos.z - _Bounds.y) / (_Bounds.w - _Bounds.y);
-				half2 snow_tex_uv = half2(uvx, uvy);
-				half snowThreshold = tex2D (_SnowTex, snow_tex_uv).b;
-				fixed4 c = tex2D (_MainTex, IN.uv_MainTex);
-				o.Albedo = c.rgb;
-				o.Alpha = c.a;
-				float snowVal = dot(float3(0, 1, 0), IN.worldNormal);
-				snowVal += tex2D(_DetailTex, IN.worldPos.xy * 0.1).r * 0.2 - 0.1;
-				snowVal *= IN.height;
-				float sgn = max(sign(snowVal - snowThreshold), 0);
-				o.Albedo *= (1-sgn);
-				o.Albedo += float3(sgn, sgn, sgn);
-				o.Metallic = _Metallic;
-				o.Smoothness = _Glossiness;
+            	//Look up world space texture coordinates
+            	half uvx = (IN.worldPos.x - _Bounds.x) / (_Bounds.z - _Bounds.x);
+            	half uvy = (IN.worldPos.z - _Bounds.y) / (_Bounds.w - _Bounds.y);
+            	half2 snow_tex_uv = half2(uvx, uvy);
+	
+            	//This is the snow multiplier
+            	half snowMultiplier = 1 - tex2D (_SnowTex, snow_tex_uv).b;
+	
+				snowMultiplier += tex2D(_DetailTex, IN.worldPos.xy * 0.15).r * 0.1 - 0.05;
+
+            	//If the snow multiplier is above the threshold then we leave it as is
+            	half thresholdPassed = sign(max(snowMultiplier - _Threshold, 0));
+	
+            	//Dramatically decrease the impact of elevation aside from threshold
+            	snowMultiplier = snowMultiplier * 0.1 + 0.95;
+
+            	//All of these are in the range [0-1]
+            	//If snow is below the threshold, this is 0
+            	half snowThreshold = snowMultiplier * thresholdPassed * _Depth;
+            	snowThreshold = 1 - snowThreshold;
+	
+            	//Base color of the texture
+            	fixed4 c = tex2D (_MainTex, IN.uv_MainTex);
+            	o.Albedo = c.rgb;
+            	o.Alpha = c.a;
+	
+            	//A lower value of this means shallower and more snowy
+            	float snowVal = dot(float3(0, 1, 0), IN.worldNormal);
+            	snowVal += tex2D(_DetailTex, IN.worldPos.xy * 0.1).r * 0.2 - 0.1;
+            	snowVal *= IN.height;
+	
+            	//sgn is 1.0 if it's snowy and 0.0 otherwise
+            	//Branchless
+            	float sgn = max(sign(snowVal - snowThreshold), 0); //if(snowVal > snowThreshold) {
+            	o.Albedo *= (1-sgn);                               //    o.Albedo = 0;
+            	o.Albedo += float3(sgn, sgn, sgn);                 //    o.Albedo = (1, 1, 1); }
+	
+            	//Assign other material properties
+            	o.Metallic = _Metallic;
+            	o.Smoothness = _Glossiness;
 			}
 			ENDCG
 		}

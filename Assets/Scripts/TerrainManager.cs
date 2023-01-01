@@ -19,6 +19,8 @@ public class TerrainManager : MonoBehaviour {
     public TreeTypeDescriptor[] TreeTypeDescriptors;
     [Header("LOD settings")]
     public float LOD_Distance = 200.0f;
+    [Header("Linking")]
+    public WeatherController WeatherController;
     [Header("Other")]
     public ContourLayersDefinition ContourLayersDefinition;
     [NonSerialized]
@@ -189,6 +191,8 @@ public class TerrainManager : MonoBehaviour {
     }
 
     void Update() {
+        UpdateSnowMaterials();
+
         if(TreeLODRenderersDirty) {
             UpdateTreeLODBuffers();
             return;
@@ -220,6 +224,13 @@ public class TerrainManager : MonoBehaviour {
                 nextDirty.RecreateRockMesh(bounds, RockModel);
                 nextDirty.DirtyStates &= ~TerrainTile.TerrainTileDirtyStates.ROCKS;
             }
+        }
+    }
+
+    private void UpdateSnowMaterials() {
+        WeatherController.UpdateMaterial(SharedRuntimeObjectMaterial, WeatherController.SnowCatcherType.Recent);
+        for(int i = 0;i < TreeLODRenderers.Length;i ++) {
+            WeatherController.UpdateMaterial(TreeLODRenderers[i].InstanceMaterial, WeatherController.SnowCatcherType.Recent);
         }
     }
 
