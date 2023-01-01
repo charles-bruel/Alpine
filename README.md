@@ -9,5 +9,3 @@ I believe all the correct files are here for a working demo, but not everything 
 ## Using Spruce yourself
 
 If you want to use spruce yourself, note there are some things you will have to do yourself. There are some textures you'll have to find yourself, look at Assets/Textures/Terrain/README.md for details.
-
-Finally, I ask you to give credit. I licensed this under the MIT license, so you techincally don't have to, but I'd really appreciate it.
