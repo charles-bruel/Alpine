@@ -5,12 +5,8 @@ using UnityEngine.Assertions;
 using System.Threading;
 
 public class TerrainManager : MonoBehaviour {
-    [Header("Tile & Map Information")]
-    public float TileSize = 400.0f;
-    public float TileHeight = 4000.0f;
-    public Texture2D[] Textures;
-    public int NumTilesX;
-    public int NumTilesY;
+    [Header("Map")]
+    public Map Map;
     [Header("Materials & Shaders")]
     public Material TerrainMaterial;
     public Material ObjectMaterial;
@@ -21,11 +17,6 @@ public class TerrainManager : MonoBehaviour {
     public Mesh RockModel;
     public float RockSnowMultiplier;
     public TreeTypeDescriptor[] TreeTypeDescriptors;
-
-    [Header("Scatter Settings")]
-    public Texture2D DecoMap;
-    public int NumTrees = 16384;
-    public int NumRocks = 16384;
     [Header("LOD settings")]
     public float LOD_Distance = 200.0f;
     [Header("Other")]
@@ -48,9 +39,26 @@ public class TerrainManager : MonoBehaviour {
     [NonSerialized]
     public Bounds TerrainBounds;
 
+    [NonSerialized]
+    public float TileSize;
+    [NonSerialized]
+    public float TileHeight;
+    [NonSerialized]
+    public Texture2D[] Textures;
+    [NonSerialized]
+    public int NumTilesX;
+    [NonSerialized]
+    public int NumTilesY;
+    [NonSerialized]
+    public Texture2D DecoMap;
+    [NonSerialized]
+    public int NumTrees;
+    [NonSerialized]
+    public int NumRocks;
 
     void Start() {
-        // Assert.AreEqual(NumTilesX * NumTilesY, Textures.Length);
+        CopyMapData();
+
         CreateTreeLODRenderers();
 
         SharedRuntimeObjectMaterial = new Material(ObjectMaterial);
@@ -86,6 +94,21 @@ public class TerrainManager : MonoBehaviour {
         }
 
         StartPlacementJobs();
+    }
+
+    private void CopyMapData() {
+        TileSize   = Map.TileSize;
+        TileHeight = Map.TileHeight;
+        NumTilesX  = Map.NumTilesX;
+        NumTilesY  = Map.NumTilesY;
+        DecoMap    = Map.DecoMap;
+        NumTrees   = Map.NumTrees;
+        NumRocks   = Map.NumRocks;
+
+        Textures = new Texture2D[NumTilesX * NumTilesY];
+        for(int i = 0;i < Textures.Length;i ++) {
+            Textures[i] = Resources.Load<Texture2D>(Map.TexturePath + "\\height-" + i);
+        }
     }
 
     private void CreateTreeLODRenderers() {

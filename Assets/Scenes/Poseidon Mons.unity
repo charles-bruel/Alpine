@@ -259,75 +259,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a37f9193a6551f4f8da429dce4cacc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TileSize: 200
-  TileHeight: 250
-  Textures:
-  - {fileID: 2800000, guid: 40f6e1bf46fa69746a99991809f44810, type: 3}
-  - {fileID: 2800000, guid: 9419eed2bf242b340808e11c0a8a2525, type: 3}
-  - {fileID: 2800000, guid: d2615779d51ce0f4d94570cb54e31701, type: 3}
-  - {fileID: 2800000, guid: ef026bd4d07381349a01aef648183854, type: 3}
-  - {fileID: 2800000, guid: 18390e646cacd2a40a0ffaed6b2015ac, type: 3}
-  - {fileID: 2800000, guid: b1c1d5574b828c2439ee3dbe402f5d84, type: 3}
-  - {fileID: 2800000, guid: ab3539c533ad40347bf6a8032cfd236f, type: 3}
-  - {fileID: 2800000, guid: bf86e30742cec0649862a342e1328812, type: 3}
-  - {fileID: 2800000, guid: 8000fe68bff0c1b4a866e90b9e8c2141, type: 3}
-  - {fileID: 2800000, guid: 3912ce3bbaa285f469bff10ca230519d, type: 3}
-  - {fileID: 2800000, guid: c18a9cbeeab4f984a9831f28a6e14f62, type: 3}
-  - {fileID: 2800000, guid: d704e920f0b99224d8bb432d066b8174, type: 3}
-  - {fileID: 2800000, guid: 4bf0b41a4747b5d409f52fe078eb48bc, type: 3}
-  - {fileID: 2800000, guid: 93fa6d9bc1191f7469cf7999ef55823a, type: 3}
-  - {fileID: 2800000, guid: 7b59e7c7c738c17478b4a50e23f11953, type: 3}
-  - {fileID: 2800000, guid: 4c83f6ce50a518b4fa00e5691a434f18, type: 3}
-  - {fileID: 2800000, guid: 761193682b76a374b96ff2a91454839b, type: 3}
-  - {fileID: 2800000, guid: e660d690e543bf440bcad0405e77d2d2, type: 3}
-  - {fileID: 2800000, guid: 3db98557a8e1b3d41ba76c5a47f503eb, type: 3}
-  - {fileID: 2800000, guid: 0cec53003863e2c42bca115f95ea8cd3, type: 3}
-  - {fileID: 2800000, guid: 3e06c77c8cef6ae41814827f633a687d, type: 3}
-  - {fileID: 2800000, guid: bdad5441730778541b657971899f93e4, type: 3}
-  - {fileID: 2800000, guid: 143adea117a981a4da4a75aa0d418dd9, type: 3}
-  - {fileID: 2800000, guid: 3fe16e26147eea147a3e6dfa5aaca46d, type: 3}
-  - {fileID: 2800000, guid: 692871191cb55ce4c8fcfad9d5758bd9, type: 3}
-  - {fileID: 2800000, guid: a824e277085602e4fae15b31d663b521, type: 3}
-  - {fileID: 2800000, guid: 4e972cfe9d20e584fbd72b246f7e758b, type: 3}
-  - {fileID: 2800000, guid: 1f0bb269ce4adde4d90504f2b3c42d96, type: 3}
-  - {fileID: 2800000, guid: 4d5dab1519a258846b908900000826b8, type: 3}
-  - {fileID: 2800000, guid: fefdd54ec3c89d640889722710e3017a, type: 3}
-  - {fileID: 2800000, guid: 36b739bb8b435974c911e029473c8be2, type: 3}
-  - {fileID: 2800000, guid: 2974fa59d22a28449a92414ed1b4abdc, type: 3}
-  - {fileID: 2800000, guid: acd6efa79434ed44193f435144b0f10b, type: 3}
-  - {fileID: 2800000, guid: 8476487b80062ec40a67c1350cb31d70, type: 3}
-  - {fileID: 2800000, guid: 8f49efd6b7d0d6843b0c199d70834fc2, type: 3}
-  - {fileID: 2800000, guid: de5f627cb3a5d9e43a50b83df54d539c, type: 3}
-  - {fileID: 2800000, guid: f0e6ef1c323290b4383f88ac3fa82523, type: 3}
-  - {fileID: 2800000, guid: 61c8561437376484889c725628c3e2fb, type: 3}
-  - {fileID: 2800000, guid: b2d7c74d32a318f4890077ddcd12b1f3, type: 3}
-  - {fileID: 2800000, guid: 62d0ae6974d3a954dabd8e3502656549, type: 3}
-  - {fileID: 2800000, guid: 379544464470bf44e8d1aa0495f38388, type: 3}
-  - {fileID: 2800000, guid: 3685d284fe29ac641a1240915c106d85, type: 3}
-  - {fileID: 2800000, guid: a6fe4bd6264df194983ce328f66db7a9, type: 3}
-  - {fileID: 2800000, guid: 4c0ea10d48aa911439c4898946fbac6e, type: 3}
-  - {fileID: 2800000, guid: 457042ce501ce9b48a3ecffda8d10e5d, type: 3}
-  - {fileID: 2800000, guid: d71998a94cadb0546a162dfa4133fc9a, type: 3}
-  - {fileID: 2800000, guid: 6a3d9beb61096d14f891ac0ddcd05a35, type: 3}
-  - {fileID: 2800000, guid: b462f025cc4144c45886d76c3ed21f5e, type: 3}
-  - {fileID: 2800000, guid: b7a5941c6792dd84fb1ff885b8890749, type: 3}
-  - {fileID: 2800000, guid: 8da8f318dbe0d144c9fd91a5cb0bf78a, type: 3}
-  - {fileID: 2800000, guid: 664c1b41d0e44224c908d6098a7e0cb4, type: 3}
-  - {fileID: 2800000, guid: d1efdbe1dfc11cf4a84a475fc226d2e7, type: 3}
-  - {fileID: 2800000, guid: 0259d8a330e092f4b8622b8556f76e50, type: 3}
-  - {fileID: 2800000, guid: 80162237cca097249b39458243ca4a3e, type: 3}
-  - {fileID: 2800000, guid: dc736b565dd60214199354a99d55665c, type: 3}
-  - {fileID: 2800000, guid: 265fc55d0f7dc2043bbef97e29f30003, type: 3}
-  - {fileID: 2800000, guid: 3d9aa5d16761e9f4eb9e358d1d4ea1ea, type: 3}
-  - {fileID: 2800000, guid: 49a2d0b14bf865047a911c82574de031, type: 3}
-  - {fileID: 2800000, guid: 78d4f22a40821f1409a95d22ce1ace1c, type: 3}
-  - {fileID: 2800000, guid: d6fb28c80ca1920419cfc55a1af26589, type: 3}
-  - {fileID: 2800000, guid: 23c94c9f8581d6849b6bd86ffa7f91e7, type: 3}
-  - {fileID: 2800000, guid: d5262809b702d9842a3521ac36ba35f0, type: 3}
-  - {fileID: 2800000, guid: 45d345c86b808454e97a5d0c0faddf55, type: 3}
-  - {fileID: 2800000, guid: 438b6847c55887449ac5d62f2744117f, type: 3}
-  NumTilesX: 8
-  NumTilesY: 8
+  Map:
+    TileSize: 200
+    TileHeight: 200
+    TexturePath: Poseidon Mons
+    NumTilesX: 8
+    NumTilesY: 8
+    DecoMap: {fileID: 2800000, guid: cb5c29d78289d374eab91c12ed321931, type: 3}
+    NumTrees: 0
+    NumRocks: 0
+    WeatherMap: {fileID: 2800000, guid: ca79cfd4c9b7adf41a9a595f44f99285, type: 3}
   TerrainMaterial: {fileID: 2100000, guid: d4ae1937bbdc3974aa47cd91f071f017, type: 2}
   ObjectMaterial: {fileID: 2100000, guid: 6906962458554cb41b630b2aed44400f, type: 2}
   ContourMaterial: {fileID: 2100000, guid: 5e6eaeb52f5d9734c8771ee3ac16ae71, type: 2}
@@ -348,9 +289,6 @@ MonoBehaviour:
       type: 3}
     SnowMultiplier: 0.05
     LODSnowMultiplier: 0.05
-  DecoMap: {fileID: 2800000, guid: cb5c29d78289d374eab91c12ed321931, type: 3}
-  NumTrees: 0
-  NumRocks: 0
   LOD_Distance: 300
   ContourLayersDefinition:
     Major:
