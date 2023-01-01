@@ -267,8 +267,8 @@ MonoBehaviour:
     NumTilesX: 8
     NumTilesY: 8
     DecoMap: {fileID: 2800000, guid: cb5c29d78289d374eab91c12ed321931, type: 3}
-    NumTrees: 100000
-    NumRocks: 0
+    NumTrees: 500000
+    NumRocks: 750000
     WeatherMap: {fileID: 2800000, guid: ca79cfd4c9b7adf41a9a595f44f99285, type: 3}
   TerrainMaterial: {fileID: 2100000, guid: d4ae1937bbdc3974aa47cd91f071f017, type: 2}
   ObjectMaterial: {fileID: 2100000, guid: 6906962458554cb41b630b2aed44400f, type: 2}
@@ -278,7 +278,7 @@ MonoBehaviour:
   CullingShader: {fileID: 7200000, guid: 021a9d138cb223d448b43c715cbdf9d7, type: 3}
   RockModel: {fileID: 4013275331872712965, guid: bc9ea1b2d012c874883a85416bf1318c,
     type: 3}
-  RockSnowMultiplier: 2.5
+  RockSnowMultiplier: 1
   TreeTypeDescriptors:
   - Mesh: {fileID: -1208472929742125437, guid: 60575d7ebbe98f442986faa876a0a6bb, type: 3}
     LODMesh: {fileID: -8342124974956431378, guid: 60575d7ebbe98f442986faa876a0a6bb,

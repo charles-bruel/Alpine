@@ -24,8 +24,7 @@ public class TerrainManager : MonoBehaviour {
     [Header("Other")]
     public ContourLayersDefinition ContourLayersDefinition;
     [NonSerialized]
-    // We create a copy of the ObjectMaterial so we can give it settings without messing up the main material
-    public Material SharedRuntimeObjectMaterial;
+    public Material RockMaterial;
     [NonSerialized]
     public List<TerrainTile> Tiles = new List<TerrainTile>();
     [NonSerialized]
@@ -66,7 +65,8 @@ public class TerrainManager : MonoBehaviour {
 
         CreateTreeLODRenderers();
 
-        SharedRuntimeObjectMaterial = new Material(ObjectMaterial);
+        ObjectMaterial = new Material(ObjectMaterial);
+        RockMaterial = new Material(ObjectMaterial);
         TerrainMaterial = new Material(TerrainMaterial);
 
         Vector4 bounds = new Vector4(
@@ -119,12 +119,20 @@ public class TerrainManager : MonoBehaviour {
     }
 
     private void UpdateMaterials(Vector4 bounds, Texture2D weatherMap) {
-        if(SharedRuntimeObjectMaterial.HasVector("_Bounds")) {
-            SharedRuntimeObjectMaterial.SetVector("_Bounds", bounds);
+        if(RockMaterial.HasVector("_Bounds")) {
+            RockMaterial.SetVector("_Bounds", bounds);
         }
 
-        if(SharedRuntimeObjectMaterial.HasTexture("_SnowTex")) {
-            SharedRuntimeObjectMaterial.SetTexture("_SnowTex", weatherMap);
+        if(RockMaterial.HasTexture("_SnowTex")) {
+            RockMaterial.SetTexture("_SnowTex", weatherMap);
+        }
+
+        if(ObjectMaterial.HasVector("_Bounds")) {
+            ObjectMaterial.SetVector("_Bounds", bounds);
+        }
+
+        if(ObjectMaterial.HasTexture("_SnowTex")) {
+            ObjectMaterial.SetTexture("_SnowTex", weatherMap);
         }
 
         if(TerrainMaterial.HasVector("_Bounds")) {
@@ -188,7 +196,8 @@ public class TerrainManager : MonoBehaviour {
 
         TerrainTile terrainTile = gameObject.AddComponent<TerrainTile>();
         terrainTile.TerrainMaterial = TerrainMaterial;
-        terrainTile.ObjectMaterial = SharedRuntimeObjectMaterial;
+        terrainTile.RockMaterial = RockMaterial;
+        terrainTile.ObjectMaterial = ObjectMaterial;
         terrainTile.ContourMaterial = ContourMaterial;
 
         terrainTile.PosX = posx;
@@ -237,7 +246,8 @@ public class TerrainManager : MonoBehaviour {
     }
 
     private void UpdateSnowMaterials() {
-        WeatherController.UpdateMaterial(SharedRuntimeObjectMaterial, WeatherController.SnowCatcherType.Recent);
+        WeatherController.UpdateMaterial(RockMaterial, WeatherController.SnowCatcherType.Base);
+        WeatherController.UpdateMaterial(ObjectMaterial, WeatherController.SnowCatcherType.Recent);
         WeatherController.UpdateMaterial(TerrainMaterial, WeatherController.SnowCatcherType.Base);
 
         for(int i = 0;i < TreeLODRenderers.Length;i ++) {
