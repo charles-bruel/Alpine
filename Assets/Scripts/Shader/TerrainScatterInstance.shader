@@ -111,9 +111,9 @@
             	half2 snow_tex_uv = half2(uvx, uvy);
 	
             	//This is the snow multiplier
-            	half snowMultiplier = 1 - tex2D (_SnowTex, snow_tex_uv).b;
-	
-				snowMultiplier += tex2D(_DetailTex, IN.worldPos.xy * 0.15).r * 0.1 - 0.05;
+            	half snowMultiplier = 1 - tex2D (_SnowTex, snow_tex_uv).b * 0.85;
+
+				snowMultiplier += tex2D(_DetailTex, IN.worldPos.xz * 0.001).r * 0.3 - 0.15;
 
             	//If the snow multiplier is above the threshold then we leave it as is
             	half thresholdPassed = sign(max(snowMultiplier - _Threshold, 0));
@@ -133,7 +133,7 @@
 	
             	//A lower value of this means shallower and more snowy
             	float snowVal = dot(float3(0, 1, 0), IN.worldNormal);
-            	snowVal += tex2D(_DetailTex, IN.worldPos.xy * 0.1).r * 0.2 - 0.1;
+            	snowVal += tex2D(_DetailTex, IN.worldPos.xz * 0.1).r * 0.2 - 0.1;
             	snowVal *= IN.height;
 	
             	//sgn is 1.0 if it's snowy and 0.0 otherwise

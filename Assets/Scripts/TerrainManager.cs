@@ -67,6 +67,7 @@ public class TerrainManager : MonoBehaviour {
         CreateTreeLODRenderers();
 
         SharedRuntimeObjectMaterial = new Material(ObjectMaterial);
+        TerrainMaterial = new Material(TerrainMaterial);
 
         Vector4 bounds = new Vector4(
             (-NumTilesX/2) * TileSize, (-NumTilesY/2) * TileSize,
@@ -124,6 +125,14 @@ public class TerrainManager : MonoBehaviour {
 
         if(SharedRuntimeObjectMaterial.HasTexture("_SnowTex")) {
             SharedRuntimeObjectMaterial.SetTexture("_SnowTex", weatherMap);
+        }
+
+        if(TerrainMaterial.HasVector("_Bounds")) {
+            TerrainMaterial.SetVector("_Bounds", bounds);
+        }
+
+        if(TerrainMaterial.HasTexture("_SnowTex")) {
+            TerrainMaterial.SetTexture("_SnowTex", weatherMap);
         }
 
         for(int i = 0;i < TreeLODRenderers.Length;i ++) {
@@ -229,6 +238,8 @@ public class TerrainManager : MonoBehaviour {
 
     private void UpdateSnowMaterials() {
         WeatherController.UpdateMaterial(SharedRuntimeObjectMaterial, WeatherController.SnowCatcherType.Recent);
+        WeatherController.UpdateMaterial(TerrainMaterial, WeatherController.SnowCatcherType.Base);
+
         for(int i = 0;i < TreeLODRenderers.Length;i ++) {
             WeatherController.UpdateMaterial(TreeLODRenderers[i].InstanceMaterial, WeatherController.SnowCatcherType.Recent);
         }

@@ -83,6 +83,8 @@ public class TerrainTile : MonoBehaviour {
         ContoursComponent.mesh = contoursMesh;
         contoursMesh.indexFormat = IndexFormat.UInt32;
         contoursMesh.MarkDynamic();
+
+        contours.SetActive(false);
     }
 
     public void LoadTerrain(Texture2D texture2D, Bounds bounds)
