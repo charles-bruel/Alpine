@@ -55,6 +55,9 @@ public class TerrainManager : MonoBehaviour {
     public int NumTrees;
     [NonSerialized]
     public int NumRocks;
+    [NonSerialized]
+    public Texture2D WeatherMap;
+
 
     void Start() {
         CopyMapData();
@@ -68,15 +71,7 @@ public class TerrainManager : MonoBehaviour {
             (NumTilesX -NumTilesX/2) * TileSize, (NumTilesY -NumTilesY/2) * TileSize
         );
 
-        if(SharedRuntimeObjectMaterial.HasVector("_Bounds")) {
-            SharedRuntimeObjectMaterial.SetVector("_Bounds", bounds);
-        }
-
-        for(int i = 0;i < TreeLODRenderers.Length;i ++) {
-            if(TreeLODRenderers[i].InstanceMaterial.HasVector("_Bounds")) {
-                TreeLODRenderers[i].InstanceMaterial.SetVector("_Bounds", bounds);
-            }
-        }
+        UpdateMaterials(bounds, WeatherMap);
 
         TerrainBounds = new Bounds();
         TerrainBounds.min = new Vector3(bounds.x, 0, bounds.y);
@@ -104,6 +99,7 @@ public class TerrainManager : MonoBehaviour {
         DecoMap    = Map.DecoMap;
         NumTrees   = Map.NumTrees;
         NumRocks   = Map.NumRocks;
+        WeatherMap = Map.WeatherMap;
 
         Textures = new Texture2D[NumTilesX * NumTilesY];
         for(int i = 0;i < Textures.Length;i ++) {
@@ -116,6 +112,26 @@ public class TerrainManager : MonoBehaviour {
         for(uint i = 0;i < TreeTypeDescriptors.Length;i ++) {
             TreeLODRenderers[i] = CreateTreeLODRenderer(i, TreeTypeDescriptors[i].Mesh, TreeTypeDescriptors[i].SnowMultiplier);
             TreeLODRenderers[i].InstanceMaterial = new Material(ObjectInstanceMaterial);
+        }
+    }
+
+    private void UpdateMaterials(Vector4 bounds, Texture2D weatherMap) {
+        if(SharedRuntimeObjectMaterial.HasVector("_Bounds")) {
+            SharedRuntimeObjectMaterial.SetVector("_Bounds", bounds);
+        }
+
+        if(SharedRuntimeObjectMaterial.HasTexture("_SnowTex")) {
+            SharedRuntimeObjectMaterial.SetTexture("_SnowTex", weatherMap);
+        }
+
+        for(int i = 0;i < TreeLODRenderers.Length;i ++) {
+            if(TreeLODRenderers[i].InstanceMaterial.HasVector("_Bounds")) {
+                TreeLODRenderers[i].InstanceMaterial.SetVector("_Bounds", bounds);
+            }
+
+            if(TreeLODRenderers[i].InstanceMaterial.HasTexture("_SnowTex")) {
+                TreeLODRenderers[i].InstanceMaterial.SetTexture("_SnowTex", weatherMap);
+            }
         }
     }
 
