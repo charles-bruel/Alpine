@@ -9,8 +9,11 @@ public class WeatherController : MonoBehaviour {
     SnowLevelBuffer Base;
     [Header("Driver settings")]
     public float TimeFactor;
+    public float MinStormTime;
+    public float MinCalmTime;
     public float MaxStormTime;
     public float MaxCalmTime;
+    public float MinStormPower;
     public float MaxStormPower;
     public float RecentDecay;
     public float BaseDecay;
@@ -26,6 +29,8 @@ public class WeatherController : MonoBehaviour {
     [Header("Current Conditions")]
     public AnimationCurve BaseSnow;
     public AnimationCurve RecentSnow;
+    [Header("Visuals")]
+    public ParticleSystem SnowParticles;
 
     void Start() {
         Recent = new SnowLevelBuffer();
@@ -69,7 +74,11 @@ public class WeatherController : MonoBehaviour {
             if(Timer < 0) {
                 Storm = false;
 
-                Timer = (float)(MaxCalmTime * random.NextDouble());
+                Timer = random.NextFloat(MinCalmTime, MaxCalmTime);
+
+                if(SnowParticles != null) {
+                    SnowParticles.Stop();
+                }
             }
         } else {
             Base.Affect(0, -BaseDecay * delta);
@@ -79,9 +88,14 @@ public class WeatherController : MonoBehaviour {
                 Storm = true;
 
                 System.Random random = new System.Random();
-                Timer = (float)(MaxStormTime * random.NextDouble());
-                StormPower = (float)(MaxStormPower * random.NextDouble());
+                Timer = random.NextFloat(MinStormTime, MaxStormTime);
+                StormPower = random.NextFloat(MinStormPower, MaxStormPower);
                 StormHeight = random.NextFloat(MinStormHeight, MaxStormHeight);
+
+                if(SnowParticles != null) {
+                    SnowParticles.Play();
+                    SnowParticles.transform.position = new Vector3(0, StormHeight * TerrainManager.Instance.TileHeight, 0);
+                }
             }
         }
 
