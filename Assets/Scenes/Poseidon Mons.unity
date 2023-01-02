@@ -267,7 +267,7 @@ MonoBehaviour:
     NumTilesX: 8
     NumTilesY: 8
     DecoMap: {fileID: 2800000, guid: cb5c29d78289d374eab91c12ed321931, type: 3}
-    NumTrees: 25000
+    NumTrees: 375000
     NumRocks: 250000
     WeatherMap: {fileID: 2800000, guid: ca79cfd4c9b7adf41a9a595f44f99285, type: 3}
   TerrainMaterial: {fileID: 2100000, guid: d4ae1937bbdc3974aa47cd91f071f017, type: 2}
@@ -278,7 +278,7 @@ MonoBehaviour:
   CullingShader: {fileID: 7200000, guid: 021a9d138cb223d448b43c715cbdf9d7, type: 3}
   RockModel: {fileID: 4013275331872712965, guid: bc9ea1b2d012c874883a85416bf1318c,
     type: 3}
-  RockSnowMultiplier: 1
+  RockSnowMultiplier: 2
   TreeTypeDescriptors:
   - Mesh: {fileID: -1208472929742125437, guid: 60575d7ebbe98f442986faa876a0a6bb, type: 3}
     LODMesh: {fileID: -8342124974956431378, guid: 60575d7ebbe98f442986faa876a0a6bb,
@@ -288,9 +288,9 @@ MonoBehaviour:
   - Mesh: {fileID: -1759674330777327466, guid: 60575d7ebbe98f442986faa876a0a6bb, type: 3}
     LODMesh: {fileID: -5904110200254674192, guid: 60575d7ebbe98f442986faa876a0a6bb,
       type: 3}
-    SnowMultiplier: 0.05
-    LODSnowMultiplier: 0.05
-  LOD_Distance: 300000
+    SnowMultiplier: 0.2
+    LODSnowMultiplier: 0.2
+  LOD_Distance: 300
   WeatherController: {fileID: 757753261}
   ContourLayersDefinition:
     Major:
@@ -312,7 +312,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 757753257}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -331,19 +331,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ff829cfa9674445b386208d0e0d218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeFactor: 10
+  TimeFactor: 0.1
   MaxStormTime: 2
-  MaxCalmTime: 11
-  MaxStormPower: 0.75
-  RecentThresholdDecay: 0.025
-  RecentDepthDecay: 0.1
-  BaseThresholdDecay: 0.00001
-  BaseDepthDecay: 0.005
-  RecentSnowPowerMultiplier: 2
-  Storm: 0
+  MaxCalmTime: 9
+  MaxStormPower: 0.5
+  RecentDecay: 0.33
+  BaseDecay: 0.0075
+  RecentSnowPowerMultiplier: 8
+  MinStormHeight: -0.5
+  MaxStormHeight: 1
+  HeightVariability: 0.1
+  Storm: 1
   StormHeight: 0
   StormPower: 0
   Timer: 0
+  BaseSnow:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  RecentSnow:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1611339070
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,7 +419,6 @@ GameObject:
   - component: {fileID: 1803827445}
   - component: {fileID: 1803827444}
   - component: {fileID: 1803827443}
-  - component: {fileID: 1803827442}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -414,18 +426,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1803827442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1803827441}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67424cbdcac602a4999c9ba18a25ec96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1803827443
 MonoBehaviour:
   m_ObjectHideFlags: 0

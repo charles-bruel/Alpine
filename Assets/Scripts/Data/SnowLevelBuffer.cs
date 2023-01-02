@@ -10,12 +10,7 @@ public class SnowLevelBuffer {
     public SnowLevelBuffer() {
         //Test data
         for(int i = 0;i < Size;i ++) {
-            // Data.Add(i / (float) Size);
-            if(i < 64 || i > 128) {
-                Data.Add(0);
-            } else {
-                Data.Add(1);
-            }
+            Data.Add(0);
         }
 
         //sizeof() is unsafe
@@ -33,6 +28,16 @@ public class SnowLevelBuffer {
     public void Dispose() {
         if(Buffer != null)
             Buffer.Dispose();
+    }
+
+    public void Affect(int baseIndex, float quantity, bool clamp = true) {
+        for(int i = baseIndex;i < Size;i ++) {
+            Data[i] += quantity;
+            if(clamp) {
+                if(Data[i] < 0) Data[i] = 0;
+                if(Data[i] > 1) Data[i] = 1;
+            }
+        }
     }
 
 }

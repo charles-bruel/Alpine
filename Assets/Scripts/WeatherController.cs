@@ -12,20 +12,32 @@ public class WeatherController : MonoBehaviour {
     public float MaxStormTime;
     public float MaxCalmTime;
     public float MaxStormPower;
-    public float RecentThresholdDecay;
-    public float RecentDepthDecay;
-    public float BaseThresholdDecay;
-    public float BaseDepthDecay;
+    public float RecentDecay;
+    public float BaseDecay;
     public float RecentSnowPowerMultiplier;
+    public float MinStormHeight;
+    public float MaxStormHeight;
+    public float HeightVariability;
     [Header("Current Storm Settings")]
     public bool Storm;
     public float StormHeight;
     public float StormPower;
     public float Timer;
+    [Header("Current Conditions")]
+    public AnimationCurve BaseSnow;
+    public AnimationCurve RecentSnow;
 
     void Start() {
         Recent = new SnowLevelBuffer();
         Base = new SnowLevelBuffer();
+
+        
+        Keyframe[] blank = new Keyframe[SnowLevelBuffer.Size];
+        for(int i = 0;i < SnowLevelBuffer.Size;i ++) {
+            blank[i] = new Keyframe(i / (float) SnowLevelBuffer.Size, 0);
+        }
+        BaseSnow = new AnimationCurve(blank);
+        RecentSnow = new AnimationCurve(blank);
     }
 
     public void UpdateMaterial(Material material, SnowCatcherType type) {
@@ -36,8 +48,6 @@ public class WeatherController : MonoBehaviour {
             reference = Recent;
         }
 
-        reference.SendBufferUpdate();
-
         //TODO: Reduce call frequency
         material.SetBuffer("snowCurve", reference.Buffer);
     }
@@ -47,30 +57,23 @@ public class WeatherController : MonoBehaviour {
         Timer -= delta;
 
         if(Storm) {
-            // RecentSnowDepth += StormPower * delta * RecentSnowPowerMultiplier;
-            // BaseSnowDepth += StormPower * delta;
-
-            // if(RecentSnowThreshold > StormHeight) {
-            //     RecentSnowThreshold += (StormHeight - RecentSnowThreshold) * delta * RecentSnowPowerMultiplier * StormPower;
-            // }
-
-            // if(BaseSnowThreshold > StormHeight) {
-            //     BaseSnowThreshold += (StormHeight - BaseSnowThreshold) * delta * StormPower;
-            // }
+            System.Random random = new System.Random();
+            float HeightThisFrame = StormHeight + random.NextFloat(-HeightVariability, HeightVariability);
             
-            // BaseSnowThreshold = Mathf.Min(BaseSnowThreshold, StormHeight);
+            if(HeightThisFrame < 0) HeightThisFrame = 0;
+            if(HeightThisFrame > 1) HeightThisFrame = 1;
+
+            Base.Affect((int) (HeightThisFrame * 256), StormPower * delta);
+            Recent.Affect((int) (HeightThisFrame * 256), StormPower * delta * RecentSnowPowerMultiplier);
 
             if(Timer < 0) {
                 Storm = false;
 
-                System.Random random = new System.Random();
                 Timer = (float)(MaxCalmTime * random.NextDouble());
             }
         } else {
-            // RecentSnowDepth -= RecentDepthDecay * delta;
-            // RecentSnowThreshold += RecentThresholdDecay * delta;
-            // BaseSnowDepth -= BaseDepthDecay * delta;
-            // BaseSnowThreshold += BaseThresholdDecay * delta;
+            Base.Affect(0, -BaseDecay * delta);
+            Recent.Affect(0, -RecentDecay * delta);
 
             if(Timer < 0) {
                 Storm = true;
@@ -78,12 +81,17 @@ public class WeatherController : MonoBehaviour {
                 System.Random random = new System.Random();
                 Timer = (float)(MaxStormTime * random.NextDouble());
                 StormPower = (float)(MaxStormPower * random.NextDouble());
-                StormHeight = (float)(random.NextDouble());
+                StormHeight = random.NextFloat(MinStormHeight, MaxStormHeight);
             }
         }
 
         Recent.SendBufferUpdate();
         Base.SendBufferUpdate();
+        for(int i = 0;i < SnowLevelBuffer.Size;i ++) {
+            RecentSnow.MoveKey(i, new Keyframe(i / (float) SnowLevelBuffer.Size, Recent.Data[i]));
+            BaseSnow.MoveKey(i, new Keyframe(i / (float) SnowLevelBuffer.Size, Base.Data[i]));
+        }
+
     }
 
     void OnDestroy() {
