@@ -32,6 +32,22 @@ public class WeatherController : MonoBehaviour {
     [Header("Visuals")]
     public ParticleSystem SnowParticles;
 
+    //TODO: Make these properties or something
+    [Header("Snowfall Data")]
+    public float Snowfall12Hr;
+    public float Snowfall24Hr;
+    public float Snowfall7D;
+
+    
+    //Sampling every 12 hours for 7 days
+    private static readonly int SnowfallTrackerSize = 14;
+    private float[] SnowfallTracker;
+    private int SnowfallTrackerIndex;
+
+    //TODO: Unified time control
+    private float SnowfallTrackerTimer;
+    private float CurrentSnowfallTracker;
+
     void Start() {
         Recent = new SnowLevelBuffer();
         Base = new SnowLevelBuffer();
@@ -43,6 +59,8 @@ public class WeatherController : MonoBehaviour {
         }
         BaseSnow = new AnimationCurve(blank);
         RecentSnow = new AnimationCurve(blank);
+
+        SnowfallTracker = new float[SnowfallTrackerSize];
     }
 
     public void UpdateMaterial(Material material, SnowCatcherType type) {
@@ -70,6 +88,8 @@ public class WeatherController : MonoBehaviour {
 
             Base.Affect((int) (HeightThisFrame * 256), StormPower * delta);
             Recent.Affect((int) (HeightThisFrame * 256), StormPower * delta * RecentSnowPowerMultiplier);
+
+            CurrentSnowfallTracker += StormPower * delta;
 
             if(Timer < 0) {
                 Storm = false;
@@ -106,6 +126,27 @@ public class WeatherController : MonoBehaviour {
             BaseSnow.MoveKey(i, new Keyframe(i / (float) SnowLevelBuffer.Size, Base.Data[i]));
         }
 
+        SnowfallTrackerTimer += delta;
+        //12 Hours passed
+        if(SnowfallTrackerTimer > 0.5f) {
+            SnowfallTrackerTimer -= 0.5f;
+
+            SnowfallTrackerIndex++;
+            SnowfallTrackerIndex %= SnowfallTrackerSize;
+
+            SnowfallTracker[SnowfallTrackerIndex] = CurrentSnowfallTracker;
+            CurrentSnowfallTracker = 0;
+
+            Snowfall12Hr = SnowfallTracker[SnowfallTrackerIndex];
+
+            int prevIndex = SnowfallTrackerIndex == 0 ? SnowfallTrackerSize - 1 : SnowfallTrackerIndex - 1;
+            Snowfall24Hr = Snowfall12Hr + SnowfallTracker[prevIndex];
+
+            Snowfall7D = 0;
+            foreach(float val in SnowfallTracker) {
+                Snowfall7D += val;
+            }
+        }
     }
 
     void OnDestroy() {

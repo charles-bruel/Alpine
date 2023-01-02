@@ -331,17 +331,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ff829cfa9674445b386208d0e0d218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeFactor: 0.1
+  TimeFactor: 0.5
   MinStormTime: 0.5
-  MinCalmTime: 1
+  MinCalmTime: 0.5
   MaxStormTime: 2
-  MaxCalmTime: 9
+  MaxCalmTime: 11
   MinStormPower: 0.1
-  MaxStormPower: 0.5
+  MaxStormPower: 1
   RecentDecay: 0.33
   BaseDecay: 0.0075
   RecentSnowPowerMultiplier: 8
-  MinStormHeight: -0.5
+  MinStormHeight: -1
   MaxStormHeight: 1
   HeightVariability: 0.4
   Storm: 1
@@ -361,6 +361,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   SnowParticles: {fileID: 2081926143}
+  Snowfall12Hr: 0
+  Snowfall24Hr: 0
+  Snowfall7D: 0
 --- !u!1 &1611339070
 GameObject:
   m_ObjectHideFlags: 0
