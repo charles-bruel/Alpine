@@ -29,6 +29,8 @@ public class RecreateContourMeshJob : Job
             numPoints += Contours.MinorPoints[i].Count;
         }
 
+        if(numPoints == 0) return;
+
         OutputMeshData = Mesh.AllocateWritableMeshData(1);
         Mesh.MeshData outputMesh = OutputMeshData[0];
         outputMesh.SetIndexBufferParams(numPoints, IndexFormat.UInt32);
@@ -41,6 +43,8 @@ public class RecreateContourMeshJob : Job
     }
 
     public void Run() {
+        if(Vertices.Length == 0) return;
+
         int index = 0;
         for(int l = 0;l < Contours.Layers.Major.Length;l ++) {
 			var array = Contours.MajorPoints[l];

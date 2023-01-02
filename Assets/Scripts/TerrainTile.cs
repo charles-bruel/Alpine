@@ -26,6 +26,8 @@ public class TerrainTile : MonoBehaviour {
     [NonSerialized]
     public Material ObjectMaterial;
     [NonSerialized]
+    public Material RockMaterial;
+    [NonSerialized]
     public Material ContourMaterial;
     [NonSerialized]
     public float[,] HeightData;
@@ -63,7 +65,7 @@ public class TerrainTile : MonoBehaviour {
         treeMesh.MarkDynamic();
 
         MeshRenderer rockMeshRenderer = rocks.AddComponent<MeshRenderer>();
-        rockMeshRenderer.material = ObjectMaterial;
+        rockMeshRenderer.material = RockMaterial;
 
         RocksComponent = rocks.AddComponent<MeshFilter>();
         Mesh rockMesh = new Mesh();
@@ -83,6 +85,8 @@ public class TerrainTile : MonoBehaviour {
         ContoursComponent.mesh = contoursMesh;
         contoursMesh.indexFormat = IndexFormat.UInt32;
         contoursMesh.MarkDynamic();
+
+        contours.SetActive(false);
     }
 
     public void LoadTerrain(Texture2D texture2D, Bounds bounds)
