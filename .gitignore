@@ -86,3 +86,7 @@ crashlytics-build.properties
 
 #The author of freepbr.com has asked to not have people redistribute his work. I'm probably fine because that's not the point of this repo, but best to be safe.
 **/Textures/Terrain/**/*.png
+
+
+
+**/TextMesh Pro/**

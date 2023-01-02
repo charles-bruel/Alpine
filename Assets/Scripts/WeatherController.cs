@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+//TODO: Expanded weather mechanics
 public class WeatherController : MonoBehaviour {
 
     [Header("Driven Values")]
@@ -137,15 +138,16 @@ public class WeatherController : MonoBehaviour {
             SnowfallTracker[SnowfallTrackerIndex] = CurrentSnowfallTracker;
             CurrentSnowfallTracker = 0;
 
-            Snowfall12Hr = SnowfallTracker[SnowfallTrackerIndex];
+            Snowfall12Hr = SnowfallTracker[SnowfallTrackerIndex] * Units.METERS_TO_INCHES;
 
             int prevIndex = SnowfallTrackerIndex == 0 ? SnowfallTrackerSize - 1 : SnowfallTrackerIndex - 1;
-            Snowfall24Hr = Snowfall12Hr + SnowfallTracker[prevIndex];
+            Snowfall24Hr = Snowfall12Hr + SnowfallTracker[prevIndex] * Units.METERS_TO_INCHES;
 
             Snowfall7D = 0;
             foreach(float val in SnowfallTracker) {
                 Snowfall7D += val;
             }
+            Snowfall7D *= Units.METERS_TO_INCHES;
         }
     }
 
