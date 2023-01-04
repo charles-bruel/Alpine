@@ -1,8 +1,8 @@
 using UnityEngine;
 using System;
 
-[System.Serializable]
-public struct Map {
+[CreateAssetMenu(fileName = "Map", menuName = "Game Elements/Map", order = 1)]
+public class Map : ScriptableObject {
     [Header("Tile & Map Information")]
     public float TileSize;
     public float TileHeight;
