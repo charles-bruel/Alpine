@@ -1,0 +1,4 @@
+[submodule "Assets/Plugins/eppz!"]
+	path = Assets/Plugins/eppz!
+	url = https://github.com/charles-bruel/Unity.Library.eppz
+	branch = master
