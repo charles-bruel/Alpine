@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//TODO: Polish this
 public class TopCam : MonoBehaviour
 {
     private Vector2 startScreenPos;
@@ -25,9 +26,17 @@ public class TopCam : MonoBehaviour
         } else {
             ticks = 0;
         }
+
+        Camera.orthographicSize += -Input.mouseScrollDelta.y * 10;
+        if(Camera.orthographicSize < 10) {
+            Camera.orthographicSize = 10;
+        }
+        if(Camera.orthographicSize > 1000) {
+            Camera.orthographicSize = 1000;
+        }
     }
 
     private Vector2 Transform(Vector3 mp) {
-        return ((Vector2) (mp) / new Vector2(Screen.width, Screen.height) * Camera.orthographicSize * 2);
+        return ((Vector2) (mp) / Screen.height * Camera.orthographicSize * 2);
     }
 }
