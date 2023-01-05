@@ -13,6 +13,7 @@ public class PolygonsController : MonoBehaviour
     public TriangulatorType Triangulator = TriangulatorType.Dwyer;
     public Material Material;
     public List<AlpinePolygon> PolygonObjects;
+    public Guid SelectedPolygon = Guid.Empty;
 
     public void RegisterPolygon(AlpinePolygon polygon) {
         PolygonObjects.Add(polygon);
@@ -20,9 +21,9 @@ public class PolygonsController : MonoBehaviour
         Remesh();
     }
 
-    public void ReregisterPolygon(Guid guid) {
+    public void DeregisterPolygon(Guid guid) {
         for(int i = 0;i < PolygonObjects.Count;i ++) {
-            if(PolygonObjects[i].guid == guid) {
+            if(PolygonObjects[i].Guid == guid) {
                 PolygonObjects.RemoveAt(i);
                 i--;
             }
@@ -31,9 +32,38 @@ public class PolygonsController : MonoBehaviour
         Remesh();
     }
 
+
+    void Update() {
+        if(Input.GetMouseButtonDown(0)) {
+            Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition).ToHorizontal();
+
+            uint max = 0;
+            //Find the greatest level
+            //We want to select the "top" polygon with higher priority
+            //Slightly inefficient but it's fine the cold path
+            for(int i = 0;i < PolygonObjects.Count;i ++) {
+                if(PolygonObjects[i].Level > max) {
+                    max = PolygonObjects[i].Level;
+                }
+            }
+
+            //This does higher level to lowest (0)
+            for(uint l = max;l > 0;l --) {
+                for(int i = 0;i < PolygonObjects.Count;i ++) {
+                    if(PolygonObjects[i].Level == l) {
+                        //Correct level, logic goes here
+                        if(PolygonObjects[i].Polygon.ContainsPoint(pos)) {
+                            Debug.Log(PolygonObjects[i].Guid);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     void Start() {
         AlpinePolygon poly = new AlpinePolygon();
-        poly.guid = new Guid();
+        poly.Guid = Guid.NewGuid();
         poly.Level = 0;
         poly.Polygon = Polygon.PolygonWithPoints(new Vector2[] {
             new Vector2(-1200, -1200),
@@ -47,7 +77,7 @@ public class PolygonsController : MonoBehaviour
 
 
         poly = new AlpinePolygon();
-        poly.guid = new Guid();
+        poly.Guid = Guid.NewGuid();
         poly.Level = 1;
         poly.Polygon = Polygon.PolygonWithPoints(new Vector2[] {
             new Vector2(-33, -45),
@@ -56,11 +86,12 @@ public class PolygonsController : MonoBehaviour
             new Vector2( 65, -76)
         });
         poly.Color = Color.green;
+        poly.ArbitrarilyEditable = true;
 
         RegisterPolygon(poly);
 
         poly = new AlpinePolygon();
-        poly.guid = new Guid();
+        poly.Guid = Guid.NewGuid();
         poly.Level = 1;
         poly.Polygon = Polygon.PolygonWithPoints(new Vector2[] {
             new Vector2(-1200, -1100),
@@ -119,7 +150,7 @@ public class PolygonsController : MonoBehaviour
     }
 
     private MeshFilter CreateMeshRenderer(AlpinePolygon poly) {
-        GameObject meshObject = new GameObject(poly.guid.ToString());
+        GameObject meshObject = new GameObject(poly.Guid.ToString());
         meshObject.transform.parent = transform;
         meshObject.transform.position = Vector3.zero;
         meshObject.transform.localEulerAngles = new Vector3();
@@ -135,10 +166,12 @@ public class PolygonsController : MonoBehaviour
 
     [System.Serializable]
     public struct AlpinePolygon {
-        public Guid guid;
+        public Guid Guid;
+        //Note: Polygons on level 0 do not recieve mouse events
         public uint Level;
         public Polygon Polygon;
         public MeshFilter Renderer;
         public Color Color;
+        public bool ArbitrarilyEditable;
     }
 }
