@@ -964,6 +964,7 @@ GameObject:
   - component: {fileID: 757753259}
   - component: {fileID: 757753261}
   - component: {fileID: 757753258}
+  - component: {fileID: 757753262}
   m_Layer: 0
   m_Name: Statics
   m_TagString: Untagged
@@ -1090,6 +1091,20 @@ MonoBehaviour:
   Snowfall12Hr: 0
   Snowfall24Hr: 0
   Snowfall7D: 0
+--- !u!114 &757753262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757753257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de0d50b1e711b9c48b66735f89952f70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WeatherController: {fileID: 757753261}
+  PolygonsController: {fileID: 830588212}
 --- !u!1 &763692009
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,6 +1318,53 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
   m_IsOn: 0
+--- !u!1 &830588211
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 830588213}
+  - component: {fileID: 830588212}
+  m_Layer: 3
+  m_Name: Polygons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &830588212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830588211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16a7b67327c7c9247b595a97c0edee60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Triangulator: 1
+  Material: {fileID: 2100000, guid: fafa70cd7799f6243bacb72de18a51e1, type: 2}
+  PolygonObjects: []
+--- !u!4 &830588213
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830588211}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &831753044
 GameObject:
   m_ObjectHideFlags: 0
@@ -1663,7 +1725,7 @@ Transform:
   - {fileID: 318862668}
   - {fileID: 1640040728}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1503399336
 GameObject:
@@ -1963,7 +2025,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1613569640
 GameObject:
@@ -7563,5 +7625,5 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
