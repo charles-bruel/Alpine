@@ -1349,6 +1349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Triangulator: 1
   Material: {fileID: 2100000, guid: fafa70cd7799f6243bacb72de18a51e1, type: 2}
+  SelectedMaterial: {fileID: 2100000, guid: 7c3e107bcaf81dd45b25c3be9a3f7fda, type: 2}
   PolygonObjects: []
 --- !u!4 &830588213
 Transform:
