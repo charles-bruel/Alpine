@@ -155,9 +155,6 @@ public class PolygonsController : MonoBehaviour
             }
 
             poly.Filter.mesh = meshPoly.Mesh(poly.Color, Triangulator);
-
-            //AlpinePolygon is a struct, so we need to write our changes
-            PolygonObjects[i] = poly;
         }
     }
 
@@ -178,7 +175,7 @@ public class PolygonsController : MonoBehaviour
     }
 
     [System.Serializable]
-    public struct AlpinePolygon {
+    public class AlpinePolygon {
         public Guid Guid;
         //Note: Polygons on level 0 do not recieve mouse events
         public uint Level;
