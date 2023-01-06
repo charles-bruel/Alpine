@@ -10,12 +10,14 @@ public class TopCam : MonoBehaviour
     private int ticks = 0;
     private Camera Camera;
 
+    private readonly float keyboardpanmultiplier = 3;
+
     void Start() {
         Camera = GetComponent<Camera>();
     }
 
     void LateUpdate() {
-        if(Input.GetMouseButton(0)) {
+        if(Input.GetMouseButton(2)) {
             if(ticks++ == 0) {
                 startScreenPos = Transform(Input.mousePosition);
                 startWorldPos = transform.position;
@@ -26,6 +28,22 @@ public class TopCam : MonoBehaviour
         } else {
             ticks = 0;
         }
+
+        float speedVal = Camera.orthographicSize * Time.deltaTime * keyboardpanmultiplier;
+
+        if(Input.GetKey(KeyCode.W)) {
+            transform.position = transform.position + new Vector3(0, 0,  speedVal);
+        }
+        if(Input.GetKey(KeyCode.S)) {
+            transform.position = transform.position + new Vector3(0, 0, -speedVal);
+        }
+        if(Input.GetKey(KeyCode.A)) {
+            transform.position = transform.position + new Vector3(-speedVal, 0, 0);
+        }
+        if(Input.GetKey(KeyCode.D)) {
+            transform.position = transform.position + new Vector3( speedVal, 0, 0);
+        }
+
 
         Camera.orthographicSize += -Input.mouseScrollDelta.y * 10;
         if(Camera.orthographicSize < 10) {
