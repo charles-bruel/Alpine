@@ -12,6 +12,7 @@ public class PolygonsController : MonoBehaviour
 {
     public TriangulatorType Triangulator = TriangulatorType.Dwyer;
     public Material Material;
+    public Material SelectedMaterial;
     public List<AlpinePolygon> PolygonObjects;
     public Guid SelectedPolygon = Guid.Empty;
 
@@ -41,9 +42,14 @@ public class PolygonsController : MonoBehaviour
             //Find the greatest level
             //We want to select the "top" polygon with higher priority
             //Slightly inefficient but it's fine the cold path
+
+            //We deselect the old polygon here too
             for(int i = 0;i < PolygonObjects.Count;i ++) {
                 if(PolygonObjects[i].Level > max) {
                     max = PolygonObjects[i].Level;
+                }
+                if(SelectedPolygon == PolygonObjects[i].Guid) {
+                    PolygonObjects[i].Renderer.material = Material;
                 }
             }
 
@@ -53,7 +59,11 @@ public class PolygonsController : MonoBehaviour
                     if(PolygonObjects[i].Level == l) {
                         //Correct level, logic goes here
                         if(PolygonObjects[i].Polygon.ContainsPoint(pos)) {
-                            Debug.Log(PolygonObjects[i].Guid);
+                            SelectedPolygon = PolygonObjects[i].Guid;
+                            PolygonObjects[i].Renderer.material = SelectedMaterial;
+
+                            //We now break completely out of the loop to avoid selecting two polygons
+                            return;
                         }
                     }
                 }
@@ -109,8 +119,10 @@ public class PolygonsController : MonoBehaviour
             AlpinePolygon poly = PolygonObjects[i];
             Polygon meshPoly = poly.Polygon;
 
-            if(poly.Renderer == null) {
-                poly.Renderer = CreateMeshRenderer(poly);
+            if(poly.Filter == null) {
+                var temp = CreateMeshRenderer(poly);
+                poly.Renderer = temp.Item1;
+                poly.Filter = temp.Item2;
             }
 
             List<Path> others = new List<Path>();
@@ -131,7 +143,7 @@ public class PolygonsController : MonoBehaviour
 
                 if(sol.Count == 0) {
                     Debug.LogWarning("No object returned from clip!");
-                    poly.Renderer.gameObject.SetActive(false);
+                    poly.Filter.gameObject.SetActive(false);
                     return;
                 }
 
@@ -142,14 +154,14 @@ public class PolygonsController : MonoBehaviour
                 }
             }
 
-            poly.Renderer.mesh = meshPoly.Mesh(poly.Color, Triangulator);
+            poly.Filter.mesh = meshPoly.Mesh(poly.Color, Triangulator);
 
             //AlpinePolygon is a struct, so we need to write our changes
             PolygonObjects[i] = poly;
         }
     }
 
-    private MeshFilter CreateMeshRenderer(AlpinePolygon poly) {
+    private (MeshRenderer, MeshFilter) CreateMeshRenderer(AlpinePolygon poly) {
         GameObject meshObject = new GameObject(poly.Guid.ToString());
         meshObject.transform.parent = transform;
         meshObject.transform.position = Vector3.zero;
@@ -160,7 +172,8 @@ public class PolygonsController : MonoBehaviour
         meshRenderer.material = Material;
 
         MeshFilter meshFilter = meshObject.AddComponent<MeshFilter>();
-        return meshFilter;
+
+        return (meshRenderer, meshFilter);
 
     }
 
@@ -170,7 +183,8 @@ public class PolygonsController : MonoBehaviour
         //Note: Polygons on level 0 do not recieve mouse events
         public uint Level;
         public Polygon Polygon;
-        public MeshFilter Renderer;
+        public MeshFilter Filter;
+        public MeshRenderer Renderer;
         public Color Color;
         public bool ArbitrarilyEditable;
     }

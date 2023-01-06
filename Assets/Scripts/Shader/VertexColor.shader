@@ -2,6 +2,7 @@ Shader "Unlit/VertexColor"
 {
     Properties
     {
+        _Color("Color", Color) = (1, 1, 1, 1)
     }
     SubShader
     {
@@ -31,11 +32,13 @@ Shader "Unlit/VertexColor"
                 fixed4 color : COLOR;
             };
 
+            fixed4 _Color;
+
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.color = fixed4(v.color);
+                o.color = fixed4(v.color) * _Color;
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
             }
