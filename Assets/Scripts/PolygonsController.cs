@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ClipperLib;
 using EPPZ.Geometry.AddOns;
 using EPPZ.Geometry.Model;
+using TriangleNet.Meshing;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -154,7 +155,7 @@ public class PolygonsController : MonoBehaviour
                 }
             }
 
-            poly.Filter.mesh = meshPoly.Mesh(poly.Color, Triangulator);
+            poly.Filter.mesh = meshPoly.Mesh(poly.Filter.mesh, poly.Color, Triangulator, poly.Guid.ToString());
         }
     }
 
