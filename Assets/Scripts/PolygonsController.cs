@@ -3,19 +3,28 @@ using System.Collections.Generic;
 using ClipperLib;
 using EPPZ.Geometry.AddOns;
 using EPPZ.Geometry.Model;
-using TriangleNet.Meshing;
 using UnityEngine;
-using UnityEngine.Rendering;
+using UnityEngine.EventSystems;
 
 using Path = System.Collections.Generic.List<ClipperLib.IntPoint>;
 
-public class PolygonsController : MonoBehaviour
+[RequireComponent(typeof(BoxCollider))]
+public class PolygonsController : MonoBehaviour, IPointerClickHandler
 {
     public TriangulatorType Triangulator = TriangulatorType.Dwyer;
     public Material Material;
     public Material SelectedMaterial;
     public List<AlpinePolygon> PolygonObjects;
     public Guid SelectedPolygon = Guid.Empty;
+    public PolygonEditor PolygonEditor;
+    //To recieve raycasts
+    public BoxCollider Collider;
+
+    private bool PolygonsDirty = false;
+
+    public void MarkPolygonsDirty() {
+        PolygonsDirty = true;
+    }
 
     public void RegisterPolygon(AlpinePolygon polygon) {
         PolygonObjects.Add(polygon);
@@ -34,45 +43,21 @@ public class PolygonsController : MonoBehaviour
         Remesh();
     }
 
-
     void Update() {
-        if(Input.GetMouseButtonDown(0)) {
-            Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition).ToHorizontal();
-
-            uint max = 0;
-            //Find the greatest level
-            //We want to select the "top" polygon with higher priority
-            //Slightly inefficient but it's fine the cold path
-
-            //We deselect the old polygon here too
-            for(int i = 0;i < PolygonObjects.Count;i ++) {
-                if(PolygonObjects[i].Level > max) {
-                    max = PolygonObjects[i].Level;
-                }
-                if(SelectedPolygon == PolygonObjects[i].Guid) {
-                    PolygonObjects[i].Renderer.material = Material;
-                }
-            }
-
-            //This does higher level to lowest (0)
-            for(uint l = max;l > 0;l --) {
-                for(int i = 0;i < PolygonObjects.Count;i ++) {
-                    if(PolygonObjects[i].Level == l) {
-                        //Correct level, logic goes here
-                        if(PolygonObjects[i].Polygon.ContainsPoint(pos)) {
-                            SelectedPolygon = PolygonObjects[i].Guid;
-                            PolygonObjects[i].Renderer.material = SelectedMaterial;
-
-                            //We now break completely out of the loop to avoid selecting two polygons
-                            return;
-                        }
-                    }
-                }
-            }
+        if(PolygonsDirty) {
+            PolygonsDirty = false;
+            Remesh();
         }
     }
 
     void Start() {
+        Collider = GetComponent<BoxCollider>();
+        Collider.size = new Vector3(
+            TerrainManager.Instance.TileSize * TerrainManager.Instance.NumTilesX,
+            TerrainManager.Instance.TileSize * TerrainManager.Instance.NumTilesY,
+            1
+        );
+
         AlpinePolygon poly = new AlpinePolygon();
         poly.Guid = Guid.NewGuid();
         poly.Level = 0;
@@ -173,6 +158,47 @@ public class PolygonsController : MonoBehaviour
 
         return (meshRenderer, meshFilter);
 
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition).ToHorizontal();
+
+        uint max = 0;
+        //Find the greatest level
+        //We want to select the "top" polygon with higher priority
+        //Slightly inefficient but it's fine the cold path
+
+        //We deselect the old polygon here too
+        for(int i = 0;i < PolygonObjects.Count;i ++) {
+            if(PolygonObjects[i].Level > max) {
+                max = PolygonObjects[i].Level;
+            }
+            if(SelectedPolygon == PolygonObjects[i].Guid) {
+                PolygonObjects[i].Renderer.material = Material;
+            }
+        }
+
+        //This does higher level to lowest (0)
+        for(uint l = max;l > 0;l --) {
+            for(int i = 0;i < PolygonObjects.Count;i ++) {
+                if(PolygonObjects[i].Level == l) {
+                    //Correct level, logic goes here
+                    if(PolygonObjects[i].Polygon.ContainsPoint(pos)) {
+                        SelectedPolygon = PolygonObjects[i].Guid;
+                        PolygonObjects[i].Renderer.material = SelectedMaterial;
+
+                        //We now break completely out of the loop to avoid selecting two polygons
+                        //TODO: Refactor to not use goto?
+                        goto Selected;
+                    }
+                }
+            }
+        }
+        Selected:
+
+        if(PolygonEditor != null)
+            PolygonEditor.Reinflate();
     }
 
     [System.Serializable]
