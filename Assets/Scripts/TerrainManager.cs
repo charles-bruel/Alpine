@@ -12,6 +12,8 @@ public class TerrainManager : MonoBehaviour {
     public Material ObjectMaterial;
     public Material ContourMaterial;
     public Material ObjectInstanceMaterial;
+    public Material SnowCatcher;
+    public Material SnowCatcherRecent;
     public ComputeShader CullingShader;
     [Header("Scatters")]
     public Mesh RockModel;
@@ -139,6 +141,22 @@ public class TerrainManager : MonoBehaviour {
             ObjectMaterial.SetTexture("_SnowTex", weatherMap);
         }
 
+        if(SnowCatcher.HasVector("_Bounds")) {
+            SnowCatcher.SetVector("_Bounds", bounds);
+        }
+
+        if(SnowCatcher.HasTexture("_SnowTex")) {
+            SnowCatcher.SetTexture("_SnowTex", weatherMap);
+        }
+
+        if(SnowCatcherRecent.HasVector("_Bounds")) {
+            SnowCatcherRecent.SetVector("_Bounds", bounds);
+        }
+
+        if(SnowCatcherRecent.HasTexture("_SnowTex")) {
+            SnowCatcherRecent.SetTexture("_SnowTex", weatherMap);
+        }
+
         if(TerrainMaterial.HasVector("_Bounds")) {
             TerrainMaterial.SetVector("_Bounds", bounds);
         }
@@ -253,6 +271,8 @@ public class TerrainManager : MonoBehaviour {
         WeatherController.UpdateMaterial(RockMaterial, WeatherController.SnowCatcherType.Base);
         WeatherController.UpdateMaterial(ObjectMaterial, WeatherController.SnowCatcherType.Recent);
         WeatherController.UpdateMaterial(TerrainMaterial, WeatherController.SnowCatcherType.Base);
+        WeatherController.UpdateMaterial(SnowCatcher, WeatherController.SnowCatcherType.Base);
+        WeatherController.UpdateMaterial(SnowCatcherRecent, WeatherController.SnowCatcherType.Base);
 
         for(int i = 0;i < TreeLODRenderers.Length;i ++) {
             WeatherController.UpdateMaterial(TreeLODRenderers[i].InstanceMaterial, WeatherController.SnowCatcherType.Recent);
