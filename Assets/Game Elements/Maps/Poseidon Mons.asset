@@ -18,6 +18,6 @@ MonoBehaviour:
   NumTilesX: 8
   NumTilesY: 8
   DecoMap: {fileID: 2800000, guid: cb5c29d78289d374eab91c12ed321931, type: 3}
-  NumTrees: 625000
-  NumRocks: 375000
+  NumTrees: 0
+  NumRocks: 0
   WeatherMap: {fileID: 2800000, guid: ca79cfd4c9b7adf41a9a595f44f99285, type: 3}

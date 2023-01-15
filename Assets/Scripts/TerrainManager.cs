@@ -59,8 +59,12 @@ public class TerrainManager : MonoBehaviour {
     [NonSerialized]
     public Texture2D WeatherMap;
 
+    private LayerMask TerrainLayerMask;
+
 
     void Start() {
+        TerrainLayerMask = ~LayerMask.NameToLayer("Terrain");
+
         CopyMapData();
 
         CreateTreeLODRenderers();
@@ -258,7 +262,7 @@ public class TerrainManager : MonoBehaviour {
     public Vector3 Project(Vector2 coord) {
         Vector3 startCoord = new Vector3(coord.x, TileHeight * 1.1f, coord.y);
         RaycastHit hit;
-        if(Physics.Raycast(startCoord, Vector3.down, out hit, Mathf.Infinity)) {
+        if(Physics.Raycast(startCoord, Vector3.down, out hit, Mathf.Infinity, TerrainLayerMask)) {
             return hit.point;
         }
         return new Vector3(coord.x, 0, coord.y);
@@ -267,7 +271,7 @@ public class TerrainManager : MonoBehaviour {
     public RaycastHit? Raycast(Vector2 coord) {
         Vector3 startCoord = new Vector3(coord.x, TileHeight * 1.1f, coord.y);
         RaycastHit hit;
-        if(Physics.Raycast(startCoord, Vector3.down, out hit, Mathf.Infinity)) {
+        if(Physics.Raycast(startCoord, Vector3.down, out hit, Mathf.Infinity, TerrainLayerMask)) {
             return hit;
         }
         return null;

@@ -2516,7 +2516,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2147483767
+    m_Bits: 2147483895
   m_RenderingPath: 3
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -2593,6 +2593,66 @@ MonoBehaviour:
   GrabTemplate: {fileID: 3811459937506009739, guid: 79c81ce62b75ff9409f5371bb3a1a98e,
     type: 3}
   Grabs: []
+--- !u!1 &1881335902
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1881335904}
+  - component: {fileID: 1881335903}
+  m_Layer: 0
+  m_Name: Lift Construction Test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1881335903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881335902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b5c2b945d005154e9f9efe2e365fbed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Data:
+    Template: {fileID: 11400000, guid: b1aaeb72c03d9bc419676b8f2b3ee271, type: 2}
+    RoutingSegments:
+    - RoutingSegmentType: 0
+      TemplateIndex: 0
+      Position: {x: 100, y: 0, z: 100}
+      HasVerticalPos: 0
+    - RoutingSegmentType: 1
+      TemplateIndex: 0
+      Position: {x: 300, y: 0, z: 200}
+      HasVerticalPos: 0
+    - RoutingSegmentType: 0
+      TemplateIndex: 0
+      Position: {x: 800, y: 0, z: 700}
+      HasVerticalPos: 0
+    SpanSegments: []
+--- !u!4 &1881335904
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881335902}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1895409517
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd4f01f2eb24e89489bf300cc1a034f2, type: 3}
+  m_Name: T3
+  m_EditorClassIdentifier: 
+  AvaliableStations:
+  - {fileID: 543573159736028783, guid: b9daadc4a7021854d91ad33c885b5ddd, type: 3}
+  AvaliableTowers:
+  - {fileID: 4706512676656671284, guid: 53eb6a5f25958a34d943ef8290c16c73, type: 3}
+  AvaliableMidStations:
+  - {fileID: 4534792694537198494, guid: 54431d2a762a68d4f8cefa6277be4d77, type: 3}
+  AvaliableTurns: []
+  AvaliableLiftVehicles:
+  - {fileID: 11400000, guid: 74ff321214defe545baa6e67e5515333, type: 2}
+  MinOperatingSpeed: 6
+  MaxSpeed: 7
+  WorkerCount: 4
+  Pulsed: 0
+  CableThickness: 0.1
+  ExtraCables: []
+  BidirectionalityAvaliablity: 2
+  VehicleMixingAllowed: 1

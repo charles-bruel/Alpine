@@ -35,9 +35,11 @@ public class TerrainTile : MonoBehaviour {
     public ContourDefinition Contours;
 
     void Start() {
+
         GameObject terrain = new GameObject("Terrain");
         terrain.transform.parent = transform;
         terrain.transform.localPosition = Vector3.zero;
+        terrain.layer = LayerMask.NameToLayer("Terrain");
 
         TerrainComponent = terrain.AddComponent<Terrain>();
         TerrainComponent.terrainData = new TerrainData();
