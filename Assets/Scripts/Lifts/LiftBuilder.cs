@@ -7,35 +7,35 @@ public class LiftBuilder
 {
     public LiftConstructionData Data;
     
-    private Pool[] StationPools;
-    private Pool[] MidStationPools;
-    private Pool[] TurnPools;
-    private Pool[] TowerPools;
+    private Pool<LiftStation>[] StationPools;
+    private Pool<LiftMidStation>[] MidStationPools;
+    private Pool<LiftTurn>[] TurnPools;
+    private Pool<LiftTower>[] TowerPools;
 
     public void Initialize() {
         InitializePools();
     }
 
     private void InitializePools() {
-        StationPools = new Pool[Data.Template.AvaliableStations.Length];
+        StationPools = new Pool<LiftStation>[Data.Template.AvaliableStations.Length];
         for(int i = 0;i < StationPools.Length;i ++) {
-            StationPools[i] = new Pool();
-            StationPools[i].Template = Data.Template.AvaliableStations[i].gameObject;
+            StationPools[i] = new Pool<LiftStation>();
+            StationPools[i].Template = Data.Template.AvaliableStations[i];
         }
-        MidStationPools = new Pool[Data.Template.AvaliableMidStations.Length];
+        MidStationPools = new Pool<LiftMidStation>[Data.Template.AvaliableMidStations.Length];
         for(int i = 0;i < MidStationPools.Length;i ++) {
-            MidStationPools[i] = new Pool();
-            MidStationPools[i].Template = Data.Template.AvaliableMidStations[i].gameObject;
+            MidStationPools[i] = new Pool<LiftMidStation>();
+            MidStationPools[i].Template = Data.Template.AvaliableMidStations[i];
         }
-        TurnPools = new Pool[Data.Template.AvaliableTurns.Length];
+        TurnPools = new Pool<LiftTurn>[Data.Template.AvaliableTurns.Length];
         for(int i = 0;i < TurnPools.Length;i ++) {
-            TurnPools[i] = new Pool();
-            TurnPools[i].Template = Data.Template.AvaliableTurns[i].gameObject;
+            TurnPools[i] = new Pool<LiftTurn>();
+            TurnPools[i].Template = Data.Template.AvaliableTurns[i];
         }
-        TowerPools = new Pool[Data.Template.AvaliableTowers.Length];
+        TowerPools = new Pool<LiftTower>[Data.Template.AvaliableTowers.Length];
         for(int i = 0;i < TowerPools.Length;i ++) {
-            TowerPools[i] = new Pool();
-            TowerPools[i].Template = Data.Template.AvaliableTowers[i].gameObject;
+            TowerPools[i] = new Pool<LiftTower>();
+            TowerPools[i].Template = Data.Template.AvaliableTowers[i];
         }
     }
 
@@ -45,6 +45,55 @@ public class LiftBuilder
         GenerateSpanSegments();
         PlaceTowers();
         ConstructSpanSegments();
+        BuildAllSegments();
+    }
+
+    private void BuildAllSegments() {
+        for(int i = 0;i < Data.RoutingSegments.Count;i ++) {
+            LiftConstructionData.RoutingSegment routingSegment = Data.RoutingSegments[i];
+            Transform prev = null, next = null;
+            
+            if(i != 0) {
+                prev = Data.RoutingSegments[i - 1].PhysicalSegment.CableAimingPoint;
+            }
+
+            if(i != Data.RoutingSegments.Count - 1) {
+                next = Data.RoutingSegments[i + 1].PhysicalSegment.CableAimingPoint;
+            }
+
+            routingSegment.PhysicalSegment.APILiftSegment.Build(
+                routingSegment.PhysicalSegment.gameObject,
+                prev,
+                routingSegment.PhysicalSegment.CableAimingPoint,
+                next
+            );
+        }
+
+        for(int i = 0;i < Data.SpanSegments.Count;i ++) {
+            for(int j = 0;j < Data.SpanSegments[i].Towers.Count;j ++) {
+                LiftConstructionData.TowerSegment towerSegment = Data.SpanSegments[i].Towers[j];
+
+                Transform prev, next;
+                if(j == 0) {
+                    prev = Data.SpanSegments[i].Start.PhysicalSegment.CableAimingPoint;
+                } else {
+                    prev = Data.SpanSegments[i].Towers[j - 1].PhysicalTower.CableAimingPoint;
+                }
+
+                if(j == Data.SpanSegments[i].Towers.Count - 1) {
+                    next = Data.SpanSegments[i].End.PhysicalSegment.CableAimingPoint;
+                } else {
+                    next = Data.SpanSegments[i].Towers[j + 1].PhysicalTower.CableAimingPoint;
+                }
+
+                towerSegment.PhysicalTower.APILiftSegment.Build(
+                    towerSegment.PhysicalTower.gameObject,
+                    prev,
+                    towerSegment.PhysicalTower.CableAimingPoint,
+                    next
+                );
+            }
+        }
     }
 
     private void PlaceTowers() {        
@@ -76,17 +125,17 @@ public class LiftBuilder
             float angle = Mathf.Atan2(temp.y, temp.x);
             angle = -angle * Mathf.Rad2Deg - 90;
             for(int j = 0;j < segment.Towers.Count;j ++) {
-                Pool pool = TowerPools[segment.Towers[j].TemplateIndex];
+                Pool<LiftTower> pool = TowerPools[segment.Towers[j].TemplateIndex];
 
-                GameObject obj = pool.Instantiate();
-                obj.transform.position = segment.Towers[j].Position;
-                obj.transform.rotation =  Quaternion.Euler(0, angle, 0);
+                LiftTower tower = pool.Instantiate();
+                tower.transform.position = segment.Towers[j].Position;
+                tower.transform.rotation =  Quaternion.Euler(0, angle, 0);
+                segment.Towers[j].PhysicalTower = tower;
             }
         }
     }
 
     private void GenerateSpanSegments() {
-        Data.SpanSegments.Clear();
         for(int i = 0;i < Data.RoutingSegments.Count - 1;i ++) {
             LiftConstructionData.SpanSegment spanSegment = new LiftConstructionData.SpanSegment();
             spanSegment.Start = Data.RoutingSegments[i];
@@ -104,18 +153,19 @@ public class LiftBuilder
                 segment.Position = TerrainManager.Instance.Project(segment.Position.ToHorizontal());
             }
 
-            Pool[] pool = StationPools;
+            LiftRoutingSegment routingSegment = null;
             switch(segment.RoutingSegmentType) {
                 case LiftRoutingSegment.RoutingSegmentType.STATION:
-                    pool = StationPools;
+                    routingSegment = StationPools[segment.TemplateIndex].Instantiate();
                     break;
                 case LiftRoutingSegment.RoutingSegmentType.MIDSTATION:
-                    pool = MidStationPools;
+                    routingSegment = MidStationPools[segment.TemplateIndex].Instantiate();
                     break;
                 case LiftRoutingSegment.RoutingSegmentType.TURN:
-                    pool = TurnPools;
+                    routingSegment = TurnPools[segment.TemplateIndex].Instantiate();
                     break;
             }
+            GameObject obj = routingSegment.gameObject;
 
             //Determine 2d angle
             float angle;
@@ -132,20 +182,30 @@ public class LiftBuilder
                 angle = Mathf.Atan2(temp.y, temp.x);
             }
 
-            GameObject obj = pool[segment.TemplateIndex].Instantiate();
             obj.transform.position = segment.Position;
             obj.transform.rotation =  Quaternion.Euler(0, -angle * Mathf.Rad2Deg - 90, 0);
+
+            segment.PhysicalSegment = routingSegment;
         }
     }
 
     private void Reset() {
+        ResetConstructionData();
+
         ResetPools(StationPools);
         ResetPools(MidStationPools);
         ResetPools(TurnPools);
         ResetPools(TowerPools);
     }
 
-    private void ResetPools(Pool[] pools) {
+    private void ResetConstructionData() {
+        Data.SpanSegments.Clear();
+        for(int i = 0;i < Data.RoutingSegments.Count;i ++) {
+            Data.RoutingSegments[i].PhysicalSegment = null;
+        }
+    }
+
+    private void ResetPools<T>(Pool<T>[] pools) where T : IPoolable {
         for(int i = 0;i < pools.Length;i ++) {
             pools[i].Reset();
         }

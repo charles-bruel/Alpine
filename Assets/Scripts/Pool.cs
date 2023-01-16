@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 
 // Gives a pool of a type of game object
-public class Pool {
-    public GameObject Template;
+public class Pool<T> where T : IPoolable {
+    public T Template;
 
-    private List<GameObject> Backing = new List<GameObject>();
+    private List<T> Backing = new List<T>();
     private int Index = -1;
 
-    public GameObject this[int key] {
+    public T this[int key] {
         get { 
             if(key < 0) {
                 throw new IndexOutOfRangeException();
@@ -34,13 +34,13 @@ public class Pool {
         get => Index + 1;
     }
 
-    public GameObject Instantiate() {
+    public T Instantiate() {
         Index++;
         if(Index == Backing.Count) {
-            GameObject temp = GameObject.Instantiate(Template);
+            T temp = (T) Template.Clone();
             Backing.Add(temp);
         } else {
-            Backing[Index].SetActive(true);
+            Backing[Index].Enable();
         }
         return Backing[Index];
     }
@@ -48,14 +48,14 @@ public class Pool {
     public void Reset() {
         if(Backing.Count == 0) return;
         for(int i = 0;i <= Index;i ++) {
-            Backing[i].SetActive(false);
+            Backing[i].Disable();
         }
         Index = -1;
     }
 
     public void Finish() {
         for(int i = Index + 1;i < Backing.Count;i ++) {
-            Backing[i].SetActive(false);
+            Backing[i].Destroy();
         }
     }
 }

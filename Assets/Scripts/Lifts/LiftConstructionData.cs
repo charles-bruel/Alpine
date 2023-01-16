@@ -13,6 +13,7 @@ public class LiftConstructionData {
         public int TemplateIndex;
         public Vector3 Position;
         public bool HasVerticalPos;
+        public LiftRoutingSegment PhysicalSegment;
     }
 
     // Represents the span between two routing segments,
@@ -28,5 +29,6 @@ public class LiftConstructionData {
     public class TowerSegment {
         public int TemplateIndex;
         public Vector3 Position;
+        public LiftTower PhysicalTower;
     }
 }
