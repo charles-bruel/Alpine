@@ -27,6 +27,11 @@ public class PolygonEditor : MonoBehaviour {
             return;
         }
 
+        if(!polygon.ArbitrarilyEditable) {
+            //Not allowed to edit
+            return;
+        }
+
         for(int i = 0;i < polygon.Polygon.vertexCount;i ++) {
             //Get or initialize grab
             PolygonEditorGrab grab;

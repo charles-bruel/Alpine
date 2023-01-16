@@ -20,6 +20,8 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
     //To recieve raycasts
     public BoxCollider Collider;
 
+    public static PolygonsController Instance;
+
     private bool PolygonsDirty = false;
 
     public void MarkPolygonsDirty() {
@@ -51,6 +53,8 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
     }
 
     void Start() {
+        Instance = this;
+
         Collider = GetComponent<BoxCollider>();
         Collider.size = new Vector3(
             TerrainManager.Instance.TileSize * TerrainManager.Instance.NumTilesX,

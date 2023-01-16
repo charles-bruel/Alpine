@@ -10,6 +10,10 @@ public class LiftConstructionTest : MonoBehaviour {
         Builder.Initialize();
     }
 
+    void OnDisable() {
+        Builder.Finish();
+    }
+
     void Update() {
         Builder.Build();
     }

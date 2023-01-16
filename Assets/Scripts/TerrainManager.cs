@@ -344,6 +344,14 @@ public class TerrainManager : MonoBehaviour {
         return new Vector2Int(x, y);
     }
 
+    public Vector2Int GetTilePos(Vector2 position) {
+        int x = Mathf.FloorToInt(position.x / TileSize);
+        int y = Mathf.FloorToInt(position.y / TileSize);
+        x += NumTilesX / 2;
+        y += NumTilesY / 2;
+        return new Vector2Int(x, y);
+    }
+
     public static TerrainManager Instance;
 
     [System.Serializable]

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using EPPZ.Geometry.Model;
 using UnityEngine;
 
 public class LiftBuilder
@@ -131,6 +132,7 @@ public class LiftBuilder
                 tower.transform.position = segment.Towers[j].Position;
                 tower.transform.rotation =  Quaternion.Euler(0, angle, 0);
                 segment.Towers[j].PhysicalTower = tower;
+                segment.Towers[j].Angle = angle;
             }
         }
     }
@@ -182,10 +184,13 @@ public class LiftBuilder
                 angle = Mathf.Atan2(temp.y, temp.x);
             }
 
+            angle = -angle * Mathf.Rad2Deg - 90;
+
             obj.transform.position = segment.Position;
-            obj.transform.rotation =  Quaternion.Euler(0, -angle * Mathf.Rad2Deg - 90, 0);
+            obj.transform.rotation =  Quaternion.Euler(0, angle, 0);
 
             segment.PhysicalSegment = routingSegment;
+            segment.Angle = angle;
         }
     }
 
@@ -212,6 +217,51 @@ public class LiftBuilder
     }
 
     public void Finish() {
+        var temp = GenerateFootprint();
+        RemoveTrees(temp);
+    }
 
+    private PolygonsController.AlpinePolygon GenerateFootprint() {
+        float gaugeExpansion = 3;
+
+        List<Vector2> pointsLeft = new List<Vector2>();
+        List<Vector2> pointsRight = new List<Vector2>();
+        for(int i = 0;i < Data.RoutingSegments.Count;i ++) {
+            {
+                Vector2 pos = Data.RoutingSegments[i].Position.ToHorizontal();
+                float angle = -Data.RoutingSegments[i].Angle * Mathf.Deg2Rad;
+                Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+                pointsLeft.Add(pos + dir * (Data.RoutingSegments[i].PhysicalSegment.Gauge + gaugeExpansion));
+                pointsRight.Add(pos - dir * (Data.RoutingSegments[i].PhysicalSegment.Gauge + gaugeExpansion));
+            }
+
+            if(i < Data.SpanSegments.Count) {
+                for(int j = 0;j < Data.SpanSegments[i].Towers.Count;j ++) {
+                    Vector2 pos = Data.SpanSegments[i].Towers[j].Position.ToHorizontal();
+                    float angle = -Data.SpanSegments[i].Towers[j].Angle * Mathf.Deg2Rad;
+                    Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+                    pointsLeft.Add(pos + dir * (Data.SpanSegments[i].Towers[j].PhysicalTower.Gauge + gaugeExpansion));
+                    pointsRight.Add(pos - dir * (Data.SpanSegments[i].Towers[j].PhysicalTower.Gauge + gaugeExpansion));
+                }
+            }
+        }
+
+        pointsRight.Reverse();
+        pointsLeft.AddRange(pointsRight);
+        Vector2[] points = pointsLeft.ToArray();
+
+        PolygonsController.AlpinePolygon poly = new PolygonsController.AlpinePolygon();
+        poly.Guid = Guid.NewGuid();
+        poly.Level = 4;
+        poly.Polygon = Polygon.PolygonWithPoints(points);
+        poly.Color = new Color(1, 0.75f, 0.25f);
+
+        PolygonsController.Instance.RegisterPolygon(poly);
+
+        return poly;
+    }
+
+    private void RemoveTrees(PolygonsController.AlpinePolygon temp) {
+        Utils.RemoveTreesByPolygon(temp.Polygon);
     }
 }

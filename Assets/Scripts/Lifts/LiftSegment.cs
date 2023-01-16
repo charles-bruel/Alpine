@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class LiftSegment : MonoBehaviour, IPoolable
 {
+    public float Gauge;
     public Transform CableAimingPoint;
     public APIDef LiftSegmentAPIDef;
     public APILiftSegment APILiftSegment;
 
-    private bool Initialized = false;
-
     private void Initialize() {
-        if(Initialized) return;
-        Initialized = true;
+        if(APILiftSegment != null) return;
 
         APILiftSegment = LiftSegmentAPIDef.Fetch<APILiftSegment>();
     }
@@ -21,7 +19,6 @@ public class LiftSegment : MonoBehaviour, IPoolable
         Initialize();
         var temp = GameObject.Instantiate(this);
         temp.APILiftSegment = APILiftSegment;
-        temp.Initialized = true;
         return temp;
     }
 

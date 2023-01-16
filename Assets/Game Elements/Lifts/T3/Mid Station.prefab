@@ -110,3 +110,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eac6409912faa1f4d9cd8487922340bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Gauge: 3.5
+  CableAimingPoint: {fileID: 0}
+  LiftSegmentAPIDef:
+    Enabled: 0
+    AssemblyName: 
+    Namespace: 
+    ClassName: 
