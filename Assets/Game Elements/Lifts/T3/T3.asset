@@ -29,7 +29,7 @@ MonoBehaviour:
   ExtraCables: []
   BidirectionalityAvaliablity: 2
   TowerPlacementScript:
-    Enabled: 0
+    Enabled: 1
     AssemblyName: default
     Namespace: 
     ClassName: TowerPlacer3D
@@ -40,10 +40,10 @@ MonoBehaviour:
       - 21
       - 18
       - 12
-      - 90
-      - 180
-      - 35
-      - 70
+      - 150
+      - 220
+      - 50
+      - 4
       - 0.05
       - 20
       IntParameters: 0f000000
