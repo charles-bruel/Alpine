@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class FullSheaveLayoutDescriptor : MonoBehaviour
+[System.Serializable]
+public class FullSheaveLayoutDescriptor
 {
     public int NumWheels;
     public Vector2Int[] Stage2Layout;

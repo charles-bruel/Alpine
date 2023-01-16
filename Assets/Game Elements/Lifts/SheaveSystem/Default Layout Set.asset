@@ -1,0 +1,122 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc48d52abc4bcf947a5b27497a8ea1c3, type: 3}
+  m_Name: Default Layout Set
+  m_EditorClassIdentifier: 
+  Descriptors:
+  - NumWheels: 2
+    Stage2Layout: []
+    Stage3Layout: []
+    Stage4Layout: []
+    Stage5Layout: []
+  - NumWheels: 4
+    Stage2Layout:
+    - {x: 0, y: 1}
+    Stage3Layout: []
+    Stage4Layout: []
+    Stage5Layout: []
+  - NumWheels: 6
+    Stage2Layout:
+    - {x: 0, y: 1}
+    Stage3Layout:
+    - {x: 0, y: 1}
+    Stage4Layout: []
+    Stage5Layout: []
+  - NumWheels: 8
+    Stage2Layout:
+    - {x: 0, y: 1}
+    - {x: 2, y: 3}
+    Stage3Layout:
+    - {x: 0, y: 1}
+    Stage4Layout: []
+    Stage5Layout: []
+  - NumWheels: 10
+    Stage2Layout:
+    - {x: 0, y: 1}
+    - {x: 3, y: 4}
+    Stage3Layout:
+    - {x: 1, y: 2}
+    Stage4Layout:
+    - {x: 0, y: 1}
+    Stage5Layout: []
+  - NumWheels: 12
+    Stage2Layout:
+    - {x: 0, y: 1}
+    - {x: 4, y: 5}
+    Stage3Layout:
+    - {x: 0, y: 1}
+    - {x: 2, y: 3}
+    Stage4Layout:
+    - {x: 0, y: 1}
+    Stage5Layout: []
+  - NumWheels: 24
+    Stage2Layout:
+    - {x: 0, y: 1}
+    - {x: 4, y: 5}
+    - {x: 6, y: 7}
+    - {x: 10, y: 11}
+    Stage3Layout:
+    - {x: 0, y: 1}
+    - {x: 2, y: 3}
+    - {x: 4, y: 5}
+    - {x: 6, y: 7}
+    Stage4Layout:
+    - {x: 0, y: 1}
+    - {x: 2, y: 3}
+    Stage5Layout: []
+  - NumWheels: 36
+    Stage2Layout:
+    - {x: 0, y: 1}
+    - {x: 4, y: 5}
+    - {x: 6, y: 7}
+    - {x: 10, y: 11}
+    - {x: 12, y: 13}
+    - {x: 16, y: 17}
+    Stage3Layout:
+    - {x: 0, y: 1}
+    - {x: 2, y: 3}
+    - {x: 4, y: 5}
+    - {x: 6, y: 7}
+    - {x: 8, y: 9}
+    - {x: 10, y: 11}
+    Stage4Layout:
+    - {x: 0, y: 1}
+    - {x: 2, y: 3}
+    - {x: 4, y: 5}
+    Stage5Layout: []
+  - NumWheels: 8
+    Stage2Layout:
+    - {x: 0, y: 1}
+    - {x: 2, y: 3}
+    Stage3Layout:
+    - {x: 0, y: 1}
+    Stage4Layout: []
+    Stage5Layout: []
+  - NumWheels: 12
+    Stage2Layout:
+    - {x: 0, y: 1}
+    - {x: 2, y: 3}
+    - {x: 4, y: 5}
+    Stage3Layout: []
+    Stage4Layout: []
+    Stage5Layout: []
+  - NumWheels: 16
+    Stage2Layout:
+    - {x: 0, y: 1}
+    - {x: 2, y: 3}
+    - {x: 4, y: 5}
+    - {x: 6, y: 7}
+    Stage3Layout:
+    - {x: 0, y: 1}
+    - {x: 2, y: 3}
+    Stage4Layout: []
+    Stage5Layout: []

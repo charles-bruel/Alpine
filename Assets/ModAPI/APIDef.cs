@@ -1,15 +1,14 @@
+using UnityEngine;
+
 [System.Serializable]
-public struct APIDef {
-    public bool Enabled;
+public class APIDef {
+    public bool Enabled = true;
     public string AssemblyName;
     public string Namespace;
     public string ClassName;
+    public BasicAPIParams Params;
     
     public bool HasContent() {
         return Enabled && AssemblyName != null && ClassName != null;
-    }
-
-    public T Fetch<T>() where T : APIBase {
-        return (T) ReflectionHelper.GetInstance(typeof(T), this);
     }
 }

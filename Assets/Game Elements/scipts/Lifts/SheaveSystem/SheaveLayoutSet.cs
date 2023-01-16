@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class SheaveLayoutSet : MonoBehaviour
+[CreateAssetMenu(fileName = "Sheave Layout Set", menuName = "Game Elements/Default/Sheave Layout Set", order = 1)]
+public class SheaveLayoutSet : ScriptableObject
 {
     public FullSheaveLayoutDescriptor[] Descriptors;
 }

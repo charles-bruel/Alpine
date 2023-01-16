@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class APIBase {
-
+[System.Serializable]
+public struct BasicAPIParams {
     public float[] FloatParameters;
     public int[] IntParameters;
 }

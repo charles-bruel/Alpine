@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class APILiftSegment : APIBase
 {   
-    public virtual void Build(GameObject parent, Transform current, Transform next, Transform prev) {
+    public virtual void Build(GameObject self, Transform current, Transform next, Transform prev) {
         
     }
 

@@ -13,7 +13,7 @@ public class ReflectionHelper
 
         var x = AppDomain.CurrentDomain.GetAssemblies();
         foreach(var y in x) {
-            // Debug.Log(y);
+            assemblies.Add(y.GetName().Name, y);
         }
     }
 
@@ -49,8 +49,7 @@ public class ReflectionHelper
         Initialize();
 		try
 		{
-            //No nonnull needed because APIDef is a struct
-			if (!def.HasContent())
+			if (def == null || !def.HasContent())
 			{
 				return fallback.GetConstructor(new Type[0]).Invoke(null);
 			}

@@ -2635,7 +2635,7 @@ MonoBehaviour:
       Angle: 0
     - RoutingSegmentType: 1
       TemplateIndex: 0
-      Position: {x: 150, y: 0, z: 1125}
+      Position: {x: 120, y: 0, z: 1050}
       HasVerticalPos: 0
       PhysicalSegment: {fileID: 0}
       Angle: 0
