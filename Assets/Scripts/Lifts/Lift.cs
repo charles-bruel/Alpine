@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,6 +30,7 @@ public class Lift : ScriptableObject
 
     [Header("Misc")]
     public LiftBidirectionality BidirectionalityAvaliablity;
+    public APIDef TowerPlacementScript;
     
     public bool VehicleMixingAllowed;
 

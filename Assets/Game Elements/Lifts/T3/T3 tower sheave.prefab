@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 375445575532191052}
   - component: {fileID: 4229279557587674140}
   - component: {fileID: 5828816010112995194}
-  m_Layer: 23
+  m_Layer: 0
   m_Name: Ladder Top Segment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3322392622437303279}
-  m_Layer: 23
+  m_Layer: 0
   m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 4797744101402705130}
   - component: {fileID: 2950247997484728283}
   - component: {fileID: 6560408313558058301}
-  m_Layer: 23
+  m_Layer: 0
   m_Name: Ladder Base Segment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 851278742205664752}
   - component: {fileID: 7708246449350788698}
   - component: {fileID: 8576224000425643470}
-  m_Layer: 23
+  m_Layer: 0
   m_Name: Ladder Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -294,7 +294,7 @@ GameObject:
   - component: {fileID: 3185375208205565368}
   - component: {fileID: 6034347211125655836}
   - component: {fileID: 5164400256905739038}
-  m_Layer: 23
+  m_Layer: 0
   m_Name: Ladder Mid Segment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -491,7 +491,7 @@ GameObject:
   - component: {fileID: 857413762265467855}
   - component: {fileID: 5851473561002366697}
   - component: {fileID: 3626557405587318792}
-  m_Layer: 23
+  m_Layer: 0
   m_Name: Support C
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -576,7 +576,7 @@ GameObject:
   - component: {fileID: 2832808922777765023}
   - component: {fileID: 9140883877822099581}
   - component: {fileID: 7849998303826685658}
-  m_Layer: 23
+  m_Layer: 0
   m_Name: Catwalk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -705,7 +705,7 @@ GameObject:
   - component: {fileID: 4101241420123285076}
   - component: {fileID: 7472573175797000531}
   - component: {fileID: 7208641977892100870}
-  m_Layer: 23
+  m_Layer: 0
   m_Name: Support S
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -878,7 +878,7 @@ GameObject:
   - component: {fileID: 4642634179332233665}
   - component: {fileID: 8720207682045070050}
   - component: {fileID: 2875090114109937348}
-  m_Layer: 23
+  m_Layer: 0
   m_Name: Ladder Base Segment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -992,7 +992,7 @@ GameObject:
   - component: {fileID: 7548239060546931441}
   - component: {fileID: 3668804441478833282}
   - component: {fileID: 7047682273685326906}
-  m_Layer: 23
+  m_Layer: 0
   m_Name: Support C
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1160,7 +1160,7 @@ GameObject:
   - component: {fileID: 355116464714746520}
   - component: {fileID: 665591294849660933}
   - component: {fileID: 6824754723904907616}
-  m_Layer: 23
+  m_Layer: 0
   m_Name: Support M
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1245,7 +1245,7 @@ GameObject:
   - component: {fileID: 4761173029828001903}
   - component: {fileID: 4108062696250463905}
   - component: {fileID: 7452967658223674594}
-  m_Layer: 23
+  m_Layer: 0
   m_Name: Ladder Base Segment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1328,7 +1328,7 @@ GameObject:
   - component: {fileID: 4380600072517480202}
   - component: {fileID: 3224495067853904924}
   - component: {fileID: 9033110937355855841}
-  m_Layer: 23
+  m_Layer: 0
   m_Name: Support Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1411,7 +1411,7 @@ GameObject:
   - component: {fileID: 3803324402336510171}
   - component: {fileID: 1221846506236819241}
   - component: {fileID: 723730143582424137}
-  m_Layer: 23
+  m_Layer: 0
   m_Name: Ladder Base Segment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1494,7 +1494,7 @@ GameObject:
   - component: {fileID: 669818039603572811}
   - component: {fileID: 4223436867705067321}
   - component: {fileID: 501134987191447686}
-  m_Layer: 23
+  m_Layer: 0
   m_Name: Support L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1580,7 +1580,7 @@ GameObject:
   - component: {fileID: 448287599688730112}
   - component: {fileID: 9032978818116413191}
   - component: {fileID: 1591740616157995948}
-  m_Layer: 23
+  m_Layer: 0
   m_Name: Support C
   m_TagString: Untagged
   m_Icon: {fileID: 0}

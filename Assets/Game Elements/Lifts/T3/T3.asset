@@ -28,4 +28,23 @@ MonoBehaviour:
   CableThickness: 0.1
   ExtraCables: []
   BidirectionalityAvaliablity: 2
+  TowerPlacementScript:
+    Enabled: 0
+    AssemblyName: default
+    Namespace: 
+    ClassName: TowerPlacer3D
+    Params:
+      FloatParameters:
+      - 3.9
+      - 16
+      - 21
+      - 18
+      - 12
+      - 90
+      - 180
+      - 35
+      - 70
+      - 0.05
+      - 20
+      IntParameters: 0f000000
   VehicleMixingAllowed: 1

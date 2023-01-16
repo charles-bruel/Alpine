@@ -13,8 +13,11 @@ public class LiftBuilder
     private Pool<LiftTurn>[] TurnPools;
     private Pool<LiftTower>[] TowerPools;
 
+    private APITowerPlacer APITowerPlacer;
+
     public void Initialize() {
         InitializePools();
+        APITowerPlacer = Data.Template.TowerPlacementScript.Fetch<APITowerPlacer>();
     }
 
     private void InitializePools() {
@@ -103,15 +106,22 @@ public class LiftBuilder
             Vector2 start = spanSegment.Start.Position.ToHorizontal();
             Vector2 end = spanSegment.End.Position.ToHorizontal();
 
-            //TODO: Replace with proper algorithm
-            int numTowers = (int) ((start - end).magnitude / 100);
+            int num = (int)(start - end).magnitude;
+            List<Vector3> terrainPosses = new List<Vector3>(num);
+            for(int j = 0;j < num;j ++) {
+                Vector2 pos2d = Vector2.Lerp(start, end, ((float)j+1) / (num + 1));
+                Vector3 pos3d = TerrainManager.Instance.Project(pos2d);
+                terrainPosses.Add(pos3d);
+            }
 
-            for(int j = 1;j < numTowers - 1;j ++) {
+            List<Vector3> towerPosses = APITowerPlacer.PlaceTowers(terrainPosses);
+
+            for(int j = 0;j < towerPosses.Count;j ++) {
                 LiftConstructionData.TowerSegment tower = new LiftConstructionData.TowerSegment();
 
                 //TOOD: Select tower type
                 tower.TemplateIndex = 0;
-                tower.Position = TerrainManager.Instance.Project(Vector2.Lerp(start, end, ((float)j/(numTowers-1))));
+                tower.Position = towerPosses[j];
 
                 spanSegment.Towers.Add(tower);
             }
