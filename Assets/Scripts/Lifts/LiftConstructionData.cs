@@ -20,6 +20,8 @@ public class LiftConstructionData {
     [System.Serializable]
     public class SpanSegment {
         public List<TowerSegment> Towers;
+        public RoutingSegment Start;
+        public RoutingSegment End;
     }
 
     [System.Serializable]

@@ -42,22 +42,57 @@ public class LiftBuilder
     public void Build() {
         Reset();
         ConstructRoutingSegments();
+        GenerateSpanSegments();
+        PlaceTowers();
         ConstructSpanSegments();
-        FillSpanSegments();
     }
 
-    private void FillSpanSegments()
-    {
-        //TODO
+    private void PlaceTowers() {        
+        for(int i = 0;i < Data.SpanSegments.Count;i ++) {
+            LiftConstructionData.SpanSegment spanSegment = Data.SpanSegments[i];
+            Vector2 start = spanSegment.Start.Position.ToHorizontal();
+            Vector2 end = spanSegment.End.Position.ToHorizontal();
+
+            //TODO: Replace with proper algorithm
+            int numTowers = (int) ((start - end).magnitude / 100);
+
+            for(int j = 1;j < numTowers - 1;j ++) {
+                LiftConstructionData.TowerSegment tower = new LiftConstructionData.TowerSegment();
+
+                //TOOD: Select tower type
+                tower.TemplateIndex = 0;
+                tower.Position = TerrainManager.Instance.Project(Vector2.Lerp(start, end, ((float)j/(numTowers-1))));
+
+                spanSegment.Towers.Add(tower);
+            }
+        }            
     }
 
-    private void ConstructSpanSegments()
-    {
-        //TODO
+    private void ConstructSpanSegments() {
+        for(int i = 0;i < Data.SpanSegments.Count;i ++) {
+            LiftConstructionData.SpanSegment segment = Data.SpanSegments[i];
+            for(int j = 0;j < segment.Towers.Count;j ++) {
+                Pool pool = TowerPools[segment.Towers[j].TemplateIndex];
+
+                GameObject obj = pool.Instantiate();
+                obj.transform.position = segment.Towers[j].Position;
+            }
+        }
     }
 
-    private void ConstructRoutingSegments()
-    {
+    private void GenerateSpanSegments() {
+        Data.SpanSegments.Clear();
+        for(int i = 0;i < Data.RoutingSegments.Count - 1;i ++) {
+            LiftConstructionData.SpanSegment spanSegment = new LiftConstructionData.SpanSegment();
+            spanSegment.Start = Data.RoutingSegments[i];
+            spanSegment.End = Data.RoutingSegments[i + 1];
+            spanSegment.Towers = new List<LiftConstructionData.TowerSegment>();
+
+            Data.SpanSegments.Add(spanSegment);
+        }
+    }
+
+    private void ConstructRoutingSegments() {
         for(int i = 0;i < Data.RoutingSegments.Count;i ++) {
             LiftConstructionData.RoutingSegment segment = Data.RoutingSegments[i];
             if(!segment.HasVerticalPos) {
