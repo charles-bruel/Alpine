@@ -71,11 +71,16 @@ public class LiftBuilder
     private void ConstructSpanSegments() {
         for(int i = 0;i < Data.SpanSegments.Count;i ++) {
             LiftConstructionData.SpanSegment segment = Data.SpanSegments[i];
+
+            Vector2 temp = (segment.Start.Position - segment.End.Position).ToHorizontal();
+            float angle = Mathf.Atan2(temp.y, temp.x);
+            angle = -angle * Mathf.Rad2Deg - 90;
             for(int j = 0;j < segment.Towers.Count;j ++) {
                 Pool pool = TowerPools[segment.Towers[j].TemplateIndex];
 
                 GameObject obj = pool.Instantiate();
                 obj.transform.position = segment.Towers[j].Position;
+                obj.transform.rotation =  Quaternion.Euler(0, angle, 0);
             }
         }
     }
@@ -112,8 +117,24 @@ public class LiftBuilder
                     break;
             }
 
+            //Determine 2d angle
+            float angle;
+            if (i == 0) {
+                //First station, so we point directly at the next routing segment
+                Vector2 temp = (segment.Position - Data.RoutingSegments[i + 1].Position).ToHorizontal();
+                angle = Mathf.Atan2(temp.y, temp.x);
+            } else if(i == Data.RoutingSegments.Count - 1) {
+                //Last station, so we point directly at the next routing segment
+                Vector2 temp = (Data.RoutingSegments[i - 1].Position - segment.Position).ToHorizontal();
+                angle = Mathf.Atan2(temp.y, temp.x);
+            } else {
+                Vector2 temp = (Data.RoutingSegments[i - 1].Position - Data.RoutingSegments[i + 1].Position).ToHorizontal();
+                angle = Mathf.Atan2(temp.y, temp.x);
+            }
+
             GameObject obj = pool[segment.TemplateIndex].Instantiate();
             obj.transform.position = segment.Position;
+            obj.transform.rotation =  Quaternion.Euler(0, -angle * Mathf.Rad2Deg - 90, 0);
         }
     }
 

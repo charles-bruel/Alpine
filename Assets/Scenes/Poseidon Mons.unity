@@ -2629,15 +2629,15 @@ MonoBehaviour:
     RoutingSegments:
     - RoutingSegmentType: 0
       TemplateIndex: 0
-      Position: {x: 100, y: 0, z: 100}
+      Position: {x: -600, y: 0, z: 400}
       HasVerticalPos: 0
     - RoutingSegmentType: 1
       TemplateIndex: 0
-      Position: {x: 300, y: 0, z: 200}
+      Position: {x: 50, y: 0, z: 350}
       HasVerticalPos: 0
     - RoutingSegmentType: 0
       TemplateIndex: 0
-      Position: {x: 800, y: 0, z: 700}
+      Position: {x: 450, y: 0, z: -450}
       HasVerticalPos: 0
     SpanSegments: []
 --- !u!4 &1881335904
