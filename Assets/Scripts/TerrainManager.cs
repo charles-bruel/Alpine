@@ -60,6 +60,12 @@ public class TerrainManager : MonoBehaviour {
     public int NumRocks;
     [NonSerialized]
     public Texture2D WeatherMap;
+    [NonSerialized]
+    public float MinTreeHeight;
+    [NonSerialized]
+    public float MaxTreeHeight;
+    [NonSerialized]
+    public float AltitudeAdjustFactor;
 
     private LayerMask TerrainLayerMask;
 
@@ -101,14 +107,17 @@ public class TerrainManager : MonoBehaviour {
     }
 
     private void CopyMapData() {
-        TileSize   = Map.TileSize;
-        TileHeight = Map.TileHeight;
-        NumTilesX  = Map.NumTilesX;
-        NumTilesY  = Map.NumTilesY;
-        DecoMap    = Map.DecoMap;
-        NumTrees   = Map.NumTrees;
-        NumRocks   = Map.NumRocks;
-        WeatherMap = Map.WeatherMap;
+        TileSize             = Map.TileSize;
+        TileHeight           = Map.TileHeight;
+        NumTilesX            = Map.NumTilesX;
+        NumTilesY            = Map.NumTilesY;
+        DecoMap              = Map.DecoMap;
+        NumTrees             = Map.NumTrees;
+        NumRocks             = Map.NumRocks;
+        WeatherMap           = Map.WeatherMap;
+        MinTreeHeight        = Map.MinTreeHeight;
+        MaxTreeHeight        = Map.MaxTreeHeight;
+        AltitudeAdjustFactor = Map.AltitudeAdjustFactor;
 
         Textures = new Texture2D[NumTilesX * NumTilesY];
         for(int i = 0;i < Textures.Length;i ++) {
@@ -191,9 +200,13 @@ public class TerrainManager : MonoBehaviour {
 
     private void StartPlacementJobs() {
         PlaceTreesJob job = new PlaceTreesJob();
-        job.DecoMap = DecoMap.GetPixels();
+
+        job.DecoMap     = DecoMap.GetPixels();
         job.DecoMapSize = DecoMap.width;
-        job.TreeCount = NumTrees;
+        job.TreeCount   = NumTrees;
+        job.MinHeight   = MinTreeHeight;
+        job.MaxHeight   = MaxTreeHeight;
+
         job.MapBounds = new Bounds(Vector3.zero, Vector3.zero);
         job.MapBounds.min = new Vector3((-NumTilesX/2) * TileSize, 0, (-NumTilesY/2) * TileSize);
         job.MapBounds.max = new Vector3((NumTilesX -NumTilesX/2) * TileSize, 0, (NumTilesY -NumTilesY/2) * TileSize);

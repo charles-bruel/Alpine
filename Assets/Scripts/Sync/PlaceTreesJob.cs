@@ -8,6 +8,8 @@ public class PlaceTreesJob : Job
     public Color[] DecoMap;
     public int DecoMapSize;
     public int TreeCount;
+    public float MinHeight;
+    public float MaxHeight;
 
     public void Run() {
         // Simple spin lock
@@ -46,7 +48,8 @@ public class PlaceTreesJob : Job
                 value.pos.y = 0;//Will get populated later
                 value.pos.z = position.y;
                 value.rot = (float)(random.NextDouble() * 2.0 * 3.141592653589793);
-                value.scale = (float)(random.NextDouble() * 0.5 + 0.75);
+
+                value.scale = random.NextFloat(MinHeight, MaxHeight);
                 Data.Add(value);
 				i++;
 			}

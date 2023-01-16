@@ -1035,7 +1035,7 @@ MonoBehaviour:
       type: 3}
     SnowMultiplier: 0.2
     LODSnowMultiplier: 0.2
-  LOD_Distance: 300
+  LOD_Distance: 1000
   WeatherController: {fileID: 757753261}
   ContourLayersDefinition:
     Major:
@@ -2511,7 +2511,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 2000
+  far clip plane: 6000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -2629,19 +2629,22 @@ MonoBehaviour:
     RoutingSegments:
     - RoutingSegmentType: 0
       TemplateIndex: 0
-      Position: {x: -600, y: 0, z: 400}
+      Position: {x: -1800, y: 0, z: 1200}
       HasVerticalPos: 0
       PhysicalSegment: {fileID: 0}
+      Angle: 0
     - RoutingSegmentType: 1
       TemplateIndex: 0
-      Position: {x: 50, y: 0, z: 350}
+      Position: {x: 150, y: 0, z: 1125}
       HasVerticalPos: 0
       PhysicalSegment: {fileID: 0}
+      Angle: 0
     - RoutingSegmentType: 0
       TemplateIndex: 0
-      Position: {x: 450, y: 0, z: -450}
+      Position: {x: 1450, y: 0, z: -1400}
       HasVerticalPos: 0
       PhysicalSegment: {fileID: 0}
+      Angle: 0
     SpanSegments: []
 --- !u!4 &1881335904
 Transform:

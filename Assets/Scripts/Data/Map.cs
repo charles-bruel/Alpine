@@ -14,6 +14,9 @@ public class Map : ScriptableObject {
     public Texture2D DecoMap;
     public int NumTrees;
     public int NumRocks;
+    public float MinTreeHeight = 0.5f;
+    public float MaxTreeHeight = 1.5f;
+    public float AltitudeAdjustFactor = 0.5f;
     [Header("Weather Settings")]
     public Texture2D WeatherMap;
 }

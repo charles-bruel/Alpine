@@ -126,8 +126,13 @@ public class TerrainTile : MonoBehaviour {
         var enumerator = Data.GetEnumerator(IndexX, IndexY);
         while(enumerator.MoveNext()) {
             TreePos temp = enumerator.Current;
-            temp.pos = TerrainManager.Instance.Project(enumerator.Current.pos.ToHorizontal());
-            enumerator.CurrentMut = temp;
+                if(temp.pos.y == 0) {
+                temp.pos = TerrainManager.Instance.Project(enumerator.Current.pos.ToHorizontal());
+                float v = 1 - (temp.pos.y / TerrainManager.Instance.TileHeight);
+                float altitudeFactor = TerrainManager.Instance.AltitudeAdjustFactor;
+                temp.scale *= v * (1 - altitudeFactor) + altitudeFactor;
+                enumerator.CurrentMut = temp;
+            }
             numTrees[enumerator.Current.type]++;
             totalTrees++;
         }

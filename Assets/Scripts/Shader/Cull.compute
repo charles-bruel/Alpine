@@ -21,7 +21,7 @@ void CullShader(uint3 id : SV_DispatchThreadID)
 		float4 temp = { data.position.x, data.position.y, data.position.z, 1 };
 		temp = mul(camera, temp);
 		float3 final = { temp.x / temp.w, temp.y / temp.w, temp.z / temp.w };
-		float4 temp2 = { data.position.x, data.position.y + 7.5, data.position.z, 1 };
+		float4 temp2 = { data.position.x, data.position.y + 40, data.position.z, 1 };
 		temp2 = mul(camera, temp2);
 		float yTest = temp2.y / temp2.w;
 

@@ -222,7 +222,7 @@ public class LiftBuilder
     }
 
     private PolygonsController.AlpinePolygon GenerateFootprint() {
-        float gaugeExpansion = 3;
+        float gaugeExpansion = 8;
 
         List<Vector2> pointsLeft = new List<Vector2>();
         List<Vector2> pointsRight = new List<Vector2>();
