@@ -15,7 +15,7 @@ public class LiftSegment : MonoBehaviour, IPoolable
         APILiftSegment = LiftSegmentAPIDef.Fetch<APILiftSegment>();
     }
 
-    public IPoolable Clone() {
+    public virtual IPoolable Clone() {
         Initialize();
         var temp = GameObject.Instantiate(this);
         temp.APILiftSegment = APILiftSegment;

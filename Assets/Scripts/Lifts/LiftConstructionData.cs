@@ -24,6 +24,8 @@ public class LiftConstructionData {
         public List<TowerSegment> Towers;
         public RoutingSegment Start;
         public RoutingSegment End;
+        public Vector2 StartPos;
+        public Vector2 EndPos;
     }
 
     [System.Serializable]

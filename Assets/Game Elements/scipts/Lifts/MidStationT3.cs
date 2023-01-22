@@ -2,6 +2,9 @@ using System;
 using UnityEngine;
 
 public class MidStationT3 : APITurnSegment {
+
+    private float LastLength;
+
     public override void Build(GameObject self, Transform current, Transform next, Transform prev) {
         float pivotOffset = FloatParameters[0];
         float stationLen = FloatParameters[1];
@@ -38,7 +41,6 @@ public class MidStationT3 : APITurnSegment {
         turnGapCoverA.localPosition = new Vector3(pivotDist, 0, 0);
         turnGapCoverB.localPosition = new Vector3(-pivotDist, 0, 0);
 
-
         float primaryWorldAngle = 90 - primaryAngle;
         float secondaryWorldAngle = 270 - secondaryAngle;
 
@@ -54,6 +56,8 @@ public class MidStationT3 : APITurnSegment {
         float stationOffset = Mathf.Tan(beta * 0.5f * Mathf.Deg2Rad) * pivotOffset;
         stationOffset -= stationLen;
 
+        LastLength = -stationOffset + stationLen;
+
         primarySegment.position = self.transform.position + new Vector3(
             stationOffset * Mathf.Sin(primaryWorldAngle),
             0,
@@ -64,5 +68,10 @@ public class MidStationT3 : APITurnSegment {
             0, 
             stationOffset * Mathf.Cos(secondaryWorldAngle)
         );
+    }
+
+    public override float GetLength()
+    {
+        return LastLength;
     }
 }

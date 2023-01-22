@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TowerPlacer3D : APITowerPlacer {
-    public override List<Vector3> PlaceTowers(List<Vector3> terrainPos)
+    public override List<Vector3> PlaceTowers(List<Vector3> terrainPos, Vector3 StartStation, Vector3 EndStation)
     {
         float StationHeight =         FloatParameters[0];
         float TargetHeight =          FloatParameters[1];
@@ -14,9 +14,9 @@ public class TowerPlacer3D : APITowerPlacer {
         float MaxSpan =               FloatParameters[6];
         float MinSpan =               FloatParameters[7];
         float SectionCutThreshold =   FloatParameters[8];
+        float StationTowerMaxDist =   FloatParameters[10];
 
-        // float StationTowerMergeDist = FloatParameters[10];
-        // int StationTowerDist =        IntParameters[0];
+        int StationTowerDist =        IntParameters[0];
 
         // Algorithm explanation:
         // The lift line will be divided into sections
@@ -25,10 +25,56 @@ public class TowerPlacer3D : APITowerPlacer {
         // a threshold)
         // Then we'll perform cleanup around the stations
 
+        // First we find the base positions of the station towers
+        int StationTowerA = StationTowerDist;
+        int StationTowerB = terrainPos.Count - 1 - StationTowerDist;
+
+        // We move the towers away from the station until we are
+        // 1) Greater than the target height
+        // 2) Lower than the min height and height is decreasing
+        // 3) Longer than the max station tower span
+
+        // Move the start tower
+        while(true) {
+            float heightDelta = StartStation.y - terrainPos[StationTowerA + 1].y;
+            float prevHeightDelta = StartStation.y - terrainPos[StationTowerA].y;
+            if(heightDelta < MinHeight && heightDelta < prevHeightDelta) {
+                break;
+            }
+            if(heightDelta > TargetHeight) {
+                break;
+            }
+
+            float lenSqr = (StartStation - terrainPos[StationTowerA + 1]).ToHorizontal().sqrMagnitude;
+            if(lenSqr > StationTowerMaxDist * StationTowerMaxDist) {
+                break;
+            }
+
+            StationTowerA++;
+        }
+
+        while(true) {
+            float heightDelta = EndStation.y - terrainPos[StationTowerB - 1].y;
+            float prevHeightDelta = StartStation.y - terrainPos[StationTowerB].y;
+            if(heightDelta < MinHeight && heightDelta < prevHeightDelta) {
+                break;
+            }
+            if(heightDelta > TargetHeight) {
+                break;
+            }
+            
+            float lenSqr = (EndStation - terrainPos[StationTowerB - 1]).ToHorizontal().sqrMagnitude;
+            if(lenSqr > StationTowerMaxDist * StationTowerMaxDist) {
+                break;
+            }
+
+            StationTowerB--;
+        }
+
         // Each section is represented by the start and end index of their positions
         Queue<Vector2Int> SectionsQueue = new Queue<Vector2Int>();
         List<int> TowerIDs = new List<int>();
-        SectionsQueue.Enqueue(new Vector2Int(0, terrainPos.Count - 1));
+        SectionsQueue.Enqueue(new Vector2Int(StationTowerA, StationTowerB));
 
         // We go through each section. When it is recursively cut, it's added to the queue
         // So it's not true recursion
@@ -36,7 +82,7 @@ public class TowerPlacer3D : APITowerPlacer {
         // Simple safety mechanism
         int depth = 0;
         while(SectionsQueue.Count > 0) {
-            if(depth++ > 1024) {
+            if(depth++ > 16384) {
                 Debug.LogWarning("Had to hard break from section loop; queue had " + SectionsQueue.Count + " items left");
                 break;
             }
@@ -77,7 +123,7 @@ public class TowerPlacer3D : APITowerPlacer {
         TowerIDs.Sort();
 
         //We need to add the end of the lift line
-        TowerIDs.Add(terrainPos.Count - 1);
+        TowerIDs.Add(StationTowerB);
 
         List<Vector3> stage1 = new List<Vector3>(TowerIDs.Count - 1);
         for(int i = 0;i < TowerIDs.Count;i ++) {
@@ -100,13 +146,17 @@ public class TowerPlacer3D : APITowerPlacer {
         }
         stage2.Add(stage1[stage1.Count - 1]);
 
-        stage2.RemoveAt(0);
-        stage2.RemoveAt(stage2.Count - 1);
-
         // We now factor in tower height
         for(int i = 0;i < stage2.Count;i ++) {
-            stage2[i] = new Vector3(stage2[i].x, stage2[i].y + TargetHeight, stage2[i].z);
-        }
+            //Make the station towers line up with the stations
+            float height = stage2[i].y + TargetHeight;
+            if(i == 0) {
+                height = StartStation.y;
+            } else if(i == stage2.Count - 1) {
+                height = EndStation.y;
+            }
+            stage2[i] = new Vector3(stage2[i].x, height, stage2[i].z);
+        }        
 
         return stage2;
     }

@@ -2629,19 +2629,19 @@ MonoBehaviour:
     RoutingSegments:
     - RoutingSegmentType: 0
       TemplateIndex: 0
-      Position: {x: -1800, y: 0, z: 1200}
+      Position: {x: -1500, y: 0, z: 1150}
       HasVerticalPos: 0
       PhysicalSegment: {fileID: 0}
       Angle: 0
     - RoutingSegmentType: 1
       TemplateIndex: 0
-      Position: {x: 120, y: 0, z: 1050}
+      Position: {x: 199.09, y: 0, z: 933.79}
       HasVerticalPos: 0
       PhysicalSegment: {fileID: 0}
       Angle: 0
     - RoutingSegmentType: 0
       TemplateIndex: 0
-      Position: {x: 1450, y: 0, z: -1400}
+      Position: {x: 1431.63, y: 0, z: -1366.16}
       HasVerticalPos: 0
       PhysicalSegment: {fileID: 0}
       Angle: 0

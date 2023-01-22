@@ -46,17 +46,20 @@ public class LiftBuilder
     public void Build() {
         Reset();
         ConstructRoutingSegments();
+        BuildRoutingSegments();
         GenerateSpanSegments();
         PlaceTowers();
         ConstructSpanSegments();
-        BuildAllSegments();
+        BuildTowers();
     }
 
-    private void BuildAllSegments() {
+    private void BuildRoutingSegments() {
         for(int i = 0;i < Data.RoutingSegments.Count;i ++) {
             LiftConstructionData.RoutingSegment routingSegment = Data.RoutingSegments[i];
             Transform prev = null, next = null;
             
+            //TODO: Work out these (towers cant be targets because of order)
+
             if(i != 0) {
                 prev = Data.RoutingSegments[i - 1].PhysicalSegment.CableAimingPoint;
             }
@@ -72,7 +75,9 @@ public class LiftBuilder
                 next
             );
         }
+    }
 
+    private void BuildTowers() {
         for(int i = 0;i < Data.SpanSegments.Count;i ++) {
             for(int j = 0;j < Data.SpanSegments[i].Towers.Count;j ++) {
                 LiftConstructionData.TowerSegment towerSegment = Data.SpanSegments[i].Towers[j];
@@ -103,8 +108,8 @@ public class LiftBuilder
     private void PlaceTowers() {        
         for(int i = 0;i < Data.SpanSegments.Count;i ++) {
             LiftConstructionData.SpanSegment spanSegment = Data.SpanSegments[i];
-            Vector2 start = spanSegment.Start.Position.ToHorizontal();
-            Vector2 end = spanSegment.End.Position.ToHorizontal();
+            Vector2 start = spanSegment.StartPos;
+            Vector2 end = spanSegment.EndPos;
 
             int num = (int)(start - end).magnitude;
             List<Vector3> terrainPosses = new List<Vector3>(num);
@@ -114,7 +119,11 @@ public class LiftBuilder
                 terrainPosses.Add(pos3d);
             }
 
-            List<Vector3> towerPosses = APITowerPlacer.PlaceTowers(terrainPosses);
+            List<Vector3> towerPosses = APITowerPlacer.PlaceTowers(
+                terrainPosses, 
+                spanSegment.Start.PhysicalSegment.CableAimingPoint.position,
+                spanSegment.End.PhysicalSegment.CableAimingPoint.position
+            );
 
             for(int j = 0;j < towerPosses.Count;j ++) {
                 LiftConstructionData.TowerSegment tower = new LiftConstructionData.TowerSegment();
@@ -153,6 +162,14 @@ public class LiftBuilder
             spanSegment.Start = Data.RoutingSegments[i];
             spanSegment.End = Data.RoutingSegments[i + 1];
             spanSegment.Towers = new List<LiftConstructionData.TowerSegment>();
+
+            Vector2 directionVector = (spanSegment.End.Position - spanSegment.Start.Position).ToHorizontal().normalized;
+
+            float startLength = spanSegment.Start.PhysicalSegment.APILiftRoutingSegment.GetLength();
+            float endLength = spanSegment.End.PhysicalSegment.APILiftRoutingSegment.GetLength();
+
+            spanSegment.StartPos = spanSegment.Start.Position.ToHorizontal() + directionVector * startLength;
+            spanSegment.EndPos = spanSegment.End.Position.ToHorizontal() - directionVector * endLength;
 
             Data.SpanSegments.Add(spanSegment);
         }

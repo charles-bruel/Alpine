@@ -35,7 +35,7 @@ MonoBehaviour:
     ClassName: TowerPlacer3D
     Params:
       FloatParameters:
-      - 3.9
+      - 2.7
       - 16
       - 21
       - 18
@@ -45,6 +45,6 @@ MonoBehaviour:
       - 50
       - 4
       - 0.05
-      - 20
-      IntParameters: 0f000000
+      - 30
+      IntParameters: 0a000000
   VehicleMixingAllowed: 1
