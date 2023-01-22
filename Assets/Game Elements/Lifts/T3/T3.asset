@@ -17,7 +17,7 @@ MonoBehaviour:
   AvaliableTowers:
   - {fileID: 4706512676656671284, guid: 53eb6a5f25958a34d943ef8290c16c73, type: 3}
   AvaliableMidStations:
-  - {fileID: 4534792694537198494, guid: 54431d2a762a68d4f8cefa6277be4d77, type: 3}
+  - {fileID: 5255590288473758373, guid: 54431d2a762a68d4f8cefa6277be4d77, type: 3}
   AvaliableTurns: []
   AvaliableLiftVehicles:
   - {fileID: 11400000, guid: 74ff321214defe545baa6e67e5515333, type: 2}

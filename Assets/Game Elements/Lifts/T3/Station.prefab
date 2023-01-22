@@ -339,7 +339,6 @@ MonoBehaviour:
     Params:
       FloatParameters: []
       IntParameters: 
-      GameObjectParameters: []
 --- !u!1 &8890843557918830564
 GameObject:
   m_ObjectHideFlags: 0

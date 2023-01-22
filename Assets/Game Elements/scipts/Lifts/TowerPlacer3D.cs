@@ -108,8 +108,6 @@ public class TowerPlacer3D : APITowerPlacer {
             stage2[i] = new Vector3(stage2[i].x, stage2[i].y + TargetHeight, stage2[i].z);
         }
 
-        Debug.Log(stage1.Count - 2 + " " + stage2.Count);
-
         return stage2;
     }
 
