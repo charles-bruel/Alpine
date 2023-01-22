@@ -65,6 +65,10 @@ public class TerrainManager : MonoBehaviour {
     [NonSerialized]
     public float MaxTreeHeight;
     [NonSerialized]
+    public float MinRockSize;
+    [NonSerialized]
+    public float MaxRockSize;
+    [NonSerialized]
     public float AltitudeAdjustFactor;
 
     private LayerMask TerrainLayerMask;
@@ -117,6 +121,8 @@ public class TerrainManager : MonoBehaviour {
         WeatherMap           = Map.WeatherMap;
         MinTreeHeight        = Map.MinTreeHeight;
         MaxTreeHeight        = Map.MaxTreeHeight;
+        MinRockSize          = Map.MinRockSize;
+        MaxRockSize          = Map.MaxRockSize;
         AltitudeAdjustFactor = Map.AltitudeAdjustFactor;
 
         Textures = new Texture2D[NumTilesX * NumTilesY];
@@ -215,10 +221,12 @@ public class TerrainManager : MonoBehaviour {
 		thread.Start();
 
         PlaceRocksJob job2 = new PlaceRocksJob();
-        job2.DecoMap = job.DecoMap;
+        job2.DecoMap     = job.DecoMap;
         job2.DecoMapSize = DecoMap.width;
-        job2.RockCount = NumRocks;
-        job2.MapBounds = job.MapBounds;
+        job2.RockCount   = NumRocks;
+        job2.MapBounds   = job.MapBounds;
+        job2.MinSize     = MinRockSize;
+        job2.MaxSize     = MaxRockSize;
 
         Thread thread2 = new Thread(new ThreadStart(job2.Run));
 		thread2.Start();
@@ -231,7 +239,7 @@ public class TerrainManager : MonoBehaviour {
 
         TerrainTile terrainTile = gameObject.AddComponent<TerrainTile>();
         terrainTile.TerrainMaterial = TerrainMaterial;
-        terrainTile.RockMaterial = RockMaterial;
+        terrainTile.RockMaterial = SnowCatcher;
         terrainTile.ObjectMaterial = ObjectMaterial;
         terrainTile.ContourMaterial = ContourMaterial;
 

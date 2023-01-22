@@ -9,7 +9,6 @@ public class CreateRockMeshJob : Job
     public byte PosY;
     public Mesh MeshTarget;
     private NativeArray<Vector3> Vertices;
-    private NativeArray<Vector3> LocalCoords;
     private NativeArray<Vector3> Normals;
     private NativeArray<Vector2> UVs;
     private NativeArray<int> Triangles;
@@ -30,12 +29,10 @@ public class CreateRockMeshJob : Job
         outputMesh.SetVertexBufferParams(numVerticesPerModel * NumRocks,
             new VertexAttributeDescriptor(VertexAttribute.Position),
             new VertexAttributeDescriptor(VertexAttribute.Normal, stream:1),
-            new VertexAttributeDescriptor(VertexAttribute.TexCoord0, stream:2, dimension:2),
-            new VertexAttributeDescriptor(VertexAttribute.Color, stream:3)
+            new VertexAttributeDescriptor(VertexAttribute.TexCoord0, stream:2, dimension:2)
         );
 
         Vertices = outputMesh.GetVertexData<Vector3>(stream:0);
-        LocalCoords = outputMesh.GetVertexData<Vector3>(stream:3);
         Normals = outputMesh.GetVertexData<Vector3>(stream:1);
         UVs = outputMesh.GetVertexData<Vector2>(stream:2);
         Triangles = outputMesh.GetIndexData<int>();
@@ -65,10 +62,9 @@ public class CreateRockMeshJob : Job
                 Vector4 transformedVertex = new Vector4(OldVertices[j].y, OldVertices[j].z, OldVertices[j].x, 1);
                 Vector3 temp2 = transformedVertex;
                 temp2.y *= TerrainManager.Instance.RockSnowMultiplier;
-                LocalCoords[t * numVerticesPerModel + j] = temp2;
                 transformedVertex = (rotation * transformedVertex) * scaleMul;
                 Vertices[t * numVerticesPerModel + j] = transformedVertex.DropW() + enumerator.Current.pos;
-                Vertices[t * numVerticesPerModel + j] += BumpValues.Values[(t + vertex_id) % BumpValues.Values.Length] * 0.5f;
+                Vertices[t * numVerticesPerModel + j] += BumpValues.Values[(t + vertex_id) % BumpValues.Values.Length] * scaleMul * 0.5f;
                 
                 Vector4 transformedNormal = new Vector4(OldNormals[j].y, OldNormals[j].z, OldNormals[j].x, 1); 
                 transformedNormal = rotation * transformedNormal;

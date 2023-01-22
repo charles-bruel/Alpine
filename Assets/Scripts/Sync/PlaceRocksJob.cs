@@ -8,6 +8,8 @@ public class PlaceRocksJob : Job
     public Color[] DecoMap;
     public int DecoMapSize;
     public int RockCount;
+    public float MinSize;
+    public float MaxSize;
 
     public void Run() {
         // Simple spin lock
@@ -39,7 +41,7 @@ public class PlaceRocksJob : Job
                 value.pos.y = 0;//Will get populated later
                 value.pos.z = position.y;
                 value.normal = Vector3.zero;//Will get populated later
-                value.scale = (float)(random.NextDouble() * 0.5 + 0.75);
+                value.scale = random.NextFloat(MinSize, MaxSize);
                 Data.Add(value);
 				i++;
 			}
