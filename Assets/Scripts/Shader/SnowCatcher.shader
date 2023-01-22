@@ -71,11 +71,10 @@ Shader "Custom/Snow Catcher"
             half2 snow_tex_uv = half2(uvx, uvy);
 
 			//This is the snow base value
-			//80% comes from the texture and 20% from a noise texture
-            float snowMultiplier = tex2Dlod(_SnowTex, float4(snow_tex_uv, 0, 0)).b * 0.8 + 0.1;
-			snowMultiplier += tex2Dlod(_DetailTex, float4(v.vertex.xz * 0.001, 0, 0)).r * 0.2 - 0.1;
-
-			o.snowThreshold = 1 - sampleSnowCurve(1 - snowMultiplier);
+            float snowMultiplier = tex2Dlod(_SnowTex, float4(snow_tex_uv, 0, 0)).b;
+			snowMultiplier += tex2Dlod(_DetailTex, float4(v.vertex.xz * 0.001, 0, 0)).r * 0.2f - 0.1f;
+			
+            o.snowThreshold = 1 - sampleSnowCurve(1 - snowMultiplier);
             #endif
         }
 
@@ -88,7 +87,9 @@ Shader "Custom/Snow Catcher"
 
             //A lower value of this means shallower and more snowy
             float snowVal = dot(float3(0, 1, 0), IN.worldNormal);
-            snowVal += tex2D(_DetailTex, IN.worldPos.xz * 0.1).r * 0.2 - 0.1;
+            float pow = snowVal * (snowVal - 1) * 0.2;
+            snowVal += tex2D(_DetailTex, IN.worldPos.xz * 0.1).r * pow - (pow * 0.5f);
+            snowVal -= 0.1;
 
             //sgn is 1.0 if it's snowy and 0.0 otherwise
             //Branchless
