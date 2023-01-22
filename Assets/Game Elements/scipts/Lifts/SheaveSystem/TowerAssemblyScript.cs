@@ -157,14 +157,12 @@ public class TowerAssemblyScript : MonoBehaviour
 
         foreach (TowerScript tower in Towers)
         {
-            tower.Reset();
-        }
-
-        foreach(TowerScript tower in Towers) {
+            //Fix towers pointing up sometimes
             float angle = tower.transform.localEulerAngles.z;
             if(angle > 90 && angle < 270) {
                 tower.transform.localEulerAngles = new Vector3(0, 90, angle + 180);
             }
+            tower.Reset();
         }
     }
 

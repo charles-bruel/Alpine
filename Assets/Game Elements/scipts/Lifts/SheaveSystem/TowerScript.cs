@@ -28,7 +28,7 @@ public class TowerScript : MonoBehaviour
         if(BaseItems != null)
         {
             RaycastHit hitInfo = default(RaycastHit);
-            Physics.Raycast(transform.position, Target.position - transform.position, out hitInfo, float.MaxValue, 768);
+            Physics.Raycast(transform.position, Target.position - transform.position, out hitInfo, float.MaxValue);
             BaseItems.position = hitInfo.point;
         }
     }

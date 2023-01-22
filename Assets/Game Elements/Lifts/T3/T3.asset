@@ -45,6 +45,6 @@ MonoBehaviour:
       - 50
       - 4
       - 0.05
-      - 30
+      - 70
       IntParameters: 0a000000
   VehicleMixingAllowed: 1
