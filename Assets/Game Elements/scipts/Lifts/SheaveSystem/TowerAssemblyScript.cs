@@ -146,7 +146,8 @@ public class TowerAssemblyScript : MonoBehaviour
             Towers[i].transform.localPosition = relPos / transform.localScale.x;//Assuming uniform scaling
             if (TiltTowers)
             {
-                Towers[i].transform.localEulerAngles = new Vector3(0, 90, AttachPoints[i].transform.localEulerAngles.x + SheaveScriptLeft.RotationParent.transform.localEulerAngles.x * (HalfTilt ? 0.5f : 1));
+                float tiltAngle = AttachPoints[i].transform.localEulerAngles.x + SheaveScriptLeft.RotationParent.transform.localEulerAngles.x * (HalfTilt ? 0.5f : 1);
+                Towers[i].transform.localEulerAngles = new Vector3(0, 90, tiltAngle);
             }
             else
             {
@@ -159,6 +160,12 @@ public class TowerAssemblyScript : MonoBehaviour
             tower.Reset();
         }
 
+        foreach(TowerScript tower in Towers) {
+            float angle = tower.transform.localEulerAngles.z;
+            if(angle > 90 && angle < 270) {
+                tower.transform.localEulerAngles = new Vector3(0, 90, angle + 180);
+            }
+        }
     }
 
     private void InitializeTowers(int numberTowers)
