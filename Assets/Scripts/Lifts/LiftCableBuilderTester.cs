@@ -9,7 +9,7 @@ public class LiftCableBuilderTester : MonoBehaviour {
     void Start() {
         LiftCableBuilder builder = new LiftCableBuilder();
 
-        builder.Points = GenerateTestPoints(128);
+        builder.AddPointsWithSag(GenerateTestPoints(32), 1.01f);
 
         builder.CreateGameObject(transform, CableMaterial);
         builder.StartMesh(1);
@@ -22,7 +22,7 @@ public class LiftCableBuilderTester : MonoBehaviour {
         List<Vector3> toReturn = new List<Vector3>(v);
         for(int i = 0;i < v;i ++) {
             float angleRads = 2 * MathF.PI * ((float)i/v);
-            toReturn.Add(new Vector3(Mathf.Sin(angleRads) * 16, Mathf.Cos(angleRads * 8) * 8, Mathf.Cos(angleRads) * 16));
+            toReturn.Add(new Vector3(Mathf.Sin(angleRads) * 64, 0, Mathf.Cos(angleRads) * 64));
         }
         return toReturn;
     }

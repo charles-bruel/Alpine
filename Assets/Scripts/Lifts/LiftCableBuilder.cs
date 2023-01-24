@@ -6,7 +6,7 @@ using UnityEngine.Rendering;
 
 public class LiftCableBuilder {
 
-    public List<Vector3> Points;
+    public List<Vector3> Points = new List<Vector3>();
 
     private Mesh.MeshDataArray OutputMeshData;
     private NativeArray<Vector3> Vertices;
@@ -19,6 +19,58 @@ public class LiftCableBuilder {
     public static readonly int numTrianglesPerPoint = numPoints * 2;
     public static readonly int numVerticesPerPoint = numPoints;
     public static readonly int numVerticesPerTriangle = 3;
+
+    public void AddPointsWithoutSag(List<Vector3> points) {
+        Points.AddRange(points);
+    }
+
+    public void AddPointsWithSag(List<Vector3> points, float lengthMultiplier) {
+        for(int i = 0;i < points.Count - 1;i ++) {
+            //TODO: Intelligent num points
+            List<Vector3> temp = PointsCatenary(points[i], points[i + 1], lengthMultiplier, 32);
+            if(i != points.Count - 2) temp.RemoveAt(temp.Count - 1);
+            Points.AddRange(temp);
+        }
+    }
+
+    private List<Vector3> PointsCatenary(Vector3 a, Vector3 b, float lengthMultiplier, int numPoints) {
+        Vector3 d = b - a;
+        float L = d.magnitude * lengthMultiplier;
+        float dy = d.y;
+        d.y = 0;
+        float dx = d.magnitude;
+
+        List<Vector2> points = PointsCatenary2D(new Vector2(0, 0), new Vector2(dx, dy), L, numPoints);
+        List<Vector3> toReturn = new List<Vector3>(points.Count);
+
+        for(int i = 0;i < points.Count;i ++) {
+            // We use lerp to place it horizontally
+            Vector3 temp = Vector3.Lerp(a, b, points[i].x / dx);
+            // Then we set the y
+            temp.y = points[i].y;
+            toReturn.Add(temp);
+        }
+
+        return toReturn;
+    }
+
+    private List<Vector2> PointsCatenary2D(Vector2 a, Vector2 b, float L, int numPoints) {
+        Catenary catenary = Catenary.FromCoordinates(a, b, L);
+
+        List<Vector2> toReturn = new List<Vector2>();
+        toReturn.Add(a);
+
+        for(int i = 1;i <= numPoints;i ++) {
+            float x = (float) i / (numPoints + 1);
+            x = Mathf.Lerp(a.x, b.x, x);
+            float y = catenary.Evaluate(x);
+            toReturn.Add(new Vector2(x, y));
+        }
+
+        toReturn.Add(b);
+
+        return toReturn;
+    }
 
     public void CreateGameObject(Transform parent, Material cableMaterial) {
         GameObject obj = new GameObject("Cable");
@@ -146,5 +198,4 @@ public class LiftCableBuilder {
 
         Target.RecalculateBounds();
     }
-
 }
