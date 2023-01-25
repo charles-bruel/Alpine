@@ -25,8 +25,9 @@ MonoBehaviour:
   MaxSpeed: 7
   WorkerCount: 4
   Pulsed: 0
-  CableThickness: 0.1
+  CableThickness: 0.05
   ExtraCables: []
+  CableMaterial: {fileID: 2100000, guid: a0986f62cd9877f4f9e288790c407a9d, type: 2}
   BidirectionalityAvaliablity: 2
   TowerPlacementScript:
     Enabled: 1
@@ -36,15 +37,15 @@ MonoBehaviour:
     Params:
       FloatParameters:
       - 2.7
-      - 16
+      - 14
       - 21
-      - 18
+      - 16
       - 12
-      - 150
-      - 220
-      - 50
-      - 4
+      - 160
+      - 200
+      - 80
+      - 3
       - 0.05
-      - 70
+      - 60
       IntParameters: 0a000000
   VehicleMixingAllowed: 1

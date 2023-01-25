@@ -5,7 +5,6 @@ using UnityEngine;
 public class TowerPlacer3D : APITowerPlacer {
     public override List<Vector3> PlaceTowers(List<Vector3> terrainPos, Vector3 StartStation, Vector3 EndStation)
     {
-        float StationHeight =         FloatParameters[0];
         float TargetHeight =          FloatParameters[1];
         float MaxHeight =             FloatParameters[2];
         float MaxTowerHeight =        FloatParameters[3];

@@ -27,6 +27,7 @@ public class LiftTemplate : ScriptableObject
     public float CableThickness;
     [Tooltip("The x, y, and z value specify a normal offset. The w specifies cable thickness, as a ratio to the default thickness. You probably care about X (side to side) and Y (up and down) the most.")]
 	public Vector4[] ExtraCables;
+    public Material CableMaterial;
 
     [Header("Misc")]
     public LiftBidirectionality BidirectionalityAvaliablity;

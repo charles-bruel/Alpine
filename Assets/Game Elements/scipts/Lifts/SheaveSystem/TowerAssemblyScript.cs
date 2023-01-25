@@ -108,7 +108,6 @@ public class TowerAssemblyScript : MonoBehaviour
                 centerPosition /= 4;
             }
 
-
             Vector3 localOrigin = SheaveScriptRight.transform.position;
             Vector3 vec = (centerPosition - localOrigin);
 

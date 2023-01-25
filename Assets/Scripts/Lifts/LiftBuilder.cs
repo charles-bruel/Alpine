@@ -112,9 +112,9 @@ public class LiftBuilder
 
         builder.AddPointsWithSag(builder.LastPoint, builder.Points[0], 1.0001f);
 
-        builder.CreateGameObject(parent, null);
+        builder.CreateGameObject(parent, Data.Template.CableMaterial);
         builder.StartMesh(1);
-        builder.BuildMesh(0, new Vector3(), 0.1f);
+        builder.BuildMesh(0, new Vector3(), Data.Template.CableThickness);
         builder.FinalizeMesh();
     }
 

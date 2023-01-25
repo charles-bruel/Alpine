@@ -317,8 +317,8 @@ MonoBehaviour:
   Stage4Layout: []
   Stage5Layout: []
   TowerSpacing: 1
-  MaxSupportAngleCombo: 0
-  MaxDepressionAngleCombo: 5
+  MaxSupportAngleCombo: 1
+  MaxDepressionAngleCombo: 3
   SheaveParent: {fileID: 0}
   ComboParent: {fileID: 0}
   Combo: {fileID: 0}
@@ -498,8 +498,8 @@ MonoBehaviour:
   Stage4Layout: []
   Stage5Layout: []
   TowerSpacing: 1
-  MaxSupportAngleCombo: 0
-  MaxDepressionAngleCombo: 5
+  MaxSupportAngleCombo: 1
+  MaxDepressionAngleCombo: 3
   SheaveParent: {fileID: 0}
   ComboParent: {fileID: 0}
   Combo: {fileID: 0}
@@ -567,7 +567,7 @@ MonoBehaviour:
   SheaveScriptRight: {fileID: 5895430922242403438}
   SheavesParent: {fileID: 8950193428896556268}
   SheaveLayout: 4
-  SheaveScale: 0.6
+  SheaveScale: 0.4883721
   ContinuousUpdate: 0
   layouts: {fileID: 11400000, guid: 7def14de0afe2db4c91a294344a0d3ab, type: 2}
   Recenter: 0
@@ -595,8 +595,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AngleThreshold1: 7.5
-  AngleThreshold2: 20
-  AngleThreshold3: 35
+  AngleThreshold2: 15
+  AngleThreshold3: 22.5
   TiltThreshold: 5
   HalfTiltThreshold: 20
   AllTiltThreshold: 6
