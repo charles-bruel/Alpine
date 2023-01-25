@@ -80,7 +80,6 @@ public class LiftCableBuilder {
             float x = (float) i / (numPoints + 1);
             x = Mathf.Lerp(a.x, b.x, x);
             float y = catenary.Evaluate(x);
-            if(i == numPoints) Debug.Log(b.y + "," + y);
             toReturn.Add(new Vector2(x, y));
         }
 
