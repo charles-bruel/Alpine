@@ -20,7 +20,16 @@ public class LiftCableBuilder {
     public static readonly int numVerticesPerPoint = numPoints;
     public static readonly int numVerticesPerTriangle = 3;
 
+    public Vector3 LastPoint {
+        get => Points[Points.Count - 1];
+    }
+
     public void AddPointsWithoutSag(List<Vector3> points) {
+        if(Points.Count > 0 && (LastPoint - points[0]).sqrMagnitude < float.Epsilon) {
+            // I believe removing the last element of main array is faster than removing
+            // the first element of the added array because last element removes should be faster
+            Points.RemoveAt(Points.Count - 1);
+        }
         Points.AddRange(points);
     }
 
@@ -29,8 +38,15 @@ public class LiftCableBuilder {
             //TODO: Intelligent num points
             List<Vector3> temp = PointsCatenary(points[i], points[i + 1], lengthMultiplier, 32);
             if(i != points.Count - 2) temp.RemoveAt(temp.Count - 1);
-            Points.AddRange(temp);
+            AddPointsWithoutSag(temp);
         }
+    }
+
+    public void AddPointsWithSag(Vector3 a, Vector3 b, float lengthMultiplier) {
+        List<Vector3> temp = new List<Vector3>(2);
+        temp.Add(a);
+        temp.Add(b);
+        AddPointsWithSag(temp, lengthMultiplier);
     }
 
     private List<Vector3> PointsCatenary(Vector3 a, Vector3 b, float lengthMultiplier, int numPoints) {
@@ -47,7 +63,7 @@ public class LiftCableBuilder {
             // We use lerp to place it horizontally
             Vector3 temp = Vector3.Lerp(a, b, points[i].x / dx);
             // Then we set the y
-            temp.y = points[i].y;
+            temp.y = points[i].y + a.y;
             toReturn.Add(temp);
         }
 
@@ -64,6 +80,7 @@ public class LiftCableBuilder {
             float x = (float) i / (numPoints + 1);
             x = Mathf.Lerp(a.x, b.x, x);
             float y = catenary.Evaluate(x);
+            if(i == numPoints) Debug.Log(b.y + "," + y);
             toReturn.Add(new Vector2(x, y));
         }
 

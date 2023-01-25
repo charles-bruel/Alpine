@@ -6,6 +6,8 @@ public class LiftSegment : MonoBehaviour, IPoolable
 {
     public float Gauge;
     public Transform CableAimingPoint;
+    public Transform UphillCablePoint;
+    public Transform DownhillCablePoint;
     public APIDef LiftSegmentAPIDef;
     public APILiftSegment APILiftSegment;
 

@@ -51,6 +51,39 @@ public class LiftBuilder
         PlaceTowers();
         ConstructSpanSegments();
         BuildTowers();
+        FinishAll();
+    }
+
+    private void CreateCables()
+    {
+        LiftCableBuilder builder = new LiftCableBuilder();
+
+        for(int i = 0;i < Data.SpanSegments.Count;i ++) {
+            LiftRoutingSegment routing = Data.SpanSegments[i].Start.PhysicalSegment;
+            List<Vector3> temp = routing.APILiftSegment.GetCablePointsUphill(routing.gameObject, routing.UphillCablePoint);
+            if(i != 0) builder.AddPointsWithSag(builder.LastPoint, temp[0], 1.001f);
+            builder.AddPointsWithoutSag(temp);
+
+            for(int j = 0;j < Data.SpanSegments[i].Towers.Count;j ++) {
+                LiftTower tower = Data.SpanSegments[i].Towers[j].PhysicalTower;
+                List<Vector3> temp2 = tower.APILiftSegment.GetCablePointsUphill(tower.gameObject, tower.UphillCablePoint);
+                builder.AddPointsWithSag(builder.LastPoint, temp2[0], 1.001f);
+                builder.AddPointsWithoutSag(temp2);
+            }
+        }
+
+        builder.CreateGameObject(null, null);
+        builder.StartMesh(1);
+        builder.BuildMesh(0, new Vector3(), 0.1f);
+        builder.FinalizeMesh();
+    }
+
+    private void FinishAll()
+    {
+        for(int i = 0;i < Data.RoutingSegments.Count;i ++) {
+            LiftConstructionData.RoutingSegment routingSegment = Data.RoutingSegments[i];
+            routingSegment.PhysicalSegment.APILiftSegment.Finish();
+        }
     }
 
     private void BuildRoutingSegments() {
@@ -244,6 +277,7 @@ public class LiftBuilder
     }
 
     public void Finish() {
+        CreateCables();
         var temp = GenerateFootprint();
         RemoveTrees(temp);
     }

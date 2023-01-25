@@ -22,7 +22,7 @@ public struct Catenary {
             throw new ArgumentException();
         }
 
-        float r = Mathf.Sqrt(L * L + dy * dy) / dx;
+        float r = Mathf.Sqrt(L * L - dy * dy) / dx;
         float A = (float) SinHAoverA(r);
         
         result.a = dx / (2 * A);

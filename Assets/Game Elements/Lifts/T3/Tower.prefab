@@ -112,6 +112,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Gauge: 3.5
   CableAimingPoint: {fileID: 8950193428635682640}
+  UphillCablePoint: {fileID: 4455300219352279832}
+  DownhillCablePoint: {fileID: 1369634420275037190}
   LiftSegmentAPIDef:
     Enabled: 1
     AssemblyName: default
@@ -579,6 +581,7 @@ MonoBehaviour:
   EndAngle: -10
   Towers: []
   CurrentDroopAmount: 0
+  Above: 0
 --- !u!114 &1554553719447025101
 MonoBehaviour:
   m_ObjectHideFlags: 0

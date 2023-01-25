@@ -28,6 +28,7 @@ public class TowerAssemblyScript : MonoBehaviour
     public float EndAngle = 10;
     public List<TowerScript> Towers;
     public float CurrentDroopAmount = 0;
+    public bool Above;
 
     private SettingControl setting;
     private bool Initialized = false;

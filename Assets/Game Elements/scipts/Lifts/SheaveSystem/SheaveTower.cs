@@ -4,18 +4,11 @@ using UnityEngine;
 
 public class SheaveTower : APILiftSegment
 {
-    private TowerAssemblyScript TowerAssembly;
-    private float WheelSize;
-
-    private bool Above;
-    private Vector3 TowerOGPos;
-    private float DroopAmount;
-
     public override void Build(GameObject self, Transform current, Transform next, Transform prev) {
-        TowerAssembly = self.transform.GetChild(IntParameters[0]).GetComponent<TowerAssemblyScript>();
-        WheelSize = FloatParameters[0];
-        TowerOGPos = TowerAssembly.transform.localPosition;
-        DroopAmount = FloatParameters[1];
+        TowerAssemblyScript TowerAssembly = self.transform.GetChild(IntParameters[0]).GetComponent<TowerAssemblyScript>();
+        float WheelSize = FloatParameters[0];
+        Vector3 TowerOGPos = TowerAssembly.transform.localPosition;
+        float DroopAmount = FloatParameters[1];
 
         Vector3 dif = prev.position - current.position;
         float yDif = dif.y;
@@ -54,7 +47,8 @@ public class SheaveTower : APILiftSegment
             RequiredAngle = -360 + RequiredAngle;
         }
 
-        Above = RequiredAngle < 0;
+        bool Above = RequiredAngle < 0;
+        TowerAssembly.Above = Above;
 
         if (Above)
         {
@@ -67,5 +61,25 @@ public class SheaveTower : APILiftSegment
             TowerAssembly.transform.localPosition = temp;
         }
         TowerAssembly.Reset();
+    }
+
+    public override List<Vector3> GetCablePointsDownhill(GameObject self, Transform downhillCablePoints) {
+        TowerAssemblyScript TowerAssembly = self.transform.GetChild(IntParameters[0]).GetComponent<TowerAssemblyScript>();
+        List<Transform> temp = TowerAssembly.SheaveScriptRight.GetAllCablePoints(TowerAssembly.Above);
+        List<Vector3> toReturn = new List<Vector3>(temp.Count);
+        for(int i = 0;i < temp.Count;i ++) {
+            toReturn.Add(temp[i].position);
+        }
+        return toReturn;
+    }
+
+    public override List<Vector3> GetCablePointsUphill(GameObject self, Transform downhillCablePoints) {
+        TowerAssemblyScript TowerAssembly = self.transform.GetChild(IntParameters[0]).GetComponent<TowerAssemblyScript>();
+        List<Transform> temp = TowerAssembly.SheaveScriptLeft.GetAllCablePoints(TowerAssembly.Above);
+        List<Vector3> toReturn = new List<Vector3>(temp.Count);
+        for(int i = 0;i < temp.Count;i ++) {
+            toReturn.Add(temp[i].position);
+        }
+        return toReturn;
     }
 }
