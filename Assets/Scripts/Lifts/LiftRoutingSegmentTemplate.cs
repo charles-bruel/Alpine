@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LiftRoutingSegment : LiftSegment
+public class LiftRoutingSegmentTemplate : LiftSegmentTemplate
 {
     public enum RoutingSegmentType {
         STATION,

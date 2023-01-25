@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Lift", menuName = "Game Elements/Lifts/Lift", order = 1)]
-public class Lift : ScriptableObject
+public class LiftTemplate : ScriptableObject
 {
     [Header("Objects")]
-    public LiftStation[] AvaliableStations;
-    public LiftTower[] AvaliableTowers;
-    public LiftMidStation[] AvaliableMidStations;
-    public LiftTurn[] AvaliableTurns;
-    public LiftVehicle[] AvaliableLiftVehicles;
+    public LiftStationTemplate[] AvaliableStations;
+    public LiftTowerTemplate[] AvaliableTowers;
+    public LiftMidStationTemplate[] AvaliableMidStations;
+    public LiftTurnTemplate[] AvaliableTurns;
+    public LiftVehicleTemplate[] AvaliableLiftVehicles;
 
     [Header("Operation settings")]
     [Tooltip("In m/s")]

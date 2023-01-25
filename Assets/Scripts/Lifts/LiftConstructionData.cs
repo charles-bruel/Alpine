@@ -3,17 +3,17 @@ using UnityEngine;
 
 [System.Serializable]
 public class LiftConstructionData {
-    public Lift Template;
+    public LiftTemplate Template;
     public List<RoutingSegment> RoutingSegments;
     public List<SpanSegment> SpanSegments;
 
     [System.Serializable]
     public class RoutingSegment {
-        public LiftRoutingSegment.RoutingSegmentType RoutingSegmentType;
+        public LiftRoutingSegmentTemplate.RoutingSegmentType RoutingSegmentType;
         public int TemplateIndex;
         public Vector3 Position;
         public bool HasVerticalPos;
-        public LiftRoutingSegment PhysicalSegment;
+        public LiftRoutingSegmentTemplate PhysicalSegment;
         public float Angle;
     }
 
@@ -32,7 +32,7 @@ public class LiftConstructionData {
     public class TowerSegment {
         public int TemplateIndex;
         public Vector3 Position;
-        public LiftTower PhysicalTower;
+        public LiftTowerTemplate PhysicalTower;
         public float Angle;
     }
 }

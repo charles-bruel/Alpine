@@ -8,10 +8,10 @@ public class LiftBuilder
 {
     public LiftConstructionData Data;
     
-    private Pool<LiftStation>[] StationPools;
-    private Pool<LiftMidStation>[] MidStationPools;
-    private Pool<LiftTurn>[] TurnPools;
-    private Pool<LiftTower>[] TowerPools;
+    private Pool<LiftStationTemplate>[] StationPools;
+    private Pool<LiftMidStationTemplate>[] MidStationPools;
+    private Pool<LiftTurnTemplate>[] TurnPools;
+    private Pool<LiftTowerTemplate>[] TowerPools;
 
     private APITowerPlacer APITowerPlacer;
 
@@ -26,24 +26,24 @@ public class LiftBuilder
     }
 
     private void InitializePools() {
-        StationPools = new Pool<LiftStation>[Data.Template.AvaliableStations.Length];
+        StationPools = new Pool<LiftStationTemplate>[Data.Template.AvaliableStations.Length];
         for(int i = 0;i < StationPools.Length;i ++) {
-            StationPools[i] = new Pool<LiftStation>();
+            StationPools[i] = new Pool<LiftStationTemplate>();
             StationPools[i].Template = Data.Template.AvaliableStations[i];
         }
-        MidStationPools = new Pool<LiftMidStation>[Data.Template.AvaliableMidStations.Length];
+        MidStationPools = new Pool<LiftMidStationTemplate>[Data.Template.AvaliableMidStations.Length];
         for(int i = 0;i < MidStationPools.Length;i ++) {
-            MidStationPools[i] = new Pool<LiftMidStation>();
+            MidStationPools[i] = new Pool<LiftMidStationTemplate>();
             MidStationPools[i].Template = Data.Template.AvaliableMidStations[i];
         }
-        TurnPools = new Pool<LiftTurn>[Data.Template.AvaliableTurns.Length];
+        TurnPools = new Pool<LiftTurnTemplate>[Data.Template.AvaliableTurns.Length];
         for(int i = 0;i < TurnPools.Length;i ++) {
-            TurnPools[i] = new Pool<LiftTurn>();
+            TurnPools[i] = new Pool<LiftTurnTemplate>();
             TurnPools[i].Template = Data.Template.AvaliableTurns[i];
         }
-        TowerPools = new Pool<LiftTower>[Data.Template.AvaliableTowers.Length];
+        TowerPools = new Pool<LiftTowerTemplate>[Data.Template.AvaliableTowers.Length];
         for(int i = 0;i < TowerPools.Length;i ++) {
-            TowerPools[i] = new Pool<LiftTower>();
+            TowerPools[i] = new Pool<LiftTowerTemplate>();
             TowerPools[i].Template = Data.Template.AvaliableTowers[i];
         }
     }
@@ -64,13 +64,13 @@ public class LiftBuilder
         LiftCableBuilder builder = new LiftCableBuilder();
 
         for(int i = 0;i < Data.SpanSegments.Count;i ++) {
-            LiftRoutingSegment routing = Data.SpanSegments[i].Start.PhysicalSegment;
+            LiftRoutingSegmentTemplate routing = Data.SpanSegments[i].Start.PhysicalSegment;
             List<Vector3> temp = routing.APILiftSegment.GetCablePointsUphill(routing.gameObject, routing.UphillCablePoint);
             if(i != 0) builder.AddPointsWithSag(builder.LastPoint, temp[0], 1.0001f);
             builder.AddPointsWithoutSag(temp);
 
             for(int j = 0;j < Data.SpanSegments[i].Towers.Count;j ++) {
-                LiftTower tower = Data.SpanSegments[i].Towers[j].PhysicalTower;
+                LiftTowerTemplate tower = Data.SpanSegments[i].Towers[j].PhysicalTower;
                 List<Vector3> temp2 = tower.APILiftSegment.GetCablePointsUphill(tower.gameObject, tower.UphillCablePoint);
                 builder.AddPointsWithSag(builder.LastPoint, temp2[0], 1.0001f);
                 builder.AddPointsWithoutSag(temp2);
@@ -85,7 +85,7 @@ public class LiftBuilder
         }
 
         for(int i = Data.SpanSegments.Count - 1;i >= 0;i --) {
-            LiftRoutingSegment routing = Data.SpanSegments[i].End.PhysicalSegment;
+            LiftRoutingSegmentTemplate routing = Data.SpanSegments[i].End.PhysicalSegment;
             List<Vector3> temp;
             if(i == Data.SpanSegments.Count - 1) {
                 temp = routing.APILiftSegment.GetCablePointsUphill(routing.gameObject, routing.UphillCablePoint);
@@ -96,7 +96,7 @@ public class LiftBuilder
             builder.AddPointsWithoutSag(temp);
 
             for(int j = Data.SpanSegments[i].Towers.Count - 1;j >= 0;j --) {
-                LiftTower tower = Data.SpanSegments[i].Towers[j].PhysicalTower;
+                LiftTowerTemplate tower = Data.SpanSegments[i].Towers[j].PhysicalTower;
                 List<Vector3> temp2 = tower.APILiftSegment.GetCablePointsDownhill(tower.gameObject, tower.DownhillCablePoint);
                 builder.AddPointsWithSag(builder.LastPoint, temp2[0], 1.0001f);
                 builder.AddPointsWithoutSag(temp2);
@@ -218,9 +218,9 @@ public class LiftBuilder
             float angle = Mathf.Atan2(temp.y, temp.x);
             angle = -angle * Mathf.Rad2Deg - 90;
             for(int j = 0;j < segment.Towers.Count;j ++) {
-                Pool<LiftTower> pool = TowerPools[segment.Towers[j].TemplateIndex];
+                Pool<LiftTowerTemplate> pool = TowerPools[segment.Towers[j].TemplateIndex];
 
-                LiftTower tower = pool.Instantiate();
+                LiftTowerTemplate tower = pool.Instantiate();
 
                 tower.transform.parent = parent;
                 tower.transform.position = segment.Towers[j].Position;
@@ -258,15 +258,15 @@ public class LiftBuilder
                 segment.Position = TerrainManager.Instance.Project(segment.Position.ToHorizontal());
             }
 
-            LiftRoutingSegment routingSegment = null;
+            LiftRoutingSegmentTemplate routingSegment = null;
             switch(segment.RoutingSegmentType) {
-                case LiftRoutingSegment.RoutingSegmentType.STATION:
+                case LiftRoutingSegmentTemplate.RoutingSegmentType.STATION:
                     routingSegment = StationPools[segment.TemplateIndex].Instantiate();
                     break;
-                case LiftRoutingSegment.RoutingSegmentType.MIDSTATION:
+                case LiftRoutingSegmentTemplate.RoutingSegmentType.MIDSTATION:
                     routingSegment = MidStationPools[segment.TemplateIndex].Instantiate();
                     break;
-                case LiftRoutingSegment.RoutingSegmentType.TURN:
+                case LiftRoutingSegmentTemplate.RoutingSegmentType.TURN:
                     routingSegment = TurnPools[segment.TemplateIndex].Instantiate();
                     break;
             }

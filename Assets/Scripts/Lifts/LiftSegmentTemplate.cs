@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LiftSegment : MonoBehaviour, IPoolable
+public class LiftSegmentTemplate : MonoBehaviour, IPoolable
 {
     public float Gauge;
     public Transform CableAimingPoint;

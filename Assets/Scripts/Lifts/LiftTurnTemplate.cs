@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LiftMidStation : LiftStation
+public class LiftTurnTemplate : LiftRoutingSegmentTemplate
 {
     
 }
