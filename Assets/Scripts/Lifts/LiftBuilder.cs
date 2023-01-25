@@ -15,9 +15,14 @@ public class LiftBuilder
 
     private APITowerPlacer APITowerPlacer;
 
+    private Transform parent;
+
     public void Initialize() {
         InitializePools();
         APITowerPlacer = Data.Template.TowerPlacementScript.Fetch<APITowerPlacer>();
+
+        GameObject gameObject = new GameObject("Lift");
+        parent = gameObject.transform;
     }
 
     private void InitializePools() {
@@ -107,7 +112,7 @@ public class LiftBuilder
 
         builder.AddPointsWithSag(builder.LastPoint, builder.Points[0], 1.0001f);
 
-        builder.CreateGameObject(null, null);
+        builder.CreateGameObject(parent, null);
         builder.StartMesh(1);
         builder.BuildMesh(0, new Vector3(), 0.1f);
         builder.FinalizeMesh();
@@ -216,8 +221,11 @@ public class LiftBuilder
                 Pool<LiftTower> pool = TowerPools[segment.Towers[j].TemplateIndex];
 
                 LiftTower tower = pool.Instantiate();
+
+                tower.transform.parent = parent;
                 tower.transform.position = segment.Towers[j].Position;
                 tower.transform.rotation =  Quaternion.Euler(0, angle, 0);
+
                 segment.Towers[j].PhysicalTower = tower;
                 segment.Towers[j].Angle = angle;
             }
@@ -281,6 +289,7 @@ public class LiftBuilder
 
             angle = -angle * Mathf.Rad2Deg - 90;
 
+            obj.transform.parent = parent;
             obj.transform.position = segment.Position;
             obj.transform.rotation =  Quaternion.Euler(0, angle, 0);
 
