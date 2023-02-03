@@ -335,6 +335,7 @@ public class LiftBuilder
             {
                 Vector2 pos = Data.RoutingSegments[i].Position.ToHorizontal();
                 float angle = -Data.RoutingSegments[i].Angle * Mathf.Deg2Rad;
+                if(i == 0) angle += Mathf.PI;
                 Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
                 pointsLeft.Add(pos + dir * (Data.RoutingSegments[i].PhysicalSegment.Gauge + gaugeExpansion));
                 pointsRight.Add(pos - dir * (Data.RoutingSegments[i].PhysicalSegment.Gauge + gaugeExpansion));

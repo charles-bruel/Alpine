@@ -59,22 +59,25 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
         Instance = this;
 
         Collider = GetComponent<BoxCollider>();
-        Collider.size = new Vector3(
-            TerrainManager.Instance.TileSize * TerrainManager.Instance.NumTilesX,
-            TerrainManager.Instance.TileSize * TerrainManager.Instance.NumTilesY,
-            1
-        );
+        float width = TerrainManager.Instance.TileSize * TerrainManager.Instance.NumTilesX;
+        float height = TerrainManager.Instance.TileSize * TerrainManager.Instance.NumTilesY;
+        Collider.size = new Vector3(width, height, 1);
+
+        float x1 = -width  / 2;
+        float x2 =  width  / 2;
+        float y1 = -height / 2;
+        float y2 =  height / 2;
 
         AlpinePolygon poly = new AlpinePolygon();
         poly.Guid = Guid.NewGuid();
         poly.Level = 0;
         poly.Polygon = Polygon.PolygonWithPoints(new Vector2[] {
-            new Vector2(-1200, -1200),
-            new Vector2(-1200,  1200),
-            new Vector2( 1200,  1200),
-            new Vector2( 1200, -1200)
+            new Vector2(x1, y1),
+            new Vector2(x1, y2),
+            new Vector2(x2, y2),
+            new Vector2(x2, y1)
         });
-        poly.Color = Color.yellow;
+        poly.Color = ColorsData.Instance.UndevelopedBackgroundColor;
 
         RegisterPolygon(poly);
 

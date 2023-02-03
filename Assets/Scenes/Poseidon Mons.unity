@@ -175,7 +175,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 6000
   field of view: 60
   orthographic: 1
   orthographic size: 200
@@ -202,7 +202,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 138825116}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1374.1937, y: 400, z: 146.66943}
+  m_LocalPosition: {x: 1374.1937, y: 5000, z: 146.66943}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -976,10 +976,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 757753260}
+  - component: {fileID: 757753262}
+  - component: {fileID: 757753264}
   - component: {fileID: 757753259}
   - component: {fileID: 757753261}
   - component: {fileID: 757753258}
-  - component: {fileID: 757753262}
   - component: {fileID: 757753263}
   m_Layer: 0
   m_Name: Statics
@@ -1038,16 +1039,9 @@ MonoBehaviour:
   LOD_Distance: 1000
   WeatherController: {fileID: 757753261}
   ContourLayersDefinition:
-    Major:
-    - 25
-    - 50
-    - 75
-    - 100
-    - 125
-    - 150
-    - 175
-    - 200
-    - 225
+    MajorSpacing: 100
+    MinorSpacing: 0
+    Major: []
     Minor: []
 --- !u!4 &757753260
 Transform:
@@ -1121,8 +1115,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de0d50b1e711b9c48b66735f89952f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ColorsData: {fileID: 757753264}
+  TerrainManager: {fileID: 757753259}
   WeatherController: {fileID: 757753261}
   PolygonsController: {fileID: 830588212}
+  StateController: {fileID: 757753263}
 --- !u!114 &757753263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1140,6 +1137,20 @@ MonoBehaviour:
   - {fileID: 1821605588}
   ThreeDOnlyObjects:
   - {fileID: 1803827441}
+--- !u!114 &757753264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757753257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30ab09e3a00ed054d8d6f9e331328970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UndevelopedBackgroundColor: {r: 0.5137255, g: 0.627451, b: 0.4784314, a: 0}
+  DevelopedColor: {r: 1, g: 0.87991464, b: 0.5613208, a: 0}
 --- !u!1 &763692009
 GameObject:
   m_ObjectHideFlags: 0

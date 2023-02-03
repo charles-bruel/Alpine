@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour{
+    public ColorsData ColorsData;
     public TerrainManager TerrainManager;
     public WeatherController WeatherController;
     public PolygonsController PolygonsController;
@@ -11,6 +12,7 @@ public class GameController : MonoBehaviour{
     void Start() {
         Instance = this;
 
+        ColorsData.Initialize();
         TerrainManager.Initialize();
         WeatherController.Initialize();
         PolygonsController.Initialize();

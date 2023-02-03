@@ -276,7 +276,7 @@ public class TerrainManager : MonoBehaviour {
             Bounds bounds = new Bounds(Vector3.zero, Vector3.zero);
             bounds.min = new Vector3(nextDirty.PosX * TileSize, 0, nextDirty.PosY * TileSize);
             bounds.max = new Vector3((nextDirty.PosX + 1) * TileSize, TileHeight, (nextDirty.PosY + 1) * TileSize);
-            nextDirty.RecreateContours(bounds, ContourLayersDefinition);
+            nextDirty.RecreateContours(bounds, ContourLayersDefinition.Convert(TileHeight));
             nextDirty.DirtyStates &= ~TerrainTile.TerrainTileDirtyStates.CONTOURS;
         } else {
             Bounds bounds = new Bounds(Vector3.zero, Vector3.zero);

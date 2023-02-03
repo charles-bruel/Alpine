@@ -64,8 +64,8 @@ public class RecreateContourMeshJob : Job
         for(int l = 0;l < Contours.Layers.Minor.Length;l ++) {
 			var array = Contours.MinorPoints[l];
 			for(int i = 0;i < array.Count;i += 2) {
-                Vector3 a = new Vector3(array[i].x, Contours.Layers.Major[l] + 0.1f, array[i].y);
-                Vector3 b = new Vector3(array[i+1].x, Contours.Layers.Major[l] + 0.1f, array[i+1].y);
+                Vector3 a = new Vector3(array[i].x, Contours.Layers.Minor[l] + 0.1f, array[i].y);
+                Vector3 b = new Vector3(array[i+1].x, Contours.Layers.Minor[l] + 0.1f, array[i+1].y);
 
                 Vertices[index + 0] = a;
                 Vertices[index + 1] = b;
