@@ -73,8 +73,9 @@ public class TerrainManager : MonoBehaviour {
 
     private LayerMask TerrainLayerMask;
 
+    private bool Initialized = false;
 
-    void Start() {
+    public void Initialize() {
         TerrainLayerMask = ~LayerMask.NameToLayer("Terrain");
 
         CopyMapData();
@@ -108,6 +109,8 @@ public class TerrainManager : MonoBehaviour {
         }
 
         StartPlacementJobs();
+
+        Initialized = true;
     }
 
     private void CopyMapData() {
@@ -252,6 +255,8 @@ public class TerrainManager : MonoBehaviour {
     }
 
     void Update() {
+        if(!Initialized) return;
+
         UpdateSnowMaterials();
 
         if(TreeLODRenderersDirty) {

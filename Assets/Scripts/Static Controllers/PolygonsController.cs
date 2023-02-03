@@ -23,6 +23,7 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
     public static PolygonsController Instance;
 
     private bool PolygonsDirty = false;
+    private bool Initialized = false;
 
     public void MarkPolygonsDirty() {
         PolygonsDirty = true;
@@ -46,13 +47,15 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
     }
 
     void Update() {
+        if(!Initialized) return;
+
         if(PolygonsDirty) {
             PolygonsDirty = false;
             Remesh();
         }
     }
 
-    void Start() {
+    public void Initialize() {
         Instance = this;
 
         Collider = GetComponent<BoxCollider>();
@@ -75,33 +78,7 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
 
         RegisterPolygon(poly);
 
-
-        poly = new AlpinePolygon();
-        poly.Guid = Guid.NewGuid();
-        poly.Level = 1;
-        poly.Polygon = Polygon.PolygonWithPoints(new Vector2[] {
-            new Vector2(-33, -45),
-            new Vector2(-23,  32),
-            new Vector2( 75,  23),
-            new Vector2( 65, -76)
-        });
-        poly.Color = Color.green;
-        poly.ArbitrarilyEditable = true;
-
-        RegisterPolygon(poly);
-
-        poly = new AlpinePolygon();
-        poly.Guid = Guid.NewGuid();
-        poly.Level = 1;
-        poly.Polygon = Polygon.PolygonWithPoints(new Vector2[] {
-            new Vector2(-1200, -1100),
-            new Vector2(-1200, -1000),
-            new Vector2(-1000, -1200),
-            new Vector2(-1100, -1200)
-        });
-        poly.Color = Color.blue;
-
-        RegisterPolygon(poly);
+        Initialized = true;
     }
 
     private void Remesh() {

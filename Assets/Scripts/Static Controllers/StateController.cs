@@ -16,7 +16,7 @@ public class StateController : MonoBehaviour
         }
     }
 
-    void Start() {
+    public void Initialize() {
         Instance = this;
     }
 

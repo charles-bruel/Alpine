@@ -49,10 +49,11 @@ public class WeatherController : MonoBehaviour {
     private float SnowfallTrackerTimer;
     private float CurrentSnowfallTracker;
 
-    void Start() {
+    private bool Initialized = false;
+
+    public void Initialize() {
         Recent = new SnowLevelBuffer();
         Base = new SnowLevelBuffer();
-
         
         Keyframe[] blank = new Keyframe[SnowLevelBuffer.Size];
         for(int i = 0;i < SnowLevelBuffer.Size;i ++) {
@@ -62,6 +63,8 @@ public class WeatherController : MonoBehaviour {
         RecentSnow = new AnimationCurve(blank);
 
         SnowfallTracker = new float[SnowfallTrackerSize];
+
+        Initialized = true;
     }
 
     public void UpdateMaterial(Material material, SnowCatcherType type) {
@@ -77,6 +80,8 @@ public class WeatherController : MonoBehaviour {
     }
 
     void Update() {
+        if(!Initialized) return;
+
         float delta = Time.deltaTime * TimeFactor;
         Timer -= delta;
 
