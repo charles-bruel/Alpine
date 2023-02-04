@@ -121,7 +121,7 @@ MonoBehaviour:
     ClassName: SheaveTower
     Params:
       FloatParameters:
-      - 0.876
+      - 0.427
       - 2.5
       IntParameters: 02000000
 --- !u!1 &2987364069965888646
