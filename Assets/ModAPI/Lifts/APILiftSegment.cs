@@ -44,7 +44,6 @@ public class APILiftSegment : APIBase
         return toReturn;
     }
 
-    // Gets the cable points (in world space) going uphill on the lift.
     // This will be called last
     public virtual void Finish() {
         

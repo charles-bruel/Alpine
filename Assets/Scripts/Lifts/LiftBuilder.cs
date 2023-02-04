@@ -13,16 +13,20 @@ public class LiftBuilder
     private Pool<LiftTurnTemplate>[] TurnPools;
     private Pool<LiftTowerTemplate>[] TowerPools;
 
+    private Lift Result;
+
     private APITowerPlacer APITowerPlacer;
 
-    private Transform parent;
+    private Transform Parent;
 
     public void Initialize() {
         InitializePools();
         APITowerPlacer = Data.Template.TowerPlacementScript.Fetch<APITowerPlacer>();
 
         GameObject gameObject = new GameObject("Lift");
-        parent = gameObject.transform;
+        Result = gameObject.AddComponent<Lift>();
+        Result.Template = Data.Template;
+        Parent = gameObject.transform;
     }
 
     private void InitializePools() {
@@ -56,7 +60,6 @@ public class LiftBuilder
         PlaceTowers();
         ConstructSpanSegments();
         BuildTowers();
-        FinishAll();
     }
 
     private void CreateCables()
@@ -112,7 +115,7 @@ public class LiftBuilder
 
         builder.AddPointsWithSag(builder.LastPoint, builder.Points[0], 1.0001f);
 
-        builder.CreateGameObject(parent, Data.Template.CableMaterial);
+        builder.CreateGameObject(Parent, Data.Template.CableMaterial);
         builder.StartMesh(1);
         builder.BuildMesh(0, new Vector3(), Data.Template.CableThickness);
         builder.FinalizeMesh();
@@ -222,7 +225,7 @@ public class LiftBuilder
 
                 LiftTowerTemplate tower = pool.Instantiate();
 
-                tower.transform.parent = parent;
+                tower.transform.parent = Parent;
                 tower.transform.position = segment.Towers[j].Position;
                 tower.transform.rotation =  Quaternion.Euler(0, angle, 0);
 
@@ -289,7 +292,7 @@ public class LiftBuilder
 
             angle = -angle * Mathf.Rad2Deg - 90;
 
-            obj.transform.parent = parent;
+            obj.transform.parent = Parent;
             obj.transform.position = segment.Position;
             obj.transform.rotation =  Quaternion.Euler(0, angle, 0);
 
@@ -321,9 +324,11 @@ public class LiftBuilder
     }
 
     public void Finish() {
+        FinishAll();
         CreateCables();
-        var temp = GenerateFootprint();
-        RemoveTrees(temp);
+        PolygonsController.AlpinePolygon footprint = GenerateFootprint();
+        RemoveTrees(footprint);
+        Result.Finish(footprint);
     }
 
     private PolygonsController.AlpinePolygon GenerateFootprint() {
