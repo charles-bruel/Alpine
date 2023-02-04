@@ -11,6 +11,8 @@ public class TowerScript : MonoBehaviour
     public Transform Target;
     public Transform WirePoint;
 
+    private static int layer = -1;
+
     void Update()
     {
         //Ugly and possibly slow but gets the job done.
@@ -25,10 +27,13 @@ public class TowerScript : MonoBehaviour
 
     public void Reset()
     {
+        if(layer == -1) {
+            layer = 1 << LayerMask.NameToLayer("Terrain");
+        }
         if(BaseItems != null)
         {
             RaycastHit hitInfo = default(RaycastHit);
-            Physics.Raycast(transform.position, Target.position - transform.position, out hitInfo, float.MaxValue);
+            Physics.Raycast(transform.position, Target.position - transform.position, out hitInfo, float.MaxValue, layer);
             BaseItems.position = hitInfo.point;
         }
     }

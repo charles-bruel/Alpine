@@ -10,13 +10,13 @@ public class SheaveTower : APILiftSegment
         Vector3 TowerOGPos = TowerAssembly.transform.localPosition;
         float DroopAmount = FloatParameters[1];
 
-        Vector3 dif = prev.position - current.position;
+        Vector3 dif = next.position - current.position;
         float yDif = dif.y;
         dif.y = 0;
         float xDif = dif.magnitude;
         float endAngle = Mathf.Atan(yDif / xDif) * Mathf.Rad2Deg;
         
-        dif = current.position - next.position;
+        dif = current.position - prev.position;
         yDif = dif.y;
         dif.y = 0;
         xDif = dif.magnitude;

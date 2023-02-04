@@ -144,8 +144,8 @@ public class LiftBuilder
             routingSegment.PhysicalSegment.APILiftSegment.Build(
                 routingSegment.PhysicalSegment.gameObject,
                 routingSegment.PhysicalSegment.CableAimingPoint,
-                prev,
-                next
+                next,
+                prev
             );
         }
     }
@@ -171,8 +171,8 @@ public class LiftBuilder
                 towerSegment.PhysicalTower.APILiftSegment.Build(
                     towerSegment.PhysicalTower.gameObject,
                     towerSegment.PhysicalTower.CableAimingPoint,
-                    prev,
-                    next
+                    next,
+                    prev
                 );
             }
         }
