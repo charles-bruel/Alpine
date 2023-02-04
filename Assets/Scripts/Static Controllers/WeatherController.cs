@@ -51,6 +51,8 @@ public class WeatherController : MonoBehaviour {
 
     private bool Initialized = false;
 
+    public float particlesPer1ksq = 10000;
+
     public void Initialize() {
         Recent = new SnowLevelBuffer();
         Base = new SnowLevelBuffer();
@@ -63,6 +65,24 @@ public class WeatherController : MonoBehaviour {
         RecentSnow = new AnimationCurve(blank);
 
         SnowfallTracker = new float[SnowfallTrackerSize];
+
+        {
+            float width = TerrainManager.Instance.NumTilesX * TerrainManager.Instance.TileSize;
+            float height = TerrainManager.Instance.NumTilesY * TerrainManager.Instance.TileSize;
+            var temp = SnowParticles.shape;
+            temp.scale = new Vector3(
+                width,
+                height,
+                TerrainManager.Instance.TileHeight + 400
+            );
+            width *= 0.001f;// Convert to km
+            height *= 0.001f;
+            int particleCount = (int) (particlesPer1ksq * width * height);
+            var temp2 = SnowParticles.main;
+            temp2.maxParticles = particleCount;
+            var temp3 = SnowParticles.emission;
+            temp3.rateOverTime = particleCount;
+        }
 
         Initialized = true;
     }
@@ -120,7 +140,7 @@ public class WeatherController : MonoBehaviour {
 
                 if(SnowParticles != null) {
                     SnowParticles.Play();
-                    SnowParticles.transform.position = new Vector3(0, StormHeight * TerrainManager.Instance.TileHeight, 0);
+                    SnowParticles.transform.position = new Vector3(0, Mathf.Max(StormHeight * TerrainManager.Instance.TileHeight, 0), 0);
                 }
             }
         }

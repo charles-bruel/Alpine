@@ -1103,6 +1103,7 @@ MonoBehaviour:
   Snowfall12Hr: 0
   Snowfall24Hr: 0
   Snowfall7D: 0
+  particlesPer1ksq: 10000
 --- !u!114 &757753262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3436,7 +3437,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -3820,7 +3821,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 200}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 1600, y: 1600, z: 400}
+    m_Scale: {x: 1200, y: 400, z: 1200}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
