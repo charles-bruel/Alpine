@@ -15,6 +15,7 @@ public class LiftConstructionTest : MonoBehaviour {
     }
 
     void Update() {
+        Builder.LightBuild();
         Builder.Build();
     }
 }

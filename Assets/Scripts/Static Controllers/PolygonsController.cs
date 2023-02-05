@@ -77,7 +77,7 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
             new Vector2(x2, y2),
             new Vector2(x2, y1)
         });
-        poly.Color = ColorsData.Instance.UndevelopedBackgroundColor;
+        poly.Color = RenderingData.Instance.UndevelopedBackgroundColor;
 
         RegisterPolygon(poly);
 

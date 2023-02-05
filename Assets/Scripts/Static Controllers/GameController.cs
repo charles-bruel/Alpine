@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour{
-    public ColorsData ColorsData;
+    public RenderingData ColorsData;
     public TerrainManager TerrainManager;
     public WeatherController WeatherController;
     public PolygonsController PolygonsController;

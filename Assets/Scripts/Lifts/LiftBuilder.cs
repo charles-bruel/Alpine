@@ -26,6 +26,7 @@ public class LiftBuilder
         GameObject gameObject = new GameObject("Lift");
         Result = gameObject.AddComponent<Lift>();
         Result.Template = Data.Template;
+        Result.CreateSubObjects();
         Parent = gameObject.transform;
     }
 
@@ -50,6 +51,23 @@ public class LiftBuilder
             TowerPools[i] = new Pool<LiftTowerTemplate>();
             TowerPools[i].Template = Data.Template.AvaliableTowers[i];
         }
+    }
+
+    public void LightBuild() {
+        UpdateLine();
+    }
+
+    private void UpdateLine() {
+        Vector3[] positions = new Vector3[Data.RoutingSegments.Count];
+
+        for(int i = 0;i < Data.RoutingSegments.Count;i ++) {
+            positions[i] = Data.RoutingSegments[i].Position;
+            positions[i].y = 50;
+        }
+
+        Result.Line.positionCount = positions.Length;
+
+        Result.Line.SetPositions(positions);
     }
 
     public void Build() {
