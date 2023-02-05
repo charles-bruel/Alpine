@@ -982,6 +982,7 @@ GameObject:
   - component: {fileID: 757753261}
   - component: {fileID: 757753258}
   - component: {fileID: 757753263}
+  - component: {fileID: 757753265}
   m_Layer: 0
   m_Name: Statics
   m_TagString: Untagged
@@ -1121,6 +1122,7 @@ MonoBehaviour:
   WeatherController: {fileID: 757753261}
   PolygonsController: {fileID: 830588212}
   StateController: {fileID: 757753263}
+  TerrainModificationController: {fileID: 757753265}
 --- !u!114 &757753263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1152,6 +1154,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UndevelopedBackgroundColor: {r: 0.5137255, g: 0.627451, b: 0.4784314, a: 0}
   DevelopedColor: {r: 1, g: 0.87991464, b: 0.5613208, a: 0}
+--- !u!114 &757753265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757753257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eaf533674c2e734490a73246ab66410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &763692009
 GameObject:
   m_ObjectHideFlags: 0

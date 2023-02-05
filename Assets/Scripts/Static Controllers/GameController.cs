@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour{
     public WeatherController WeatherController;
     public PolygonsController PolygonsController;
     public StateController StateController;
+    public TerrainModificationController TerrainModificationController;
 
     void Start() {
         Instance = this;
@@ -20,7 +21,7 @@ public class GameController : MonoBehaviour{
     }
 
     public void TerrainManagerDoneCallback() {
-        //TODO: Call this
+        TerrainModificationController.Initialize();
     }
 
     public static GameController Instance;
