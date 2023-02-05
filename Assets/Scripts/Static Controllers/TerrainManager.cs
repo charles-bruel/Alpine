@@ -290,6 +290,7 @@ public class TerrainManager : MonoBehaviour {
                 nextDirty.RecreateRockMesh(bounds, RockModel);
                 nextDirty.DirtyStates &= ~TerrainTile.TerrainTileDirtyStates.ROCKS;
             }
+            nextDirty.HasFullyInitialized = true;
         }
     }
 
@@ -376,6 +377,13 @@ public class TerrainManager : MonoBehaviour {
         x += NumTilesX / 2;
         y += NumTilesY / 2;
         return new Vector2Int(x, y);
+    }
+
+    public void TestInitialization() {
+        for(int i = 0;i < Tiles.Count;i ++) {
+            if(!Tiles[i].HasFullyInitialized) return;
+        }
+        GameController.Instance.TerrainManagerDoneCallback();
     }
 
     public static TerrainManager Instance;

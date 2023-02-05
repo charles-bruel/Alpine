@@ -12,7 +12,6 @@ public class TerrainTile : MonoBehaviour {
     public int id;
     [NonSerialized]
     public TerrainTileDirtyStates DirtyStates = TerrainTileDirtyStates.TERRAIN;
-
     [NonSerialized]
     public Terrain TerrainComponent;
     [NonSerialized]
@@ -34,8 +33,19 @@ public class TerrainTile : MonoBehaviour {
     [NonSerialized]
     public ContourDefinition Contours;
 
-    void Start() {
+    private bool hasFullyInitialized;
+    public bool HasFullyInitialized {
+        set {
+            bool flag = value && value != hasFullyInitialized;
+            hasFullyInitialized = value;
+            if(flag) {
+                TerrainManager.Instance.TestInitialization();
+            }
+        }
+        get { return hasFullyInitialized; }
+    }
 
+    void Start() {
         GameObject terrain = new GameObject("Terrain");
         terrain.transform.parent = transform;
         terrain.transform.localPosition = Vector3.zero;
