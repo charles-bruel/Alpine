@@ -1103,7 +1103,7 @@ MonoBehaviour:
   Snowfall12Hr: 0
   Snowfall24Hr: 0
   Snowfall7D: 0
-  particlesPer1ksq: 10000
+  particlesPer1ksq: 2000
 --- !u!114 &757753262
 MonoBehaviour:
   m_ObjectHideFlags: 0

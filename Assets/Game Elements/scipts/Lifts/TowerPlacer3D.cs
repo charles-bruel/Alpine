@@ -5,15 +5,16 @@ using UnityEngine;
 public class TowerPlacer3D : APITowerPlacer {
     public override List<Vector3> PlaceTowers(List<Vector3> terrainPos, Vector3 StartStation, Vector3 EndStation)
     {
-        float TargetHeight =          FloatParameters[1];
-        float MaxHeight =             FloatParameters[2];
-        float MaxTowerHeight =        FloatParameters[3];
-        float MinHeight =             FloatParameters[4];
-        float TargetSpan =            FloatParameters[5];
-        float MaxSpan =               FloatParameters[6];
-        float MinSpan =               FloatParameters[7];
-        float SectionCutThreshold =   FloatParameters[8];
-        float StationTowerMaxDist =   FloatParameters[10];
+        float TargetHeight =           FloatParameters[1];
+        float MaxHeight =              FloatParameters[2];
+        float MaxTowerHeight =         FloatParameters[3];
+        float MinHeight =              FloatParameters[4];
+        float TargetSpan =             FloatParameters[5];
+        float MaxSpan =                FloatParameters[6];
+        float MinSpan =                FloatParameters[7];
+        float SectionCutThreshold =    FloatParameters[8];
+        float StationTowerMaxDist =    FloatParameters[10];
+        float EdgeSpanDistMultiplier = FloatParameters[11];
 
         int StationTowerDist =        IntParameters[0];
 
@@ -133,8 +134,43 @@ public class TowerPlacer3D : APITowerPlacer {
         // We now fill in any gaps which are too large as evenly as possible
         for(int i = 0;i < stage1.Count - 1;i ++) {
             stage2.Add(stage1[i]);
-            if((stage1[i] - stage1[i + 1]).sqrMagnitude > MaxSpan * MaxSpan) {
-                float dist = (stage1[i] - stage1[i + 1]).magnitude;
+            Vector3 start = stage1[i];
+            Vector3 end = stage1[i + 1];
+
+            // We want to minimize the lengths of the first and last spans
+            // because we want to keep especially the first spans away from
+            // the ground.
+            // Since stage one is sorted, the edge spans are at i == 0 and
+            // i == count - 1
+            if(i == 0) {
+                float adjustedMaxSpan = MaxSpan * EdgeSpanDistMultiplier;
+                if((start - end).sqrMagnitude > adjustedMaxSpan * adjustedMaxSpan) {
+                    // We only want the first one to be denser
+                    float dist = (start - end).magnitude;
+                    float id_rough = Mathf.Lerp(TowerIDs[i], TowerIDs[i + 1], (TargetSpan * EdgeSpanDistMultiplier) / dist);
+                    int id = (int) id_rough;
+                    stage2.Add(terrainPos[id]);
+                    start = terrainPos[id];
+                    TowerIDs[i] = id;
+                }
+            }
+
+            Vector3 addAfterIfApplicable = default(Vector3);
+            if(i == stage1.Count - 1) {
+                float adjustedMaxSpan = MaxSpan * EdgeSpanDistMultiplier;
+                if((start - end).sqrMagnitude > adjustedMaxSpan * adjustedMaxSpan) {
+                    // We only want the first one to be denser
+                    float dist = (start - end).magnitude;
+                    float id_rough = Mathf.Lerp(TowerIDs[i], TowerIDs[i + 1], 1 - (TargetSpan * EdgeSpanDistMultiplier) / dist);
+                    int id = (int) id_rough;
+                    addAfterIfApplicable = terrainPos[id];
+                    end = terrainPos[id];
+                    TowerIDs[i + 1] = id;
+                }
+            }
+
+            if((start - end).sqrMagnitude > MaxSpan * MaxSpan) {
+                float dist = (start - end).magnitude;
                 int targetNumberToAdd = (int) (dist / TargetSpan) + 1;
                 for(int j = 0;j < targetNumberToAdd;j ++) {
                     float id_rough = Mathf.Lerp(TowerIDs[i], TowerIDs[i + 1], ((float) j + 1) / (targetNumberToAdd + 1));
@@ -142,6 +178,8 @@ public class TowerPlacer3D : APITowerPlacer {
                     stage2.Add(terrainPos[id]);
                 }
             }
+
+            if(i == stage1.Count - 1) stage2.Add(addAfterIfApplicable);
         }
         stage2.Add(stage1[stage1.Count - 1]);
 
