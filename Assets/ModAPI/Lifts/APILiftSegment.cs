@@ -16,13 +16,14 @@ public class APILiftSegment : APIBase
     // This function will be called after Build()
     // Default behavior is to return the children of uphillCablePoints is there are any, otherwise
     // returning uphillCablePoints
-    public virtual List<Vector3> GetCablePointsUphill(GameObject self, Transform uphillCablePoints) {
-        List<Vector3> toReturn = new List<Vector3>(uphillCablePoints.childCount);
+    public virtual List<LiftCablePoint> GetCablePointsUphill(GameObject self, Transform uphillCablePoints) {
+        List<LiftCablePoint> toReturn = new List<LiftCablePoint>(uphillCablePoints.childCount);
         if(uphillCablePoints.childCount == 0) {
-            toReturn.Add(uphillCablePoints.position);
+            toReturn.Add(new LiftCablePoint(uphillCablePoints.position, uphillCablePoints.localScale.x));
         } else {
             for(int i = 0;i < uphillCablePoints.childCount;i ++) {
-                toReturn.Add(uphillCablePoints.GetChild(i).position);
+                Transform temp = uphillCablePoints.GetChild(i);
+                toReturn.Add(new LiftCablePoint(temp.position, temp.localScale.x));
             }
         }
         return toReturn;
@@ -32,13 +33,14 @@ public class APILiftSegment : APIBase
     // This function will be called after Build()
     // Default behavior is to return the children of downhillCablePoints is there are any, otherwise
     // returning downhillCablePoints
-    public virtual List<Vector3> GetCablePointsDownhill(GameObject self, Transform downhillCablePoints) {
-        List<Vector3> toReturn = new List<Vector3>(downhillCablePoints.childCount);
+    public virtual List<LiftCablePoint> GetCablePointsDownhill(GameObject self, Transform downhillCablePoints) {
+        List<LiftCablePoint> toReturn = new List<LiftCablePoint>(downhillCablePoints.childCount);
         if(downhillCablePoints.childCount == 0) {
-            toReturn.Add(downhillCablePoints.position);
+            toReturn.Add(new LiftCablePoint(downhillCablePoints.position, downhillCablePoints.localScale.x));
         } else {
             for(int i = 0;i < downhillCablePoints.childCount;i ++) {
-                toReturn.Add(downhillCablePoints.GetChild(i).position);
+                Transform temp = downhillCablePoints.GetChild(i);
+                toReturn.Add(new LiftCablePoint(temp.position, temp.localScale.x));
             }
         }
         return toReturn;

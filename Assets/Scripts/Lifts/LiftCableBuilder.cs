@@ -6,7 +6,7 @@ using UnityEngine.Rendering;
 
 public class LiftCableBuilder {
 
-    public List<Vector3> Points = new List<Vector3>();
+    public List<LiftCablePoint> Points = new List<LiftCablePoint>();
 
     private Mesh.MeshDataArray OutputMeshData;
     private NativeArray<Vector3> Vertices;
@@ -20,12 +20,16 @@ public class LiftCableBuilder {
     public static readonly int numVerticesPerPoint = numPoints;
     public static readonly int numVerticesPerTriangle = 3;
 
-    public Vector3 LastPoint {
+    public LiftCablePoint LastPoint {
         get => Points[Points.Count - 1];
     }
 
-    public void AddPointsWithoutSag(List<Vector3> points) {
-        if(Points.Count > 0 && (LastPoint - points[0]).sqrMagnitude < float.Epsilon) {
+    public Vector3 LastPos {
+        get => Points[Points.Count - 1].pos;
+    }
+
+    public void AddPointsWithoutSag(List<LiftCablePoint> points) {
+        if(Points.Count > 0 && (LastPos - points[0].pos).sqrMagnitude < float.Epsilon) {
             // I believe removing the last element of main array is faster than removing
             // the first element of the added array because last element removes should be faster
             Points.RemoveAt(Points.Count - 1);
@@ -33,17 +37,25 @@ public class LiftCableBuilder {
         Points.AddRange(points);
     }
 
-    public void AddPointsWithSag(List<Vector3> points, float lengthMultiplier) {
+    public void AddPointsWithSag(List<LiftCablePoint> points, float lengthMultiplier) {
         for(int i = 0;i < points.Count - 1;i ++) {
             //TODO: Intelligent num points
-            List<Vector3> temp = PointsCatenary(points[i], points[i + 1], lengthMultiplier, 32);
-            if(i != points.Count - 2) temp.RemoveAt(temp.Count - 1);
-            AddPointsWithoutSag(temp);
+            List<Vector3> catenaryResult = PointsCatenary(points[i].pos, points[i + 1].pos, lengthMultiplier, 32);
+
+            if(i != points.Count - 2) catenaryResult.RemoveAt(catenaryResult.Count - 1);
+
+            List<LiftCablePoint> injectedResult = new List<LiftCablePoint>(catenaryResult.Count);
+            for(int j = 0;j < catenaryResult.Count;j ++) {
+                float t = (float) j / (catenaryResult.Count - 1);
+                injectedResult.Add(new LiftCablePoint(catenaryResult[j], Mathf.Lerp(points[i].speed, points[i + 1].speed, t)));
+            }
+
+            AddPointsWithoutSag(injectedResult);
         }
     }
 
-    public void AddPointsWithSag(Vector3 a, Vector3 b, float lengthMultiplier) {
-        List<Vector3> temp = new List<Vector3>(2);
+    public void AddPointsWithSag(LiftCablePoint a, LiftCablePoint b, float lengthMultiplier) {
+        List<LiftCablePoint> temp = new List<LiftCablePoint>(2);
         temp.Add(a);
         temp.Add(b);
         AddPointsWithSag(temp, lengthMultiplier);
@@ -166,15 +178,15 @@ public class LiftCableBuilder {
     }
 
     private void BuildRing(int cableIndex, int id, Vector3 offset, float thickness) {
-        Vector3 mainPoint = Points[id];
+        Vector3 mainPoint = Points[id].pos;
         int prevId = id - 1;
         if(prevId < 0) prevId = Points.Count - 1;
-        Vector3 prevPoint = Points[prevId];
+        Vector3 prevPoint = Points[prevId].pos;
         int nextId = id + 1;
         if(nextId > Points.Count - 1) {
             nextId = 0;
         }
-        Vector3 nextPoint = Points[nextId];
+        Vector3 nextPoint = Points[nextId].pos;
 
         Vector3 direction = (nextPoint - prevPoint);
         Vector3 rightAxis = Vector3.Cross(direction, Vector3.up).normalized;

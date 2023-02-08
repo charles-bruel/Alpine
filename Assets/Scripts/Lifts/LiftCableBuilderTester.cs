@@ -17,12 +17,12 @@ public class LiftCableBuilderTester : MonoBehaviour {
         builder.FinalizeMesh();
     }
 
-    private List<Vector3> GenerateTestPoints(int v)
+    private List<LiftCablePoint> GenerateTestPoints(int v)
     {
-        List<Vector3> toReturn = new List<Vector3>(v);
+        List<LiftCablePoint> toReturn = new List<LiftCablePoint>(v);
         for(int i = 0;i < v;i ++) {
             float angleRads = 2 * MathF.PI * ((float)i/v);
-            toReturn.Add(new Vector3(Mathf.Sin(angleRads) * 64, 0, Mathf.Cos(angleRads) * 64));
+            toReturn.Add(new LiftCablePoint(new Vector3(Mathf.Sin(angleRads) * 64, 0, Mathf.Cos(angleRads) * 64), 1));
         }
         return toReturn;
     }

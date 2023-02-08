@@ -16,13 +16,13 @@ public class APILiftSegmentTester : MonoBehaviour {
 
     void Update() {
         Segment.Build(gameObject, self, next, prev);
-        List<Vector3> temp = Segment.GetCablePointsDownhill(gameObject, cablePointDownhill);
+        List<LiftCablePoint> temp = Segment.GetCablePointsDownhill(gameObject, cablePointDownhill);
         for(int i = 0;i < temp.Count - 1;i ++) {
-            Debug.DrawLine(temp[i], temp[i + 1], Color.red, 1);
+            Debug.DrawLine(temp[i].pos, temp[i + 1].pos, Color.red, 1);
         }
         temp = Segment.GetCablePointsUphill(gameObject, cablePointUphill);
         for(int i = 0;i < temp.Count - 1;i ++) {
-            Debug.DrawLine(temp[i], temp[i + 1], Color.red, 1);
+            Debug.DrawLine(temp[i].pos, temp[i + 1].pos, Color.red, 1);
         }
     }
 }

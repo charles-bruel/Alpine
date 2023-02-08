@@ -76,15 +76,15 @@ public class MidStationT3 : APITurnSegment {
         return LastLength;
     }
 
-    public override List<Vector3> GetCablePointsUphill(GameObject self, Transform uphillCablePoints) {
+    public override List<LiftCablePoint> GetCablePointsUphill(GameObject self, Transform uphillCablePoints) {
         return GetCablePointsUniversal(self, true);
     }
 
-    public override List<Vector3> GetCablePointsDownhill(GameObject self, Transform downhillCablePoints) {
+    public override List<LiftCablePoint> GetCablePointsDownhill(GameObject self, Transform downhillCablePoints) {
         return GetCablePointsUniversal(self, false);
     }
 
-    private List<Vector3> GetCablePointsUniversal(GameObject self, bool uphill) {
+    private List<LiftCablePoint> GetCablePointsUniversal(GameObject self, bool uphill) {
         Transform primarySegment = self.transform.GetChild(IntParameters[0]);
         Transform secondarySegment = self.transform.GetChild(IntParameters[1]);
         Vector3 primarySegmentCP = primarySegment.GetChild(IntParameters[uphill ? 3 : 4]).position;
@@ -104,10 +104,11 @@ public class MidStationT3 : APITurnSegment {
         
         List<Vector2> filletResult = Utils.Fillet(A1, intersection, B1, 3, 64);
 
-        List<Vector3> toReturn = new List<Vector3>(filletResult.Count);
+        List<LiftCablePoint> toReturn = new List<LiftCablePoint>(filletResult.Count);
 
         for(int i = 0;i < filletResult.Count;i ++) {
-            toReturn.Add(new Vector3(filletResult[i].x, primarySegmentCP.y, filletResult[i].y));
+            Vector3 pos = new Vector3(filletResult[i].x, primarySegmentCP.y, filletResult[i].y);
+            toReturn.Add(new LiftCablePoint(pos, 1));
         }
 
         if(!uphill) toReturn.Reverse();

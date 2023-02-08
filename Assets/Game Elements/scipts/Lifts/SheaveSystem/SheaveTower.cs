@@ -63,22 +63,22 @@ public class SheaveTower : APILiftSegment
         TowerAssembly.Reset();
     }
 
-    public override List<Vector3> GetCablePointsDownhill(GameObject self, Transform downhillCablePoints) {
+    public override List<LiftCablePoint> GetCablePointsDownhill(GameObject self, Transform downhillCablePoints) {
         TowerAssemblyScript TowerAssembly = self.transform.GetChild(IntParameters[0]).GetComponent<TowerAssemblyScript>();
         List<Transform> temp = TowerAssembly.SheaveScriptRight.GetAllCablePoints(TowerAssembly.Above);
-        List<Vector3> toReturn = new List<Vector3>(temp.Count);
+        List<LiftCablePoint> toReturn = new List<LiftCablePoint>(temp.Count);
         for(int i = 0;i < temp.Count;i ++) {
-            toReturn.Add(temp[i].position);
+            toReturn.Add(new LiftCablePoint(temp[i].position, 1));
         }
         return toReturn;
     }
 
-    public override List<Vector3> GetCablePointsUphill(GameObject self, Transform downhillCablePoints) {
+    public override List<LiftCablePoint> GetCablePointsUphill(GameObject self, Transform downhillCablePoints) {
         TowerAssemblyScript TowerAssembly = self.transform.GetChild(IntParameters[0]).GetComponent<TowerAssemblyScript>();
         List<Transform> temp = TowerAssembly.SheaveScriptLeft.GetAllCablePoints(TowerAssembly.Above);
-        List<Vector3> toReturn = new List<Vector3>(temp.Count);
+        List<LiftCablePoint> toReturn = new List<LiftCablePoint>(temp.Count);
         for(int i = 0;i < temp.Count;i ++) {
-            toReturn.Add(temp[i].position);
+            toReturn.Add(new LiftCablePoint(temp[i].position, 1));
         }
         return toReturn;
     }
