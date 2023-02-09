@@ -10,7 +10,7 @@ public class LiftTemplate : ScriptableObject
     public LiftTowerTemplate[] AvaliableTowers;
     public LiftMidStationTemplate[] AvaliableMidStations;
     public LiftTurnTemplate[] AvaliableTurns;
-    public LiftVehicleTemplate[] AvaliableLiftVehicles;
+    public LiftVehicle[] AvaliableLiftVehicles;
 
     [Header("Operation settings")]
     [Tooltip("In m/s")]

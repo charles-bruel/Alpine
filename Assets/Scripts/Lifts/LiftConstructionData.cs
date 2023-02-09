@@ -8,7 +8,7 @@ public class LiftConstructionData {
     public List<SpanSegment> SpanSegments;
 
     //TODO: Work out multiple vehicles
-    public LiftVehicleTemplate SelectedVehicle;
+    public LiftVehicle SelectedVehicle;
 
     [System.Serializable]
     public class RoutingSegment {

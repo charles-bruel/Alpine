@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class LiftVehicleSystem {
     public Lift Parent;
-    public LiftVehicleTemplate TemplateVehicle;
+    public LiftVehicle TemplateVehicle;
+    public List<LiftVehicle> LiftVehicles = new List<LiftVehicle>();
     public float TotalLength { get; private set; }
+    public float Speed = 10;
 
     public Vector4[] CablePoints;
 
@@ -24,18 +26,21 @@ public class LiftVehicleSystem {
 
         TotalLength = pos;
 
-        CreateVehicles(TemplateVehicle.gameObject, 50);
+        CreateVehicles(TemplateVehicle, 50);
     }
 
-    private void CreateVehicles(GameObject g, float spacing) {
+    private void CreateVehicles(LiftVehicle template, float spacing) {
         int numVehicles = (int) (TotalLength / spacing);
         float actualSpacing = TotalLength / numVehicles;
 
         for(int i = 0;i < numVehicles;i ++) {
-            GameObject temp = GameObject.Instantiate(g);
+            LiftVehicle temp = GameObject.Instantiate(template);
             temp.transform.SetParent(Parent.transform);
-            temp.transform.position = Evaluate(i * actualSpacing);
+            temp.Position = i * actualSpacing;
+            LiftVehicles.Add(temp);
         }
+
+        Advance(0);
     }
     
     public Vector3 Evaluate(float pos) {
@@ -58,11 +63,16 @@ public class LiftVehicleSystem {
         return default(Vector3);
     }
 
-    public void Update(float delta) {
+    public void Advance(float delta) {
+        for(int i = 0;i < LiftVehicles.Count;i ++) {
+            LiftVehicles[i].Position += delta * Speed;
+            while(LiftVehicles[i].Position > TotalLength) LiftVehicles[i].Position -= TotalLength;
 
+            MoveVehicle(LiftVehicles[i]);            
+        }
     }
 
-    private void MoveVehicle(LiftVehicle vehicle, float delta) {
-
+    private void MoveVehicle(LiftVehicle vehicle) {
+        vehicle.transform.position = Evaluate(vehicle.Position);
     }
 }

@@ -20,6 +20,17 @@ public class Lift : MonoBehaviour {
         Initialized = true;
     }
 
+    //TODO: Proper time control
+    void Update() {
+        Advance(Time.deltaTime);
+    }
+
+    public void Advance(float delta) {
+        if(!Initialized) return;
+        
+        VehicleSystem.Advance(delta);
+    }
+
     public void Finish(PolygonsController.AlpinePolygon Footprint) {
         this.Footprint = Footprint;
         
