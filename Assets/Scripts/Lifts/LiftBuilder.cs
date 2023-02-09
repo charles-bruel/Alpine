@@ -27,7 +27,7 @@ public class LiftBuilder
         Result = gameObject.AddComponent<Lift>();
         Result.Template = Data.Template;
         Result.Data = Data;
-        Result.Initialize();
+        BuildingsController.Instance.RegisterBuilding(Result);
         Result.CreateSubObjects();
         Parent = gameObject.transform;
     }

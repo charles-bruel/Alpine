@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public class Lift : MonoBehaviour {
+public class Lift : Building {
     public LiftTemplate Template;
     public LiftConstructionData Data;
     public PolygonsController.AlpinePolygon Footprint;
@@ -12,22 +12,18 @@ public class Lift : MonoBehaviour {
 
     private bool Initialized;
 
-    public void Initialize() {
+    public override void Initialize() {
         VehicleSystem = new LiftVehicleSystem();
         VehicleSystem.Parent = this;
         VehicleSystem.TemplateVehicle = Data.SelectedVehicle;
+        VehicleSystem.Speed = Template.MaxSpeed;
 
         Initialized = true;
     }
 
-    //TODO: Proper time control
-    void Update() {
-        Advance(Time.deltaTime);
-    }
-
-    public void Advance(float delta) {
+    public override void Advance(float delta) {
         if(!Initialized) return;
-        
+
         VehicleSystem.Advance(delta);
     }
 

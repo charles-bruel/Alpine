@@ -99,10 +99,9 @@ public class WeatherController : MonoBehaviour {
         material.SetBuffer("snowCurve", reference.Buffer);
     }
 
-    void Update() {
+    public void Advance(float delta) {
         if(!Initialized) return;
 
-        float delta = Time.deltaTime * TimeFactor;
         Timer -= delta;
 
         if(Storm) {

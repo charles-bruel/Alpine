@@ -983,6 +983,8 @@ GameObject:
   - component: {fileID: 757753258}
   - component: {fileID: 757753263}
   - component: {fileID: 757753265}
+  - component: {fileID: 757753267}
+  - component: {fileID: 757753266}
   m_Layer: 0
   m_Name: Statics
   m_TagString: Untagged
@@ -1123,6 +1125,8 @@ MonoBehaviour:
   PolygonsController: {fileID: 830588212}
   StateController: {fileID: 757753263}
   TerrainModificationController: {fileID: 757753265}
+  BuildingsController: {fileID: 757753266}
+  TimeMultiplier: 1
 --- !u!114 &757753263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1167,6 +1171,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eaf533674c2e734490a73246ab66410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &757753266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757753257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6469cc8287569854b876795206e74534, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Buildings: []
+--- !u!114 &757753267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757753257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6469cc8287569854b876795206e74534, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Buildings: []
 --- !u!1 &763692009
 GameObject:
   m_ObjectHideFlags: 0
