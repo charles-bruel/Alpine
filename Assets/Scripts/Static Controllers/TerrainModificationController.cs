@@ -78,17 +78,17 @@ public class TerrainModificationController : MonoBehaviour
     public void Initialize() {
         Instance = this;
 
-        TerrainModificationEffect effect = new TerrainModificationEffect();
-        effect.Height = 600;
-        effect.Polygon = Polygon.PolygonWithPoints(new Vector2[] {
-            new Vector2(-200, -200),
-            new Vector2(-200,  200),
-            new Vector2( 200,  200),
-            new Vector2( 200, -200)
-        });
-        effect.EffectType = TerrainModificationEffectType.RAISE;
+        // TerrainModificationEffect effect = new TerrainModificationEffect();
+        // effect.Height = 600;
+        // effect.Polygon = Polygon.PolygonWithPoints(new Vector2[] {
+        //     new Vector2(-200, -200),
+        //     new Vector2(-200,  200),
+        //     new Vector2( 200,  200),
+        //     new Vector2( 200, -200)
+        // });
+        // effect.EffectType = TerrainModificationEffectType.RAISE;
 
-        Register(effect);
+        // Register(effect);
     }
 
     public static TerrainModificationController Instance;
