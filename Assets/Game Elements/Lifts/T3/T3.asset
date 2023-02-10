@@ -20,7 +20,7 @@ MonoBehaviour:
   - {fileID: 5255590288473758373, guid: 54431d2a762a68d4f8cefa6277be4d77, type: 3}
   AvaliableTurns: []
   AvaliableLiftVehicles:
-  - {fileID: 11400000, guid: 74ff321214defe545baa6e67e5515333, type: 2}
+  - {fileID: 8023672057733600596, guid: 17ec540d4469f924f9420cebfb11c8de, type: 3}
   MinOperatingSpeed: 6
   MaxSpeed: 7
   WorkerCount: 4

@@ -15,7 +15,6 @@ public class Lift : Building {
     public override void Initialize() {
         VehicleSystem = new LiftVehicleSystem();
         VehicleSystem.Parent = this;
-        VehicleSystem.TemplateVehicle = Data.SelectedVehicle;
         VehicleSystem.Speed = Template.MaxSpeed;
 
         Initialized = true;
@@ -29,7 +28,8 @@ public class Lift : Building {
 
     public void Finish(PolygonsController.AlpinePolygon Footprint) {
         this.Footprint = Footprint;
-        
+
+        VehicleSystem.TemplateVehicle = Data.PhysicalVehicle;
         VehicleSystem.Initialize();
     }
 

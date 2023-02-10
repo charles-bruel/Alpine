@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [System.Serializable]
 public class LiftConstructionData {
@@ -7,8 +8,9 @@ public class LiftConstructionData {
     public List<RoutingSegment> RoutingSegments;
     public List<SpanSegment> SpanSegments;
 
-    //TODO: Work out multiple vehicles
-    public LiftVehicle SelectedVehicle;
+    public int SelectedVehicleIndex;
+    [NonSerialized]
+    public LiftVehicle PhysicalVehicle;
 
     [System.Serializable]
     public class RoutingSegment {
@@ -16,7 +18,9 @@ public class LiftConstructionData {
         public int TemplateIndex;
         public Vector3 Position;
         public bool HasVerticalPos;
+        [NonSerialized]
         public LiftRoutingSegmentTemplate PhysicalSegment;
+        [NonSerialized]
         public float Angle;
     }
 
@@ -35,7 +39,9 @@ public class LiftConstructionData {
     public class TowerSegment {
         public int TemplateIndex;
         public Vector3 Position;
+        [NonSerialized]
         public LiftTowerTemplate PhysicalTower;
+        [NonSerialized]
         public float Angle;
     }
 }

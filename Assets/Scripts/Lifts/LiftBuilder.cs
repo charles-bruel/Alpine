@@ -337,6 +337,8 @@ public class LiftBuilder
         for(int i = 0;i < Data.RoutingSegments.Count;i ++) {
             Data.RoutingSegments[i].PhysicalSegment = null;
         }
+
+        Data.PhysicalVehicle = Data.Template.AvaliableLiftVehicles[Data.SelectedVehicleIndex];
     }
 
     private void ResetPools<T>(Pool<T>[] pools) where T : IPoolable {
