@@ -63,6 +63,29 @@ public class LiftVehicleSystem {
         return default(Vector3);
     }
 
+    public Vector2 EvaluateAngles(float pos) {
+        Vector4 prev = CablePoints[Parent.CablePoints.Length - 1];
+        for(int i = 0;i < CablePoints.Length;i ++) {
+            Vector4 current = CablePoints[i];
+            if(current.w > pos) {
+                Vector3 prevXYZ = new Vector3(prev.x, prev.y, prev.z);
+                Vector3 currentXYZ = new Vector3(current.x, current.y, current.z);
+                Vector3 delta = currentXYZ - prevXYZ;
+
+                float dy = delta.y;
+                delta.y = 0;
+                float dh = delta.magnitude;
+                float dx = delta.x;
+                float dz = delta.z;
+                return new Vector2(Mathf.Atan2(dz, dx) * Mathf.Rad2Deg, Mathf.Atan2(dy, dh) * Mathf.Rad2Deg); 
+            }
+
+            prev = current;
+        }
+
+        return default(Vector2);
+    }
+
     public void Advance(float delta) {
         for(int i = 0;i < LiftVehicles.Count;i ++) {
             LiftVehicles[i].Position += delta * Speed;
@@ -74,5 +97,10 @@ public class LiftVehicleSystem {
 
     private void MoveVehicle(LiftVehicle vehicle) {
         vehicle.transform.position = Evaluate(vehicle.Position);
+
+        Vector2 vehicleAngles = EvaluateAngles(vehicle.Position);
+        vehicle.transform.localEulerAngles = new Vector3(0, 90 - vehicleAngles.x, 0);
+        vehicle.RotateTransform.localEulerAngles = new Vector3(-90 - vehicleAngles.y, 0, 0);
+        vehicle.DerotateTransform.localEulerAngles = new Vector3(vehicleAngles.y, 0, 0);
     }
 }
