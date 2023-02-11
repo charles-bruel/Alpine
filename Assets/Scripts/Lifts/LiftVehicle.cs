@@ -9,4 +9,8 @@ public class LiftVehicle : MonoBehaviour {
 
     [NonSerialized]
     public float Position;
+    [NonSerialized]
+    public float Swing;
+    [NonSerialized]
+    public float SwingVelocity;
 }
