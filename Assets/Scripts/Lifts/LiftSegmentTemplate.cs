@@ -8,6 +8,7 @@ public class LiftSegmentTemplate : MonoBehaviour, IPoolable
     public Transform CableAimingPoint;
     public Transform UphillCablePoint;
     public Transform DownhillCablePoint;
+    public AlpinePolygonSource[] Polygons;
     public APIDef LiftSegmentAPIDef;
     public APILiftSegment APILiftSegment;
 
@@ -34,5 +35,24 @@ public class LiftSegmentTemplate : MonoBehaviour, IPoolable
 
     public void Enable() {
         gameObject.SetActive(true);
+    }
+
+    void OnDrawGizmos() {
+        if(Polygons == null) return;
+        for(int i = 0;i < Polygons.Length;i ++) { 
+            AlpinePolygonSource poly = Polygons[i];
+            Gizmos.color = PolygonsController.ColorFromFlags(poly.Flags);
+            for(int j = 1;j < poly.Points.Length;j ++) {
+                Gizmos.DrawLine(
+                    new Vector3(poly.Points[j - 1].x, poly.Height, poly.Points[j - 1].y),
+                    new Vector3(poly.Points[j].x, poly.Height, poly.Points[j].y)
+                );
+            }
+            int final = poly.Points.Length - 1;
+            Gizmos.DrawLine(
+                new Vector3(poly.Points[final].x, poly.Height, poly.Points[final].y),
+                new Vector3(poly.Points[0].x, poly.Height, poly.Points[0].y)
+            );
+        }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class RenderingData : MonoBehaviour
 {
     [Header("2D view colors")]
@@ -17,6 +18,10 @@ public class RenderingData : MonoBehaviour
 
     public void Initialize() {
         Instance = this;
+    }
+
+    void Update() {
+        Initialize();
     }
 
     public static RenderingData Instance;

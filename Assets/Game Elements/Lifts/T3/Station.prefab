@@ -615,6 +615,27 @@ MonoBehaviour:
   CableAimingPoint: {fileID: 6880764416626331474}
   UphillCablePoint: {fileID: 444976040555857727}
   DownhillCablePoint: {fileID: 564195856843719514}
+  Polygons:
+  - ParentElement: {fileID: 3711130267354381511}
+    Level: 2
+    Points:
+    - {x: 10, y: 0}
+    - {x: -10, y: 0}
+    - {x: -10, y: 20}
+    - {x: 10, y: 20}
+    ArbitrarilyEditable: 0
+    Flags: 4294967295
+    Height: 0
+  - ParentElement: {fileID: 3711130267354381511}
+    Level: 10
+    Points:
+    - {x: 5, y: -20}
+    - {x: -5, y: -20}
+    - {x: -5, y: 15}
+    - {x: 5, y: 15}
+    ArbitrarilyEditable: 0
+    Flags: 11
+    Height: 0
   LiftSegmentAPIDef:
     Enabled: 0
     AssemblyName: 

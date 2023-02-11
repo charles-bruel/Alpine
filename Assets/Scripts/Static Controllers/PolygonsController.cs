@@ -38,7 +38,7 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
         Remesh();
     }
 
-    private Color ColorFromFlags(PolygonFlags flags) {
+    public static Color ColorFromFlags(PolygonFlags flags) {
         if((flags & PolygonFlags.FLAT_NAVIGABLE) != 0) {
             return RenderingData.Instance.SnowfrontColor;
         }

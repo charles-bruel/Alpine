@@ -1,3 +1,4 @@
+[System.Flags]
 public enum PolygonFlags : uint {
     AERIAL_CLEARANCE = 1,
     GROUND_CLEARANCE = 2,

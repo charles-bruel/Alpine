@@ -1156,10 +1156,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ab09e3a00ed054d8d6f9e331328970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UndevelopedBackgroundColor: {r: 0.5137255, g: 0.627451, b: 0.4784314, a: 0}
-  DevelopedColor: {r: 1, g: 0.5121326, b: 0.2783019, a: 0}
-  ClearedColor: {r: 1, g: 0.8784314, b: 0.56078434, a: 0}
-  SnowfrontColor: {r: 1, g: 1, b: 1, a: 0}
+  UndevelopedBackgroundColor: {r: 0.5137255, g: 0.627451, b: 0.4784314, a: 1}
+  DevelopedColor: {r: 1, g: 0.5121326, b: 0.2783019, a: 1}
+  ClearedColor: {r: 1, g: 0.8784314, b: 0.56078434, a: 1}
+  SnowfrontColor: {r: 1, g: 1, b: 1, a: 1}
   LiftLineMaterial: {fileID: 2100000, guid: fafa70cd7799f6243bacb72de18a51e1, type: 2}
 --- !u!114 &757753265
 MonoBehaviour:

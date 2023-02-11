@@ -1,10 +1,6 @@
 using System;
-using System.Collections.Generic;
-using ClipperLib;
-using EPPZ.Geometry.AddOns;
 using EPPZ.Geometry.Model;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 [System.Serializable]
 public class AlpinePolygon {
@@ -12,7 +8,9 @@ public class AlpinePolygon {
     //Note: Polygons on level 0 do not recieve mouse events
     public uint Level;
     public Polygon Polygon;
+    [NonSerialized]
     public MeshFilter Filter;
+    [NonSerialized]
     public MeshRenderer Renderer;
     public Color Color;
     public bool ArbitrarilyEditable;

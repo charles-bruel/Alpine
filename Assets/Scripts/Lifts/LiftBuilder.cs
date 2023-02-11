@@ -351,8 +351,22 @@ public class LiftBuilder
         FinishAll();
         Result.CablePoints = CreateCables();
         AlpinePolygon footprint = GenerateFootprint();
+        RegisterComponentPolygons();
 
         Result.Finish(footprint);
+    }
+
+    private void RegisterComponentPolygons() {
+        for(int i = 0;i < Data.RoutingSegments.Count;i ++) {
+            List<AlpinePolygon> polygons = Data.RoutingSegments[i].PhysicalSegment.APILiftSegment.GetPolygons(
+                Data.RoutingSegments[i].PhysicalSegment.gameObject, 
+                Data.RoutingSegments[i].PhysicalSegment.Polygons
+            );
+
+            for(int j = 0;j < polygons.Count;j ++) {
+                PolygonsController.Instance.RegisterPolygon(polygons[j]);
+            }
+        }
     }
 
     private AlpinePolygon GenerateFootprint() {
