@@ -1,3 +1,16 @@
 {
-	"name": "ModAPI"
+    "name": "ModAPI",
+    "rootNamespace": "",
+    "references": [
+        "GUID:77cc1b3fc65df7b4bb225d1e1102b602"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

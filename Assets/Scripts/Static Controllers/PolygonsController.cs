@@ -31,8 +31,31 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
 
     public void RegisterPolygon(AlpinePolygon polygon) {
         PolygonObjects.Add(polygon);
+        polygon.Color = ColorFromFlags(polygon.Flags);
+
+        ApplyPolygonEffects(polygon);
 
         Remesh();
+    }
+
+    private Color ColorFromFlags(PolygonFlags flags) {
+        if((flags & PolygonFlags.FLAT_NAVIGABLE) != 0) {
+            return RenderingData.Instance.SnowfrontColor;
+        }
+        if((flags & PolygonFlags.GROUND_CLEARANCE) != 0) {
+            return RenderingData.Instance.ClearedColor;
+        }
+        if((flags & PolygonFlags.AERIAL_CLEARANCE) != 0) {
+            return RenderingData.Instance.DevelopedColor;
+        }
+
+        return RenderingData.Instance.UndevelopedBackgroundColor;
+    }
+
+    private void ApplyPolygonEffects(AlpinePolygon polygon) {
+        if((polygon.Flags & PolygonFlags.AERIAL_CLEARANCE) != 0) {
+            Utils.RemoveTreesByPolygon(polygon.Polygon);
+        }
     }
 
     public void DeregisterPolygon(Guid guid) {
@@ -68,18 +91,18 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
         float y1 = -height / 2;
         float y2 =  height / 2;
 
-        AlpinePolygon poly = new AlpinePolygon();
-        poly.Guid = Guid.NewGuid();
-        poly.Level = 0;
-        poly.Polygon = Polygon.PolygonWithPoints(new Vector2[] {
+        AlpinePolygon backgroundPolygon = new AlpinePolygon();
+        backgroundPolygon.Guid = Guid.NewGuid();
+        backgroundPolygon.Level = 0;
+        backgroundPolygon.Polygon = Polygon.PolygonWithPoints(new Vector2[] {
             new Vector2(x1, y1),
             new Vector2(x1, y2),
             new Vector2(x2, y2),
             new Vector2(x2, y1)
         });
-        poly.Color = RenderingData.Instance.UndevelopedBackgroundColor;
+        backgroundPolygon.Color = RenderingData.Instance.UndevelopedBackgroundColor;
 
-        RegisterPolygon(poly);
+        RegisterPolygon(backgroundPolygon);
 
         Initialized = true;
     }

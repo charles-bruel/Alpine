@@ -351,7 +351,6 @@ public class LiftBuilder
         FinishAll();
         Result.CablePoints = CreateCables();
         AlpinePolygon footprint = GenerateFootprint();
-        RemoveTrees(footprint);
 
         Result.Finish(footprint);
     }
@@ -390,14 +389,11 @@ public class LiftBuilder
         poly.Guid = Guid.NewGuid();
         poly.Level = 4;
         poly.Polygon = Polygon.PolygonWithPoints(points);
-        poly.Color = new Color(1, 0.75f, 0.25f);
+
+        poly.Flags = PolygonFlags.AERIAL_CLEARANCE;
 
         PolygonsController.Instance.RegisterPolygon(poly);
 
         return poly;
-    }
-
-    private void RemoveTrees(AlpinePolygon temp) {
-        Utils.RemoveTreesByPolygon(temp.Polygon);
     }
 }
