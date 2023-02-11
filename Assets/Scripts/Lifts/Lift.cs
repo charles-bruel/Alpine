@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Lift : Building {
     public LiftTemplate Template;
     public LiftConstructionData Data;
-    public PolygonsController.AlpinePolygon Footprint;
+    public AlpinePolygon Footprint;
     public LineRenderer Line;
     public LiftCablePoint[] CablePoints;
     public LiftVehicleSystem VehicleSystem;
@@ -26,7 +26,7 @@ public class Lift : Building {
         VehicleSystem.Advance(delta);
     }
 
-    public void Finish(PolygonsController.AlpinePolygon Footprint) {
+    public void Finish(AlpinePolygon Footprint) {
         this.Footprint = Footprint;
 
         VehicleSystem.TemplateVehicle = Data.PhysicalVehicle;

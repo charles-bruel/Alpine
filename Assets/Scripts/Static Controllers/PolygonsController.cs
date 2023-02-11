@@ -184,16 +184,4 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
         if(PolygonEditor != null)
             PolygonEditor.Reinflate();
     }
-
-    [System.Serializable]
-    public class AlpinePolygon {
-        public Guid Guid;
-        //Note: Polygons on level 0 do not recieve mouse events
-        public uint Level;
-        public Polygon Polygon;
-        public MeshFilter Filter;
-        public MeshRenderer Renderer;
-        public Color Color;
-        public bool ArbitrarilyEditable;
-    }
 }

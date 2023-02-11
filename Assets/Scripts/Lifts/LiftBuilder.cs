@@ -350,13 +350,13 @@ public class LiftBuilder
     public void Finish() {
         FinishAll();
         Result.CablePoints = CreateCables();
-        PolygonsController.AlpinePolygon footprint = GenerateFootprint();
+        AlpinePolygon footprint = GenerateFootprint();
         RemoveTrees(footprint);
 
         Result.Finish(footprint);
     }
 
-    private PolygonsController.AlpinePolygon GenerateFootprint() {
+    private AlpinePolygon GenerateFootprint() {
         float gaugeExpansion = 8;
 
         List<Vector2> pointsLeft = new List<Vector2>();
@@ -386,7 +386,7 @@ public class LiftBuilder
         pointsLeft.AddRange(pointsRight);
         Vector2[] points = pointsLeft.ToArray();
 
-        PolygonsController.AlpinePolygon poly = new PolygonsController.AlpinePolygon();
+        AlpinePolygon poly = new AlpinePolygon();
         poly.Guid = Guid.NewGuid();
         poly.Level = 4;
         poly.Polygon = Polygon.PolygonWithPoints(points);
@@ -397,7 +397,7 @@ public class LiftBuilder
         return poly;
     }
 
-    private void RemoveTrees(PolygonsController.AlpinePolygon temp) {
+    private void RemoveTrees(AlpinePolygon temp) {
         Utils.RemoveTreesByPolygon(temp.Polygon);
     }
 }

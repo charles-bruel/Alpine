@@ -5,14 +5,20 @@ using UnityEngine;
 
 public class TerrainModificationController : MonoBehaviour
 {
-    public List<TerrainModificationEffect> TerrainModificationEffects;
+    public List<AlpinePolygon> TerrainModificationEffects;
 
     //TODO: Check to make sure it's initialized
-    public void Register(TerrainModificationEffect effect) {
-        Flatten(effect.Polygon, effect.EffectType, effect.Height);
+    public void Register(AlpinePolygon effect) {
+        if((effect.Flags & PolygonFlags.FLATTEN) == 0) return;
+        TerrainModificationEffects.Add(effect);
+        bool flattenUp = (effect.Flags & PolygonFlags.FLATTEN_UP) != 0;
+        bool flattenDown = (effect.Flags & PolygonFlags.FLATTEN_DOWN) != 0;
+        Debug.Log(flattenUp);
+        Debug.Log(flattenDown);
+        Flatten(effect.Polygon, flattenUp, flattenDown, effect.Height);
     }
 
-    private void Flatten(Polygon polygon, TerrainModificationEffectType type, float height) {
+    private void Flatten(Polygon polygon, bool flattenUp, bool flattenDown, float height) {
         Rect bounds = polygon.bounds;
         Vector2Int minPos = TerrainManager.Instance.GetTilePos(bounds.min);
         Vector2Int maxPos = TerrainManager.Instance.GetTilePos(bounds.max);
@@ -27,12 +33,12 @@ public class TerrainModificationController : MonoBehaviour
 
         for(byte x = (byte) minx;x <= maxx;x ++) {
             for(byte y = (byte) miny;y <= maxy;y ++) {
-                FlattenTile(polygon, type, height, x, y);
+                FlattenTile(polygon, flattenUp, flattenDown, height, x, y);
             }
         }
     }
 
-    private void FlattenTile(Polygon polygon, TerrainModificationEffectType type, float height, byte x, byte y) {
+    private void FlattenTile(Polygon polygon, bool flattenUp, bool flattenDown, float height, byte x, byte y) {
         TerrainTile tile = TerrainManager.Instance.Tiles[x + TerrainManager.Instance.NumTilesX * y];
         Bounds bounds = new Bounds(Vector3.zero, Vector3.zero);
         bounds.min = new Vector3(tile.PosX * TerrainManager.Instance.TileSize, 0, tile.PosY * TerrainManager.Instance.TileSize);
@@ -55,16 +61,11 @@ public class TerrainModificationController : MonoBehaviour
                 //TODO: Optimize this?
                 value *= TerrainManager.Instance.TileHeight;
 
-                switch(type) {
-                    case TerrainModificationEffectType.LOWER:
-                        if(value > height) value = height;
-                        break;
-                    case TerrainModificationEffectType.RAISE:
-                        if(value < height) value = height;
-                        break;
-                    default:
-                        value = height;
-                        break;
+                if(flattenUp) {
+                    if(value < height) value = height;
+                }
+                if(flattenDown) {
+                    if(value > height) value = height;
                 }
 
                 value /= TerrainManager.Instance.TileHeight;
@@ -76,9 +77,9 @@ public class TerrainModificationController : MonoBehaviour
     }
 
     public void Initialize() {
-        Instance = this;
+        // Instance = this;
 
-        // TerrainModificationEffect effect = new TerrainModificationEffect();
+        // AlpinePolygon effect = new AlpinePolygon();
         // effect.Height = 600;
         // effect.Polygon = Polygon.PolygonWithPoints(new Vector2[] {
         //     new Vector2(-200, -200),
@@ -86,23 +87,10 @@ public class TerrainModificationController : MonoBehaviour
         //     new Vector2( 200,  200),
         //     new Vector2( 200, -200)
         // });
-        // effect.EffectType = TerrainModificationEffectType.RAISE;
+        // effect.Flags = PolygonFlags.FLATTEN;
 
         // Register(effect);
     }
 
     public static TerrainModificationController Instance;
-
-    public struct TerrainModificationEffect {
-        public Guid Guid;
-        public Polygon Polygon;
-        public TerrainModificationEffectType EffectType;
-        public float Height;
-    }
-
-    public enum TerrainModificationEffectType {
-        LOWER,
-        RAISE,
-        BOTH
-    }
 }

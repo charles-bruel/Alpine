@@ -14,7 +14,7 @@ public class PolygonEditor : MonoBehaviour {
         Reset();
 
         Guid selectedGuid = Controller.SelectedPolygon;
-        PolygonsController.AlpinePolygon polygon = null;
+        AlpinePolygon polygon = null;
         for(int i = 0;i < Controller.PolygonObjects.Count;i ++) {
             if(Controller.PolygonObjects[i].Guid == selectedGuid) {
                 polygon = Controller.PolygonObjects[i];

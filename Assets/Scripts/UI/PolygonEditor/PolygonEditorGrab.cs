@@ -11,7 +11,7 @@ public class PolygonEditorGrab : MonoBehaviour, IPointerClickHandler, IDragHandl
     public PolygonEditor Editor;
     public int VertexIndex;
     public Canvas Canvas;
-    public PolygonsController.AlpinePolygon polygon;
+    public AlpinePolygon polygon;
     
     //Offset stores the difference between the world pointer pos and world grab pos on click
     //This means an off center click doesn't snap the grab to the middle
