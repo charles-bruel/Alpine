@@ -7,7 +7,7 @@ public class LiftBuildButton : MonoBehaviour {
 
     public void OnLiftToolEnable() {
         LiftBuilderTool tool = new LiftBuilderTool();
-        tool.Data = data;
+        tool.Data = data.Clone();
         tool.GrabTemplate = GrabTemplate;
         tool.Canvas = Canvas;
         InterfaceController.Instance.SelectedTool = tool;

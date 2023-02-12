@@ -37,6 +37,7 @@ public class LiftBuilderTool : ITool {
             grab.RectTransform.anchoredPosition = Data.RoutingSegments[i].Position.ToHorizontal();
             grab.RoutingSegmentIndex = i;
             grab.Data = Data;
+            Grabs.Add(grab);
         }
     }
 
