@@ -11,11 +11,16 @@ public class LiftConstructionTest : MonoBehaviour {
     }
 
     void OnDisable() {
-        Builder.Finish();
     }
 
     void Update() {
         Builder.LightBuild();
         Builder.Build();
+        var watch = new System.Diagnostics.Stopwatch();
+        watch.Start();
+        Builder.Finish();
+        gameObject.SetActive(false);
+        watch.Stop();
+        Debug.Log($"Finish Time: {watch.ElapsedMilliseconds} ms");
     }
 }

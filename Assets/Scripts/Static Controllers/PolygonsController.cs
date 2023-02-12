@@ -35,7 +35,7 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
 
         ApplyPolygonEffects(polygon);
 
-        Remesh();
+        MarkPolygonsDirty();
     }
 
     public static Color ColorFromFlags(PolygonFlags flags) {

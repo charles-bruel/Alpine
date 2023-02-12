@@ -19,4 +19,21 @@ public static class Extensions {
     public static float NextAngleRads(this System.Random rand) {
         return (float)(rand.NextDouble() * 2.0 * 3.141592653589793);
     }
+
+    // UNSIGNED distance to the polygon. This simply iterates over each line and calculates 
+    // its distance, and takes the min of that
+    public static float DistanceToPoint(this EPPZ.Geometry.Model.Polygon polygon, Vector2 point) {
+        float min = Mathf.Infinity;
+        foreach(var edge in polygon.edges) {
+            Vector2 p1 = edge.a;
+            Vector2 p2 = edge.b;
+
+            float dist = Utils.LineSegmentPoint(p1, p2, point);
+            if(dist < min) {
+                min = dist;
+            }
+        }
+
+        return min;
+    }
 }

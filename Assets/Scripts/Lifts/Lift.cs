@@ -26,9 +26,7 @@ public class Lift : Building {
         VehicleSystem.Advance(delta);
     }
 
-    public void Finish(AlpinePolygon Footprint) {
-        this.Footprint = Footprint;
-
+    public void Finish() {
         VehicleSystem.TemplateVehicle = Data.PhysicalVehicle;
         VehicleSystem.Initialize();
     }

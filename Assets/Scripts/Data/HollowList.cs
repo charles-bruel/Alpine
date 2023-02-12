@@ -16,6 +16,7 @@ public class HollowList<T> : ICollection<T>
     private SortedSet<int> Holes;
     private int TrueCount;
     private int Version;
+    private int HolesVersion;
 
     public int Count => TrueCount;
 
@@ -91,7 +92,7 @@ public class HollowList<T> : ICollection<T>
         for(int i = 0;i < Backing.Count;i ++) {
             if(EqualityComparer<T>.Default.Equals(Backing[i], item)) {
                 if(!Holes.Contains(i)) {
-                    Version++;
+                    HolesVersion++;
                     Holes.Add(i);
                     TrueCount--;
                     return i;
@@ -102,7 +103,7 @@ public class HollowList<T> : ICollection<T>
     }
 
     public bool RemoveAt(int index) {
-        Version++;
+        HolesVersion++;
         Holes.Add(index);
         TrueCount--;
         return true;
@@ -116,6 +117,7 @@ public class HollowList<T> : ICollection<T>
     {
         private IEnumerator<int> holes;
         private int version;
+        private int holesVersion;
         private HollowList<T> list;
         private int currentIndex;
         private bool holesDone;
@@ -125,6 +127,7 @@ public class HollowList<T> : ICollection<T>
             this.holes.MoveNext();
             this.list = list;
             this.version = list.Version;
+            this.holesVersion = list.HolesVersion;
             currentIndex = -1;
             holesDone = list.Holes.Count == 0;
         }
@@ -167,6 +170,21 @@ public class HollowList<T> : ICollection<T>
         public bool MoveNext() {
             if(this.version != list.Version) {
                 throw new InvalidOperationException("Tried to use enumeration after collection change");
+            }
+            if(this.holesVersion != list.HolesVersion) {
+                // We can recover from this, and it's important to do so
+                // It's fine to add a new holes; there is nothing we can
+                // do about the previously returned values and the we can
+                // skip any new values; *however*, we must rest the holes
+                // enumerator
+                holes = list.Holes.GetEnumerator();
+                // We must also skip ahead so that holes.Current is in the
+                // future and reset holesDone
+                holesDone = list.Holes.Count == 0;
+                while(holes.Current < currentIndex) {
+                    holesDone = !holes.MoveNext();
+                }
+                Debug.Log("updating holes");
             }
             currentIndex++;
             while(!holesDone && holes.Current == currentIndex) {

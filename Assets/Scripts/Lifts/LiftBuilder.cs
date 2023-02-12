@@ -350,10 +350,10 @@ public class LiftBuilder
     public void Finish() {
         FinishAll();
         Result.CablePoints = CreateCables();
-        AlpinePolygon footprint = GenerateFootprint();
+        Result.Footprint = GenerateFootprint();
         RegisterComponentPolygons();
 
-        Result.Finish(footprint);
+        Result.Finish();
     }
 
     private void RegisterComponentPolygons() {
