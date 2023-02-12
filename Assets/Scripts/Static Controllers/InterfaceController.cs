@@ -1,8 +1,11 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class InterfaceController : MonoBehaviour {
+[RequireComponent(typeof(BoxCollider))]
+public class InterfaceController : MonoBehaviour, IPointerClickHandler {
 
     public static InterfaceController Instance;
+    public BoxCollider Collider;
 
     private ITool selectedTool;
     public ITool SelectedTool {
@@ -31,5 +34,15 @@ public class InterfaceController : MonoBehaviour {
 
     public void Initialize() {
         Instance = this;
+
+        Collider = GetComponent<BoxCollider>();
+        float width = TerrainManager.Instance.TileSize * TerrainManager.Instance.NumTilesX;
+        float height = TerrainManager.Instance.TileSize * TerrainManager.Instance.NumTilesY;
+        Collider.size = new Vector3(width, height, 1);
+    }
+
+    public void OnPointerClick(PointerEventData eventData) {
+        if(selectedTool == null) return;
+        selectedTool.OnPointerClick(eventData);
     }
 }

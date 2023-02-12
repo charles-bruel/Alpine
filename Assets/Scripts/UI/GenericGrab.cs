@@ -28,6 +28,6 @@ public class GenericGrab : MonoBehaviour, IPointerClickHandler, IDragHandler, IB
     public virtual void OnDragBehavior(Vector2 newPos) {}
 
     public void OnPointerClick(PointerEventData eventData) {
-        Debug.Log("OnPointerClick");
+        
     }
 }
