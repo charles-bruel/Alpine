@@ -388,7 +388,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 203229622}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c787137b20076f4aaf912000e8e3c18, type: 3}
+  m_Script: {fileID: 11500000, guid: a7a93ad6447e02444a71b067b6818f1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &212595306
@@ -476,7 +476,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 274151080}
+        m_TargetAssemblyTypeName: UIButtons, Main
+        m_MethodName: OnLiftToolEnable
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!114 &212595309
 MonoBehaviour:
@@ -678,7 +690,7 @@ GameObject:
   m_Component:
   - component: {fileID: 274151077}
   - component: {fileID: 274151079}
-  - component: {fileID: 274151078}
+  - component: {fileID: 274151080}
   m_Layer: 5
   m_Name: Tools
   m_TagString: Untagged
@@ -708,18 +720,6 @@ RectTransform:
   m_AnchoredPosition: {x: 37.5, y: -37.5}
   m_SizeDelta: {x: 75, y: -75}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &274151078
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 274151076}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c787137b20076f4aaf912000e8e3c18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &274151079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -746,6 +746,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &274151080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 274151076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7a93ad6447e02444a71b067b6818f1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &317319000
 GameObject:
   m_ObjectHideFlags: 0
@@ -1416,7 +1428,7 @@ GameObject:
   - component: {fileID: 757753263}
   - component: {fileID: 757753265}
   - component: {fileID: 757753267}
-  - component: {fileID: 757753266}
+  - component: {fileID: 757753268}
   m_Layer: 0
   m_Name: Statics
   m_TagString: Untagged
@@ -1557,7 +1569,8 @@ MonoBehaviour:
   PolygonsController: {fileID: 830588212}
   StateController: {fileID: 757753263}
   TerrainModificationController: {fileID: 757753265}
-  BuildingsController: {fileID: 757753266}
+  BuildingsController: {fileID: 757753267}
+  InterfaceController: {fileID: 757753268}
   TimeMultiplier: 1
 --- !u!114 &757753263
 MonoBehaviour:
@@ -1607,19 +1620,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TerrainModificationEffects: []
---- !u!114 &757753266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 757753257}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6469cc8287569854b876795206e74534, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Buildings: []
 --- !u!114 &757753267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1633,6 +1633,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Buildings: []
+--- !u!114 &757753268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757753257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 657990f8addeb6841a7022b5ea350a91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &763692009
 GameObject:
   m_ObjectHideFlags: 0

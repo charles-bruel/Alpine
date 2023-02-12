@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LayersController : MonoBehaviour
-{
+public class UIButtons : MonoBehaviour {
     public void OnContoursClicked(Toggle change) {
         List<TerrainTile> tiles = TerrainManager.Instance.Tiles;
         for(int i = 0;i < tiles.Count;i ++) {
@@ -14,5 +13,9 @@ public class LayersController : MonoBehaviour
 
     public void OnModeChangeClicked(Toggle change) {
         StateController.Instance.ToggleMode(change.isOn);
+    }
+
+    public void OnLiftToolEnable() {
+        InterfaceController.Instance.SelectedTool = new LiftBuilderTool();
     }
 }

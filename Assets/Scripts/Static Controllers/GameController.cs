@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour{
     public StateController StateController;
     public TerrainModificationController TerrainModificationController;
     public BuildingsController BuildingsController;
+    public InterfaceController InterfaceController;
 
     //TODO: Seperate time controller?
     public float TimeMultiplier = 1;
@@ -23,12 +24,15 @@ public class GameController : MonoBehaviour{
         PolygonsController.Initialize();
         StateController.Initialize();
         BuildingsController.Initialize();
+        InterfaceController.Initialize();
     }
 
     void Update() {
         float delta = Time.deltaTime * TimeMultiplier;
         WeatherController.Advance(delta);
         BuildingsController.Advance(delta);
+
+        InterfaceController.UpdateTool();
     }
 
     public void TerrainManagerDoneCallback() {
