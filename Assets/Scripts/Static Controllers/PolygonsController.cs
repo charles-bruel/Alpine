@@ -56,6 +56,9 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
         if((polygon.Flags & PolygonFlags.AERIAL_CLEARANCE) != 0) {
             Utils.RemoveTreesByPolygon(polygon.Polygon);
         }
+        if((polygon.Flags & PolygonFlags.FLATTEN) != 0) {
+            TerrainModificationController.Instance.Register(polygon);
+        }
     }
 
     public void DeregisterPolygon(Guid guid) {

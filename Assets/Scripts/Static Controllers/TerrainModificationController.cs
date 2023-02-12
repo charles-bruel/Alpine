@@ -13,8 +13,6 @@ public class TerrainModificationController : MonoBehaviour
         TerrainModificationEffects.Add(effect);
         bool flattenUp = (effect.Flags & PolygonFlags.FLATTEN_UP) != 0;
         bool flattenDown = (effect.Flags & PolygonFlags.FLATTEN_DOWN) != 0;
-        Debug.Log(flattenUp);
-        Debug.Log(flattenDown);
         Flatten(effect.Polygon, flattenUp, flattenDown, effect.Height);
     }
 
@@ -77,7 +75,7 @@ public class TerrainModificationController : MonoBehaviour
     }
 
     public void Initialize() {
-        // Instance = this;
+        Instance = this;
 
         // AlpinePolygon effect = new AlpinePolygon();
         // effect.Height = 600;
