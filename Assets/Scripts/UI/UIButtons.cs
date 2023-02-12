@@ -14,8 +14,4 @@ public class UIButtons : MonoBehaviour {
     public void OnModeChangeClicked(Toggle change) {
         StateController.Instance.ToggleMode(change.isOn);
     }
-
-    public void OnLiftToolEnable() {
-        InterfaceController.Instance.SelectedTool = new LiftBuilderTool();
-    }
 }

@@ -403,6 +403,7 @@ GameObject:
   - component: {fileID: 212595310}
   - component: {fileID: 212595309}
   - component: {fileID: 212595308}
+  - component: {fileID: 212595311}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -477,8 +478,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274151080}
-        m_TargetAssemblyTypeName: UIButtons, Main
+      - m_Target: {fileID: 212595311}
+        m_TargetAssemblyTypeName: LiftBuildButton, Main
         m_MethodName: OnLiftToolEnable
         m_Mode: 1
         m_Arguments:
@@ -528,6 +529,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 212595306}
   m_CullTransparentMesh: 1
+--- !u!114 &212595311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 212595306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39d0f46bf445f5442b58000e415f9246, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    Template: {fileID: 11400000, guid: b1aaeb72c03d9bc419676b8f2b3ee271, type: 2}
+    RoutingSegments:
+    - RoutingSegmentType: 0
+      TemplateIndex: 0
+      Position: {x: -100, y: 0, z: 0}
+      HasVerticalPos: 0
+    - RoutingSegmentType: 0
+      TemplateIndex: 0
+      Position: {x: 100, y: 0, z: 0}
+      HasVerticalPos: 0
+    SpanSegments: []
+    SelectedVehicleIndex: 0
+  GrabTemplate: {fileID: 7675918864957617073, guid: e8ddb215a383fee4bacc0ded2b4640bd,
+    type: 3}
+  Canvas: {fileID: 1163915560}
 --- !u!1 &220150142
 GameObject:
   m_ObjectHideFlags: 0
@@ -3342,7 +3371,7 @@ GameObject:
   - component: {fileID: 1821605589}
   - component: {fileID: 1821605590}
   m_Layer: 0
-  m_Name: PolygonEditorUI
+  m_Name: WorldUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
