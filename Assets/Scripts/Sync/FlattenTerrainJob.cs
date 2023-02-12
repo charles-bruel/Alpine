@@ -66,6 +66,7 @@ public class FlattenTerrainJob : Job {
         bounds.max = new Vector3((tile.PosX + 1) * TerrainManager.Instance.TileSize, TerrainManager.Instance.TileHeight, (tile.PosY + 1) * TerrainManager.Instance.TileSize);
 
         float[,] localHeights = heights[x - minx, y - miny].heights;
+        float[,] weights = new float[localHeights.GetLength(0), localHeights.GetLength(1)];
 
         for(int hy = 0;hy < localHeights.GetLength(0);hy ++) {
             for(int hx = 0;hx < localHeights.GetLength(1);hx ++) {
@@ -75,14 +76,17 @@ public class FlattenTerrainJob : Job {
                     Mathf.Lerp(bounds.min.z, bounds.max.z, t.y)
                 );
 
-                float multiplier = 1;
+                float multiplier = 0;
 
-                if(!polygon.ContainsPoint(pos)) {
+                if(polygon.ContainsPoint(pos)) {
+                    multiplier = 1;
+                } else {
                     float dist = polygon.DistanceToPoint(pos);
-                    if(dist > falloff) continue;
-                    multiplier = 1 - (dist / falloff);
+                    if(dist <= falloff) {
+                        multiplier = 1 - (dist / falloff);
                     
-                    multiplier = 2 * multiplier * multiplier * multiplier + 3 * multiplier * multiplier;
+                        // multiplier = 2 * multiplier * multiplier * multiplier + 3 * multiplier * multiplier;
+                    }
                 }
 
                 float value = localHeights[hy, hx];
@@ -97,17 +101,25 @@ public class FlattenTerrainJob : Job {
                 }
 
                 value /= TerrainManager.Instance.TileHeight;
-                localHeights[hy, hx] = Mathf.Lerp(localHeights[hy, hx], value, multiplier);
+                localHeights[hy, hx] = value;
+                weights[hy, hx] = multiplier;
             }
         }
 
-        ToComplete.Enqueue(new TerrainModificationResult(heights[x - minx, y - miny].data, localHeights));
+        ToComplete.Enqueue(new TerrainModificationResult(heights[x - minx, y - miny].data, localHeights, weights));
     }
 
     public override void Complete() {
         if(ToComplete.Count != 0) {
             TerrainModificationResult result = ToComplete.Dequeue();
-            result.data.SetHeights(0, 0, result.heights);
+            float[,] data = result.data.GetHeights(0, 0, result.data.heightmapResolution, result.data.heightmapResolution);
+            for(int i = 0;i < data.GetLength(0);i ++) {
+                for(int j = 0;j < data.GetLength(1);j ++) {
+                    float t = result.weights[i, j];
+                    data[i, j] = data[i, j] * (1 - t) + t * result.heights[i, j];
+                }
+            }
+            result.data.SetHeights(0, 0, data);
             lock(ASyncJobManager.completedJobsLock) {
         	    ASyncJobManager.Instance.completedJobs.Enqueue(this);
 		    }
@@ -118,10 +130,18 @@ public class FlattenTerrainJob : Job {
     private struct TerrainModificationResult {
         public TerrainData data;
         public float[,] heights;
+        public float[,] weights;
 
         public TerrainModificationResult(TerrainData data, float[,] heights) {
             this.heights = heights;
             this.data = data;
+            this.weights = new float[0,0];
+        }
+
+        public TerrainModificationResult(TerrainData data, float[,] heights, float[,] weights) {
+            this.heights = heights;
+            this.data = data;
+            this.weights = weights;
         }
     }
 }
