@@ -172,6 +172,7 @@ public class HollowList<T> : ICollection<T>
                 throw new InvalidOperationException("Tried to use enumeration after collection change");
             }
             if(this.holesVersion != list.HolesVersion) {
+                this.holesVersion = list.HolesVersion;
                 // We can recover from this, and it's important to do so
                 // It's fine to add a new holes; there is nothing we can
                 // do about the previously returned values and the we can
@@ -181,10 +182,13 @@ public class HollowList<T> : ICollection<T>
                 // We must also skip ahead so that holes.Current is in the
                 // future and reset holesDone
                 holesDone = list.Holes.Count == 0;
-                while(holes.Current < currentIndex) {
-                    holesDone = !holes.MoveNext();
+                try {
+                    while(holes.Current < currentIndex) {
+                        holesDone = !holes.MoveNext();
+                    }
+                } catch(InvalidOperationException) {
+                    return MoveNext();
                 }
-                Debug.Log("updating holes");
             }
             currentIndex++;
             while(!holesDone && holes.Current == currentIndex) {
