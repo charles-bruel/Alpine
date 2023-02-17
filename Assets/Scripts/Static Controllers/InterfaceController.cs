@@ -10,22 +10,27 @@ public class InterfaceController : MonoBehaviour, IPointerClickHandler {
     private ITool selectedTool;
     public ITool SelectedTool {
         set {
-            if(selectedTool != null) selectedTool.Cancel();
+            if(selectedTool != null) selectedTool.Cancel(false);
             selectedTool = value;
-            selectedTool.Start();
+            if(selectedTool != null) selectedTool.Start();
         }
         get {
             return selectedTool;
         }
     }
 
+    public void Finish() {
+        selectedTool.Cancel(true);
+        selectedTool = null;
+    }
+
     public void UpdateTool() {
         if(selectedTool == null) return;
-        if(selectedTool.Require2D() && StateController.Instance.Mode3D) {
-            selectedTool.Cancel();
-            selectedTool = null;
-            return;
-        }
+        // if(selectedTool.Require2D() && StateController.Instance.Mode2D) {
+        //     selectedTool.Cancel();
+        //     selectedTool = null;
+        //     return;
+        // }
         selectedTool.Update();
         if(selectedTool.IsDone()) {
             selectedTool = null;

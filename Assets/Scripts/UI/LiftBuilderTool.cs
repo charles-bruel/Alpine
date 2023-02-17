@@ -6,6 +6,7 @@ public class LiftBuilderTool : ITool {
     private bool done = false;
 
     public LiftConstructionData Data;
+    public LiftBuilderUI UI;
     public LiftBuilder Builder;
     public LiftBuilderToolGrab GrabTemplate;
     public List<LiftBuilderToolGrab> Grabs = new List<LiftBuilderToolGrab>();
@@ -15,7 +16,7 @@ public class LiftBuilderTool : ITool {
         return true;
     }
 
-    public void Cancel() {
+    public void Cancel(bool confirm) {
         if(Data.RoutingSegments.Count >= 2) {
             Builder.Build();
             Builder.Finish();
@@ -23,6 +24,7 @@ public class LiftBuilderTool : ITool {
         for(int i = 0;i < Grabs.Count;i ++) {
             GameObject.Destroy(Grabs[i].gameObject);
         }
+        UI.gameObject.SetActive(false);
     }
 
     public bool IsDone() {
