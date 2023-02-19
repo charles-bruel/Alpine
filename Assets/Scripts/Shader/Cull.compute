@@ -6,6 +6,8 @@ struct Data
 	float yRot;
 	float scale;
 	uint type;
+	uint enabled;
+	uint padding;
 };
 
 StructuredBuffer<Data> input;
@@ -17,7 +19,7 @@ float4x4 camera;
 void CullShader(uint3 id : SV_DispatchThreadID)
 {
 	Data data = input[id.x];
-	if (id.x < args[0] && data.type == args[1]) {
+	if (id.x < args[0] && data.type == args[1] /*&& data.enabled != 0*/) {
 		float4 temp = { data.position.x, data.position.y, data.position.z, 1 };
 		temp = mul(camera, temp);
 		float3 final = { temp.x / temp.w, temp.y / temp.w, temp.z / temp.w };

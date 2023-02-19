@@ -81,6 +81,7 @@ public class TestTreeBrush : MonoBehaviour {
             value.scale = (float)(random.NextDouble() * 0.5 + 0.75);
 
             value.pos = TerrainManager.Instance.Project(value.pos.ToHorizontal());
+            // value.enabled = 1;
             if(TerrainManager.Instance.TerrainBounds.Contains(value.pos)) {
                 toReturn.Add(value);
             }

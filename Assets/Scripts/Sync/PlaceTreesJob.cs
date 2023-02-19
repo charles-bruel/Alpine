@@ -50,6 +50,7 @@ public class PlaceTreesJob : Job
                 value.rot = (float)(random.NextDouble() * 2.0 * 3.141592653589793);
 
                 value.scale = random.NextFloat(MinHeight, MaxHeight);
+                // value.enabled = 1;
                 Data.Add(value);
 				i++;
 			}

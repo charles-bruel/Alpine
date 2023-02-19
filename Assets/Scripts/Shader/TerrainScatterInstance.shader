@@ -45,7 +45,9 @@
 				float scale;
 				//Not needed in the shader, but this makes the data easier
 				//to deal with CPU side
-				int type;
+				uint type;
+				uint enabled;
+				uint padding;
 			};
 
 			struct Params {

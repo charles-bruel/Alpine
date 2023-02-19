@@ -6,6 +6,12 @@ public struct TreePos : IGridable {
     public float scale;
     public uint type;
 
+    // We use a uint here because bool is not blittable. It cannot be a byte
+    // because GLSL doesn't support sized types smaller than 32 bits
+    public uint enabled;
+
+    public uint padding;
+
     public byte GetGridX()
     {
         int x = Mathf.FloorToInt(pos.x / TerrainManager.Instance.TileSize);
