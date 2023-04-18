@@ -2,10 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MidStationT3 : APITurnSegment {
-
-    //TODO: Work out local state
-    private float LastLength;
-
     public override void Build(ICustomScriptable parent, Transform current, Transform next, Transform prev) {
         float pivotOffset = FloatParameters[0];
         float stationLen = FloatParameters[1];
@@ -57,7 +53,7 @@ public class MidStationT3 : APITurnSegment {
         float stationOffset = Mathf.Tan(beta * 0.5f * Mathf.Deg2Rad) * pivotOffset;
         stationOffset -= stationLen;
 
-        LastLength = -stationOffset + stationLen;
+        parent.PersistentData()["lastlength"] = -stationOffset + stationLen;
 
         primarySegment.position = parent.GetGameObject().transform.position + new Vector3(
             stationOffset * Mathf.Sin(primaryWorldAngle),
@@ -73,7 +69,7 @@ public class MidStationT3 : APITurnSegment {
 
     public override float GetLength(ICustomScriptable parent)
     {
-        return LastLength;
+        return (float)parent.PersistentData()["lastlength"];
     }
 
     public override List<LiftCablePoint> GetCablePointsUphill(ICustomScriptable parent, Transform uphillCablePoints) {

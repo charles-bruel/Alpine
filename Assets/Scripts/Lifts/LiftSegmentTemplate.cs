@@ -11,7 +11,7 @@ public class LiftSegmentTemplate : MonoBehaviour, IPoolable, ICustomScriptable
     public AlpinePolygonSource[] Polygons;
     public APIDef LiftSegmentAPIDef;
     public APILiftSegment APILiftSegment;
-    public Dictionary<string, object> CustomScriptPersistentData;
+    public Dictionary<string, object> CustomScriptPersistentData = new Dictionary<string, object>();
 
     private void Initialize() {
         if(APILiftSegment != null) return;
