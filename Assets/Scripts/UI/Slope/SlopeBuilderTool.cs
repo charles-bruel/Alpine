@@ -17,6 +17,7 @@ public class SlopeBuilderTool : ITool {
     }
 
     public void Cancel(bool confirm) {
+        PolygonsController.Instance.PolygonObjects.Remove(Builder.Result.Footprint);
         if(confirm && Data.SlopePoints.Count > 2) {
             Builder.Build();
             Builder.Finish();
@@ -117,6 +118,13 @@ public class SlopeBuilderTool : ITool {
 
         // Universal finalization code
         grab.RectTransform.anchoredPosition = Data.SlopePoints[grab.SlopePointIndex];
+
+        if(Data.SlopePoints.Count > 2) {
+            if(!PolygonsController.Instance.PolygonObjects.Contains(Builder.Result.Footprint)) {
+                PolygonsController.Instance.PolygonObjects.Add(Builder.Result.Footprint);
+            }
+            PolygonsController.Instance.MarkPolygonsDirty();
+        }
     }
 
     public void RemovePoint(Vector2 pos) {
@@ -145,6 +153,10 @@ public class SlopeBuilderTool : ITool {
             } else if(Grabs[i].SlopePointIndex > index) {
                 Grabs[i].SlopePointIndex--;
             }
+        }
+
+        if(Data.SlopePoints.Count <= 2) {
+            PolygonsController.Instance.PolygonObjects.Remove(Builder.Result.Footprint);
         }
     }
 

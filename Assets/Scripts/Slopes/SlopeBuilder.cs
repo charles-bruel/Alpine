@@ -6,7 +6,7 @@ using UnityEngine;
 public class SlopeBuilder {
     public SlopeConstructionData Data;
 
-    private Slope Result;
+    public Slope Result;
 
     public void Initialize() {
         GameObject gameObject = new GameObject("Slope");
@@ -19,8 +19,9 @@ public class SlopeBuilder {
         Result.Footprint = new AlpinePolygon();
 
         Result.Footprint.Guid = Guid.NewGuid();
-        Result.Footprint.Level = 4;
+        Result.Footprint.Level = 3;
         Result.Footprint.Flags = PolygonFlags.CLEARANCE;
+        Result.Footprint.Color = RenderingData.Instance.SlopeDraftColor;
     }
 
     public void LightBuild() {

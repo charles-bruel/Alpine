@@ -3455,7 +3455,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1efcc28d41fc758498476fbd3a022dc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GrabTemplate: {fileID: 0}
+  GrabTemplate: {fileID: 7150836915057828470, guid: 1d1773609911f05448843fa7125f159a,
+    type: 3}
   UI: {fileID: 1349235619}
   Canvas: {fileID: 1163915560}
 --- !u!114 &1078519275
