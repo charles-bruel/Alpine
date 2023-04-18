@@ -214,10 +214,8 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
             PolygonEditor.Reinflate();
     }
 
-    public Vector2? CheckForSnapping(Vector2 Pos, float MaxDist, PolygonFlags Mask) {
-        var watch = new System.Diagnostics.Stopwatch();
-        watch.Start();
-        Vector2? Result = null;
+    public PolygonSnappingResult? CheckForSnapping(Vector2 Pos, float MaxDist, PolygonFlags Mask) {
+        PolygonSnappingResult? Result = null;
         float MaxDistSqr = MaxDist * MaxDist;
         float MinDistSqr = Mathf.Infinity;
         
@@ -233,13 +231,29 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
                 if(distSqr < MaxDistSqr) {
                     if(distSqr < MinDistSqr) {
                         MinDistSqr = distSqr;
-                        Result = pos;
+
+                        PolygonSnappingResult newResult = new PolygonSnappingResult();
+                        newResult.Pos = pos;
+                        newResult.Offset = 0;
+                        newResult.Target = poly;
+                        newResult.PointID = j;
+                        
+                        Result = newResult;
                     }
                 }
             }
         }
-        watch.Stop();
-        Debug.Log(watch.ElapsedMilliseconds);
         return Result;
+    }
+
+    public struct PolygonSnappingResult {
+        public Vector2 Pos;
+        public AlpinePolygon Target;
+        public int PointID;
+        // An offset of 0 means it's on the given point, an offset
+        // of 1 means it's at the next point
+        // This allows it to return a point on the edge or on a
+        // vertex
+        public float Offset;
     }
 }
