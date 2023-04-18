@@ -158,6 +158,7 @@ public class SlopeBuilderTool : ITool {
         if(Data.SlopePoints.Count <= 2) {
             PolygonsController.Instance.PolygonObjects.Remove(Builder.Result.Footprint);
         }
+        PolygonsController.Instance.MarkPolygonsDirty();
     }
 
     public void Update() {

@@ -20,7 +20,7 @@ public class SlopeBuilder {
 
         Result.Footprint.Guid = Guid.NewGuid();
         Result.Footprint.Level = 3;
-        Result.Footprint.Flags = PolygonFlags.CLEARANCE;
+        Result.Footprint.Flags = PolygonFlags.CLEARANCE | PolygonFlags.SLOPE_NAVIGABLE;
         Result.Footprint.Color = RenderingData.Instance.SlopeDraftColor;
     }
 

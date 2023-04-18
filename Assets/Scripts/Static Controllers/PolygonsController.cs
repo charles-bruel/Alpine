@@ -213,4 +213,33 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
         if(PolygonEditor != null)
             PolygonEditor.Reinflate();
     }
+
+    public Vector2? CheckForSnapping(Vector2 Pos, float MaxDist, PolygonFlags Mask) {
+        var watch = new System.Diagnostics.Stopwatch();
+        watch.Start();
+        Vector2? Result = null;
+        float MaxDistSqr = MaxDist * MaxDist;
+        float MinDistSqr = Mathf.Infinity;
+        
+        for(int i = 0;i < PolygonObjects.Count;i ++) {
+            AlpinePolygon poly = PolygonObjects[i];
+            if(!poly.Polygon.bounds.Contains(Pos)){
+                continue;
+            }
+            //TODO: Support subpolygons
+            for(int j = 0;j < poly.Polygon.points.Length;j ++) {
+                Vector2 pos = poly.Polygon.points[j];
+                float distSqr = (pos - Pos).sqrMagnitude;
+                if(distSqr < MaxDistSqr) {
+                    if(distSqr < MinDistSqr) {
+                        MinDistSqr = distSqr;
+                        Result = pos;
+                    }
+                }
+            }
+        }
+        watch.Stop();
+        Debug.Log(watch.ElapsedMilliseconds);
+        return Result;
+    }
 }
