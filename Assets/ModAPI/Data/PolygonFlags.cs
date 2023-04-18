@@ -2,6 +2,7 @@
 public enum PolygonFlags : uint {
     AERIAL_CLEARANCE = 1,
     GROUND_CLEARANCE = 2,
+    CLEARANCE = 3,//AERIAL_CLEARANCE | GROUND_CLEARANCE
     FLAT_NAVIGABLE = 4,
     FLATTEN_DOWN = 8,
     FLATTEN_UP = 16,

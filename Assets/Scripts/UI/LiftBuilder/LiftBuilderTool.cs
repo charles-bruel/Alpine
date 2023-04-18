@@ -17,7 +17,7 @@ public class LiftBuilderTool : ITool {
     }
 
     public void Cancel(bool confirm) {
-        if(Data.RoutingSegments.Count >= 2) {
+        if(confirm && Data.RoutingSegments.Count >= 2) {
             Builder.Build();
             Builder.Finish();
         }
