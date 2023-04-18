@@ -34,7 +34,6 @@ public class SlopeBuilder {
     }
 
     public void Finish() {
-        Debug.Log("test");
         PolygonsController.Instance.RegisterPolygon(Result.Footprint);
     }
 }

@@ -12,12 +12,33 @@ public static class Utils {
         thread.Start();
     }
 
+    public static void RemoveRocksByPolygon(Polygon polygon) {
+        RemoveRocksJob job = new RemoveRocksJob();
+        job.Polygon = polygon;
+        Thread thread = new Thread(new ThreadStart(job.Run));
+        thread.Start();
+    }
+
     public static List<int> GetTreesToRemove(Polygon polygon, byte x, byte y) {
         List<int> toReturn = new List<int>();
 
         var enumerator = TerrainManager.Instance.TreesData.GetIndexEnumerator(x, y);
         while(enumerator.MoveNext()) {
             var element = TerrainManager.Instance.TreesData[enumerator.Current];
+            if(polygon.ContainsPoint(element.pos.ToHorizontal())) {
+                toReturn.Add(enumerator.Current);
+            }
+        }
+
+        return toReturn;
+    }
+
+    public static List<int> GetRocksToRemove(Polygon polygon, byte x, byte y) {
+        List<int> toReturn = new List<int>();
+
+        var enumerator = TerrainManager.Instance.RocksData.GetIndexEnumerator(x, y);
+        while(enumerator.MoveNext()) {
+            var element = TerrainManager.Instance.RocksData[enumerator.Current];
             if(polygon.ContainsPoint(element.pos.ToHorizontal())) {
                 toReturn.Add(enumerator.Current);
             }
