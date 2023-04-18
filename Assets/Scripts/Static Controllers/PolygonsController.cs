@@ -65,6 +65,7 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
     }
 
     public void DeregisterPolygon(Guid guid) {
+        //TODO: Also remove polygon render objects
         for(int i = 0;i < PolygonObjects.Count;i ++) {
             if(PolygonObjects[i].Guid == guid) {
                 PolygonObjects.RemoveAt(i);

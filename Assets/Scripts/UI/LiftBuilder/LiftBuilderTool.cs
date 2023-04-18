@@ -20,6 +20,8 @@ public class LiftBuilderTool : ITool {
         if(confirm && Data.RoutingSegments.Count >= 2) {
             Builder.Build();
             Builder.Finish();
+        } else {
+            Builder.Cancel();
         }
         for(int i = 0;i < Grabs.Count;i ++) {
             GameObject.Destroy(Grabs[i].gameObject);

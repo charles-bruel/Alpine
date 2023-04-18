@@ -21,6 +21,8 @@ public class SlopeBuilderTool : ITool {
         if(confirm && Data.SlopePoints.Count > 2) {
             Builder.Build();
             Builder.Finish();
+        } else {
+            Builder.Cancel();
         }
         for(int i = 0;i < Grabs.Count;i ++) {
             GameObject.Destroy(Grabs[i].gameObject);
@@ -157,6 +159,8 @@ public class SlopeBuilderTool : ITool {
 
         if(Data.SlopePoints.Count <= 2) {
             PolygonsController.Instance.PolygonObjects.Remove(Builder.Result.Footprint);
+            // TODO: More elegant system
+            if(Builder.Result.Footprint.Filter != null && Builder.Result.Footprint.Filter.gameObject != null) GameObject.Destroy(Builder.Result.Footprint.Filter.gameObject);
         }
         PolygonsController.Instance.MarkPolygonsDirty();
     }

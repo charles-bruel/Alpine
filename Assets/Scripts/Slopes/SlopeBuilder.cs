@@ -37,4 +37,11 @@ public class SlopeBuilder {
     public void Finish() {
         PolygonsController.Instance.RegisterPolygon(Result.Footprint);
     }
+
+    public void Cancel() {
+        //TODO: More elegant solution
+        if(Result.Footprint.Filter != null && Result.Footprint.Filter.gameObject != null) GameObject.Destroy(Result.Footprint.Filter.gameObject);
+        PolygonsController.Instance.MarkPolygonsDirty();
+        GameObject.Destroy(Result.gameObject);
+    }
 }

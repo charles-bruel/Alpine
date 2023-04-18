@@ -410,4 +410,8 @@ public class LiftBuilder
 
         return poly;
     }
+
+    public void Cancel() {
+        GameObject.Destroy(Result.gameObject);
+    }
 }
