@@ -9,7 +9,7 @@ public class APILiftSegment : APIBase
     // current, next and prev are cable points. For lift routing segments (stations and turns), the
     // passed cables points are for *other* routing segments, not towers. If you want to make something
     // based on tower position, you will need to place a tower to do so.
-    public virtual void Build(GameObject self, Transform current, Transform next, Transform prev) {
+    public virtual void Build(ICustomScriptable parent, Transform current, Transform next, Transform prev) {
         
     }
 
@@ -17,7 +17,7 @@ public class APILiftSegment : APIBase
     // This function will be called after Build()
     // Default behavior is to return the children of uphillCablePoints is there are any, otherwise
     // returning uphillCablePoints
-    public virtual List<LiftCablePoint> GetCablePointsUphill(GameObject self, Transform uphillCablePoints) {
+    public virtual List<LiftCablePoint> GetCablePointsUphill(ICustomScriptable parent, Transform uphillCablePoints) {
         List<LiftCablePoint> toReturn = new List<LiftCablePoint>(uphillCablePoints.childCount);
         if(uphillCablePoints.childCount == 0) {
             toReturn.Add(new LiftCablePoint(uphillCablePoints.position, uphillCablePoints.localScale.x));
@@ -34,7 +34,7 @@ public class APILiftSegment : APIBase
     // This function will be called after Build()
     // Default behavior is to return the children of downhillCablePoints is there are any, otherwise
     // returning downhillCablePoints
-    public virtual List<LiftCablePoint> GetCablePointsDownhill(GameObject self, Transform downhillCablePoints) {
+    public virtual List<LiftCablePoint> GetCablePointsDownhill(ICustomScriptable parent, Transform downhillCablePoints) {
         List<LiftCablePoint> toReturn = new List<LiftCablePoint>(downhillCablePoints.childCount);
         if(downhillCablePoints.childCount == 0) {
             toReturn.Add(new LiftCablePoint(downhillCablePoints.position, downhillCablePoints.localScale.x));
@@ -53,7 +53,7 @@ public class APILiftSegment : APIBase
     }
 
     // This allows lifts elements to place their own effect polygons
-    public virtual List<AlpinePolygon> GetPolygons(GameObject self, AlpinePolygonSource[] providedPolygons) {
+    public virtual List<AlpinePolygon> GetPolygons(ICustomScriptable parent, AlpinePolygonSource[] providedPolygons) {
         // Provided polygons are in local space, so we must manually transform them
         // into world space
         List<AlpinePolygon> result = new List<AlpinePolygon>(providedPolygons.Length);

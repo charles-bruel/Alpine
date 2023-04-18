@@ -88,20 +88,20 @@ public class LiftBuilder
 
         for(int i = 0;i < Data.SpanSegments.Count;i ++) {
             LiftRoutingSegmentTemplate routing = Data.SpanSegments[i].Start.PhysicalSegment;
-            List<LiftCablePoint> temp = routing.APILiftSegment.GetCablePointsUphill(routing.gameObject, routing.UphillCablePoint);
+            List<LiftCablePoint> temp = routing.APILiftSegment.GetCablePointsUphill(routing, routing.UphillCablePoint);
             if(i != 0) builder.AddPointsWithSag(builder.LastPoint, temp[0], 1.0001f);
             builder.AddPointsWithoutSag(temp);
 
             for(int j = 0;j < Data.SpanSegments[i].Towers.Count;j ++) {
                 LiftTowerTemplate tower = Data.SpanSegments[i].Towers[j].PhysicalTower;
-                List<LiftCablePoint> temp2 = tower.APILiftSegment.GetCablePointsUphill(tower.gameObject, tower.UphillCablePoint);
+                List<LiftCablePoint> temp2 = tower.APILiftSegment.GetCablePointsUphill(tower, tower.UphillCablePoint);
                 builder.AddPointsWithSag(builder.LastPoint, temp2[0], 1.0001f);
                 builder.AddPointsWithoutSag(temp2);
             }
 
             if(i == Data.SpanSegments.Count - 1) {
                 routing = Data.SpanSegments[i].End.PhysicalSegment;
-                List<LiftCablePoint> temp3 = routing.APILiftSegment.GetCablePointsDownhill(routing.gameObject, routing.DownhillCablePoint);
+                List<LiftCablePoint> temp3 = routing.APILiftSegment.GetCablePointsDownhill(routing, routing.DownhillCablePoint);
                 builder.AddPointsWithSag(builder.LastPoint, temp3[0], 1.0001f);
                 builder.AddPointsWithoutSag(temp3);
             }
@@ -111,23 +111,23 @@ public class LiftBuilder
             LiftRoutingSegmentTemplate routing = Data.SpanSegments[i].End.PhysicalSegment;
             List<LiftCablePoint> temp;
             if(i == Data.SpanSegments.Count - 1) {
-                temp = routing.APILiftSegment.GetCablePointsUphill(routing.gameObject, routing.UphillCablePoint);
+                temp = routing.APILiftSegment.GetCablePointsUphill(routing, routing.UphillCablePoint);
             } else {
-                temp = routing.APILiftSegment.GetCablePointsDownhill(routing.gameObject, routing.DownhillCablePoint);
+                temp = routing.APILiftSegment.GetCablePointsDownhill(routing, routing.DownhillCablePoint);
             }
             builder.AddPointsWithSag(builder.LastPoint, temp[0], 1.0001f);
             builder.AddPointsWithoutSag(temp);
 
             for(int j = Data.SpanSegments[i].Towers.Count - 1;j >= 0;j --) {
                 LiftTowerTemplate tower = Data.SpanSegments[i].Towers[j].PhysicalTower;
-                List<LiftCablePoint> temp2 = tower.APILiftSegment.GetCablePointsDownhill(tower.gameObject, tower.DownhillCablePoint);
+                List<LiftCablePoint> temp2 = tower.APILiftSegment.GetCablePointsDownhill(tower, tower.DownhillCablePoint);
                 builder.AddPointsWithSag(builder.LastPoint, temp2[0], 1.0001f);
                 builder.AddPointsWithoutSag(temp2);
             }
 
             if(i == 0) {
                 routing = Data.SpanSegments[i].Start.PhysicalSegment;
-                List<LiftCablePoint> temp3 = routing.APILiftSegment.GetCablePointsDownhill(routing.gameObject, routing.DownhillCablePoint);
+                List<LiftCablePoint> temp3 = routing.APILiftSegment.GetCablePointsDownhill(routing, routing.DownhillCablePoint);
                 builder.AddPointsWithSag(builder.LastPoint, temp3[0], 1.0001f);
                 builder.AddPointsWithoutSag(temp3);
             }
@@ -167,7 +167,7 @@ public class LiftBuilder
             }
 
             routingSegment.PhysicalSegment.APILiftSegment.Build(
-                routingSegment.PhysicalSegment.gameObject,
+                routingSegment.PhysicalSegment,
                 routingSegment.PhysicalSegment.CableAimingPoint,
                 next,
                 prev
@@ -194,7 +194,7 @@ public class LiftBuilder
                 }
 
                 towerSegment.PhysicalTower.APILiftSegment.Build(
-                    towerSegment.PhysicalTower.gameObject,
+                    towerSegment.PhysicalTower,
                     towerSegment.PhysicalTower.CableAimingPoint,
                     next,
                     prev
@@ -266,8 +266,8 @@ public class LiftBuilder
 
             Vector2 directionVector = (spanSegment.End.Position - spanSegment.Start.Position).ToHorizontal().normalized;
 
-            float startLength = spanSegment.Start.PhysicalSegment.APILiftRoutingSegment.GetLength();
-            float endLength = spanSegment.End.PhysicalSegment.APILiftRoutingSegment.GetLength();
+            float startLength = spanSegment.Start.PhysicalSegment.APILiftRoutingSegment.GetLength(spanSegment.Start.PhysicalSegment);
+            float endLength = spanSegment.End.PhysicalSegment.APILiftRoutingSegment.GetLength(spanSegment.End.PhysicalSegment);
 
             spanSegment.StartPos = spanSegment.Start.Position.ToHorizontal() + directionVector * startLength;
             spanSegment.EndPos = spanSegment.End.Position.ToHorizontal() - directionVector * endLength;
@@ -359,7 +359,7 @@ public class LiftBuilder
     private void RegisterComponentPolygons() {
         for(int i = 0;i < Data.RoutingSegments.Count;i ++) {
             List<AlpinePolygon> polygons = Data.RoutingSegments[i].PhysicalSegment.APILiftSegment.GetPolygons(
-                Data.RoutingSegments[i].PhysicalSegment.gameObject, 
+                Data.RoutingSegments[i].PhysicalSegment, 
                 Data.RoutingSegments[i].PhysicalSegment.Polygons
             );
 

@@ -6,13 +6,13 @@ public class MidStationT3 : APITurnSegment {
     //TODO: Work out local state
     private float LastLength;
 
-    public override void Build(GameObject self, Transform current, Transform next, Transform prev) {
+    public override void Build(ICustomScriptable parent, Transform current, Transform next, Transform prev) {
         float pivotOffset = FloatParameters[0];
         float stationLen = FloatParameters[1];
 
-        Transform primarySegment = self.transform.GetChild(IntParameters[0]);
-        Transform secondarySegment = self.transform.GetChild(IntParameters[1]);
-        Transform turnGapCover = self.transform.GetChild(IntParameters[2]);
+        Transform primarySegment = parent.GetGameObject().transform.GetChild(IntParameters[0]);
+        Transform secondarySegment = parent.GetGameObject().transform.GetChild(IntParameters[1]);
+        Transform turnGapCover = parent.GetGameObject().transform.GetChild(IntParameters[2]);
         Transform turnGapCoverA = turnGapCover.GetChild(0);
         Transform turnGapCoverB = turnGapCover.GetChild(1);
 
@@ -59,29 +59,29 @@ public class MidStationT3 : APITurnSegment {
 
         LastLength = -stationOffset + stationLen;
 
-        primarySegment.position = self.transform.position + new Vector3(
+        primarySegment.position = parent.GetGameObject().transform.position + new Vector3(
             stationOffset * Mathf.Sin(primaryWorldAngle),
             primarySegment.localPosition.y,
             stationOffset * Mathf.Cos(primaryWorldAngle)
         );
-        secondarySegment.position = self.transform.position + new Vector3(
+        secondarySegment.position = parent.GetGameObject().transform.position + new Vector3(
             stationOffset * Mathf.Sin(secondaryWorldAngle), 
             secondarySegment.localPosition.y, 
             stationOffset * Mathf.Cos(secondaryWorldAngle)
         );
     }
 
-    public override float GetLength()
+    public override float GetLength(ICustomScriptable parent)
     {
         return LastLength;
     }
 
-    public override List<LiftCablePoint> GetCablePointsUphill(GameObject self, Transform uphillCablePoints) {
-        return GetCablePointsUniversal(self, true);
+    public override List<LiftCablePoint> GetCablePointsUphill(ICustomScriptable parent, Transform uphillCablePoints) {
+        return GetCablePointsUniversal(parent.GetGameObject(), true);
     }
 
-    public override List<LiftCablePoint> GetCablePointsDownhill(GameObject self, Transform downhillCablePoints) {
-        return GetCablePointsUniversal(self, false);
+    public override List<LiftCablePoint> GetCablePointsDownhill(ICustomScriptable parent, Transform downhillCablePoints) {
+        return GetCablePointsUniversal(parent.GetGameObject(), false);
     }
 
     private List<LiftCablePoint> GetCablePointsUniversal(GameObject self, bool uphill) {

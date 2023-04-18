@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LiftSegmentTemplate : MonoBehaviour, IPoolable
+public class LiftSegmentTemplate : MonoBehaviour, IPoolable, ICustomScriptable
 {
     public float Gauge;
     public Transform CableAimingPoint;
@@ -11,6 +11,7 @@ public class LiftSegmentTemplate : MonoBehaviour, IPoolable
     public AlpinePolygonSource[] Polygons;
     public APIDef LiftSegmentAPIDef;
     public APILiftSegment APILiftSegment;
+    public Dictionary<string, object> CustomScriptPersistentData;
 
     private void Initialize() {
         if(APILiftSegment != null) return;
@@ -54,5 +55,15 @@ public class LiftSegmentTemplate : MonoBehaviour, IPoolable
                 new Vector3(poly.Points[0].x, poly.Height, poly.Points[0].y)
             );
         }
+    }
+
+    public Dictionary<string, object> PersistentData()
+    {
+        return CustomScriptPersistentData;
+    }
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
     }
 }

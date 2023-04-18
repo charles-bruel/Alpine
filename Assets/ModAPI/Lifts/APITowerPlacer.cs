@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class APITowerPlacer : APIBase
-{   
+{
+    //TODO: Implement persistent storage
     public virtual List<Vector3> PlaceTowers(List<Vector3> terrainPos, Vector3 StartStation, Vector3 EndStation) {
         //Return roughly every 150th element
         //Represents (roughly) even spacing
