@@ -214,16 +214,17 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
             PolygonEditor.Reinflate();
     }
 
-    public PolygonSnappingResult? CheckForSnapping(Vector2 Pos, float MaxDist, PolygonFlags Mask) {
+    public PolygonSnappingResult? CheckForSnapping(Vector2 Pos, float MaxDistPoint, float MaxDistEdge, PolygonFlags Mask) {
         PolygonSnappingResult? Result = null;
-        float MaxDistSqr = MaxDist * MaxDist;
+        float MaxDistSqr = MaxDistPoint * MaxDistPoint;
         float MinDistSqr = Mathf.Infinity;
         
         for(int i = 0;i < PolygonObjects.Count;i ++) {
             AlpinePolygon poly = PolygonObjects[i];
-            if(!poly.Polygon.bounds.Contains(Pos)){
-                continue;
-            }
+            // TODO: Expand bounds
+            // if(!poly.Polygon.bounds.Contains(Pos)){
+            //     continue;
+            // }
             //TODO: Support subpolygons
             for(int j = 0;j < poly.Polygon.points.Length;j ++) {
                 Vector2 pos = poly.Polygon.points[j];
@@ -237,12 +238,58 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
                         newResult.Offset = 0;
                         newResult.Target = poly;
                         newResult.PointID = j;
-                        
+
                         Result = newResult;
                     }
                 }
             }
         }
+        // Snapping to point is always more desirable
+        if(Result != null) {
+            return Result;
+        }
+
+        MaxDistSqr = MaxDistEdge * MaxDistEdge;
+        MinDistSqr = Mathf.Infinity;
+
+        for(int i = 0;i < PolygonObjects.Count;i ++) {
+            AlpinePolygon poly = PolygonObjects[i];
+            // TODO: Expand bounds
+            // if(!poly.Polygon.bounds.Contains(Pos)){
+            //     continue;
+            // }
+            //TODO: Support subpolygons
+            for(int j = 0;j < poly.Polygon.points.Length;j ++) {
+                Vector2 p1 = poly.Polygon.points[j];
+                Vector2 p2;
+                if(j == poly.Polygon.points.Length - 1) {
+                    p2 = poly.Polygon.points[0];
+                } else {
+                    p2 = poly.Polygon.points[j + 1];
+                }
+                
+                // Extracted the LineSegmentPointSqr method to get at internal variables
+                float l2 = (p1 - p2).sqrMagnitude;
+                float t = Mathf.Max(0, Mathf.Min(1, Vector2.Dot(Pos - p1, p2 - p1) / l2));
+                Vector2 projection = p1 + t * (p2 - p1);
+                float distSqr = (Pos - projection).sqrMagnitude;
+                
+                if(distSqr < MaxDistSqr) {
+                    if(distSqr < MinDistSqr) {
+                        MinDistSqr = distSqr;
+
+                        PolygonSnappingResult newResult = new PolygonSnappingResult();
+                        newResult.Pos = projection;
+                        newResult.Offset = t;
+                        newResult.Target = poly;
+                        newResult.PointID = j;
+
+                        Result = newResult;
+                    }
+                }
+            }
+        }
+
         return Result;
     }
 

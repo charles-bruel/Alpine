@@ -109,10 +109,14 @@ public static class Utils {
     // Finds the distance between a point and a line segment
     // Based on https://stackoverflow.com/questions/849211/shortest-distance-between-a-point-and-a-line-segment
     public static float LineSegmentPoint(Vector2 v, Vector2 w, Vector2 p) {
+        return Mathf.Sqrt(LineSegmentPointSqr(v, w, p));
+    }
+
+    public static float LineSegmentPointSqr(Vector2 v, Vector2 w, Vector2 p) {
         float l2 = (v - w).sqrMagnitude;
-        if(l2 == 0) return (v - p).magnitude;
+        if(l2 == 0) return (v - p).sqrMagnitude;
         float t = Mathf.Max(0, Mathf.Min(1, Vector2.Dot(p - v, w - v) / l2));
         Vector2 projection = v + t * (w - v);
-        return (p - projection).magnitude;
+        return (p - projection).sqrMagnitude;
     }
 }

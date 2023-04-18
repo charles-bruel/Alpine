@@ -6,7 +6,7 @@ public class SlopeBuilderToolGrab : GenericGrab {
     public SlopeConstructionData Data;
     public override void OnDragBehavior(Vector2 newPos) {
 
-        PolygonsController.PolygonSnappingResult? snapping = PolygonsController.Instance.CheckForSnapping(newPos, 6, PolygonFlags.NAVIGABLE_MASK);
+        PolygonsController.PolygonSnappingResult? snapping = PolygonsController.Instance.CheckForSnapping(newPos, 10, 7, PolygonFlags.NAVIGABLE_MASK);
         if(snapping != null) {
             newPos = snapping.Value.Pos;
             RectTransform.anchoredPosition = newPos;
