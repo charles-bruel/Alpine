@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1876f084aa02bf949a9be675423e9952, type: 3}
   m_Name: Poseidon Mons
   m_EditorClassIdentifier: 
-  TileSize: 900
-  TileHeight: 1050
+  TileSize: 600
+  TileHeight: 700
   TexturePath: Poseidon Mons
   NumTilesX: 8
   NumTilesY: 8
