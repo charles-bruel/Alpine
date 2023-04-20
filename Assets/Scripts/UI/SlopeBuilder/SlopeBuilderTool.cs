@@ -45,13 +45,14 @@ public class SlopeBuilderTool : ITool {
         SlopeBuilderToolGrab grab = GameObject.Instantiate(GrabTemplate);
         grab.transform.SetParent(Canvas.transform, false);
         grab.Data = Data;
+        grab.Builder = Builder;
         Grabs.Add(grab);
 
         // It is trivial to insert the new station if we have no other stations
         // or only one other; there is only one place to put it. It becomes
         // significantly more complex to make that desicion with more segments
         // if(Data.RoutingSegments.Count == 0 || Data.RoutingSegments.Count == 1) {
-            Data.SlopePoints.Add(pos);
+            Data.SlopePoints.Add(new SlopeConstructionData.SlopePoint(pos));
             grab.SlopePointIndex = Data.SlopePoints.Count - 1;
         // } else {
         //     // Find the closest line segment
@@ -119,7 +120,7 @@ public class SlopeBuilderTool : ITool {
         // }
 
         // Universal finalization code
-        grab.RectTransform.anchoredPosition = Data.SlopePoints[grab.SlopePointIndex];
+        grab.RectTransform.anchoredPosition = Data.SlopePoints[grab.SlopePointIndex].Pos;
 
         if(Data.SlopePoints.Count > 2) {
             if(!PolygonsController.Instance.PolygonObjects.Contains(Builder.Result.Footprint)) {
@@ -135,7 +136,7 @@ public class SlopeBuilderTool : ITool {
         int index = -1;
 
         for(int i = 0;i < Data.SlopePoints.Count;i ++) {
-            Vector2 hpos = Data.SlopePoints[i];
+            Vector2 hpos = Data.SlopePoints[i].Pos;
             float sqrMagnitude = (hpos - pos).sqrMagnitude;
             if(sqrMagnitude < sqrMinDist) {
                 sqrMinDist = sqrMagnitude;

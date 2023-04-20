@@ -215,7 +215,7 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
             PolygonEditor.Reinflate();
     }
 
-    public PolygonSnappingResult? CheckForSnapping(Vector2 Pos, float MaxDistPoint, float MaxDistEdge, PolygonFlags Mask) {
+    public PolygonSnappingResult? CheckForSnapping(Vector2 Pos, float MaxDistPoint, float MaxDistEdge, PolygonFlags Mask, AlpinePolygon exclude) {
         PolygonSnappingResult? Result = null;
         float MaxDistSqr = MaxDistPoint * MaxDistPoint;
         float MinDistSqr = Mathf.Infinity;
@@ -223,6 +223,7 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
         for(int i = 0;i < PolygonObjects.Count;i ++) {
             AlpinePolygon poly = PolygonObjects[i];
             if((poly.Flags & Mask) == 0) continue;
+            if(poly == exclude) continue;
             // TODO: Expand bounds
             // if(!poly.Polygon.bounds.Contains(Pos)){
             //     continue;
@@ -257,6 +258,7 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
         for(int i = 0;i < PolygonObjects.Count;i ++) {
             AlpinePolygon poly = PolygonObjects[i];
             if((poly.Flags & Mask) == 0) continue;
+            if(poly == exclude) continue;
             // TODO: Expand bounds
             // if(!poly.Polygon.bounds.Contains(Pos)){
             //     continue;
