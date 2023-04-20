@@ -19,7 +19,10 @@ public class RenderingData : MonoBehaviour
 
     [Tooltip("This shows the region that will become a slope while building")]
     public Color SlopeDraftColor;
-    
+
+    [Tooltip("This color shows a portal between multiple navigable regions")]
+    public Color PortalColor;
+
     [Header("Materials")]
     public Material LiftLineMaterial;
 
