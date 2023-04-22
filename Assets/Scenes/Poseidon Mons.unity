@@ -2392,6 +2392,9 @@ MonoBehaviour:
     MinorSpacing: 0
     Major: []
     Minor: []
+  InverseTerrainLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!4 &757753260
 Transform:
   m_ObjectHideFlags: 0

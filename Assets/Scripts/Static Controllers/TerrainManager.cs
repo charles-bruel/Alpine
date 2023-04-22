@@ -71,13 +71,11 @@ public class TerrainManager : MonoBehaviour {
     [NonSerialized]
     public float AltitudeAdjustFactor;
 
-    private LayerMask TerrainLayerMask;
+    public LayerMask InverseTerrainLayerMask;
 
     private bool Initialized = false;
 
     public void Initialize() {
-        TerrainLayerMask = ~LayerMask.NameToLayer("Terrain");
-
         CopyMapData();
 
         CreateTreeLODRenderers();
@@ -309,7 +307,7 @@ public class TerrainManager : MonoBehaviour {
     public Vector3 Project(Vector2 coord) {
         Vector3 startCoord = new Vector3(coord.x, TileHeight * 1.1f, coord.y);
         RaycastHit hit;
-        if(Physics.Raycast(startCoord, Vector3.down, out hit, Mathf.Infinity, TerrainLayerMask)) {
+        if(Physics.Raycast(startCoord, Vector3.down, out hit, Mathf.Infinity, InverseTerrainLayerMask)) {
             return hit.point;
         }
         return new Vector3(coord.x, 0, coord.y);
@@ -318,7 +316,7 @@ public class TerrainManager : MonoBehaviour {
     public RaycastHit? Raycast(Vector2 coord) {
         Vector3 startCoord = new Vector3(coord.x, TileHeight * 1.1f, coord.y);
         RaycastHit hit;
-        if(Physics.Raycast(startCoord, Vector3.down, out hit, Mathf.Infinity, TerrainLayerMask)) {
+        if(Physics.Raycast(startCoord, Vector3.down, out hit, Mathf.Infinity, InverseTerrainLayerMask)) {
             return hit;
         }
         return null;
