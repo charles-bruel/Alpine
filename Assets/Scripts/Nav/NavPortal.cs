@@ -1,27 +1,28 @@
 using UnityEngine;
 
-public class NavPortal : MonoBehaviour {
+public class NavPortal {
     public LineRenderer Renderer;
     public AlpinePolygon A;
     public AlpinePolygon B;
-    public int A1index;
-    public int A2index;
-    public int B1index;
-    public int B2index;
+    public int A1Index;
+    public int A2Index;
+    public int B1Index;
+    public int B2Index;
     public float A1Offset;
     public float A2Offset;
     public float B1Offset;
     public float B2Offset;
     public NavPortalDirectionality Directionality;
+    public GameObject gameObject;
 
     public Vector2 A1 {
         get {
-            Vector2 prev = A.Polygon.points[A1index];
+            Vector2 prev = A.Polygon.points[A1Index];
             Vector2 next;
-            if(A1index == A.Polygon.pointCount - 1) {
+            if(A1Index == A.Polygon.pointCount - 1) {
                 next = A.Polygon.points[0];
             } else {
-                next = A.Polygon.points[A1index + 1];
+                next = A.Polygon.points[A1Index + 1];
             }
             return Vector2.Lerp(prev, next, A1Offset);
         }
@@ -29,12 +30,12 @@ public class NavPortal : MonoBehaviour {
 
     public Vector2 A2 {
         get {
-            Vector2 prev = A.Polygon.points[A2index];
+            Vector2 prev = A.Polygon.points[A2Index];
             Vector2 next;
-            if(A2index == A.Polygon.pointCount - 1) {
+            if(A2Index == A.Polygon.pointCount - 1) {
                 next = A.Polygon.points[0];
             } else {
-                next = A.Polygon.points[A2index + 1];
+                next = A.Polygon.points[A2Index + 1];
             }
             return Vector2.Lerp(prev, next, A2Offset);
         }
@@ -42,12 +43,12 @@ public class NavPortal : MonoBehaviour {
 
     public Vector2 B1 {
         get {
-            Vector2 prev = B.Polygon.points[B1index];
+            Vector2 prev = B.Polygon.points[B1Index];
             Vector2 next;
-            if(B1index == B.Polygon.pointCount - 1) {
+            if(B1Index == B.Polygon.pointCount - 1) {
                 next = B.Polygon.points[0];
             } else {
-                next = B.Polygon.points[B1index + 1];
+                next = B.Polygon.points[B1Index + 1];
             }
             return Vector2.Lerp(prev, next, B1Offset);
         }
@@ -55,12 +56,12 @@ public class NavPortal : MonoBehaviour {
 
     public Vector2 B2 {
         get {
-            Vector2 prev = B.Polygon.points[B2index];
+            Vector2 prev = B.Polygon.points[B2Index];
             Vector2 next;
-            if(B2index == B.Polygon.pointCount - 1) {
+            if(B2Index == B.Polygon.pointCount - 1) {
                 next = B.Polygon.points[0];
             } else {
-                next = B.Polygon.points[B2index + 1];
+                next = B.Polygon.points[B2Index + 1];
             }
             return Vector2.Lerp(prev, next, B2Offset);
         }
