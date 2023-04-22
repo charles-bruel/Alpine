@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class NavPortal {
     public LineRenderer Renderer;
-    public AlpinePolygon A;
-    public AlpinePolygon B;
+    public NavArea A;
+    public NavArea B;
     public int A1Index;
     public int A2Index;
     public int B1Index;

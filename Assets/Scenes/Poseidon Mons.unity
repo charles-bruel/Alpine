@@ -2510,7 +2510,7 @@ MonoBehaviour:
   SnowfrontColor: {r: 1, g: 1, b: 1, a: 1}
   SlopeDraftColor: {r: 1, g: 0.6556604, b: 0.6556604, a: 0}
   PortalColor: {r: 0, g: 0, b: 0, a: 0}
-  LiftLineMaterial: {fileID: 2100000, guid: fafa70cd7799f6243bacb72de18a51e1, type: 2}
+  VertexColorMaterial: {fileID: 2100000, guid: fafa70cd7799f6243bacb72de18a51e1, type: 2}
 --- !u!114 &757753265
 MonoBehaviour:
   m_ObjectHideFlags: 0

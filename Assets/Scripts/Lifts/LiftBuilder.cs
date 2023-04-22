@@ -364,6 +364,25 @@ public class LiftBuilder
             );
 
             for(int j = 0;j < polygons.Count;j ++) {
+                // We need to create nav information if it's marked as navigable
+                if((polygons[j].Flags & PolygonFlags.NAVIGABLE_MASK) != 0) {
+                    NavArea temp = new NavArea();
+
+                    temp.Guid                = polygons[j].Guid;
+                    temp.Level               = polygons[j].Level;
+                    temp.Polygon             = polygons[j].Polygon;
+                    temp.Filter              = polygons[j].Filter;
+                    temp.Renderer            = polygons[j].Renderer;
+                    temp.Color               = polygons[j].Color;
+                    temp.ArbitrarilyEditable = polygons[j].ArbitrarilyEditable;
+                    temp.Flags               = polygons[j].Flags;
+                    temp.Height              = polygons[j].Height;
+                    
+                    temp.Owner = Result;
+
+                    polygons[j] = temp;
+                }
+
                 PolygonsController.Instance.RegisterPolygon(polygons[j]);
             }
         }

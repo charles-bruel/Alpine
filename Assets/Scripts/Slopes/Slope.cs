@@ -3,14 +3,10 @@ using System.Collections.Generic;
 
 public class Slope : Building {
     public SlopeConstructionData Data;
-    public AlpinePolygon Footprint;
-    public NavArea Area;
+    public NavArea Footprint;
 
     public void Inflate(List<NavPortal> portals) {
-        Area = new NavArea();
-        Area.Owner = this;
-        Area.Polygon = Footprint;
-        Area.Portals.AddRange(portals);
+        Footprint.Portals.AddRange(portals);
 
         foreach(NavPortal portal in portals) {
             GameObject temp = new GameObject();

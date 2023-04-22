@@ -624,7 +624,7 @@ MonoBehaviour:
     - {x: -15, y: 30}
     - {x: 15, y: 30}
     ArbitrarilyEditable: 0
-    Flags: 4294967295
+    Flags: 31
     Height: 0
   - ParentElement: {fileID: 3711130267354381511}
     Level: 10

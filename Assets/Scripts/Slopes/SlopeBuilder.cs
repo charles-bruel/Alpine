@@ -18,7 +18,8 @@ public class SlopeBuilder {
         Data = new SlopeConstructionData();
         SnappedPoints = new List<PolygonsController.PolygonSnappingResult>();
 
-        Result.Footprint = new AlpinePolygon();
+        Result.Footprint = new NavArea();
+        Result.Footprint.Owner = Result;
 
         Result.Footprint.Guid = Guid.NewGuid();
         Result.Footprint.Level = 3;
@@ -69,6 +70,9 @@ public class SlopeBuilder {
                 // First we have to verify the portal goes to the same polygon
                 if(currentSnap.Target != nextSnap.Target) continue;
 
+                Debug.Log(currentSnap.Target.GetType().Name);
+                if(!(currentSnap.Target is NavArea)) continue;
+
                 bool valid = false;
                 // There are three ways for it to be a valid snap
                 // 1) the a_x to a_y case as described above
@@ -97,7 +101,7 @@ public class SlopeBuilder {
                 portal.A2Index = nextIndex;
                 portal.A2Offset = 0;
 
-                portal.B = currentSnap.Target;
+                portal.B = currentSnap.Target as NavArea;
                 portal.B1Index = currentSnap.PointID;
                 portal.B1Offset = currentSnap.Offset;
                 portal.B2Index = nextSnap.PointID;
