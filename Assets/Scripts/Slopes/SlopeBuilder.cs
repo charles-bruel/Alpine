@@ -36,7 +36,9 @@ public class SlopeBuilder {
         LightBuild();
     }
 
-    private void PlacePortals() {
+    private List<NavPortal> PlacePortals() {
+        List<NavPortal> toReturn = new List<NavPortal>();
+
         // Portals occur along straight segments of the polygon
         // If in x_y x is the point and y is the offset,
         // they are either of the form a_x to a_y or a_x to b_0
@@ -100,12 +102,15 @@ public class SlopeBuilder {
                 portal.B1Offset = currentSnap.Offset;
                 portal.B2Index = nextSnap.PointID;
                 portal.B2Offset = nextSnap.Offset;
+
+                toReturn.Add(portal);
             }
         }
+        return toReturn;
     }
 
     public void Finish() {
-        PlacePortals();
+        Result.Inflate(PlacePortals());
 
         PolygonsController.Instance.RegisterPolygon(Result.Footprint);
     }

@@ -24,7 +24,7 @@ public class RenderingData : MonoBehaviour
     public Color PortalColor;
 
     [Header("Materials")]
-    public Material LiftLineMaterial;
+    public Material VertexColorMaterial;
 
     public void Initialize() {
         Instance = this;

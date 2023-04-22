@@ -74,6 +74,7 @@ public class NavPortal {
         Renderer = gameObject.AddComponent<LineRenderer>();
         Renderer.startColor = Renderer.endColor = RenderingData.Instance.PortalColor;
         Renderer.startWidth = Renderer.endWidth = 5;
+        Renderer.material = RenderingData.Instance.VertexColorMaterial;
         Renderer.SetPositions(new Vector3[] {start, end});
     }
 

@@ -38,7 +38,7 @@ public class Lift : Building {
         Line = gameObject.AddComponent<LineRenderer>();
 
         Line.widthMultiplier = 5f;
-        Line.material = RenderingData.Instance.LiftLineMaterial;
+        Line.material = RenderingData.Instance.VertexColorMaterial;
         Line.startColor = Color.red;
         Line.endColor = Color.red;
     }
