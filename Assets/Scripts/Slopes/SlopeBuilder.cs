@@ -70,7 +70,6 @@ public class SlopeBuilder {
                 // First we have to verify the portal goes to the same polygon
                 if(currentSnap.Target != nextSnap.Target) continue;
 
-                Debug.Log(currentSnap.Target.GetType().Name);
                 if(!(currentSnap.Target is NavArea)) continue;
 
                 bool valid = false;
