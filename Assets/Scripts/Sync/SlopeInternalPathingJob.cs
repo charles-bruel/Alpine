@@ -7,7 +7,7 @@ public class SlopeInternalPathingJob : Job {
     private static readonly float GridCellSize = 8;
     private static readonly float HeuristicConstant = 1;
     private static readonly float CenteringWeight = 4f;
-    private static readonly float CenteringFalloff = 0.5f;
+    private static readonly float CenteringFalloff = 0.75f;
     private static readonly float CrossSlopeCost = 0.5f;
 
     private Slope slope;
@@ -100,30 +100,28 @@ public class SlopeInternalPathingJob : Job {
                 for(int y = 0;y < height;y ++) {
                     if(points[x, y].within){
                         List<Point> temp = GetNeighboringCells(x, y);
-                        float minValue = points[x, y].costDistance;
+                        float maxValue = points[x, y].costDistance;
                         bool flag2 = false;
                         foreach(var p in temp) {
-                            if(!p.within && minValue < CenteringWeight * 2) {
+                            if(!p.within && maxValue < CenteringWeight) {
                                 // Edge point
-                                minValue = CenteringWeight * 2;
+                                maxValue = CenteringWeight;
                                 flag2 = true;
                             }
-                            // Debug.Log(p.costDistance);
-                            if(p.within && p.costDistance != -1 && minValue < p.costDistance) {
-                                minValue = p.costDistance;
+                            if(p.within && p.costDistance != -1 && maxValue < p.costDistance * CenteringFalloff) {
+                                maxValue = p.costDistance * CenteringFalloff;
                                 flag2 = true;
                             }
                         }
                         if(flag2){
                             flag = true;
-                            points[x, y].costDistance = minValue * CenteringFalloff;
+                            points[x, y].costDistance = maxValue;
                         }
                     }
                 }
             }
             if(!flag) break;
         }
-        Debug.Log(cycle);
 
         // Finally, we must prepare the portals
         portals = new Vector2Int[slope.Footprint.Portals.Count];
@@ -184,7 +182,6 @@ public class SlopeInternalPathingJob : Job {
         while(openSet.Count != 0) {
             Vector2Int current = openSet.Dequeue();
             if(current == end) {
-                Debug.Log(fScore.Count);
                 return new Tuple<List<Vector2Int>, float>(AStar_ReconstructPath(cameFrom, current), gScore[current]);
             }
 
