@@ -1,13 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading;
 
 public class Slope : Building {
     public SlopeConstructionData Data;
     public NavArea Footprint;
 
     public void Inflate(List<NavPortal> portals) {
-        Footprint.Portals.AddRange(portals);
-
         foreach(NavPortal portal in portals) {
             GameObject temp = new GameObject();
             temp.transform.SetParent(transform);
@@ -18,7 +17,25 @@ public class Slope : Building {
             portal.Inflate();
 
             portal.A.Portals.Add(portal);
+            portal.A.Modified = true;
+
             portal.B.Portals.Add(portal);
+            portal.B.Modified = true;
         }
+    }
+
+    void Update() {
+        if(Footprint.Modified) {
+            RegeneratePathfinding();
+        }
+    }
+
+    public void RegeneratePathfinding() {
+        Footprint.Modified = false;
+
+        SlopeInternalPathingJob job = new SlopeInternalPathingJob(this);
+        job.Initialize();
+        Thread thread = new Thread(new ThreadStart(job.Run));
+        thread.Start();
     }
 }
