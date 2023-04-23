@@ -6,6 +6,9 @@ using EPPZ.Geometry.Model;
 public class SlopeInternalPathingJob : Job {
     private static readonly float GridCellSize = 8;
     private static readonly float HeuristicConstant = 1;
+    private static readonly float CenteringWeight = 4f;
+    private static readonly float CenteringFalloff = 0.5f;
+    private static readonly float CrossSlopeCost = 0.5f;
 
     private Slope slope;
     private Rect trueBounds;
@@ -18,8 +21,6 @@ public class SlopeInternalPathingJob : Job {
     }
 
     public void Initialize() {
-        Debug.Log("Pathfind initialize stage 1 begin");
-
         Polygon expanded = slope.Footprint.Polygon.OffsetPolygon(GridCellSize);
 
         // First we determine the grid size and offsets
@@ -27,10 +28,10 @@ public class SlopeInternalPathingJob : Job {
 
         int width  = Mathf.CeilToInt(bounds.width  / GridCellSize);
         int height = Mathf.CeilToInt(bounds.height / GridCellSize);
-        // We expand the bounds by 2 cells so that we don't
+        // We expand the bounds by 4 cells so that we don't
         // run into the borders
-        width  += 2;
-        height += 2;
+        width  += 4;
+        height += 4;
 
         float scaledWidth  = width  * GridCellSize;
         float scaledHeight = height * GridCellSize;
@@ -56,11 +57,9 @@ public class SlopeInternalPathingJob : Job {
             }
         }
 
-        Debug.Log("Pathfind initialize stage 1 end");
     }
     
     public void Run() {
-        Debug.Log("Pathfind initialize stage 2 begin");
 
         int width  = points.GetLength(0);
         int height = points.GetLength(1);
@@ -93,33 +92,38 @@ public class SlopeInternalPathingJob : Job {
                 points[x, y].costDistance = -1;
             }
         }
-        Debug.Log("Pathfind initialize stage 2.1");
-
-        for(int cycle = 0;cycle < 16384;cycle ++) {
+        
+        int cycle = 0;
+        for(;cycle< 16384;cycle ++) {
             bool flag = false;
             for(int x = 0;x < width;x ++) {
                 for(int y = 0;y < height;y ++) {
-                    if(!points[x, y].within) continue;
-                    List<Point> temp = GetValidNeighboringCells(x, y);
-                    float minValue = Mathf.Infinity;
-                    foreach(var p in temp) {
-                        if(!p.within && minValue > 2) {
-                            // Edge point
-                            minValue = 2;
+                    if(points[x, y].within){
+                        List<Point> temp = GetNeighboringCells(x, y);
+                        float minValue = points[x, y].costDistance;
+                        bool flag2 = false;
+                        foreach(var p in temp) {
+                            if(!p.within && minValue < CenteringWeight * 2) {
+                                // Edge point
+                                minValue = CenteringWeight * 2;
+                                flag2 = true;
+                            }
+                            // Debug.Log(p.costDistance);
+                            if(p.within && p.costDistance != -1 && minValue < p.costDistance) {
+                                minValue = p.costDistance;
+                                flag2 = true;
+                            }
                         }
-                        if(p.costDistance != -1 && minValue > p.costDistance) {
-                            minValue = p.costDistance;
+                        if(flag2){
+                            flag = true;
+                            points[x, y].costDistance = minValue * CenteringFalloff;
                         }
-                    }
-                    if(minValue != Mathf.Infinity){
-                        flag = true;
-                        points[x, y].costDistance = minValue / 2;
                     }
                 }
             }
             if(!flag) break;
         }
-        Debug.Log("Pathfind initialize stage 2.2");
+        Debug.Log(cycle);
 
         // Finally, we must prepare the portals
         portals = new Vector2Int[slope.Footprint.Portals.Count];
@@ -134,10 +138,8 @@ public class SlopeInternalPathingJob : Job {
                 Mathf.RoundToInt(unRoundPosition.y)
             );
         }
-        Debug.Log("Pathfind initialize stage 2 end");
 
         Result = new List<Tuple<List<Vector2Int>, float>>(portals.Length * (portals.Length - 1));
-        Debug.Log("Pathfind begin");
 
         // Initialization of the array is complete
         // We can now begin pathing
@@ -148,8 +150,6 @@ public class SlopeInternalPathingJob : Job {
                 Result.Add(result);
             }
         }
-
-        Debug.Log("Pathfind complete");
 
         lock(ASyncJobManager.completedJobsLock) {
         	ASyncJobManager.Instance.completedJobs.Enqueue(this);
@@ -184,6 +184,7 @@ public class SlopeInternalPathingJob : Job {
         while(openSet.Count != 0) {
             Vector2Int current = openSet.Dequeue();
             if(current == end) {
+                Debug.Log(fScore.Count);
                 return new Tuple<List<Vector2Int>, float>(AStar_ReconstructPath(cameFrom, current), gScore[current]);
             }
 
@@ -224,9 +225,22 @@ public class SlopeInternalPathingJob : Job {
     }
 
     public override void Complete() {
+        for(int x = 0;x < points.GetLength(0);x ++) {
+            for(int y = 0;y < points.GetLength(1);y ++) {
+                if(points[x, y].within) {
+                    Vector2 p1 = trueBounds.min + new Vector2(x - 0.5f, y - 0.5f) * GridCellSize;
+                    Vector2 p2 = trueBounds.min + new Vector2(x - 0.5f, y + 0.5f) * GridCellSize;
+                    Vector2 p3 = trueBounds.min + new Vector2(x + 0.5f, y + 0.5f) * GridCellSize;
+                    Vector2 p4 = trueBounds.min + new Vector2(x + 0.5f, y - 0.5f) * GridCellSize;
+                    Color color = new Color(1, 0, points[x, y].costDistance);
+                    Debug.DrawLine(new Vector3(p1.x, 100, p1.y), new Vector3(p3.x, 100, p3.y), color, 100);
+                    Debug.DrawLine(new Vector3(p2.x, 100, p2.y), new Vector3(p4.x, 100, p4.y), color, 100);
+                }
+            }
+        }
         foreach(var x in Result) {
             var y = x.Item1;
-            Debug.Log(x.Item2);
+            if(x.Item2 > 10000) continue;
             Vector2 prev = new Vector2();
             for(int i = 0;i < y.Count;i ++) {
                 Vector2 current = trueBounds.min + new Vector2(y[i].x, y[i].y) * GridCellSize;
@@ -271,33 +285,25 @@ public class SlopeInternalPathingJob : Job {
         return toReturn;
     }
 
-    private List<Point> GetValidNeighboringCells(int x, int y) {
+    private List<Point> GetNeighboringCells(int x, int y) {
         List<Point> toReturn = new List<Point>();
         Point point = points[x, y];
 
         if(x != points.GetLength(0) - 1) {
             Point newPoint = points[x + 1, y];
-            if(newPoint.within) {
-                toReturn.Add(newPoint);
-            }
+            toReturn.Add(newPoint);
         }
         if(y != points.GetLength(1) - 1) {
             Point newPoint = points[x, y + 1];
-            if(newPoint.within) {
-                toReturn.Add(newPoint);
-            }
+            toReturn.Add(newPoint);
         }
         if(x != 0) {
             Point newPoint = points[x - 1, y];
-            if(newPoint.within) {
-                toReturn.Add(newPoint);
-            }
+            toReturn.Add(newPoint);
         }
         if(y != 0) {
             Point newPoint = points[x, y - 1];
-            if(newPoint.within) {
-                toReturn.Add(newPoint);
-            }
+            toReturn.Add(newPoint);
         }
 
         return toReturn;
@@ -311,14 +317,19 @@ public class SlopeInternalPathingJob : Job {
 
         public float GetCost(Direction direction) {
             float delta;
+            float otherDelta;
             if(direction == Direction.PX) {
                 delta = dx;
+                otherDelta = dy;
             } else if(direction == Direction.PY) {
                 delta = dy;
+                otherDelta = dx;
             } else if(direction == Direction.MX) {
                 delta = -dx;
+                otherDelta = dy;
             } else {
                 delta = -dy;
+                otherDelta = dx;
             }
             delta /= GridCellSize;
             // delta is now the slope in the direction the path is going
@@ -335,8 +346,11 @@ public class SlopeInternalPathingJob : Job {
                 // We are going upwards not part of a traverse, which is
                 // completely different behavior
                 // The cost will be dramatic
-                costSlope = delta * 100;
+                costSlope = delta * 10000;
             }
+
+            // We want to penalize going on a "cross" slope, i.e. parallel to a significant slope.
+            costSlope += Mathf.Abs(otherDelta) * CrossSlopeCost;
 
             return costSlope + costDistance + 1;
         }
