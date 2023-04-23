@@ -2388,8 +2388,8 @@ MonoBehaviour:
   LOD_Distance: 1000
   WeatherController: {fileID: 757753261}
   ContourLayersDefinition:
-    MajorSpacing: 50
-    MinorSpacing: 0
+    MajorSpacing: 100
+    MinorSpacing: 25
     Major: []
     Minor: []
   InverseTerrainLayerMask:

@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1876f084aa02bf949a9be675423e9952, type: 3}
   m_Name: Poseidon Mons
   m_EditorClassIdentifier: 
-  TileSize: 300
-  TileHeight: 350
+  TileSize: 600
+  TileHeight: 700
   TexturePath: Poseidon Mons
   NumTilesX: 8
   NumTilesY: 8
   DecoMap: {fileID: 2800000, guid: cb5c29d78289d374eab91c12ed321931, type: 3}
-  NumTrees: 500000
-  NumRocks: 125000
+  NumTrees: 1000000
+  NumRocks: 250000
   MinTreeHeight: 1
   MaxTreeHeight: 4
   AltitudeAdjustFactor: 0.5
