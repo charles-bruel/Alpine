@@ -6,9 +6,9 @@ using EPPZ.Geometry.Model;
 public class SlopeInternalPathingJob : Job {
     private static readonly float GridCellSize = 8;
     private static readonly float HeuristicConstant = 1;
-    private static readonly float CenteringWeight = 4f;
-    private static readonly float CenteringFalloff = 0.75f;
-    private static readonly float CrossSlopeCost = 0.5f;
+    private static readonly float CenteringWeight = 8f;
+    private static readonly float CenteringFalloff = 0.2f;
+    private static readonly float CrossSlopeCost = 0.8f;
 
     private Slope slope;
     private Rect trueBounds;
@@ -253,7 +253,7 @@ public class SlopeInternalPathingJob : Job {
                     Vector2 p2 = trueBounds.min + new Vector2(x - 0.5f, y + 0.5f) * GridCellSize;
                     Vector2 p3 = trueBounds.min + new Vector2(x + 0.5f, y + 0.5f) * GridCellSize;
                     Vector2 p4 = trueBounds.min + new Vector2(x + 0.5f, y - 0.5f) * GridCellSize;
-                    Color color = new Color(1, 0, points[x, y].costDistance);
+                    Color color = new Color(1, 0, points[x, y].costDistance / CenteringWeight);
                     Debug.DrawLine(new Vector3(p1.x, 100, p1.y), new Vector3(p3.x, 100, p3.y), color, 10);
                     Debug.DrawLine(new Vector3(p2.x, 100, p2.y), new Vector3(p4.x, 100, p4.y), color, 10);
                 }
@@ -383,7 +383,7 @@ public class SlopeInternalPathingJob : Job {
                 // We are going upwards not part of a traverse, which is
                 // completely different behavior
                 // The cost will be dramatic
-                costSlope = delta * 10000;
+                costSlope = delta * 100000;
             }
 
             // We want to penalize going on a "cross" slope, i.e. parallel to a significant slope.
@@ -418,7 +418,7 @@ public class SlopeInternalPathingJob : Job {
             // We want to penalize going on a "cross" slope, i.e. parallel to a significant slope.
             costSlope += Mathf.Abs(otherDelta) * CrossSlopeCost;
 
-            return costSlope + costDistance + 1;
+            return costSlope;
         }
     }
 

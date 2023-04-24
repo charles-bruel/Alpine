@@ -2331,6 +2331,7 @@ GameObject:
   - component: {fileID: 757753263}
   - component: {fileID: 757753265}
   - component: {fileID: 757753267}
+  - component: {fileID: 757753268}
   m_Layer: 0
   m_Name: Statics
   m_TagString: Untagged
@@ -2468,7 +2469,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de0d50b1e711b9c48b66735f89952f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColorsData: {fileID: 757753264}
+  RenderingData: {fileID: 757753264}
+  GameParameters: {fileID: 757753268}
   TerrainManager: {fileID: 757753259}
   WeatherController: {fileID: 757753261}
   PolygonsController: {fileID: 830588212}
@@ -2511,8 +2513,12 @@ MonoBehaviour:
   DevelopedColor: {r: 1, g: 0.5121326, b: 0.2783019, a: 1}
   ClearedColor: {r: 1, g: 0.8784314, b: 0.56078434, a: 1}
   SnowfrontColor: {r: 1, g: 1, b: 1, a: 1}
-  SlopeDraftColor: {r: 1, g: 0.6556604, b: 0.6556604, a: 0}
-  PortalColor: {r: 0, g: 0, b: 0, a: 0}
+  SlopeDraftColor: {r: 1, g: 0.6556604, b: 0.6556604, a: 1}
+  PortalColor: {r: 0, g: 0, b: 0, a: 1}
+  GreenSlopeColor: {r: 0.375, g: 0.5, b: 0.375, a: 1}
+  BlueSlopeColor: {r: 0.5625, g: 0.5625, b: 0.75, a: 1}
+  BlackSlopeColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  DoubleBlackSlopeColor: {r: 0.5, g: 0.375, b: 0.375, a: 1}
   VertexColorMaterial: {fileID: 2100000, guid: fafa70cd7799f6243bacb72de18a51e1, type: 2}
 --- !u!114 &757753265
 MonoBehaviour:
@@ -2540,6 +2546,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Buildings: []
+--- !u!114 &757753268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757753257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 964f868c200164e46aa48d8215582d50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BlueSlopeDifficultyThreshold: 1
+  BlackSlopeDifficultyThreshold: 2
+  DoubleBlackSlopeDifficultyThreshold: 3
 --- !u!1 &763692009
 GameObject:
   m_ObjectHideFlags: 0

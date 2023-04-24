@@ -38,7 +38,25 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
         MarkPolygonsDirty();
     }
 
+    public void MarkPolygonDirty(AlpinePolygon polygon) {
+        polygon.Color = ColorFromFlags(polygon.Flags);
+        RemeshPolygon(polygon);
+    }
+
     public static Color ColorFromFlags(PolygonFlags flags) {
+        PolygonFlags slopeIsolated = flags & PolygonFlags.SLOPE_MASK;
+        if(slopeIsolated == PolygonFlags.SLOPE_GREEN) {
+            return RenderingData.Instance.GreenSlopeColor;
+        }
+        if(slopeIsolated == PolygonFlags.SLOPE_BLUE) {
+            return RenderingData.Instance.BlueSlopeColor;
+        }
+        if(slopeIsolated == PolygonFlags.SLOPE_BLACK) {
+            return RenderingData.Instance.BlackSlopeColor;
+        }
+        if(slopeIsolated == PolygonFlags.SLOPE_DOUBLE_BLACK) {
+            return RenderingData.Instance.DoubleBlackSlopeColor;
+        }
         if((flags & PolygonFlags.FLAT_NAVIGABLE) != 0) {
             return RenderingData.Instance.SnowfrontColor;
         }
@@ -156,6 +174,48 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
 
             poly.Filter.mesh = meshPoly.Mesh(poly.Filter.mesh, poly.Color, Triangulator, poly.Guid.ToString());
         }
+    }
+    
+    private void RemeshPolygon(AlpinePolygon poly) {
+        Polygon meshPoly = poly.Polygon;
+
+        if(poly.Filter == null) {
+            var temp = CreateMeshRenderer(poly);
+            poly.Renderer = temp.Item1;
+            poly.Filter = temp.Item2;
+        }
+
+        List<Path> others = new List<Path>();
+        for(int j = 0;j < PolygonObjects.Count;j ++) {
+            if(PolygonObjects[j].Level > poly.Level) {
+                others.Add(PolygonObjects[j].Polygon.ClipperPath(Polygon.clipperScale));
+            }
+        }
+
+        //If there are meshes that would subtract from here, we need to deal with them
+        if(others.Count > 0) {
+            Clipper clipper = new Clipper();
+            Path path = poly.Polygon.ClipperPath(Polygon.clipperScale);
+            clipper.AddPath(path, PolyType.ptSubject, true);
+            clipper.AddPaths(others, PolyType.ptClip, true);
+            List<Path> sol = new List<Path>();
+            clipper.Execute(ClipType.ctDifference, sol, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);
+
+            if(sol.Count == 0) {
+                Debug.LogWarning("No object returned from clip!");
+                poly.Filter.gameObject.SetActive(false);
+                return;
+            }
+
+            meshPoly = Polygon.PolygonWithPoints(ClipperAddOns.PointsFromClipperPath(sol[0], Polygon.clipperScale));
+            //Capture any extra polygon pieces
+            for(int j = 1;j < sol.Count;j ++) {
+                meshPoly.AddPolygon(Polygon.PolygonWithPoints(ClipperAddOns.PointsFromClipperPath(sol[j], Polygon.clipperScale)));
+            }
+        }
+
+        poly.Filter.mesh = meshPoly.Mesh(poly.Filter.mesh, poly.Color, Triangulator, poly.Guid.ToString());
+        
     }
 
     private (MeshRenderer, MeshFilter) CreateMeshRenderer(AlpinePolygon poly) {

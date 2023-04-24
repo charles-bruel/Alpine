@@ -23,6 +23,12 @@ public class RenderingData : MonoBehaviour
     [Tooltip("This color shows a portal between multiple navigable regions")]
     public Color PortalColor;
 
+    [Header("Slope Colors")]
+    public Color GreenSlopeColor;
+    public Color BlueSlopeColor;
+    public Color BlackSlopeColor;
+    public Color DoubleBlackSlopeColor;
+
     [Header("Materials")]
     public Material VertexColorMaterial;
 
