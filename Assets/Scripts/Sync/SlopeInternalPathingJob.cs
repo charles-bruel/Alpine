@@ -14,7 +14,7 @@ public class SlopeInternalPathingJob : Job {
     private Rect trueBounds;
     private Point[,] points;
     private Vector2Int[] portals;
-    private List<Tuple<List<Vector2Int>, float>> Result;
+    private List<SlopeInternalPath> Result;
 
     public SlopeInternalPathingJob(Slope slope) {
         this.slope = slope;
@@ -137,14 +137,14 @@ public class SlopeInternalPathingJob : Job {
             );
         }
 
-        Result = new List<Tuple<List<Vector2Int>, float>>(portals.Length * (portals.Length - 1));
+        Result = new List<SlopeInternalPath>(portals.Length * (portals.Length - 1));
 
         // Initialization of the array is complete
         // We can now begin pathing
         for(int a = 0;a < portals.Length;a ++) {
             for(int b = 0;b < portals.Length;b ++) {
                 if(a == b) continue;
-                Tuple<List<Vector2Int>, float> result = AStar(portals[a], portals[b]);
+                SlopeInternalPath result = GetPath(portals[a], portals[b]);
                 Result.Add(result);
             }
         }
@@ -154,13 +154,28 @@ public class SlopeInternalPathingJob : Job {
 		}
     }
 
+    private SlopeInternalPath GetPath(Vector2Int start, Vector2Int end) {
+        Tuple<List<Vector2Int>, float, float> tempResult = AStar(start, end);
+        SlopeInternalPath result = new SlopeInternalPath();
+
+        result.Points = tempResult.Item1;
+        result.TotalCost = tempResult.Item2 * GridCellSize;
+        result.TotalDifficulty = tempResult.Item3  * GridCellSize;
+        result.Length = result.Points.Count * GridCellSize;
+
+        result.MeanCost = result.TotalCost / result.Length;
+        result.MeanDifficulty = result.TotalDifficulty / result.Length;
+
+        return result;
+    }
+
     // A*
     // Algorithm taken from
     // https://en.wikipedia.org/wiki/A*_search_algorithm
 
     // There may be an efficiency issue with how priority queue works
     // The same point may be checked multiple times
-    private Tuple<List<Vector2Int>, float> AStar(Vector2Int start, Vector2Int end) {
+    private Tuple<List<Vector2Int>, float, float> AStar(Vector2Int start, Vector2Int end) {
         // The set of discovered nodes that may need to be (re-)expanded.
         // Initially, only the start node is known.
         PriorityQueue<Vector2Int, float> openSet = new PriorityQueue<Vector2Int, float>();
@@ -174,6 +189,10 @@ public class SlopeInternalPathingJob : Job {
         Dictionary<Vector2Int, float> gScore = new Dictionary<Vector2Int, float>();
         gScore[start] = 0;
 
+        // For node n, dScore[n] is the difficulty of the cheapest path from start to n currently known.
+        Dictionary<Vector2Int, float> dScore = new Dictionary<Vector2Int, float>();
+        dScore[start] = 0;
+
         // For node n, fScore[n] := gScore[n] + h(n). fScore[n] represents our current best guess as to
         // how cheap a path could be from start to finish if it goes through n.
         Dictionary<Vector2Int, float> fScore = new Dictionary<Vector2Int, float>();
@@ -182,10 +201,14 @@ public class SlopeInternalPathingJob : Job {
         while(openSet.Count != 0) {
             Vector2Int current = openSet.Dequeue();
             if(current == end) {
-                return new Tuple<List<Vector2Int>, float>(AStar_ReconstructPath(cameFrom, current), gScore[current]);
+                return new Tuple<List<Vector2Int>, float, float>(
+                    AStar_ReconstructPath(cameFrom, current), 
+                    gScore[current],
+                    dScore[current]
+                );
             }
 
-            List<Tuple<Vector2Int, float>> neighbors = GetValidNeighboringCellsAndCost(current.x, current.y);
+            List<Tuple<Vector2Int, float, float>> neighbors = GetValidNeighboringCellsCostAndDifficulty(current.x, current.y);
             foreach(var neighbor in neighbors) {
                 // tentative_gScore is the distance from start to the neighbor through current
                 float tentative_gScore = gScore[current] + neighbor.Item2;
@@ -193,6 +216,7 @@ public class SlopeInternalPathingJob : Job {
                     // This path to neighbor is better than any previous one. Record it!
                     cameFrom[neighbor.Item1] = current;
                     gScore[neighbor.Item1] = tentative_gScore;
+                    dScore[neighbor.Item1] = dScore[current] + neighbor.Item3;
                     fScore[neighbor.Item1] = tentative_gScore + AStar_H(neighbor.Item1, end);
 
                     openSet.Enqueue(neighbor.Item1, fScore[neighbor.Item1]);
@@ -230,14 +254,14 @@ public class SlopeInternalPathingJob : Job {
                     Vector2 p3 = trueBounds.min + new Vector2(x + 0.5f, y + 0.5f) * GridCellSize;
                     Vector2 p4 = trueBounds.min + new Vector2(x + 0.5f, y - 0.5f) * GridCellSize;
                     Color color = new Color(1, 0, points[x, y].costDistance);
-                    Debug.DrawLine(new Vector3(p1.x, 100, p1.y), new Vector3(p3.x, 100, p3.y), color, 100);
-                    Debug.DrawLine(new Vector3(p2.x, 100, p2.y), new Vector3(p4.x, 100, p4.y), color, 100);
+                    Debug.DrawLine(new Vector3(p1.x, 100, p1.y), new Vector3(p3.x, 100, p3.y), color, 10);
+                    Debug.DrawLine(new Vector3(p2.x, 100, p2.y), new Vector3(p4.x, 100, p4.y), color, 10);
                 }
             }
         }
         foreach(var x in Result) {
-            var y = x.Item1;
-            if(x.Item2 > 10000) continue;
+            var y = x.Points;
+            if(x.MeanCost > 100) continue;
             Vector2 prev = new Vector2();
             for(int i = 0;i < y.Count;i ++) {
                 Vector2 current = trueBounds.min + new Vector2(y[i].x, y[i].y) * GridCellSize;
@@ -247,35 +271,51 @@ public class SlopeInternalPathingJob : Job {
                 prev = current;
             }
         }
-        // throw new System.NotImplementedException();
+        slope.SetNewInternalPaths(Result);
     }
 
-    private List<Tuple<Vector2Int, float>> GetValidNeighboringCellsAndCost(int x, int y) {
-        List<Tuple<Vector2Int, float>> toReturn = new List<Tuple<Vector2Int, float>>();
+    private List<Tuple<Vector2Int, float, float>> GetValidNeighboringCellsCostAndDifficulty(int x, int y) {
+        List<Tuple<Vector2Int, float, float>> toReturn = new List<Tuple<Vector2Int, float, float>>();
         Point point = points[x, y];
 
         if(x != points.GetLength(0) - 1) {
             Point newPoint = points[x + 1, y];
             if(newPoint.within) {
-                toReturn.Add(new Tuple<Vector2Int, float>(new Vector2Int(x + 1, y), point.GetCost(Direction.PX)));
+                toReturn.Add(new Tuple<Vector2Int, float, float>(
+                    new Vector2Int(x + 1, y), 
+                    point.GetCost(Direction.PX),
+                    point.GetDifficulty(Direction.PX)
+                ));
             }
         }
         if(y != points.GetLength(1) - 1) {
             Point newPoint = points[x, y + 1];
             if(newPoint.within) {
-                toReturn.Add(new Tuple<Vector2Int, float>(new Vector2Int(x, y + 1), point.GetCost(Direction.PY)));
+                toReturn.Add(new Tuple<Vector2Int, float, float>(
+                    new Vector2Int(x, y + 1), 
+                    point.GetCost(Direction.PY),
+                    point.GetDifficulty(Direction.PY)
+                ));
             }
         }
         if(x != 0) {
             Point newPoint = points[x - 1, y];
             if(newPoint.within) {
-                toReturn.Add(new Tuple<Vector2Int, float>(new Vector2Int(x - 1, y), point.GetCost(Direction.MX)));
+                toReturn.Add(new Tuple<Vector2Int, float, float>(
+                    new Vector2Int(x - 1, y), 
+                    point.GetCost(Direction.MX),
+                    point.GetDifficulty(Direction.MX)
+                ));
             }
         }
         if(y != 0) {
             Point newPoint = points[x, y - 1];
             if(newPoint.within) {
-                toReturn.Add(new Tuple<Vector2Int, float>(new Vector2Int(x, y - 1), point.GetCost(Direction.MY)));
+                toReturn.Add(new Tuple<Vector2Int, float, float>(
+                    new Vector2Int(x, y - 1), 
+                    point.GetCost(Direction.MY),
+                    point.GetDifficulty(Direction.MY)
+                ));
             }
         }
 
@@ -353,11 +393,45 @@ public class SlopeInternalPathingJob : Job {
         }
 
         public float GetDifficulty(Direction direction) {
-            throw new System.NotImplementedException();
+            float delta;
+            float otherDelta;
+            if(direction == Direction.PX) {
+                delta = dx;
+                otherDelta = dy;
+            } else if(direction == Direction.PY) {
+                delta = dy;
+                otherDelta = dx;
+            } else if(direction == Direction.MX) {
+                delta = -dx;
+                otherDelta = dy;
+            } else {
+                delta = -dy;
+                otherDelta = dx;
+            }
+            delta /= GridCellSize;
+            // delta is now the slope in the direction the path is going
+
+            // The primary cost is the slope downward. A steeper slope results
+            // in a higher cost. The cost follows tan(θ)
+            float costSlope = Mathf.Abs(delta);
+
+            // We want to penalize going on a "cross" slope, i.e. parallel to a significant slope.
+            costSlope += Mathf.Abs(otherDelta) * CrossSlopeCost;
+
+            return costSlope + costDistance + 1;
         }
     }
 
     private enum Direction {
         PX, PY, MX, MY
+    }
+
+    public struct SlopeInternalPath {
+        public List<Vector2Int> Points;
+        public float TotalCost;
+        public float TotalDifficulty;
+        public float MeanCost;
+        public float MeanDifficulty;
+        public float Length;
     }
 }

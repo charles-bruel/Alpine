@@ -38,4 +38,8 @@ public class Slope : Building {
         Thread thread = new Thread(new ThreadStart(job.Run));
         thread.Start();
     }
+
+    public void SetNewInternalPaths(List<SlopeInternalPathingJob.SlopeInternalPath> Paths) {
+        
+    }
 }
