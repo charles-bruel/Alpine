@@ -4,10 +4,10 @@ using System;
 using EPPZ.Geometry.Model;
 
 public class SlopeInternalPathingJob : Job {
-    private static readonly float GridCellSize = 8;
+    private static readonly float GridCellSize = 4;
     private static readonly float HeuristicConstant = 1;
-    private static readonly float CenteringWeight = 4f;
-    private static readonly float CenteringFalloff = 0.5f;
+    private static readonly float CenteringWeight = 16f;
+    private static readonly float CenteringFalloff = 0.95f;
     private static readonly float CrossSlopeCost = 0.8f;
 
     private Slope slope;
@@ -61,78 +61,24 @@ public class SlopeInternalPathingJob : Job {
     
     public void Run() {
 
-        int width  = points.GetLength(0);
+        int width = points.GetLength(0);
         int height = points.GetLength(1);
         // First we need to finish initialization
         // We need to calculate the deltas and distance costs
-        for(int x = 0;x < width;x ++) {
-            for(int y = 0;y < height;y ++) {
-                if(!points[x, y].within) continue;
-
-                float deltaX;
-                if(x == 0) {
-                    deltaX = points[x, y].height - points[x + 1, y].height;
-                } else if (x == width - 1) {
-                    deltaX = points[x - 1, y].height - points[x, y].height;
-                } else {
-                    deltaX = (points[x - 1, y].height - points[x + 1, y].height) / 2;
-                }
-                points[x, y].dx = deltaX;
-
-                float deltaY;
-                if(y == 0) {
-                    deltaY = points[x, y].height - points[x, y + 1].height;
-                } else if (y == height - 1) {
-                    deltaY = points[x, y - 1].height - points[x, y].height;
-                } else {
-                    deltaY = (points[x, y - 1].height - points[x, y + 1].height) / 2;
-                }
-                points[x, y].dy = deltaY;
-
-                points[x, y].costDistance = -1;
-            }
-        }
-        
-        int cycle = 0;
-        for(;cycle< 16384;cycle ++) {
-            bool flag = false;
-            for(int x = 0;x < width;x ++) {
-                for(int y = 0;y < height;y ++) {
-                    if(points[x, y].within){
-                        List<Point> temp = GetNeighboringCells(x, y);
-                        float maxValue = points[x, y].costDistance;
-                        bool flag2 = false;
-                        foreach(var p in temp) {
-                            if(!p.within && maxValue < CenteringWeight) {
-                                // Edge point
-                                maxValue = CenteringWeight;
-                                flag2 = true;
-                            }
-                            if(p.within && p.costDistance != -1 && maxValue < p.costDistance * CenteringFalloff) {
-                                maxValue = p.costDistance * CenteringFalloff;
-                                flag2 = true;
-                            }
-                        }
-                        if(flag2){
-                            flag = true;
-                            points[x, y].costDistance = maxValue;
-                        }
-                    }
-                }
-            }
-            if(!flag) break;
-        }
+        CalculateDeltas(width, height);
+        CalculateDistanceCosts(width, height);
 
         // Finally, we must prepare the portals
         portals = new Vector2Int[slope.Footprint.Portals.Count];
-        for(int i = 0;i < slope.Footprint.Portals.Count;i ++) {
+        for (int i = 0; i < slope.Footprint.Portals.Count; i++)
+        {
             NavPortal portal = slope.Footprint.Portals[i];
             // We will take the center of the portal
             Vector2 actualPosition = (portal.A1 + portal.A2) / 2;
             Vector2 unRoundPosition = actualPosition - trueBounds.min;
             unRoundPosition /= GridCellSize;
             portals[i] = new Vector2Int(
-                Mathf.RoundToInt(unRoundPosition.x), 
+                Mathf.RoundToInt(unRoundPosition.x),
                 Mathf.RoundToInt(unRoundPosition.y)
             );
         }
@@ -141,17 +87,157 @@ public class SlopeInternalPathingJob : Job {
 
         // Initialization of the array is complete
         // We can now begin pathing
-        for(int a = 0;a < portals.Length;a ++) {
-            for(int b = 0;b < portals.Length;b ++) {
-                if(a == b) continue;
+        for (int a = 0; a < portals.Length; a++)
+        {
+            for (int b = 0; b < portals.Length; b++)
+            {
+                if (a == b) continue;
                 SlopeInternalPath result = GetPath(portals[a], portals[b]);
                 Result.Add(result);
             }
         }
 
-        lock(ASyncJobManager.completedJobsLock) {
-        	ASyncJobManager.Instance.completedJobs.Enqueue(this);
-		}
+        lock (ASyncJobManager.completedJobsLock)
+        {
+            ASyncJobManager.Instance.completedJobs.Enqueue(this);
+        }
+    }
+
+    private void CalculateDeltas(int width, int height) {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (!points[x, y].within) continue;
+
+                float deltaX;
+                if (x == 0)
+                {
+                    deltaX = points[x, y].height - points[x + 1, y].height;
+                }
+                else if (x == width - 1)
+                {
+                    deltaX = points[x - 1, y].height - points[x, y].height;
+                }
+                else
+                {
+                    deltaX = (points[x - 1, y].height - points[x + 1, y].height) / 2;
+                }
+                points[x, y].dx = deltaX;
+
+                float deltaY;
+                if (y == 0)
+                {
+                    deltaY = points[x, y].height - points[x, y + 1].height;
+                }
+                else if (y == height - 1)
+                {
+                    deltaY = points[x, y - 1].height - points[x, y].height;
+                }
+                else
+                {
+                    deltaY = (points[x, y - 1].height - points[x, y + 1].height) / 2;
+                }
+                points[x, y].dy = deltaY;
+
+                points[x, y].costDistance = -1;
+            }
+        }
+    }
+
+    private void CalculateDistanceCosts(int width, int height) {
+        // First we calculate the raw distances to the edges
+        int[,] rawDistances = new int[width, height];
+
+        // Populate the array
+        for(int x = 0;x < width;x ++) {
+            for(int y = 0;y < height;y ++) {
+                rawDistances[x,y] = Int32.MaxValue;
+            }
+        }
+
+        int maxDist = 0;
+        int cycle = 0;
+        for (; cycle < 16384; cycle++) {
+            bool flag = false;
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    if (points[x, y].within) {
+                        List<Vector2Int> temp = GetNeighboringCells(x, y);
+                        int minValue = rawDistances[x, y];
+                        bool flag2 = false;
+                        foreach (var c in temp) {
+                            Point p = points[c.x, c.y];
+                            if (!p.within && minValue > 0) {
+                                // Edge point
+                                minValue = 0;
+                                flag2 = true;
+                            }
+                            int v = rawDistances[c.x, c.y] + 1;
+                            if (p.within && rawDistances[c.x, c.y] != Int32.MaxValue && minValue > v) {
+                                minValue = v;
+                                flag2 = true;
+                            }
+                        }
+                        if (flag2) {
+                            flag = true;
+                            rawDistances[x, y] = minValue;
+                            if(maxDist < minValue) {
+                                maxDist = minValue;
+                            }
+                        }
+                    }
+                }
+            }
+            if (!flag) break;
+        }
+
+        // Now we make it so that the max value occurs across the enter center
+        cycle = 0;
+        for (; cycle < 16384; cycle++) {
+            bool flag = false;
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    if (points[x, y].within) {
+                        // We check if the cell has any neighbors which are exactly 1 greater
+                        // If not, increase it by one (up to the maxDist)
+
+                        int currentDist = rawDistances[x, y];
+                        // It should never be greater than the maxDist but just in case
+                        if(currentDist >= maxDist) continue;
+
+                        List<Vector2Int> temp = GetNeighboringCells(x, y);
+                        bool flag2 = true;
+                        foreach (var c in temp) {
+                            if(rawDistances[c.x, c.y] == currentDist + 1) {
+                                flag2 = false;
+                            }
+                        }
+                        if(flag2) {
+                            rawDistances[x, y] ++;
+                            flag = true;
+                        }
+                    }
+                }
+            }
+            if (!flag) break;
+        }
+
+        // Finally, we take the distances and turn them into costs
+        float b = 1/CenteringFalloff;
+        float o = Mathf.Log(CenteringWeight, b);
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (points[x, y].within) {
+                    int inverseDistance = maxDist - rawDistances[x, y];
+                    // Now on the interval [1,maxDist+1]
+                    inverseDistance += 1;
+                    float value = CenteringWeight - Mathf.Pow(b, -(inverseDistance - o));
+
+                    points[x, y].costDistance = value;
+                }
+            }
+        }
     }
 
     private SlopeInternalPath GetPath(Vector2Int start, Vector2Int end) {
@@ -324,24 +410,24 @@ public class SlopeInternalPathingJob : Job {
         return toReturn;
     }
 
-    private List<Point> GetNeighboringCells(int x, int y) {
-        List<Point> toReturn = new List<Point>();
+    private List<Vector2Int> GetNeighboringCells(int x, int y) {
+        List<Vector2Int> toReturn = new List<Vector2Int>();
         Point point = points[x, y];
 
         if(x != points.GetLength(0) - 1) {
-            Point newPoint = points[x + 1, y];
+            Vector2Int newPoint = new Vector2Int(x + 1, y);
             toReturn.Add(newPoint);
         }
         if(y != points.GetLength(1) - 1) {
-            Point newPoint = points[x, y + 1];
+            Vector2Int newPoint = new Vector2Int(x, y + 1);
             toReturn.Add(newPoint);
         }
         if(x != 0) {
-            Point newPoint = points[x - 1, y];
+            Vector2Int newPoint = new Vector2Int(x - 1, y);
             toReturn.Add(newPoint);
         }
         if(y != 0) {
-            Point newPoint = points[x, y - 1];
+            Vector2Int newPoint = new Vector2Int(x, y - 1);
             toReturn.Add(newPoint);
         }
 
