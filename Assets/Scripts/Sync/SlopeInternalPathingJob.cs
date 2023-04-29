@@ -6,8 +6,8 @@ using EPPZ.Geometry.Model;
 public class SlopeInternalPathingJob : Job {
     private static readonly float GridCellSize = 8;
     private static readonly float HeuristicConstant = 1;
-    private static readonly float CenteringWeight = 8f;
-    private static readonly float CenteringFalloff = 0.2f;
+    private static readonly float CenteringWeight = 4f;
+    private static readonly float CenteringFalloff = 0.5f;
     private static readonly float CrossSlopeCost = 0.8f;
 
     private Slope slope;
@@ -211,7 +211,9 @@ public class SlopeInternalPathingJob : Job {
             List<Tuple<Vector2Int, float, float>> neighbors = GetValidNeighboringCellsCostAndDifficulty(current.x, current.y);
             foreach(var neighbor in neighbors) {
                 // tentative_gScore is the distance from start to the neighbor through current
-                float tentative_gScore = gScore[current] + neighbor.Item2;
+                // raised to a high power to make small changes have a large impact. this drives
+                // the path towards cheap areas even at the cost of length
+                float tentative_gScore = gScore[current] + Mathf.Pow(neighbor.Item2, 6);
                 if(tentative_gScore < gScore.GetValueOrDefault(neighbor.Item1, Mathf.Infinity)) {
                     // This path to neighbor is better than any previous one. Record it!
                     cameFrom[neighbor.Item1] = current;
@@ -261,7 +263,7 @@ public class SlopeInternalPathingJob : Job {
         }
         foreach(var x in Result) {
             var y = x.Points;
-            if(x.MeanCost > 100) continue;
+            if(x.MeanCost > Mathf.Pow(10, 22)) continue;
             Vector2 prev = new Vector2();
             for(int i = 0;i < y.Count;i ++) {
                 Vector2 current = trueBounds.min + new Vector2(y[i].x, y[i].y) * GridCellSize;

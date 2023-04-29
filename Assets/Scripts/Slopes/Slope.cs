@@ -65,7 +65,7 @@ public class Slope : Building {
         SlopeDifficulty toReturn = SlopeDifficulty.GREEN;
         foreach(var path in Paths) {
             SlopeDifficulty temp = GetDifficultyFromPath(path);
-            if(path.MeanCost > 100) continue;
+            if(path.MeanCost > Mathf.Pow(10, 22)) continue;
             Debug.Log(temp);
             if(temp > toReturn) {
                 toReturn = temp;
