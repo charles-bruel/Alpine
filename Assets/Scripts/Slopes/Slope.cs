@@ -31,6 +31,10 @@ public class Slope : Building {
         }
     }
 
+    public override void Advance(float delta) {
+        Footprint.Advance(delta);
+    }
+
     public void RegeneratePathfinding() {
         Footprint.Modified = false;
 

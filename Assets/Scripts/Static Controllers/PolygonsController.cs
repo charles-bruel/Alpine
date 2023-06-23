@@ -249,9 +249,15 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
                 max = PolygonObjects[i].Level;
             }
             if(SelectedPolygon == PolygonObjects[i].Guid) {
+                // DESELECTION LOGIC
                 PolygonObjects[i].Renderer.material = Material;
+                PolygonObjects[i].Selected = false;
             }
         }
+        
+        // DESELECTION LOGIC
+        // If nothing is selected, ensure the old polygon is fully deselected
+        SelectedPolygon = new Guid();
 
         //This does higher level to lowest (0)
         for(uint l = max;l > 0;l --) {
@@ -259,8 +265,10 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
                 if(PolygonObjects[i].Level == l) {
                     //Correct level, logic goes here
                     if(PolygonObjects[i].Polygon.ContainsPoint(pos)) {
+                        // SELECTION LOGIC
                         SelectedPolygon = PolygonObjects[i].Guid;
                         PolygonObjects[i].Renderer.material = SelectedMaterial;
+                        PolygonObjects[i].Selected = true;
 
                         //We now break completely out of the loop to avoid selecting two polygons
                         //TODO: Refactor to not use goto?

@@ -16,4 +16,6 @@ public class AlpinePolygon {
     public bool ArbitrarilyEditable;
     public PolygonFlags Flags;
     public float Height;
+    // Note: To be set by PolygonController ONLY
+    public bool Selected;
 }

@@ -357,6 +357,8 @@ public class LiftBuilder
     }
 
     private void RegisterComponentPolygons() {
+        List<NavArea> navAreas = new List<NavArea>();
+
         for(int i = 0;i < Data.RoutingSegments.Count;i ++) {
             List<AlpinePolygon> polygons = Data.RoutingSegments[i].PhysicalSegment.APILiftSegment.GetPolygons(
                 Data.RoutingSegments[i].PhysicalSegment, 
@@ -380,12 +382,15 @@ public class LiftBuilder
                     
                     temp.Owner = Result;
 
+                    navAreas.Add(temp);
                     polygons[j] = temp;
                 }
 
                 PolygonsController.Instance.RegisterPolygon(polygons[j]);
             }
         }
+
+        Result.NavAreas = navAreas;
     }
 
     private AlpinePolygon GenerateFootprint() {

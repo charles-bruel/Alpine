@@ -9,6 +9,7 @@ public class Lift : Building {
     public LineRenderer Line;
     public LiftCablePoint[] CablePoints;
     public LiftVehicleSystem VehicleSystem;
+    public List<NavArea> NavAreas;
 
     private bool Initialized;
 
@@ -24,6 +25,10 @@ public class Lift : Building {
         if(!Initialized) return;
 
         VehicleSystem.Advance(delta);
+
+        foreach(var area in NavAreas) {
+            area.Advance(delta);
+        }
     }
 
     public void Finish() {
