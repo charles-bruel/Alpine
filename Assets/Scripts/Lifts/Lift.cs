@@ -26,8 +26,11 @@ public class Lift : Building {
 
         VehicleSystem.Advance(delta);
 
-        foreach(var area in NavAreas) {
-            area.Advance(delta);
+        if(NavAreas != null) {
+            foreach(var area in NavAreas) {
+                // Disabled for now because lifts lack implementations and stuff
+                // area.Advance(delta);
+            }
         }
     }
 
