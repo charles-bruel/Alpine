@@ -18,4 +18,5 @@ public class AlpinePolygon {
     public float Height;
     // Note: To be set by PolygonController ONLY
     public bool Selected;
+    public bool Selectable = true;
 }

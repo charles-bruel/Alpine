@@ -22,9 +22,13 @@ public class SlopeBuilder {
         Result.Footprint.Owner = Result;
 
         Result.Footprint.Guid = Guid.NewGuid();
+        Result.Footprint.Selectable = false;
         Result.Footprint.Level = 3;
         Result.Footprint.Flags = PolygonFlags.CLEARANCE | PolygonFlags.SLOPE_NAVIGABLE;
         Result.Footprint.Color = RenderingData.Instance.SlopeDraftColor;
+        
+        Result.AreaImplementation = new SlopeNavAreaImplementation(Result, default(Rect));
+        Result.Footprint.Implementation = Result.AreaImplementation;
     }
 
     public void LightBuild() {

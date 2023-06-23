@@ -264,7 +264,7 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
             for(int i = 0;i < PolygonObjects.Count;i ++) {
                 if(PolygonObjects[i].Level == l) {
                     //Correct level, logic goes here
-                    if(PolygonObjects[i].Polygon.ContainsPoint(pos)) {
+                    if(PolygonObjects[i].Selectable && PolygonObjects[i].Polygon.ContainsPoint(pos)) {
                         // SELECTION LOGIC
                         SelectedPolygon = PolygonObjects[i].Guid;
                         PolygonObjects[i].Renderer.material = SelectedMaterial;

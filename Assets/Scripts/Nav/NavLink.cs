@@ -3,4 +3,5 @@ public struct NavLink {
     public NavPortal B;
     public float Cost;
     public SlopeDifficulty Difficulty;
+    public INavLinkImplementation Implementation;
 }

@@ -15,8 +15,18 @@ public class NavArea : AlpinePolygon {
     }
 
     public void Advance(float delta) {
-        if(Selected && !SelectedLast) Implementation.OnSelected();
-        if(!Selected && SelectedLast) Implementation.OnDeselected();
+        if(Selected && !SelectedLast){
+            Implementation.OnSelected();
+            foreach(var link in Links) {
+                link.Implementation.OnSelected();
+            }
+        }
+        if(!Selected && SelectedLast){
+            Implementation.OnDeselected();
+            foreach(var link in Links) {
+                link.Implementation.OnDeselected();
+            }
+        }
         Implementation.OnAdvance(delta);
         if(Selected) Implementation.OnAdvanceSelected(delta);
         SelectedLast = Selected;

@@ -4,11 +4,11 @@ using System;
 using EPPZ.Geometry.Model;
 
 public class SlopeInternalPathingJob : Job {
-    private static readonly float GridCellSize = 4;
-    private static readonly float HeuristicConstant = 1;
-    private static readonly float CenteringWeight = 16f;
-    private static readonly float CenteringFalloff = 0.95f;
-    private static readonly float CrossSlopeCost = 0.8f;
+    public static readonly float GridCellSize = 4;
+    public static readonly float HeuristicConstant = 1;
+    public static readonly float CenteringWeight = 16f;
+    public static readonly float CenteringFalloff = 0.95f;
+    public static readonly float CrossSlopeCost = 0.8f;
 
     private Slope slope;
     private Rect trueBounds;
@@ -93,6 +93,9 @@ public class SlopeInternalPathingJob : Job {
             {
                 if (a == b) continue;
                 SlopeInternalPath result = GetPath(portals[a], portals[b]);
+                result.A = slope.Footprint.Portals[a];
+                result.B = slope.Footprint.Portals[a];
+
                 if(result.MeanCost < Mathf.Pow(10, 10)) Result.Add(result);
             }
         }
@@ -334,31 +337,7 @@ public class SlopeInternalPathingJob : Job {
     }
 
     public override void Complete() {
-        for(int x = 0;x < points.GetLength(0);x ++) {
-            for(int y = 0;y < points.GetLength(1);y ++) {
-                if(points[x, y].within) {
-                    Vector2 p1 = trueBounds.min + new Vector2(x - 0.5f, y - 0.5f) * GridCellSize;
-                    Vector2 p2 = trueBounds.min + new Vector2(x - 0.5f, y + 0.5f) * GridCellSize;
-                    Vector2 p3 = trueBounds.min + new Vector2(x + 0.5f, y + 0.5f) * GridCellSize;
-                    Vector2 p4 = trueBounds.min + new Vector2(x + 0.5f, y - 0.5f) * GridCellSize;
-                    Color color = new Color(1, 0, points[x, y].costDistance / CenteringWeight);
-                    Debug.DrawLine(new Vector3(p1.x, 100, p1.y), new Vector3(p3.x, 100, p3.y), color, 10);
-                    Debug.DrawLine(new Vector3(p2.x, 100, p2.y), new Vector3(p4.x, 100, p4.y), color, 10);
-                }
-            }
-        }
-        foreach(var x in Result) {
-            var y = x.Points;
-            Vector2 prev = new Vector2();
-            for(int i = 0;i < y.Count;i ++) {
-                Vector2 current = trueBounds.min + new Vector2(y[i].x, y[i].y) * GridCellSize;
-                if(i != 0) {
-                    Debug.DrawLine(new Vector3(prev.x, 100, prev.y), new Vector3(current.x, 100, current.y), Color.black, 1000);
-                }
-                prev = current;
-            }
-        }
-        slope.SetNewInternalPaths(Result);
+        slope.SetNewInternalPaths(Result, trueBounds);
     }
 
     private List<Tuple<Vector2Int, float, float>> GetValidNeighboringCellsCostAndDifficulty(int x, int y) {
@@ -514,6 +493,8 @@ public class SlopeInternalPathingJob : Job {
     }
 
     public struct SlopeInternalPath {
+        public NavPortal A;
+        public NavPortal B;
         public List<Vector2Int> Points;
         public float TotalCost;
         public float TotalDifficulty;

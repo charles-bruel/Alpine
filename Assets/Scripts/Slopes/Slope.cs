@@ -5,6 +5,7 @@ using System.Threading;
 public class Slope : Building {
     public SlopeConstructionData Data;
     public NavArea Footprint;
+    public SlopeNavAreaImplementation AreaImplementation; 
     public SlopeDifficulty CurrentDifficulty;
 
     public void Inflate(List<NavPortal> portals) {
@@ -44,7 +45,7 @@ public class Slope : Building {
         thread.Start();
     }
 
-    public void SetNewInternalPaths(List<SlopeInternalPathingJob.SlopeInternalPath> Paths) {
+    public void SetNewInternalPaths(List<SlopeInternalPathingJob.SlopeInternalPath> Paths, Rect Bounds) {
         CurrentDifficulty = CalculateNewDifficulty(Paths);
         Footprint.Flags &= ~PolygonFlags.SLOPE_MASK;
         switch(CurrentDifficulty) {
@@ -62,6 +63,35 @@ public class Slope : Building {
                 break;
         }
         PolygonsController.Instance.MarkPolygonDirty(Footprint);
+
+        // Polygon is not selectable during building, this ensures
+        // it is never selected while there are null paths
+        Footprint.Selectable = true;
+        UpdateNavLinks(Paths);
+        UpdateAreaImplementation(Paths, Bounds);
+    }
+
+    private void UpdateNavLinks(List<SlopeInternalPathingJob.SlopeInternalPath> Paths) {
+        // TODO: Those links were probably doing something - detect links
+        // from the same place and keep them or something?
+        Footprint.Links = new List<NavLink>();
+        int linkID = 0;
+        foreach(var path in Paths) {
+            NavLink link = new NavLink();
+            link.A = path.A;
+            link.B = path.B;
+            link.Cost = path.TotalCost;
+            link.Difficulty = CurrentDifficulty;
+            link.Implementation = new SlopeNavLink(this, linkID, path);
+
+            Footprint.Links.Add(link);
+            linkID++;
+        }
+    }
+
+    private void UpdateAreaImplementation(List<SlopeInternalPathingJob.SlopeInternalPath> Paths, Rect Bounds) {
+        // IDK I thought there would be more to do here
+        AreaImplementation.Bounds = Bounds;
     }
 
     private SlopeDifficulty CalculateNewDifficulty(List<SlopeInternalPathingJob.SlopeInternalPath> Paths) {
