@@ -93,7 +93,7 @@ public class SlopeInternalPathingJob : Job {
             {
                 if (a == b) continue;
                 SlopeInternalPath result = GetPath(portals[a], portals[b]);
-                Result.Add(result);
+                if(result.MeanCost < Mathf.Pow(10, 10)) Result.Add(result);
             }
         }
 
@@ -299,7 +299,7 @@ public class SlopeInternalPathingJob : Job {
                 // tentative_gScore is the distance from start to the neighbor through current
                 // raised to a high power to make small changes have a large impact. this drives
                 // the path towards cheap areas even at the cost of length
-                float tentative_gScore = gScore[current] + Mathf.Pow(neighbor.Item2, 6);
+                float tentative_gScore = gScore[current] + Mathf.Pow(neighbor.Item2, 4);
                 if(tentative_gScore < gScore.GetValueOrDefault(neighbor.Item1, Mathf.Infinity)) {
                     // This path to neighbor is better than any previous one. Record it!
                     cameFrom[neighbor.Item1] = current;
@@ -349,7 +349,6 @@ public class SlopeInternalPathingJob : Job {
         }
         foreach(var x in Result) {
             var y = x.Points;
-            if(x.MeanCost > Mathf.Pow(10, 22)) continue;
             Vector2 prev = new Vector2();
             for(int i = 0;i < y.Count;i ++) {
                 Vector2 current = trueBounds.min + new Vector2(y[i].x, y[i].y) * GridCellSize;
