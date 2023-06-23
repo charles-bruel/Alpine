@@ -12,6 +12,8 @@ public class NavPortal {
     public float A2Offset;
     public float B1Offset;
     public float B2Offset;
+    // The height at the center of the portal
+    public float Height;
     public NavPortalDirectionality Directionality;
     public GameObject gameObject;
 

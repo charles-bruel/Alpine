@@ -9,6 +9,8 @@ public class SlopeNavLink : INavLinkImplementation {
 
     public SlopeInternalPathingJob.SlopeInternalPath RawData;
 
+    public static int LineRendererPointDensity = 10;
+
     public NavLink Link { 
         get { 
             return Parent.Links[LinkID];
@@ -43,19 +45,19 @@ public class SlopeNavLink : INavLinkImplementation {
         gameObject.layer = LayerMask.NameToLayer("2D");
         PathRenderer = gameObject.AddComponent<LineRenderer>();
 
-        PathRenderer.widthMultiplier = 5f;
+        PathRenderer.widthMultiplier = 2.5f;
         PathRenderer.material = RenderingData.Instance.VertexColorMaterial;
 
         // TODO: Make color based on difficulty or something
-        PathRenderer.startColor = Color.red;
-        PathRenderer.endColor = Color.red;
+        PathRenderer.startColor = Color.blue;
+        PathRenderer.endColor = Color.blue;
 
         // TODO: Make a smoothed version and use that
         var y = RawData.Points;
-        Vector3[] linePositions = new Vector3[(y.Count - 1) / 10 + 2];
+        Vector3[] linePositions = new Vector3[(y.Count - 1) / LineRendererPointDensity + 2];
         int j = 0;
         for(int i = 0;i < y.Count;i ++) {
-            if (i % 10 == 0 || i == y.Count - 1) {
+            if (i % LineRendererPointDensity == 0 || i == y.Count - 1) {
                 Vector2 current = ParentImplementation.Bounds.min + new Vector2(y[i].x, y[i].y) * SlopeInternalPathingJob.GridCellSize;
                 linePositions[j] = TerrainManager.Instance.Project(current) 
                 // Shifts the line up so doesn't clip the terrain
@@ -65,5 +67,9 @@ public class SlopeNavLink : INavLinkImplementation {
         }
         PathRenderer.positionCount = linePositions.Length;
         PathRenderer.SetPositions(linePositions);
+    }
+
+    public void OnRemove() {
+        GameObject.Destroy(PathRenderer.gameObject);
     }
 }

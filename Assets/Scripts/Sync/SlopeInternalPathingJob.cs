@@ -92,11 +92,21 @@ public class SlopeInternalPathingJob : Job {
             for (int b = 0; b < portals.Length; b++)
             {
                 if (a == b) continue;
+                // Basic height filtering:
+                // If the end is higher than the start, we invalidate it. This does disallow
+                // bidirectional pathes to be made with the slope tool, which is intended as
+                // those should be made with the nav area tool
+                if(slope.Footprint.Portals[b].Height > slope.Footprint.Portals[a].Height) continue;
+                
+
                 SlopeInternalPath result = GetPath(portals[a], portals[b]);
                 result.A = slope.Footprint.Portals[a];
-                result.B = slope.Footprint.Portals[a];
+                result.B = slope.Footprint.Portals[b];
 
-                if(result.MeanCost < Mathf.Pow(10, 10)) Result.Add(result);
+                // TODO: Find a better filtering method
+                // if(result.MeanCost < Mathf.Pow(10, 13))
+                // I've disabled filtering for now aside from the height difference filter
+                Result.Add(result);
             }
         }
 

@@ -74,6 +74,9 @@ public class Slope : Building {
     private void UpdateNavLinks(List<SlopeInternalPathingJob.SlopeInternalPath> Paths) {
         // TODO: Those links were probably doing something - detect links
         // from the same place and keep them or something?
+        foreach(var link in Footprint.Links) {
+            link.Implementation.OnRemove();
+        }
         Footprint.Links = new List<NavLink>();
         int linkID = 0;
         foreach(var path in Paths) {

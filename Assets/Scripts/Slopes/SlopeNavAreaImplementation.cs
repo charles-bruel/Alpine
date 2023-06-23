@@ -23,6 +23,10 @@ public class SlopeNavAreaImplementation : INavAreaImplementation {
 
     }
 
+    public void OnRemove() {
+        
+    }
+
     public void OnSelected() {
 
     }

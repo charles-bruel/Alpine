@@ -110,6 +110,10 @@ public class SlopeBuilder {
                 portal.B2Index = nextSnap.PointID;
                 portal.B2Offset = nextSnap.Offset;
 
+                // We need to get the center and then get the height there
+                Vector2 centerCoord = (portal.A1 + portal.A2 + portal.B1 + portal.B2) / 4;
+                portal.Height = TerrainManager.Instance.Project(centerCoord).y;
+                
                 toReturn.Add(portal);
             }
         }
