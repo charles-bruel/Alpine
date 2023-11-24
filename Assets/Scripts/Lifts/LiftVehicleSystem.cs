@@ -52,7 +52,6 @@ public class LiftVehicleSystem {
             LiftVehicleSystemCablePoint current = CablePoints[i];
             if(current.cablePosition > pos) {
                 float betweenT = Mathf.InverseLerp(prev.cablePosition, current.cablePosition, pos);
-                float cableSwingAngle = 0;
 
                 if(prev.speed != current.speed) {
                     // We need to find a way to interpolate the position so that it
@@ -96,35 +95,6 @@ public class LiftVehicleSystem {
                     betweenT = fxv;
 
                     // Real world applications of calculus!
-
-                    // Now for real world applications of physics!
-
-                    // To calculate the angle the vehicle makes with the vertical due to acceleration
-                    // we must consider the tension force on the holder. The x component of the tension
-                    // force is accelerating the vehicle, and is therefore equal to m * a. The y
-                    // component is resiting gravity, and is therefore m * g. Therefore, the angle
-                    // from the vertical is simply arctan(ma/mg) or arctan(a/9.81).
-
-                    // Note that this is ideal angle in a stable system. Since velocity is not 
-                    // differentiable, simply applying this formula will lead to large jumps in vehicle
-                    // angle. The *correct* solution involves a bunch of physics, but to simplify I will
-                    // implement dampening on the vehicle application code itself.
-
-                    // Finding acceleration is the first task. Acceleration is deltav/time. We know how
-                    // velocity changes over the normalized range [0, 1]; it is simply (v_f - v_i).
-                    float a_n = v_f - v_i;
-
-                    // The normalized acceleration is between 0 speed and 1 speed, so it must be multiplied
-                    // by speed to get the change in velocity over the range
-                    a_n *= Speed;
-                    // d_a is the effective distance in m between the previous two points if we assume 1
-                    // speed multiplier. Therefore d_a / s is the actual time between the two points.
-                    // Therefore a = a_n * s / d_a
-                    float t = d_a / Speed;
-                    float a = a_n / t;
-
-                    // Now we can perform the real calculation
-                    cableSwingAngle = Mathf.Atan2(a, 9.81f) * Mathf.Rad2Deg;
                 }
 
                 Vector3 prevXYZ = prev.worldPosition;
@@ -142,7 +112,7 @@ public class LiftVehicleSystem {
                 float horizontalAngle = Mathf.Atan2(dz, dx) * Mathf.Rad2Deg;
                 float verticalAngle = Mathf.Atan2(dy, dh) * Mathf.Rad2Deg;
 
-                return new CableEvaluationResult(worldPosition, horizontalAngle, verticalAngle, cableSwingAngle);
+                return new CableEvaluationResult(worldPosition, horizontalAngle, verticalAngle);
             }
 
             prev = current;
@@ -155,14 +125,12 @@ public class LiftVehicleSystem {
         public Vector3 position;
         public float horizontalAngle;
         public float verticalAngle;
-        public float cableSwingAngle;
 
-        public CableEvaluationResult(Vector3 pos, float horizontalAngle, float verticalAngle, float cableSwingAngle)
+        public CableEvaluationResult(Vector3 pos, float horizontalAngle, float verticalAngle)
         {
             this.position = pos;
             this.horizontalAngle = horizontalAngle;
             this.verticalAngle = verticalAngle;
-            this.cableSwingAngle = cableSwingAngle;
         }
     }
 
@@ -177,15 +145,23 @@ public class LiftVehicleSystem {
 
     private void MoveVehicle(LiftVehicle vehicle, float delta) {
         CableEvaluationResult result = Evaluate(vehicle.Position);
+
+        if(delta != 0) {
+            float velocity = ((result.position - vehicle.transform.position) / delta).magnitude;
+            vehicle.Acceleration = (velocity - vehicle.Velocity) / delta;
+            vehicle.Velocity = velocity;
+
+            vehicle.UpdateSwing(delta);
+        }
+
         vehicle.transform.position = result.position;
 
-        if(vehicle.Swing != result.cableSwingAngle) {
-            vehicle.Swing = Mathf.SmoothDamp(vehicle.Swing, result.cableSwingAngle, ref vehicle.SwingVelocity, 0.2f, Mathf.Infinity, delta);
-        }
         vehicle.transform.localEulerAngles =         new Vector3(0, 90 - result.horizontalAngle, 0);
         vehicle.RotateTransform.localEulerAngles =   new Vector3(-90 - result.verticalAngle, 0, 0);
-        vehicle.DerotateTransform.localEulerAngles = new Vector3(result.verticalAngle + vehicle.Swing, 0, 0);
+        vehicle.DerotateTransform.localEulerAngles = new Vector3(result.verticalAngle + vehicle.Theta * Mathf.Rad2Deg, 0, 0);
     }
+
+
 
     public struct LiftVehicleSystemCablePoint {
         public Vector3 worldPosition;
