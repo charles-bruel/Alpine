@@ -5,7 +5,7 @@ using EPPZ.Geometry.Model;
 
 public class SlopeInternalPathingJob : Job {
     public static readonly float GridCellSize = 4;
-    public static readonly float HeuristicConstant = 1;
+    public static readonly float HeuristicConstant = 0;
     public static readonly float CenteringWeight = 16f;
     public static readonly float CenteringFalloff = 0.95f;
     public static readonly float CrossSlopeCost = 0.8f;
@@ -312,7 +312,8 @@ public class SlopeInternalPathingJob : Job {
                 // tentative_gScore is the distance from start to the neighbor through current
                 // raised to a high power to make small changes have a large impact. this drives
                 // the path towards cheap areas even at the cost of length
-                float tentative_gScore = gScore[current] + Mathf.Pow(neighbor.Item2, 4);
+                // float tentative_gScore = gScore[current] + Mathf.Pow(neighbor.Item2, 4);
+                float tentative_gScore = gScore[current] + neighbor.Item2;
                 if(tentative_gScore < gScore.GetValueOrDefault(neighbor.Item1, Mathf.Infinity)) {
                     // This path to neighbor is better than any previous one. Record it!
                     cameFrom[neighbor.Item1] = current;
@@ -430,19 +431,14 @@ public class SlopeInternalPathingJob : Job {
 
         public float GetCost(Direction direction) {
             float delta;
-            float otherDelta;
             if(direction == Direction.PX) {
                 delta = dx;
-                otherDelta = dy;
             } else if(direction == Direction.PY) {
                 delta = dy;
-                otherDelta = dx;
             } else if(direction == Direction.MX) {
                 delta = -dx;
-                otherDelta = dy;
             } else {
                 delta = -dy;
-                otherDelta = dx;
             }
             delta /= GridCellSize;
             // delta is now the slope in the direction the path is going
@@ -451,50 +447,28 @@ public class SlopeInternalPathingJob : Job {
             // in a higher cost. The cost follows tan(θ)
             float costSlope = -delta;
 
-            // Traverse detection. Below roughly -5° and 2°, the cost increases
-            // to avoid flat areas
-            if(delta > -0.087f && delta < 0.034) {
-                costSlope = 0.25f;
-            } else if(delta > 0) {
-                // We are going upwards not part of a traverse, which is
-                // completely different behavior
-                // The cost will be dramatic
-                costSlope = delta * 100000;
-            }
-
-            // We want to penalize going on a "cross" slope, i.e. parallel to a significant slope.
-            costSlope += Mathf.Abs(otherDelta) * CrossSlopeCost;
-
-            return costSlope + costDistance + 1;
+            return costSlope + costDistance;
         }
 
         public float GetDifficulty(Direction direction) {
             float delta;
-            float otherDelta;
             if(direction == Direction.PX) {
                 delta = dx;
-                otherDelta = dy;
             } else if(direction == Direction.PY) {
                 delta = dy;
-                otherDelta = dx;
             } else if(direction == Direction.MX) {
                 delta = -dx;
-                otherDelta = dy;
             } else {
                 delta = -dy;
-                otherDelta = dx;
             }
             delta /= GridCellSize;
             // delta is now the slope in the direction the path is going
 
             // The primary cost is the slope downward. A steeper slope results
             // in a higher cost. The cost follows tan(θ)
-            float costSlope = Mathf.Abs(delta);
+            float costSlope = -delta;
 
-            // We want to penalize going on a "cross" slope, i.e. parallel to a significant slope.
-            costSlope += Mathf.Abs(otherDelta) * CrossSlopeCost;
-
-            return costSlope;
+            return costSlope * costSlope;
         }
     }
 

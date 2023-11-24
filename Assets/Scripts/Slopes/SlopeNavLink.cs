@@ -9,7 +9,7 @@ public class SlopeNavLink : INavLinkImplementation {
 
     public SlopeInternalPathingJob.SlopeInternalPath RawData;
 
-    public static int LineRendererPointDensity = 10;
+    public static int LineRendererPointDensity = 2;
 
     public NavLink Link { 
         get { 

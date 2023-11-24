@@ -102,7 +102,6 @@ public class Slope : Building {
         SlopeDifficulty toReturn = SlopeDifficulty.GREEN;
         foreach(var path in Paths) {
             SlopeDifficulty temp = GetDifficultyFromPath(path);
-            Debug.Log(temp);
             if(temp > toReturn) {
                 toReturn = temp;
             }
@@ -111,7 +110,6 @@ public class Slope : Building {
     }
 
     private SlopeDifficulty GetDifficultyFromPath(SlopeInternalPathingJob.SlopeInternalPath Path) {
-        Debug.Log(Path.MeanDifficulty + ", " + Path.MeanCost + ", " + Path.Length);
         if(Path.MeanDifficulty > GameParameters.Instance.DoubleBlackSlopeDifficultyThreshold) {
             return SlopeDifficulty.DOUBLE_BLACK;
         }
