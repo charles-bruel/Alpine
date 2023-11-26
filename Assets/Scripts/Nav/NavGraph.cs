@@ -10,8 +10,21 @@ public class NavGraph {
     // Call from main thread
     public static NavGraph Build(NavArea area) {
         NavGraph temp = new NavGraph();
+        temp.NodesToIdx = new Dictionary<INavNode, uint>();
+        temp.EdgesFromNode = new Dictionary<uint, List<Edge>>();
         temp.Add(area);
         return temp;
+    }
+
+    // Call from main thread
+    public void DrawDebug() {
+        foreach(var edges in EdgesFromNode.Values) {
+            foreach(var edge in edges) {
+                Vector3 pos1 = edge.Ref.A.GetPosition().Inflate3rdDim(1000);
+                Vector3 pos2 = edge.Ref.B.GetPosition().Inflate3rdDim(1000);
+                Utils.DebugDrawArrow(pos1, pos2 - pos1, Color.black, (pos2-pos1).magnitude * 0.1f);
+            }
+        }
     }
 
     // Call from main thread

@@ -5,6 +5,10 @@ public static class Extensions {
         return new Vector2(v.x, v.z);
     }
 
+    public static Vector3 Inflate3rdDim(this Vector2 v, float y) {
+        return new Vector3(v.x, y, v.y);
+    }
+
     public static Vector3 DropW(this Vector4 v) {
         return new Vector3(v.x, v.y, v.z);
     }

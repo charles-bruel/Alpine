@@ -91,7 +91,7 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
             }
         }
 
-        Remesh();
+        MarkPolygonsDirty();
     }
 
     void Update() {

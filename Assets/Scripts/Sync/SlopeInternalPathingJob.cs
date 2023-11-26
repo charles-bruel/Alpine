@@ -97,7 +97,6 @@ public class SlopeInternalPathingJob : Job {
                 // bidirectional pathes to be made with the slope tool, which is intended as
                 // those should be made with the nav area tool
                 if(slope.Footprint.Nodes[b].GetHeight() > slope.Footprint.Nodes[a].GetHeight()) continue;
-                
 
                 SlopeInternalPath result = GetPath(portals[a], portals[b]);
                 result.A = slope.Footprint.Nodes[a];
@@ -349,6 +348,7 @@ public class SlopeInternalPathingJob : Job {
 
     public override void Complete() {
         slope.SetNewInternalPaths(Result, trueBounds);
+        GlobalNavController.MarkGraphDirty();
     }
 
     private List<Tuple<Vector2Int, float, float>> GetValidNeighboringCellsCostAndDifficulty(int x, int y) {
