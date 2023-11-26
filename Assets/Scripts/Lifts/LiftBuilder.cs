@@ -359,6 +359,9 @@ public class LiftBuilder
 
     private void RegisterPolygonsAndNav() {
         List<NavArea> navAreas = new List<NavArea>();
+        
+        List<INavNode> entries = new List<INavNode>();
+        List<INavNode> exits = new List<INavNode>();
 
         for(int i = 0;i < Data.RoutingSegments.Count;i ++) {
             List<AlpinePolygon> polygons = Data.RoutingSegments[i].PhysicalSegment.APILiftSegment.GetPolygons(
@@ -366,6 +369,7 @@ public class LiftBuilder
                 Data.RoutingSegments[i].PhysicalSegment.Polygons
             );
 
+            // Nav polygons
             for(int j = 0;j < polygons.Count;j ++) {
                 // We need to create nav information if it's marked as navigable
                 if((polygons[j].Flags & PolygonFlags.NAVIGABLE_MASK) != 0) {
@@ -390,6 +394,7 @@ public class LiftBuilder
                 PolygonsController.Instance.RegisterPolygon(polygons[j]);
             }
 
+            // Entry and exit nodes
             if(Data.RoutingSegments[i].PhysicalSegment is LiftStationTemplate) {
                 float yAngle = Data.RoutingSegments[i].PhysicalSegment.transform.eulerAngles.y;
                 Vector2 parentPos = Data.RoutingSegments[i].PhysicalSegment.transform.position.ToHorizontal();
@@ -412,10 +417,37 @@ public class LiftBuilder
 
                 entryArea.Nodes.Add(entryNode);
                 exitArea.Nodes.Add(exitNode);
+
+                entries.Add(entryNode);
+                exits.Add(exitNode);
+            }
+        }
+
+        List<NavLink> liftLinks = new List<NavLink>();
+
+        // TODO: Downloading
+        for(int i = 0; i < entries.Count;i ++) {
+            for(int j = 0; j < exits.Count;j ++) {
+                if(i == j) continue; // Don't link the same station
+                if(i > j) continue; // Don't go downhill
+                
+                NavLink link = new NavLink {
+                    A = entries[i],
+                    B = exits[j],
+                    Cost = 1,
+                    Difficulty = SlopeDifficulty.GREEN,
+                    Implementation = new LiftNavLink(),
+                };
+
+                entries[i].AddExplictNavLink(link);
+                exits[j].AddExplictNavLink(link);
+
+                liftLinks.Add(link);
             }
         }
 
         Result.NavAreas = navAreas;
+        Result.NavLinks = liftLinks;
     }
 
     private AlpinePolygon GenerateFootprint() {

@@ -10,6 +10,9 @@ public class Lift : Building {
     public LiftCablePoint[] CablePoints;
     public LiftVehicleSystem VehicleSystem;
     public List<NavArea> NavAreas;
+    // These are just the links between stations, not any internal ones
+    // in areas
+    public List<NavLink> NavLinks;
 
     private bool Initialized;
 

@@ -4,6 +4,7 @@ using UnityEngine;
 public class NavDestination : INavNode {
     public NavArea Area;
     public Vector2 Pos;
+    public List<NavLink> ExplicitNavLinks = new List<NavLink>();
 
     public float GetHeight()
     {
@@ -18,11 +19,24 @@ public class NavDestination : INavNode {
                 toReturn.Add(link);
             }
         }
+        toReturn.AddRange(ExplicitNavLinks);
         return toReturn;
     }
 
     public Vector2 GetPosition()
     {
         return Pos;
+    }
+
+    public void AddExplictNavLink(NavLink link)
+    {
+        ExplicitNavLinks.Add(link);
+        GlobalNavController.MarkGraphDirty();
+    }
+
+    public void RemoveExplicitNavLink(NavLink link)
+    {
+        ExplicitNavLinks.Remove(link);
+        GlobalNavController.MarkGraphDirty();
     }
 }

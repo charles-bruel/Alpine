@@ -17,6 +17,7 @@ public class NavPortal : INavNode {
     public float Height;
     public NavPortalDirectionality Directionality;
     public GameObject gameObject;
+    public List<NavLink> ExplicitNavLinks = new List<NavLink>();
 
     public Vector2 A1 {
         get {
@@ -70,6 +71,18 @@ public class NavPortal : INavNode {
         }
     }
 
+    public void AddExplictNavLink(NavLink link)
+    {
+        ExplicitNavLinks.Add(link);
+        GlobalNavController.MarkGraphDirty();
+    }
+
+    public void RemoveExplicitNavLink(NavLink link)
+    {
+        ExplicitNavLinks.Remove(link);
+        GlobalNavController.MarkGraphDirty();
+    }
+
     public float GetHeight()
     {
         return Height;
@@ -88,6 +101,7 @@ public class NavPortal : INavNode {
                 toReturn.Add(link);
             }
         }
+        toReturn.AddRange(ExplicitNavLinks);
         return toReturn;
     }
 
