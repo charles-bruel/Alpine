@@ -396,7 +396,7 @@ public class LiftBuilder
 
             // Entry and exit nodes
             if(Data.RoutingSegments[i].PhysicalSegment is LiftStationTemplate) {
-                float yAngle = Data.RoutingSegments[i].PhysicalSegment.transform.eulerAngles.y;
+                float parentAngle = Data.RoutingSegments[i].PhysicalSegment.transform.eulerAngles.y;
                 Vector2 parentPos = Data.RoutingSegments[i].PhysicalSegment.transform.position.ToHorizontal();
 
                 LiftStationTemplate stationTemplate = Data.RoutingSegments[i].PhysicalSegment as LiftStationTemplate;
@@ -404,14 +404,14 @@ public class LiftBuilder
                 NavArea entryArea = polygons[stationTemplate.EntryNavNode.PolygonDefinitionID] as NavArea;
                 Assert.IsNotNull(entryArea);
                 NavDestination entryNode = new NavDestination {
-                    Pos = Utils.TransformBuildingCoordinates(stationTemplate.EntryNavNode.Pos, yAngle, parentPos), 
+                    Pos = ModAPIUtils.TransformBuildingCoordinates(stationTemplate.EntryNavNode.Pos, parentAngle, parentPos), 
                     Area = entryArea
                 };
 
                 NavArea exitArea = polygons[stationTemplate.ExitNavNode.PolygonDefinitionID] as NavArea;
                 Assert.IsNotNull(entryArea);
                 NavDestination exitNode = new NavDestination { 
-                    Pos = Utils.TransformBuildingCoordinates(stationTemplate.ExitNavNode.Pos, yAngle, parentPos), 
+                    Pos = ModAPIUtils.TransformBuildingCoordinates(stationTemplate.ExitNavNode.Pos, parentAngle, parentPos), 
                     Area = exitArea 
                 };
 

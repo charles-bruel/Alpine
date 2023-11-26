@@ -40,8 +40,9 @@ public class LiftSegmentTemplate : MonoBehaviour, IPoolable, ICustomScriptable
 
     protected void OnDrawGizmos() {
         if(Polygons == null) return;
-        for(int i = 0;i < Polygons.Length;i ++) { 
+        for(int i = 0;i < Polygons.Length;i ++) {
             AlpinePolygonSource poly = Polygons[i];
+            if(poly.Points.Length == 0) continue;
             Gizmos.color = PolygonsController.ColorFromFlags(poly.Flags);
             for(int j = 1;j < poly.Points.Length;j ++) {
                 Gizmos.DrawLine(

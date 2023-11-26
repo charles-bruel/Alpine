@@ -59,39 +59,10 @@ public class APILiftSegment : APIBase
         List<AlpinePolygon> result = new List<AlpinePolygon>(providedPolygons.Length);
 
         for(int i = 0;i < providedPolygons.Length;i ++) {
-            result.Add(TransformPolygon(providedPolygons[i]));
+            Transform parentTransform = providedPolygons[i].ParentElement;
+            result.Add(ModAPIUtils.TransformPolygon(providedPolygons[i], parentTransform.eulerAngles.y, parentTransform.position));
         }
 
         return result;
-    }
-
-    public AlpinePolygon TransformPolygon(AlpinePolygonSource polygon) {
-        Transform parent = polygon.ParentElement;
-
-        AlpinePolygon toReturn = new AlpinePolygon();
-        toReturn.Guid                = System.Guid.NewGuid();
-        toReturn.Level               = polygon.Level;
-        toReturn.ArbitrarilyEditable = polygon.ArbitrarilyEditable;
-        toReturn.Flags               = polygon.Flags;
-        toReturn.Height              = polygon.Height + parent.position.y;
-
-        Vector2[] transformedPoints = new Vector2[polygon.Points.Length];
-        for(int i = 0;i < polygon.Points.Length;i ++) {
-            // First we rotate the polygon
-            float theta = -parent.eulerAngles.y * Mathf.Deg2Rad;
-            float sin = Mathf.Sin(theta);
-            float cos = Mathf.Cos(theta);
-            float x = polygon.Points[i].x;
-            float y = polygon.Points[i].y;
-            Vector2 point = new Vector2(x * cos - y * sin, x * sin + y * cos);
-
-            point.x += parent.position.x;
-            point.y += parent.position.z;
-
-            transformedPoints[i] = point;
-        }
-        toReturn.Polygon = Polygon.PolygonWithPoints(transformedPoints);
-
-        return toReturn;
     }
 }

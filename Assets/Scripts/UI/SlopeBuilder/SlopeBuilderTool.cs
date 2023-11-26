@@ -48,76 +48,8 @@ public class SlopeBuilderTool : ITool {
         grab.Builder = Builder;
         Grabs.Add(grab);
 
-        // It is trivial to insert the new station if we have no other stations
-        // or only one other; there is only one place to put it. It becomes
-        // significantly more complex to make that desicion with more segments
-        // if(Data.RoutingSegments.Count == 0 || Data.RoutingSegments.Count == 1) {
-            Data.SlopePoints.Add(new SlopeConstructionData.SlopePoint(pos));
-            grab.SlopePointIndex = Data.SlopePoints.Count - 1;
-        // } else {
-        //     // Find the closest line segment
-        //     float minDist = Mathf.Infinity;
-        //     int closestIndex = -1;
-        //     for(int i = 1;i < Data.RoutingSegments.Count;i ++) {
-        //         float dist = Utils.LineSegmentPoint(
-        //             Data.RoutingSegments[i - 1].Position.ToHorizontal(),
-        //             Data.RoutingSegments[i].Position.ToHorizontal(),
-        //             pos
-        //         );
-        //         if(dist < minDist) {
-        //             minDist = dist;
-        //             closestIndex = i;
-        //         }
-        //     }
-        //     // Project the point onto the line segment. If t < 0, place
-        //     // the station before, if t > 1, place it after, otherwise
-        //     // in the middle
-        //     // Portions of this code copied from Utils.LineSegmentPoint()
-        //     Vector2 v = Data.RoutingSegments[closestIndex - 1].Position.ToHorizontal();
-        //     Vector2 w = Data.RoutingSegments[closestIndex].Position.ToHorizontal();
-        //     float l2 = (v - w).sqrMagnitude;
-        //     // if(l2 == 0) return;
-        //     float t = Vector2.Dot(pos - v, w - v) / l2;
-        //     int indexToInsertAt;
-        //     if (t < 0) {
-        //         indexToInsertAt = closestIndex - 1;
-        //     } else if (t > 1) {
-        //         indexToInsertAt = closestIndex + 1;
-        //     } else {
-        //         indexToInsertAt = closestIndex;
-        //     }
-            
-        //     if(indexToInsertAt != 0 && indexToInsertAt != Data.RoutingSegments.Count) {
-        //         segment.RoutingSegmentType = LiftRoutingSegmentTemplate.RoutingSegmentType.MIDSTATION;
-        //     } else {
-        //         segment.RoutingSegmentType = LiftRoutingSegmentTemplate.RoutingSegmentType.STATION;
-        //     }
-
-        //     Data.RoutingSegments.Insert(indexToInsertAt, segment);
-
-        //     // We need to relink the grabs
-        //     for(int i = 0;i < Grabs.Count;i ++) {
-        //         if(Grabs[i].RoutingSegmentIndex >= indexToInsertAt) Grabs[i].RoutingSegmentIndex++;
-        //     }
-            
-        //     // Now we can add our grab (we wait until here so it doesn't get
-        //     // changed by the above loop)
-        //     grab.RoutingSegmentIndex = indexToInsertAt;
-
-        //     // We also need to potentially make the adjacent stations into midstations
-        //     if(indexToInsertAt == 0) {
-        //         // We inserted at the beginning of the list
-        //         // The list is garaunteed to be longer than 2 if we got here
-        //         // so it should be a midstation
-        //         Data.RoutingSegments[1].RoutingSegmentType = LiftRoutingSegmentTemplate.RoutingSegmentType.MIDSTATION;
-        //     }
-        //     if(indexToInsertAt == Data.RoutingSegments.Count - 1) {
-        //         // We inserted at the end of the list
-        //         // The list is garaunteed to be longer than 2 if we got here
-        //         // so it should be a midstation
-        //         Data.RoutingSegments[Data.RoutingSegments.Count - 2].RoutingSegmentType = LiftRoutingSegmentTemplate.RoutingSegmentType.MIDSTATION;
-        //     }
-        // }
+        Data.SlopePoints.Add(new SlopeConstructionData.SlopePoint(pos));
+        grab.SlopePointIndex = Data.SlopePoints.Count - 1;
 
         // Universal finalization code
         grab.RectTransform.anchoredPosition = Data.SlopePoints[grab.SlopePointIndex].Pos;
