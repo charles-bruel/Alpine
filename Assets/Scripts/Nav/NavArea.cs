@@ -4,7 +4,9 @@ using System;
 
 public class NavArea : AlpinePolygon {
     public List<INavNode> Nodes;
+    // All links from this area to other overlapping nav areas
     public List<NavLink> Links;
+    public List<NavArea> OverlappingNavAreas;
     public Building Owner;
     public bool Modified = false;
     public INavAreaImplementation Implementation;
@@ -13,6 +15,7 @@ public class NavArea : AlpinePolygon {
     public NavArea() {
         Nodes = new List<INavNode>();
         Links = new List<NavLink>();
+        OverlappingNavAreas = new List<NavArea>();
     }
 
     public void Advance(float delta) {
@@ -33,34 +36,35 @@ public class NavArea : AlpinePolygon {
         SelectedLast = Selected;
     }
 
+    public List<INavNode> GetAllNavNodes() {
+        List<INavNode> toReturn = new List<INavNode>();
+        toReturn.AddRange(Nodes);
+        foreach(var area in OverlappingNavAreas) {
+            toReturn.AddRange(area.Nodes);
+        }
+        return toReturn;
+    }
+
     // Assume we are a simple nav area, i.e. we don't care about slopes or anything else
-    public void RecalculateSimpleLinks()
-    {
+    public void RecalculateSimpleLinks() {
+        List<INavNode> allNavNodes = GetAllNavNodes();
         Links = new List<NavLink>();
         for(int i = 0;i < Nodes.Count;i ++) {
-            for(int j = 0;j < Nodes.Count;j ++) {
+            for(int j = 0;j < allNavNodes.Count;j ++) {
                 if(i == j) continue; // Don't path between ourselves
-                if(j > i) continue; // Only looking at unique pair
 
-                float dist = (Nodes[i].GetPosition() - Nodes[j].GetPosition()).magnitude;
+                float dist = (Nodes[i].GetPosition() - allNavNodes[j].GetPosition()).magnitude;
+                if(dist == 0) continue;
 
-                NavLink linkA = new NavLink {
+                NavLink link = new NavLink {
                     A = Nodes[i],
-                    B = Nodes[j],
-                    Cost = dist * 0.5f,
-                    Difficulty = SlopeDifficulty.GREEN,
-                    Implementation = new BasicNavLinkImplementation(),
-                };
-                NavLink linkB = new NavLink {
-                    B = Nodes[i],
-                    A = Nodes[j],
+                    B = allNavNodes[j],
                     Cost = dist * 0.5f,
                     Difficulty = SlopeDifficulty.GREEN,
                     Implementation = new BasicNavLinkImplementation(),
                 };
 
-                Links.Add(linkA);
-                Links.Add(linkB);
+                Links.Add(link);
             }
         }
         GlobalNavController.MarkGraphDirty();

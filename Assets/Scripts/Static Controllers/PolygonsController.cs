@@ -100,6 +100,7 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
         if(PolygonsDirty) {
             PolygonsDirty = false;
             Remesh();
+            RecalculateOverlappingNavAreas();
         }
     }
 
@@ -175,7 +176,52 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
             poly.Filter.mesh = meshPoly.Mesh(poly.Filter.mesh, poly.Color, Triangulator, poly.Guid.ToString());
         }
     }
-    
+
+    private void RecalculateOverlappingNavAreas() {
+        for(int i = 0;i < PolygonObjects.Count;i ++ ) {
+            NavArea area1 = PolygonObjects[i] as NavArea;
+            if(area1 == null) continue;
+            if((area1.Flags & PolygonFlags.FLAT_NAVIGABLE) == 0) continue;
+
+            area1.Modified = true;
+            area1.OverlappingNavAreas.Clear();
+
+            for(int j = 0;j < PolygonObjects.Count;j ++ ) {
+                if(i == j) continue;
+                if(j > i) continue;
+
+                NavArea area2 = PolygonObjects[j] as NavArea;
+                if(area2 == null) continue;
+                if((area2.Flags & PolygonFlags.FLAT_NAVIGABLE) == 0) continue;
+                
+                // Check intersection
+                var path1 = area1.Polygon.ClipperPath(1);
+                var path2 = area2.Polygon.ClipperPath(1);
+                Clipper clipper = new Clipper();
+                clipper.AddPath(path1, PolyType.ptSubject, true);
+                clipper.AddPath(path2, PolyType.ptClip, true);
+                List<List<IntPoint>> intersectionPaths = new List<List<IntPoint>>();
+                clipper.Execute(ClipType.ctIntersection, intersectionPaths);
+                bool intersect = intersectionPaths.Count > 0;
+                if(!intersect) continue;
+
+                // There is intersection, so we need to add the polygons to the set
+                // Since overlapping is transitive, recursion is not nessecary
+                for(int k = 0; k < area1.OverlappingNavAreas.Count;k ++) {
+                    var area = area1.OverlappingNavAreas[k];
+                    if(area.OverlappingNavAreas.Contains(area2)) continue;
+                    area.OverlappingNavAreas.Add(area2);
+                }
+                for(int k = 0; k < area2.OverlappingNavAreas.Count;k ++) {
+                    var area = area2.OverlappingNavAreas[k];
+                    if(area.OverlappingNavAreas.Contains(area1)) continue;
+                    area.OverlappingNavAreas.Add(area1);
+                }
+                area1.OverlappingNavAreas.Add(area2);
+                area2.OverlappingNavAreas.Add(area1);
+            }
+        }
+    }
     private void RemeshPolygon(AlpinePolygon poly) {
         Polygon meshPoly = poly.Polygon;
 

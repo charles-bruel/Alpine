@@ -69,6 +69,7 @@ public class SlopeInternalPathingJob : Job {
         CalculateDistanceCosts(width, height);
 
         // Finally, we must prepare the portals
+        // TODO: Nodes.Count might not be the right number here anymore
         portals = new Vector2Int[slope.Footprint.Nodes.Count];
         for (int i = 0; i < slope.Footprint.Nodes.Count; i++)
         {
