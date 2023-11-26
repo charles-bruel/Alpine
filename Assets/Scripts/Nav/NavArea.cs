@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class NavArea : AlpinePolygon {
-    public List<NavPortal> Portals;
+    public List<INavNode> Nodes;
     public List<NavLink> Links;
     public Building Owner;
     public bool Modified = false;
@@ -10,7 +10,7 @@ public class NavArea : AlpinePolygon {
 
     private bool SelectedLast = false;
     public NavArea() {
-        Portals = new List<NavPortal>();
+        Nodes = new List<INavNode>();
         Links = new List<NavLink>();
     }
 

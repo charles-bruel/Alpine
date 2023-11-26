@@ -69,12 +69,12 @@ public class SlopeInternalPathingJob : Job {
         CalculateDistanceCosts(width, height);
 
         // Finally, we must prepare the portals
-        portals = new Vector2Int[slope.Footprint.Portals.Count];
-        for (int i = 0; i < slope.Footprint.Portals.Count; i++)
+        portals = new Vector2Int[slope.Footprint.Nodes.Count];
+        for (int i = 0; i < slope.Footprint.Nodes.Count; i++)
         {
-            NavPortal portal = slope.Footprint.Portals[i];
+            INavNode node = slope.Footprint.Nodes[i];
             // We will take the center of the portal
-            Vector2 actualPosition = (portal.A1 + portal.A2) / 2;
+            Vector2 actualPosition = node.GetPosition();
             Vector2 unRoundPosition = actualPosition - trueBounds.min;
             unRoundPosition /= GridCellSize;
             portals[i] = new Vector2Int(
@@ -96,12 +96,12 @@ public class SlopeInternalPathingJob : Job {
                 // If the end is higher than the start, we invalidate it. This does disallow
                 // bidirectional pathes to be made with the slope tool, which is intended as
                 // those should be made with the nav area tool
-                if(slope.Footprint.Portals[b].Height > slope.Footprint.Portals[a].Height) continue;
+                if(slope.Footprint.Nodes[b].GetHeight() > slope.Footprint.Nodes[a].GetHeight()) continue;
                 
 
                 SlopeInternalPath result = GetPath(portals[a], portals[b]);
-                result.A = slope.Footprint.Portals[a];
-                result.B = slope.Footprint.Portals[b];
+                result.A = slope.Footprint.Nodes[a];
+                result.B = slope.Footprint.Nodes[b];
 
                 // TODO: Find a better filtering method
                 // if(result.MeanCost < Mathf.Pow(10, 13))
@@ -477,8 +477,8 @@ public class SlopeInternalPathingJob : Job {
     }
 
     public struct SlopeInternalPath {
-        public NavPortal A;
-        public NavPortal B;
+        public INavNode A;
+        public INavNode B;
         public List<Vector2Int> Points;
         public float TotalCost;
         public float TotalDifficulty;

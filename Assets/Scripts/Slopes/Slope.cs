@@ -18,10 +18,10 @@ public class Slope : Building {
             portal.gameObject = temp;
             portal.Inflate();
 
-            portal.A.Portals.Add(portal);
+            portal.A.Nodes.Add(portal);
             portal.A.Modified = true;
 
-            portal.B.Portals.Add(portal);
+            portal.B.Nodes.Add(portal);
             portal.B.Modified = true;
         }
     }

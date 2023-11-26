@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class NavPortal {
+public class NavPortal : INavNode {
     public LineRenderer Renderer;
     public NavArea A;
     public NavArea B;
@@ -67,6 +68,31 @@ public class NavPortal {
             }
             return Vector2.Lerp(prev, next, B2Offset);
         }
+    }
+
+    public float GetHeight()
+    {
+        return Height;
+    }
+
+    public List<NavLink> GetLinks()
+    {
+        List<NavLink> toReturn = new List<NavLink>();
+        foreach(var link in A.Links) {
+            if(link.A == this || link.B == this) {
+                toReturn.Add(link);
+            }
+        }
+        foreach(var link in B.Links) {
+            if(link.A == this || link.B == this) {
+                toReturn.Add(link);
+            }
+        }
+        return toReturn;
+    }
+
+    public Vector2 GetPosition() {
+        return (A1 + A2) / 2;
     }
 
     public void Inflate() {
