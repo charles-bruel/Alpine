@@ -2373,6 +2373,7 @@ GameObject:
   - component: {fileID: 757753267}
   - component: {fileID: 757753268}
   - component: {fileID: 757753269}
+  - component: {fileID: 757753270}
   m_Layer: 0
   m_Name: Statics
   m_TagString: Untagged
@@ -2520,6 +2521,7 @@ MonoBehaviour:
   BuildingsController: {fileID: 757753267}
   InterfaceController: {fileID: 830588215}
   GlobalNavController: {fileID: 757753269}
+  VisitorController: {fileID: 757753270}
   TimeMultiplier: 1
 --- !u!114 &757753263
 MonoBehaviour:
@@ -2615,6 +2617,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 011c1789f582abd45b4fbf3b1f851cfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &757753270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757753257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56bf5f1e8aa09cd4bb27621299d1ce26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Template: {fileID: 6632329247608173648, guid: 724f7f65ef9a36247a11205c54afef6a,
+    type: 3}
+  Visitors: []
+  MaxVisitors: 1000
 --- !u!1 &763692009
 GameObject:
   m_ObjectHideFlags: 0

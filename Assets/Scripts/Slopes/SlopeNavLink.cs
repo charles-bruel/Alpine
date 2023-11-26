@@ -72,4 +72,11 @@ public class SlopeNavLink : INavLinkImplementation {
     public void OnRemove() {
         GameObject.Destroy(PathRenderer.gameObject);
     }
+
+    public void ProgressPosition(Visitor self, NavLink link, float delta, ref float progress, ref Vector3 pos, ref Vector3 angles) {
+        int i = (int) (progress * RawData.Points.Count);
+        Vector2 pos2d = ParentImplementation.Bounds.min + new Vector2(RawData.Points[i].x, RawData.Points[i].y) * SlopeInternalPathingJob.GridCellSize;
+        pos = TerrainManager.Instance.Project(pos2d);
+        progress += self.SkiSpeed * delta / RawData.Points.Count;
+    }
 }

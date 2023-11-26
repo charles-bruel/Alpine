@@ -29,6 +29,7 @@ public class Lift : Building {
         
         foreach(NavArea area in NavAreas) {
             if(area.Modified) {
+                area.Modified = false;
                 area.RecalculateSimpleLinks();
             }
         }

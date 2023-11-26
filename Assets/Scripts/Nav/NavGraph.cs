@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 // A seperate data structure that is used for pathfinding. This contains minimal
 // information. It will be constructed from the nav information so pathfinding can
@@ -13,6 +15,7 @@ public class NavGraph {
         temp.NodesToIdx = new Dictionary<INavNode, uint>();
         temp.EdgesFromNode = new Dictionary<uint, List<Edge>>();
         temp.Add(area);
+
         return temp;
     }
 
@@ -94,27 +97,41 @@ public class NavGraph {
     private Dictionary<INavNode, uint> NodesToIdx;
     private Dictionary<uint, List<Edge>> EdgesFromNode;
 
+    public INavNode GetRandomNode() {
+        return Enumerable.ToList(NodesToIdx.Keys)[UnityEngine.Random.Range(0, NodesToIdx.Count)]; 
+    }
+
     // Can be called from any thread
-    public List<NavLink> Dijkstras(INavNode start, INavNode end, SlopeDifficulty Ability) {
-        return Dijkstras(NodesToIdx[start], NodesToIdx[end], Ability);
+    public List<NavLink> Dijkstras(INavNode start, List<INavNode> end, SlopeDifficulty Ability) {
+        List<uint> idTargets = new List<uint>(end.Count);
+        foreach(var node in end) {
+            idTargets.Add(NodesToIdx[node]);
+        }
+        return Dijkstras(NodesToIdx[start], idTargets, Ability);
     }
     
     // Can be called from any thread
-    public List<NavLink> Dijkstras(uint start, uint end, SlopeDifficulty Ability) {
+    public List<NavLink> Dijkstras(uint start, List<uint> end, SlopeDifficulty Ability) {
+        Assert.AreNotEqual(end.Count, 0);
         PriorityQueue<uint, float> openSet = new PriorityQueue<uint, float>();
         Dictionary<uint, Tuple<uint, NavLink>> cameFrom = new Dictionary<uint, Tuple<uint, NavLink>>();
         Dictionary<uint, float> costs = new Dictionary<uint, float>();
+        List<uint> Visited = new List<uint>();
+
         costs[start] = 0;
+        openSet.Enqueue(start, 0);
         while(openSet.Count > 0) {
             uint current = openSet.Dequeue();
-            
-            if(current == end) {
+            if(Visited.Contains(current)) continue;
+
+            if(end.Contains(current)) {
                 return ReconstructPath(cameFrom, current);
             }
 
             List<Edge> edges = EdgesFromNode[current];
             foreach(var edge in edges) {
                 if(edge.Difficulty > Ability) continue;
+                if(Visited.Contains(edge.Target)) continue;
 
                 float totalCost = costs[current] + edge.Cost;
                 if(totalCost < costs.GetValueOrDefault(edge.Target, Mathf.Infinity)) {
@@ -124,7 +141,10 @@ public class NavGraph {
                     openSet.Enqueue(edge.Target, totalCost);
                 }
             }
+            Visited.Add(current);
         }
+
+        Debug.Log("Couldn't find path from " + start + " to " + end);
 
         throw new System.NotImplementedException();
     }

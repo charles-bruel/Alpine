@@ -21,6 +21,8 @@ public class BuildingBuilder {
         Instaniated = GameObject.Instantiate(Template);
         Instaniated.transform.position = TerrainManager.Instance.Project(Pos);
         Result = Instaniated.gameObject.AddComponent<SimpleBuilding>();
+        Result.Functionality = Instaniated.Functionality;
+        Result.Functionality.Building = Result;
     }
 
     public void Cancel() {
@@ -64,7 +66,11 @@ public class BuildingBuilder {
         };
 
         serviceArea.Nodes.Add(serviceNode);
+
+        Result.ServiceNode = serviceNode;
         Result.NavAreas = navAreas;
+
+        Result.Functionality.OnFinishConstruction();
     }
 
     public void UpdatePos(Vector2 pos)
