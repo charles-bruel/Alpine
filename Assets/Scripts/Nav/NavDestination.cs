@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class NavDestination : INavNode {
     public NavArea Area;
-    public Vector3 Pos;
+    public Vector2 Pos;
 
     public float GetHeight()
     {
-        return Pos.y;
+        return Area.Height;
     }
 
     public List<NavLink> GetLinks()
@@ -23,6 +23,6 @@ public class NavDestination : INavNode {
 
     public Vector2 GetPosition()
     {
-        return Pos.ToHorizontal();
+        return Pos;
     }
 }

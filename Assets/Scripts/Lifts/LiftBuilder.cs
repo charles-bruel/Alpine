@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using EPPZ.Geometry.Model;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class LiftBuilder
 {
@@ -351,12 +352,12 @@ public class LiftBuilder
         FinishAll();
         Result.CablePoints = CreateCables();
         Result.Footprint = GenerateFootprint();
-        RegisterComponentPolygons();
+        RegisterPolygonsAndNav();
 
         Result.Finish();
     }
 
-    private void RegisterComponentPolygons() {
+    private void RegisterPolygonsAndNav() {
         List<NavArea> navAreas = new List<NavArea>();
 
         for(int i = 0;i < Data.RoutingSegments.Count;i ++) {
@@ -387,6 +388,30 @@ public class LiftBuilder
                 }
 
                 PolygonsController.Instance.RegisterPolygon(polygons[j]);
+            }
+
+            if(Data.RoutingSegments[i].PhysicalSegment is LiftStationTemplate) {
+                float yAngle = Data.RoutingSegments[i].PhysicalSegment.transform.eulerAngles.y;
+                Vector2 parentPos = Data.RoutingSegments[i].PhysicalSegment.transform.position.ToHorizontal();
+
+                LiftStationTemplate stationTemplate = Data.RoutingSegments[i].PhysicalSegment as LiftStationTemplate;
+                
+                NavArea entryArea = polygons[stationTemplate.EntryNavNode.PolygonDefinitionID] as NavArea;
+                Assert.IsNotNull(entryArea);
+                NavDestination entryNode = new NavDestination {
+                    Pos = Utils.TransformBuildingCoordinates(stationTemplate.EntryNavNode.Pos, yAngle, parentPos), 
+                    Area = entryArea
+                };
+
+                NavArea exitArea = polygons[stationTemplate.ExitNavNode.PolygonDefinitionID] as NavArea;
+                Assert.IsNotNull(entryArea);
+                NavDestination exitNode = new NavDestination { 
+                    Pos = Utils.TransformBuildingCoordinates(stationTemplate.ExitNavNode.Pos, yAngle, parentPos), 
+                    Area = exitArea 
+                };
+
+                entryArea.Nodes.Add(entryNode);
+                exitArea.Nodes.Add(exitNode);
             }
         }
 

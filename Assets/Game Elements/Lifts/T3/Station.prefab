@@ -645,6 +645,12 @@ MonoBehaviour:
       FloatParameters:
       - 12.5
       IntParameters: 
+  EntryNavNode:
+    PolygonDefinitionID: 0
+    Pos: {x: -2.5, y: 15}
+  ExitNavNode:
+    PolygonDefinitionID: 0
+    Pos: {x: 2.5, y: 15}
 --- !u!1 &6035142153750592043
 GameObject:
   m_ObjectHideFlags: 0

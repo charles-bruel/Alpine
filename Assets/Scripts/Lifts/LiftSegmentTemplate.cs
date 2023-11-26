@@ -38,7 +38,7 @@ public class LiftSegmentTemplate : MonoBehaviour, IPoolable, ICustomScriptable
         gameObject.SetActive(true);
     }
 
-    void OnDrawGizmos() {
+    protected void OnDrawGizmos() {
         if(Polygons == null) return;
         for(int i = 0;i < Polygons.Length;i ++) { 
             AlpinePolygonSource poly = Polygons[i];

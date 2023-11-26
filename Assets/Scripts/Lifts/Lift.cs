@@ -21,6 +21,16 @@ public class Lift : Building {
         Initialized = true;
     }
 
+    void Update() {
+        if(NavAreas == null) return;
+        
+        foreach(NavArea area in NavAreas) {
+            if(area.Modified) {
+                area.RecalculateSimpleLinks();
+            }
+        }
+    }
+
     public override void Advance(float delta) {
         if(!Initialized) return;
 

@@ -129,4 +129,17 @@ public static class Utils {
         Vector2 projection = v + t * (w - v);
         return (p - projection).sqrMagnitude;
     }
+
+    public static Vector2 TransformBuildingCoordinates(Vector2 input, float yAngle, Vector2 parentPos) {
+        float theta = -yAngle * Mathf.Deg2Rad;
+        float sin = Mathf.Sin(theta);
+        float cos = Mathf.Cos(theta);
+        float x = input.x;
+        float y = input.y;
+        Vector2 point = new Vector2(x * cos - y * sin, x * sin + y * cos);
+
+        point += parentPos;
+
+        return point;
+    }
 }

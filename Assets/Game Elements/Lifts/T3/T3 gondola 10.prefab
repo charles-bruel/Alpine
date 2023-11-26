@@ -133,12 +133,7 @@ MonoBehaviour:
   DerotateTransform: {fileID: 1642675142320882283}
   CoMOffset: 2.5
   Mass: 10
-  Friction: 1
-  Position: 0
-  Velocity: 0
-  Acceleration: 0
-  Theta: 0
-  Omega: 0
+  Friction: 2.5
 --- !u!1 &1642675141709273558
 GameObject:
   m_ObjectHideFlags: 0
