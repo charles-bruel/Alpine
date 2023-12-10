@@ -1,11 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 public class VisitorController : MonoBehaviour {
     public static VisitorController Instance;
 
-    public Visitor Template;
+    public Visitor[] Templates;
     public List<Visitor> Visitors = new List<Visitor>();
     public List<INavNode> SpawnPoints = new List<INavNode>();
 
@@ -24,7 +25,7 @@ public class VisitorController : MonoBehaviour {
     public void SpawnVisitor() {
         int spawnIndex = UnityEngine.Random.Range(0, SpawnPoints.Count);
         INavNode spawnPoint = SpawnPoints[spawnIndex];
-        Visitor newVisitor = GameObject.Instantiate(Template);
+        Visitor newVisitor = GameObject.Instantiate(Templates[UnityEngine.Random.Range(0, Templates.Length)]);
         newVisitor.StationaryPos = spawnPoint;
         Visitors.Add(newVisitor);
         newVisitor.transform.parent = transform;

@@ -70,7 +70,8 @@ public class SlopeNavLink : INavLinkImplementation {
     }
 
     public void OnRemove() {
-        GameObject.Destroy(PathRenderer.gameObject);
+        if(PathRenderer != null)
+            GameObject.Destroy(PathRenderer.gameObject);
     }
 
     public void ProgressPosition(Visitor self, NavLink link, float delta, ref float progress, ref Vector3 pos, ref Vector3 angles) {

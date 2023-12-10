@@ -16,8 +16,14 @@ public class ASyncJobManager : MonoBehaviour {
     void Update() {
         lock(completedJobsLock) {
             //Throttle it and only allow one job to complete per frame
-            if(completedJobs.Count == 0) return;
-            completedJobs.Dequeue().Complete();
+            float totalCost = 0;
+            while(totalCost < 1) {
+                if(completedJobs.Count == 0) break;
+                var job = completedJobs.Dequeue();
+                totalCost += job.GetCompleteCost();
+                job.Complete();
+            }
+            
         }
     }
 

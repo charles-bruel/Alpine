@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Codice.Client.BaseCommands;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -98,15 +99,19 @@ public class NavGraph {
     private Dictionary<uint, List<Edge>> EdgesFromNode;
 
     public INavNode GetRandomNode() {
-        return Enumerable.ToList(NodesToIdx.Keys)[UnityEngine.Random.Range(0, NodesToIdx.Count)]; 
+        var rand = new System.Random();
+        return Enumerable.ToList(NodesToIdx.Keys)[rand.Next(0, NodesToIdx.Count)]; 
     }
 
     // Can be called from any thread
     public List<NavLink> Dijkstras(INavNode start, List<INavNode> end, SlopeDifficulty Ability) {
         List<uint> idTargets = new List<uint>(end.Count);
         foreach(var node in end) {
-            idTargets.Add(NodesToIdx[node]);
+            if(NodesToIdx.ContainsKey(node)) {
+                idTargets.Add(NodesToIdx[node]);
+            }
         }
+        if(idTargets.Count == 0) return null;
         return Dijkstras(NodesToIdx[start], idTargets, Ability);
     }
     
@@ -144,9 +149,7 @@ public class NavGraph {
             Visited.Add(current);
         }
 
-        Debug.Log("Couldn't find path from " + start + " to " + end);
-
-        throw new System.NotImplementedException();
+        return null;
     }
 
     private List<NavLink> ReconstructPath(Dictionary<uint, Tuple<uint, NavLink>> cameFrom, uint current) {

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4314668947054665854}
   - component: {fileID: 6632329247608173648}
   m_Layer: 0
-  m_Name: Visitor Template
+  m_Name: Double Black Visitor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d393ecc0ac89d2d41b5a9160835c8b5a, type: 2}
+  - {fileID: 2100000, guid: 9e17c25def3454c44bb86ee8848b4f6d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

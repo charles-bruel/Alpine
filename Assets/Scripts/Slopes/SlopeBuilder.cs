@@ -7,7 +7,6 @@ public class SlopeBuilder {
     public SlopeConstructionData Data;
 
     public Slope Result;
-    public List<PolygonsController.PolygonSnappingResult> SnappedPoints;
 
     public void Initialize() {
         GameObject gameObject = new GameObject("Slope");
@@ -16,7 +15,6 @@ public class SlopeBuilder {
         BuildingsController.Instance.RegisterBuilding(Result);
 
         Data = new SlopeConstructionData();
-        SnappedPoints = new List<PolygonsController.PolygonSnappingResult>();
 
         Result.Footprint = new NavArea();
         Result.Footprint.Owner = Result;

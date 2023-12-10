@@ -8,6 +8,8 @@ public class CreateVisitorPlanJob : Job
     private List<NavLink> Result;
     private INavNode Start;
     private List<INavNode> Target;
+    private bool PathingOut;
+    private List<INavNode> Exits;
     
     public void Initialize() {
         Visitor.ActivelyPlanning = true;
@@ -18,20 +20,33 @@ public class CreateVisitorPlanJob : Job
             Start = Visitor.StationaryPos;
         }
 
-        // Step 1: Choose target
-        if(Visitor.RemainingTime <= 0) {
-            Target = VisitorController.Instance.SpawnPoints;
-        } else {
-            // Choose a random node within skier ability and go there
-            // TODO: "Within skier ability"
-            Target = new List<INavNode>(1);
-            Target.Add(Graph.GetRandomNode());
-        }
+        PathingOut = Visitor.RemainingTime < 0;
+        Exits = VisitorController.Instance.SpawnPoints;
     }
 
     public void Run() {
-        // Step 2: Path there
-        Result = Graph.Dijkstras(Start, Target, Visitor.Ability);
+        bool success = false;
+        while(!success) {
+            // Step 1: Choose target
+            if(PathingOut) {
+                Target = Exits;
+            } else {
+                // Choose a random node within skier ability and go there
+                // TODO: "Within skier ability"
+                Target = new List<INavNode>(1)
+                {
+                    Graph.GetRandomNode()
+                };
+            }
+
+            // Step 2: Path there
+            Result = Graph.Dijkstras(Start, Target, Visitor.Ability);
+            if(Result == null) continue;
+
+            // Step 3: Check that we can get home
+            // Either we're pathing and and we're good, or we need to be able to (path exists; != null)
+            success = PathingOut || (Graph.Dijkstras(Target[0], Exits, Visitor.Ability) != null);
+        }
 
         lock(ASyncJobManager.completedJobsLock) {
         	ASyncJobManager.Instance.completedJobs.Enqueue(this);
@@ -41,5 +56,10 @@ public class CreateVisitorPlanJob : Job
     public override void Complete() {
         Visitor.Plan.AddRange(Result);
         Visitor.ActivelyPlanning = false;
+    }
+
+    public override float GetCompleteCost()
+    {
+        return 0.01f;
     }
 }

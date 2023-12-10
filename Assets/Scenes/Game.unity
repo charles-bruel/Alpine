@@ -2629,8 +2629,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56bf5f1e8aa09cd4bb27621299d1ce26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Template: {fileID: 6632329247608173648, guid: 724f7f65ef9a36247a11205c54afef6a,
-    type: 3}
+  Templates:
+  - {fileID: 6632329247608173648, guid: 8181dda53a9a6eb4ea9879afb5c3dcc2, type: 3}
+  - {fileID: 6632329247608173648, guid: 724f7f65ef9a36247a11205c54afef6a, type: 3}
+  - {fileID: 6632329247608173648, guid: cd467d955b2b8b54ab22823bafa2fe3c, type: 3}
+  - {fileID: 6632329247608173648, guid: 790dc12f21cf9304493631668afe130d, type: 3}
   Visitors: []
   MaxVisitors: 1000
 --- !u!1 &763692009
