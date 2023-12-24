@@ -10,6 +10,25 @@ using UnityEngine.Assertions;
 // occur on another thread without sync issues.
 public class NavGraph {
 
+    public static NavGraph CreateCompleteGraph() {
+        List<NavArea> temp = new List<NavArea>();
+
+        foreach(var poly in PolygonsController.Instance.PolygonObjects) {
+            if(poly is NavArea) {
+                temp.Add(poly as NavArea);
+                break;
+            }
+        }
+
+        if(temp.Count == 0) { return new NavGraph(); }
+        
+        NavGraph result = Build(temp[0]);
+        for (int i = 1; i < temp.Count; i++) {
+            result.Add(temp[i]);
+        }
+        return result;
+    }
+
     // Call from main thread
     public static NavGraph Build(NavArea area) {
         NavGraph temp = new NavGraph();
@@ -97,6 +116,20 @@ public class NavGraph {
 
     private Dictionary<INavNode, uint> NodesToIdx;
     private Dictionary<uint, List<Edge>> EdgesFromNode;
+
+    public List<INavNode> GetAllNodesInGraph() {
+        return Enumerable.ToList(NodesToIdx.Keys);
+    }
+
+    public List<NavLink> GetAllLinksInGraph() {
+        List<NavLink> result = new List<NavLink>();
+        foreach(var edges in EdgesFromNode.Values) {
+            foreach(var edge in edges) {
+                result.Add(edge.Ref);
+            }
+        }
+        return result;
+    }
 
     public INavNode GetRandomNode() {
         var rand = new System.Random();

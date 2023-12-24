@@ -10,12 +10,15 @@ public class NavArea : AlpinePolygon {
     public Building Owner;
     public bool Modified = false;
     public INavAreaImplementation Implementation;
+    public int ID;
+    public static int IDStartIndex = 0;
 
     private bool SelectedLast = false;
     public NavArea() {
         Nodes = new List<INavNode>();
         Links = new List<NavLink>();
         OverlappingNavAreas = new List<NavArea>();
+        ID = IDStartIndex++;
     }
 
     public void Advance(float delta) {

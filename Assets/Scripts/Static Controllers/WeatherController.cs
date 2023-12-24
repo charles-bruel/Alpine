@@ -42,8 +42,8 @@ public class WeatherController : MonoBehaviour {
     
     //Sampling every 12 hours for 7 days
     private static readonly int SnowfallTrackerSize = 14;
-    private float[] SnowfallTracker;
-    private int SnowfallTrackerIndex;
+    public float[] SnowfallTracker;
+    public int SnowfallTrackerIndex;
 
     //TODO: Unified time control
     private float SnowfallTrackerTimer;
@@ -53,7 +53,11 @@ public class WeatherController : MonoBehaviour {
 
     public float particlesPer1ksq = 10000;
 
+    public static WeatherController Instance;
+
     public void Initialize() {
+        Instance = this;
+        
         Recent = new SnowLevelBuffer();
         Base = new SnowLevelBuffer();
         
@@ -101,6 +105,7 @@ public class WeatherController : MonoBehaviour {
 
     public void Advance(float delta) {
         if(!Initialized) return;
+        delta *= TimeFactor;
 
         Timer -= delta;
 

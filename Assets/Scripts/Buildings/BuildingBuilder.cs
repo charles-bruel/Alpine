@@ -21,6 +21,7 @@ public class BuildingBuilder {
         Instaniated = GameObject.Instantiate(Template);
         Instaniated.transform.position = TerrainManager.Instance.Project(Pos);
         Result = Instaniated.gameObject.AddComponent<SimpleBuilding>();
+        Result.Template = Template;
         Result.Functionality = Instaniated.Functionality;
         Result.Functionality.Building = Result;
     }

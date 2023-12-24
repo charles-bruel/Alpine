@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using EPPZ.Geometry.Model;
+using UnityEngine.UI;
+using System.IO;
 
 public class SlopeInternalPathingJob : Job {
     public static readonly float GridCellSize = 4;
@@ -349,6 +351,13 @@ public class SlopeInternalPathingJob : Job {
 
     public override void Complete() {
         slope.SetNewInternalPaths(Result, trueBounds);
+        
+        // string text = "";
+        // foreach(var x in Result[0].Points) {
+        //     text += x.x + "," + x.y + "\n";
+        // }
+        // File.WriteAllText("E:\\dev\\Python Scripts\\points.txt", text);
+
         GlobalNavController.MarkGraphDirty();
     }
 

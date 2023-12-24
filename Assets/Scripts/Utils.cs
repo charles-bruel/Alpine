@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using EPPZ.Geometry.Model;
 using System.Threading;
+using System;
+using UnityEngine.Assertions;
 
 public static class Utils {
     // https://forum.unity.com/threads/debug-drawarrow.85980/
@@ -128,5 +130,20 @@ public static class Utils {
         float t = Mathf.Max(0, Mathf.Min(1, Vector2.Dot(p - v, w - v) / l2));
         Vector2 projection = v + t * (w - v);
         return (p - projection).sqrMagnitude;
+    }
+
+    // Converts a float array to a byte array, bit by bit
+    public static byte[] FloatArrayToByteArray(float[] floats) {
+        byte[] toReturn = new byte[floats.Length * sizeof(float)];
+        Buffer.BlockCopy(floats, 0, toReturn, 0, toReturn.Length);
+        return toReturn;
+    }
+
+    // Converts a byte array to a float array, bit by bit
+    public static float[] ByteArrayToFloatArray(byte[] bytes) {
+        Assert.IsTrue(bytes.Length % sizeof(float) == 0);
+        float[] toReturn = new float[bytes.Length / sizeof(float)];
+        Buffer.BlockCopy(bytes, 0, toReturn, 0, bytes.Length);
+        return toReturn;
     }
 }

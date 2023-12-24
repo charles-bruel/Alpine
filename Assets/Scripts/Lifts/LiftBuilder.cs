@@ -73,6 +73,18 @@ public class LiftBuilder
         Result.Line.SetPositions(positions);
     }
 
+    public static void BuildFromSave(LiftConstructionData data) {
+        LiftBuilder builder = new LiftBuilder();
+        builder.Data = data;
+        builder.Data.PhysicalVehicle = builder.Data.Template.AvaliableLiftVehicles[builder.Data.SelectedVehicleIndex];
+        builder.Initialize();
+        builder.ConstructRoutingSegments();
+        builder.BuildRoutingSegments();
+        builder.ConstructSpanSegments();
+        builder.BuildTowers();
+        builder.Finish();
+    }
+
     public void Build() {
         Reset();
         ConstructRoutingSegments();
