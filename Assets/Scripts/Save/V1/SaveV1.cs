@@ -58,5 +58,7 @@ public struct SaveV1 {
         foreach(BuildingSaveDataV1 building in buildings) {
             BuildingBuilder.BuildFromSave(building.Position, building.Rotation, building.Template, building.NavAreaGraphs);
         }
+
+        weather.Restore();
     }
 }

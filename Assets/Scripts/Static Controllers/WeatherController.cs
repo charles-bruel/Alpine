@@ -6,8 +6,8 @@ using UnityEngine;
 public class WeatherController : MonoBehaviour {
 
     [Header("Driven Values")]
-    SnowLevelBuffer Recent;
-    SnowLevelBuffer Base;
+    public SnowLevelBuffer Recent;
+    public SnowLevelBuffer Base;
     [Header("Driver settings")]
     public float TimeFactor;
     public float MinStormTime;
@@ -28,6 +28,7 @@ public class WeatherController : MonoBehaviour {
     public float StormPower;
     public float Timer;
     [Header("Current Conditions")]
+    // NOTE - these are literally *just* for visualizing in the inspector
     public AnimationCurve BaseSnow;
     public AnimationCurve RecentSnow;
     [Header("Visuals")]

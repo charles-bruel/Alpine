@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 [System.Serializable]
 public struct WeatherSaveDataV1 {
@@ -26,20 +27,43 @@ public struct WeatherSaveDataV1 {
         result.SnowfallTracker = instance.SnowfallTracker.Clone() as float[];
         result.SnowfallTrackerIndex = instance.SnowfallTrackerIndex;
         
-        float[] BaseSnow = new float[instance.BaseSnow.length];
-        float[] RecentSnow = new float[instance.RecentSnow.length];
+        float[] BaseSnow = new float[SnowLevelBuffer.Size];
+        float[] RecentSnow = new float[SnowLevelBuffer.Size];
 
-        for(int i = 0;i < instance.BaseSnow.length;i ++) {
-            BaseSnow[i] = instance.BaseSnow[i].value;
+        for(int i = 0;i < SnowLevelBuffer.Size;i ++) {
+            BaseSnow[i] = instance.Base.Data[i];
         }
 
-        for(int i = 0;i < instance.RecentSnow.length;i ++) {
-            RecentSnow[i] = instance.RecentSnow[i].value;
+        for(int i = 0;i < SnowLevelBuffer.Size;i ++) {
+            RecentSnow[i] = instance.Recent.Data[i];
         }
 
         result.BaseSnow = Utils.FloatArrayToByteArray(BaseSnow);
         result.RecentSnow = Utils.FloatArrayToByteArray(RecentSnow);
 
         return result;
+    }
+
+    public void Restore() {
+        WeatherController.Instance.Storm = Storm;
+        WeatherController.Instance.StormHeight = StormHeight;
+        WeatherController.Instance.StormPower = StormPower;
+        WeatherController.Instance.Timer = Timer;
+        WeatherController.Instance.Snowfall12Hr = Snowfall12Hr;
+        WeatherController.Instance.Snowfall24Hr = Snowfall24Hr;
+        WeatherController.Instance.Snowfall7D = Snowfall7D;
+        WeatherController.Instance.SnowfallTracker = SnowfallTracker;
+        WeatherController.Instance.SnowfallTrackerIndex = SnowfallTrackerIndex;
+
+        float[] BaseSnow = Utils.ByteArrayToFloatArray(this.BaseSnow);
+        float[] RecentSnow = Utils.ByteArrayToFloatArray(this.RecentSnow);
+
+        for(int i = 0;i < BaseSnow.Length;i ++) {
+            WeatherController.Instance.Recent.Data[i] = BaseSnow[i];
+        }
+
+        for(int i = 0;i < RecentSnow.Length;i ++) {
+            WeatherController.Instance.Recent.Data[i] = RecentSnow[i];
+        }
     }
 }
