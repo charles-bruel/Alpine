@@ -35,6 +35,10 @@ public class BuildingsController : MonoBehaviour {
         Buildings.Add(building);
     }
 
+    public void UnregisterBuilding(Building building) {
+        Buildings.Remove(building);
+    }
+
     // Initialization; generic
     public void Initialize() {
         Instance = this;

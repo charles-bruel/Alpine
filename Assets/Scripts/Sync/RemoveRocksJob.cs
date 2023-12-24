@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using EPPZ.Geometry.Model;
 using UnityEngine;
@@ -24,11 +25,18 @@ public class RemoveRocksJob : Job {
 
         for(byte x = (byte) minx;x <= maxx;x ++) {
             for(byte y = (byte) miny;y <= maxy;y ++) {
-                var range = Utils.GetRocksToRemove(Polygon, x, y);
-                ToRemove.AddRange(range);
-                if(range.Count > 0) {
-                    TerrainTile tile = TerrainManager.Instance.Tiles[x + TerrainManager.Instance.NumTilesX * y];
-                    ToMarkDirty.Add(tile);
+                while(true) {
+                    try {
+                        var range = Utils.GetRocksToRemove(Polygon, x, y);
+                        ToRemove.AddRange(range);
+                        if(range.Count > 0) {
+                            TerrainTile tile = TerrainManager.Instance.Tiles[x + TerrainManager.Instance.NumTilesX * y];
+                            ToMarkDirty.Add(tile);
+                        }
+                    } catch(InvalidOperationException) {
+                        continue;
+                    }
+                    break;
                 }
             }
         }

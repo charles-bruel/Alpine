@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using EPPZ.Geometry.Model;
 using UnityEngine;
@@ -22,13 +23,22 @@ public class RemoveTreesJob : Job {
         ToRemove = new List<int>();
         ToMarkDirty = new List<TerrainTile>();
 
+        // Big hack - the list of trees may update while we are determining what to remove
+        // In that case, try again!
         for(byte x = (byte) minx;x <= maxx;x ++) {
             for(byte y = (byte) miny;y <= maxy;y ++) {
-                var range = Utils.GetTreesToRemove(Polygon, x, y);
-                ToRemove.AddRange(range);
-                if(range.Count > 0) {
-                    TerrainTile tile = TerrainManager.Instance.Tiles[x + TerrainManager.Instance.NumTilesX * y];
-                    ToMarkDirty.Add(tile);
+                while(true) {
+                    try {
+                        var range = Utils.GetTreesToRemove(Polygon, x, y);
+                        ToRemove.AddRange(range);
+                        if(range.Count > 0) {
+                            TerrainTile tile = TerrainManager.Instance.Tiles[x + TerrainManager.Instance.NumTilesX * y];
+                            ToMarkDirty.Add(tile);
+                        }
+                    } catch(InvalidOperationException) {
+                        continue;
+                    }
+                    break;
                 }
             }
         }

@@ -48,7 +48,15 @@ public struct SaveV1 {
     // Assumes a blank but generated map
     public void Restore() {
         foreach(LiftSaveDataV1 lift in lifts) {
-            LiftBuilder.BuildFromSave(lift.ToConstructionData());
+            LiftBuilder.BuildFromSave(lift.ToConstructionData(), lift.NavAreaGraphs);
+        }
+
+        foreach(SlopeSaveDataV1 slope in slopes) {
+            SlopeBuilder.BuildFromSave(slope.ToConstructionData(), slope.NavAreaGraphs);
+        }
+
+        foreach(BuildingSaveDataV1 building in buildings) {
+            BuildingBuilder.BuildFromSave(building.Position, building.Rotation, building.Template, building.NavAreaGraphs);
         }
     }
 }

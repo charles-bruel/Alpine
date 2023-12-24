@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
 using EPPZ.Geometry.Model;
 using UnityEngine;
 
@@ -12,7 +13,6 @@ public class SlopeBuilder {
         GameObject gameObject = new GameObject("Slope");
         Result = gameObject.AddComponent<Slope>();
         Result.Data = Data;
-        BuildingsController.Instance.RegisterBuilding(Result);
 
         Data = new SlopeConstructionData();
 
@@ -122,6 +122,7 @@ public class SlopeBuilder {
         Result.Inflate(PlacePortals());
 
         PolygonsController.Instance.RegisterPolygon(Result.Footprint);
+        BuildingsController.Instance.RegisterBuilding(Result);
     }
 
     public void Cancel() {
@@ -129,5 +130,26 @@ public class SlopeBuilder {
         if(Result.Footprint.Filter != null && Result.Footprint.Filter.gameObject != null) GameObject.Destroy(Result.Footprint.Filter.gameObject);
         PolygonsController.Instance.MarkPolygonsDirty();
         GameObject.Destroy(Result.gameObject);
+    }
+
+    public static void BuildFromSave(SlopeConstructionData data, NavAreaGraphSaveDataV1 navData) {
+        SlopeBuilder builder = new SlopeBuilder();
+        builder.Initialize();
+        builder.Data = data;
+        builder.FindSnapping(0.1f);
+        builder.Build();
+        builder.Finish();
+
+        builder.Result.Footprint.ID = navData.ID;
+    }
+
+    // Only used when loading from a save, finds the snapping for all points
+    private void FindSnapping(float epsilon) {
+        for(int i = 0;i < Data.SlopePoints.Count;i ++) {
+            PolygonsController.PolygonSnappingResult? snapping = PolygonsController.Instance.CheckForSnapping(Data.SlopePoints[i].Pos, epsilon, epsilon, PolygonFlags.NAVIGABLE_MASK, Result.Footprint);
+            if(snapping != null) {
+                Data.SlopePoints[i] = new SlopeConstructionData.SlopePoint(snapping.Value.Pos, snapping.Value);
+            }
+        }
     }
 }

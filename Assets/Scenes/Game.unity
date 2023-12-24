@@ -3076,7 +3076,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LiftTemplates:
   - {fileID: 11400000, guid: b1aaeb72c03d9bc419676b8f2b3ee271, type: 2}
-  BuildingTemplates: []
+  BuildingTemplates:
+  - {fileID: 1387057713747083293, guid: 0727b73e76f20684b981df5fdc6424c2, type: 3}
   Buildings: []
 --- !u!114 &757753268
 MonoBehaviour:

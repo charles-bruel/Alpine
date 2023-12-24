@@ -1,0 +1,4671 @@
+{
+  "version": 1,
+  "data": {
+    "buildings": [
+      {
+        "Template": "Entrance Building",
+        "Position": {
+          "x": -980.1395,
+          "y": 17.02773,
+          "z": 1993.736
+        },
+        "Rotation": 0.0,
+        "NavAreaGraphs": [
+          {
+            "ID": 5,
+            "NodesToIds": {
+              "8": {
+                "Item1": -1,
+                "Item2": 0
+              }
+            },
+            "LinksToIds": {
+              "30": {
+                "Item1": 8,
+                "Item2": 0
+              },
+              "31": {
+                "Item1": 8,
+                "Item2": 7
+              },
+              "32": {
+                "Item1": 8,
+                "Item2": 1
+              },
+              "33": {
+                "Item1": 8,
+                "Item2": 6
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "slopes": [
+      {
+        "Vertices": [
+          {
+            "x": 332.231476,
+            "y": 1978.70508
+          },
+          {
+            "x": 9.327026,
+            "y": 2083.283
+          },
+          {
+            "x": -223.526367,
+            "y": 2102.163
+          },
+          {
+            "x": -453.233032,
+            "y": 2092.72314
+          },
+          {
+            "x": -679.793,
+            "y": 2062.82983
+          },
+          {
+            "x": -939.0219,
+            "y": 2010.17175
+          },
+          {
+            "x": -969.0127,
+            "y": 2010.91418
+          },
+          {
+            "x": -826.113,
+            "y": 2130.48315
+          },
+          {
+            "x": -616.8596,
+            "y": 2154.083
+          },
+          {
+            "x": -275.44635,
+            "y": 2158.803
+          },
+          {
+            "x": 191.83371,
+            "y": 2097.443
+          },
+          {
+            "x": 286.2337,
+            "y": 2072.26978
+          },
+          {
+            "x": 362.2223,
+            "y": 1977.96277
+          }
+        ],
+        "NavAreaGraphs": {
+          "ID": 0,
+          "NodesToIds": {
+            "1": {
+              "Item1": 0,
+              "Item2": 0
+            },
+            "2": {
+              "Item1": 0,
+              "Item2": 1
+            },
+            "3": {
+              "Item1": 0,
+              "Item2": 0
+            }
+          },
+          "LinksToIds": {
+            "9": {
+              "Item1": 2,
+              "Item2": 1
+            },
+            "10": {
+              "Item1": 2,
+              "Item2": 3
+            },
+            "15": {
+              "Item1": 3,
+              "Item2": 1
+            }
+          }
+        },
+        "ManualDifficulty": null
+      },
+      {
+        "Vertices": [
+          {
+            "x": 331.4891,
+            "y": 1948.71436
+          },
+          {
+            "x": 250.046967,
+            "y": 1889.76306
+          },
+          {
+            "x": -86.6463852,
+            "y": 1855.14978
+          },
+          {
+            "x": -358.833,
+            "y": 1870.883
+          },
+          {
+            "x": -552.353,
+            "y": 1885.04309
+          },
+          {
+            "x": -811.953064,
+            "y": 1929.09644
+          },
+          {
+            "x": -939.7642,
+            "y": 1980.181
+          },
+          {
+            "x": -969.755066,
+            "y": 1980.92334
+          },
+          {
+            "x": -903.2063,
+            "y": 1936.96313
+          },
+          {
+            "x": -719.126343,
+            "y": 1880.32312
+          },
+          {
+            "x": -635.7397,
+            "y": 1866.16309
+          },
+          {
+            "x": -365.126343,
+            "y": 1831.5498
+          },
+          {
+            "x": -25.2862854,
+            "y": 1812.6698
+          },
+          {
+            "x": 125.753632,
+            "y": 1828.40308
+          },
+          {
+            "x": 309.833618,
+            "y": 1867.73645
+          },
+          {
+            "x": 361.479919,
+            "y": 1947.97192
+          }
+        ],
+        "NavAreaGraphs": {
+          "ID": 0,
+          "NodesToIds": {
+            "6": {
+              "Item1": 0,
+              "Item2": 0
+            },
+            "5": {
+              "Item1": 0,
+              "Item2": 1
+            },
+            "4": {
+              "Item1": 0,
+              "Item2": 0
+            }
+          },
+          "LinksToIds": {
+            "18": {
+              "Item1": 5,
+              "Item2": 6
+            },
+            "17": {
+              "Item1": 5,
+              "Item2": 4
+            },
+            "16": {
+              "Item1": 4,
+              "Item2": 6
+            }
+          }
+        },
+        "ManualDifficulty": null
+      },
+      {
+        "Vertices": [
+          {
+            "x": -137.4214,
+            "y": 2095.18164
+          },
+          {
+            "x": -461.099121,
+            "y": 1878.366
+          },
+          {
+            "x": -383.459625,
+            "y": 1872.685
+          },
+          {
+            "x": -12.7419739,
+            "y": 2085.07227
+          }
+        ],
+        "NavAreaGraphs": {
+          "ID": 0,
+          "NodesToIds": {
+            "4": {
+              "Item1": 0,
+              "Item2": 0
+            },
+            "3": {
+              "Item1": 0,
+              "Item2": 0
+            }
+          },
+          "LinksToIds": {
+            "14": {
+              "Item1": 3,
+              "Item2": 4
+            }
+          }
+        },
+        "ManualDifficulty": null
+      }
+    ],
+    "lifts": [
+      {
+        "TemplateName": "T3",
+        "RoutingSegments": [
+          {
+            "RoutingSegmentType": 0,
+            "TemplateIndex": 0,
+            "Position": {
+              "x": -939.393066,
+              "y": 17.7004185,
+              "z": 1995.17639
+            }
+          },
+          {
+            "RoutingSegmentType": 0,
+            "TemplateIndex": 0,
+            "Position": {
+              "x": 331.8603,
+              "y": 121.463669,
+              "z": 1963.70972
+            }
+          }
+        ],
+        "SpanSegments": [
+          {
+            "Towers": [
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": -915.903442,
+                  "y": 21.40042,
+                  "z": 1994.595
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": -852.9407,
+                  "y": 34.37839,
+                  "z": 1993.0365
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": -762.9941,
+                  "y": 37.67337,
+                  "z": 1990.81
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": -672.048035,
+                  "y": 41.7746849,
+                  "z": 1988.559
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": -581.102,
+                  "y": 47.00328,
+                  "z": 1986.30774
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": -490.155884,
+                  "y": 53.7034149,
+                  "z": 1984.05664
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": -363.23114,
+                  "y": 65.73744,
+                  "z": 1980.91492
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": -236.3064,
+                  "y": 79.81679,
+                  "z": 1977.77319
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": -109.381653,
+                  "y": 94.17392,
+                  "z": 1974.63159
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": 17.5430641,
+                  "y": 107.61586,
+                  "z": 1971.48987
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": 144.4678,
+                  "y": 119.681808,
+                  "z": 1968.34814
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": 272.391968,
+                  "y": 125.163666,
+                  "z": 1965.18176
+                }
+              }
+            ],
+            "StartIndex": 0,
+            "EndIndex": 1,
+            "StartPos": {
+              "x": -926.8969,
+              "y": 1994.86707
+            },
+            "EndPos": {
+              "x": 319.3641,
+              "y": 1964.019
+            }
+          }
+        ],
+        "SelectedVehicleIndex": 0,
+        "NavAreaGraphs": [
+          {
+            "ID": 0,
+            "NodesToIds": {
+              "0": {
+                "Item1": -1,
+                "Item2": 0
+              },
+              "7": {
+                "Item1": -1,
+                "Item2": 1
+              },
+              "1": {
+                "Item1": 0,
+                "Item2": 0
+              },
+              "6": {
+                "Item1": 0,
+                "Item2": 0
+              }
+            },
+            "LinksToIds": {
+              "0": {
+                "Item1": 0,
+                "Item2": 7
+              },
+              "1": {
+                "Item1": 0,
+                "Item2": 1
+              },
+              "2": {
+                "Item1": 0,
+                "Item2": 6
+              },
+              "4": {
+                "Item1": 0,
+                "Item2": 8
+              },
+              "27": {
+                "Item1": 7,
+                "Item2": 0
+              },
+              "28": {
+                "Item1": 7,
+                "Item2": 1
+              },
+              "26": {
+                "Item1": 7,
+                "Item2": 6
+              },
+              "29": {
+                "Item1": 7,
+                "Item2": 8
+              },
+              "7": {
+                "Item1": 1,
+                "Item2": 0
+              },
+              "5": {
+                "Item1": 1,
+                "Item2": 7
+              },
+              "6": {
+                "Item1": 1,
+                "Item2": 6
+              },
+              "8": {
+                "Item1": 1,
+                "Item2": 8
+              },
+              "23": {
+                "Item1": 6,
+                "Item2": 0
+              },
+              "22": {
+                "Item1": 6,
+                "Item2": 7
+              },
+              "24": {
+                "Item1": 6,
+                "Item2": 1
+              },
+              "25": {
+                "Item1": 6,
+                "Item2": 8
+              }
+            }
+          },
+          {
+            "ID": 1,
+            "NodesToIds": {
+              "9": {
+                "Item1": -1,
+                "Item2": 0
+              },
+              "10": {
+                "Item1": -1,
+                "Item2": 1
+              },
+              "2": {
+                "Item1": 0,
+                "Item2": 1
+              },
+              "5": {
+                "Item1": 0,
+                "Item2": 1
+              }
+            },
+            "LinksToIds": {
+              "35": {
+                "Item1": 9,
+                "Item2": 10
+              },
+              "36": {
+                "Item1": 9,
+                "Item2": 2
+              },
+              "34": {
+                "Item1": 9,
+                "Item2": 5
+              },
+              "37": {
+                "Item1": 10,
+                "Item2": 9
+              },
+              "38": {
+                "Item1": 10,
+                "Item2": 2
+              },
+              "39": {
+                "Item1": 10,
+                "Item2": 5
+              },
+              "12": {
+                "Item1": 2,
+                "Item2": 9
+              },
+              "11": {
+                "Item1": 2,
+                "Item2": 10
+              },
+              "13": {
+                "Item1": 2,
+                "Item2": 5
+              },
+              "20": {
+                "Item1": 5,
+                "Item2": 9
+              },
+              "19": {
+                "Item1": 5,
+                "Item2": 10
+              },
+              "21": {
+                "Item1": 5,
+                "Item2": 2
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "visitors": [
+      {
+        "Ability": 0,
+        "RemainingTime": 1726.77637,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 8,
+        "posRefType": 1,
+        "Progress": 0.0
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1727.033,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 8,
+        "posRefType": 1,
+        "Progress": 0.0
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1728.61182,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 38,
+        "posRefType": 0,
+        "Progress": 0.76868844
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1728.98291,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9938714
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1729.30249,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 17,
+        "posRefType": 0,
+        "Progress": 0.0492564626
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1729.65991,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 17,
+        "posRefType": 0,
+        "Progress": 0.0
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1730.01685,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 18,
+        "posRefType": 0,
+        "Progress": 0.0
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1730.39209,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 39,
+        "posRefType": 0,
+        "Progress": 0.450236738
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1730.69678,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 34,
+        "posRefType": 0,
+        "Progress": 0.173806518
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1730.98657,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9562889
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1731.31226,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 39,
+        "posRefType": 0,
+        "Progress": 0.6574816
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1731.63672,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.967499137
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1731.897,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9751188
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1732.20166,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9975262
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1732.50269,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 39,
+        "posRefType": 0,
+        "Progress": 0.241545975
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1732.83545,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 39,
+        "posRefType": 0,
+        "Progress": 0.0
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1733.14063,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.986655951
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1733.4751,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.998886168
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1733.74683,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9975262
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1734.07275,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9962783
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1734.3894,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9951711
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1734.68237,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9917118
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1734.95239,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.967499137
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1735.65552,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.929680645
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1736.34692,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.986655951
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1736.69019,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9795208
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1737.05713,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.943842232
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1737.415,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9831027
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1737.77979,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.929680645
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1738.0918,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9812844
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1738.395,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8896909
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1738.71,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9637362
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1739.13574,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.958253562
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1739.49072,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9751188
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1739.81665,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9751188
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1740.106,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.973425865
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1740.44531,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9656478
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1740.74756,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9712674
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1741.00928,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9637362
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1741.43091,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.947048366
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1741.81348,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9243247
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1742.32983,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9506545
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1742.75488,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9619385
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1743.25781,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9599111
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1743.73267,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.958253562
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1744.19312,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9562889
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1744.81055,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.904043555
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1745.34277,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.947048366
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1745.78491,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9506545
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1746.34863,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.948993
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1746.90527,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.947048366
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1747.33276,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.921135
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1747.81616,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.943842232
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1748.31543,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9405265
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1748.78491,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9184435
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1749.31445,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9243247
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1749.74731,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9341569
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1750.26025,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.891595
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1750.71729,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8896909
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1751.209,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.929680645
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1751.73193,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8861562
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1752.16577,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9268331
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1752.67358,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9008314
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1753.511,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.908560336
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1754.377,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.855504751
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1755.14624,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9127614
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1756.04028,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.908560336
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1756.72949,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.908560336
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1757.20923,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.906131864
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1757.95288,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8812238
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1758.60791,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.9008314
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1759.44092,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8971668
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1760.1438,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8954892
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1760.833,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.84594816
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1761.62793,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8896909
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1762.19263,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8881332
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1762.72485,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.871541858
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1763.35913,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8828778
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1763.90454,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8812238
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1764.2959,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.7924372
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1764.74341,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8792834
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1765.15918,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.853806436
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1765.70044,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.830821
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1766.13843,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8736454
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1766.67017,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.871541858
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1767.15552,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.855504751
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1767.65283,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.868035734
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1768.05957,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.864797056
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1768.57593,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8334045
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1768.97778,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.863082469
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1769.43213,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8611
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1769.864,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8593304
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1770.37085,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8166951
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1770.88062,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8496175
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1771.35571,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.853806436
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1771.84326,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8388466
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1772.39258,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8166951
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1772.814,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8477769
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1773.30811,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.7768459
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1773.74561,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.844270945
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1774.154,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.824193954
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1774.60181,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.7942176
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1775.11938,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8388466
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1775.58154,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8370573
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1776.06787,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8353795
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1776.58057,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8334045
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1777.02417,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.7924372
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1777.50073,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8288503
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1778.11816,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.824193954
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1778.59888,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.824193954
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1779.07642,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.824193954
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1779.5144,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8212257
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1780.041,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8145089
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1780.51538,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.766715348
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1780.93091,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.7942176
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1781.39819,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6325071
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1781.83643,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.698094666
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1782.352,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8025012
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1783.02686,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.8025012
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1783.5415,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.762515366
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1784.17041,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.698094666
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1784.75757,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.800741434
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1785.53271,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.7942176
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1786.185,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.7942176
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1786.71582,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.7689896
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1787.28662,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.7924372
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1787.8606,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.7689896
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1790.42261,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.7768459
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1790.88208,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.7689896
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1792.58594,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.7037542
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1793.05078,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.7689896
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1793.63281,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.766715348
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1794.17993,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.698094666
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1794.66846,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.68914336
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1797.12256,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.708618164
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1797.6311,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.708618164
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1799.17432,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.578567
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1799.76831,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.708618164
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1800.27417,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.708618164
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1800.86523,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.708618164
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1801.39478,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6667263
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1814.9408,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.638217151
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1815.55518,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.678189933
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1816.211,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6544738
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1816.74512,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6499232
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1817.19629,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.678189933
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1817.689,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6428642
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1818.20166,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6704589
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1818.6344,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6704589
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1819.11719,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6704589
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1819.58362,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6686893
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1820.02661,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6499232
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1822.88721,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6544738
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1823.3302,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6499232
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1824.90613,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.64498353
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1825.36829,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.64498353
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1825.881,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6268464
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1826.40063,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6341697
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1829.08081,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.62878567
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1829.58936,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.578567
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1830.26929,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6216926
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1831.55933,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6183615
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1832.11279,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.608582437
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1832.713,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6009288
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1833.32642,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.597108662
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1833.84082,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.485966474
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1834.38342,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.608582437
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1834.81763,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.578567
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1835.28552,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.608582437
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1835.78955,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6009288
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1836.296,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6009288
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1836.7605,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6009288
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1837.17578,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.6009288
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1837.642,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.599015236
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1838.04358,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.597108662
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1838.512,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5409643
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1841.0658,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5671058
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1841.62732,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.578567
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1843.06458,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5706349
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1843.56433,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5769546
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1844.06226,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5751529
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1844.53845,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5517722
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1844.9812,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5706349
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1845.47815,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.56906873
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1845.95435,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5671058
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1846.4425,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5585695
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1848.90454,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5569325
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1849.32568,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5337295
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1849.79626,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.549897969
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1850.9762,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.548210859
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1851.38525,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.546370864
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1851.89783,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.544634759
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1852.3175,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5207677
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1852.82446,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5273164
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1853.218,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5392161
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1853.66846,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5355347
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1854.1272,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.522871
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1854.55469,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5337295
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1855.056,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.503596842
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1855.49365,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5317452
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1855.90234,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.529725134
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1856.39185,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.505298555
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1856.8324,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.52474165
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1857.313,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.52474165
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1857.76636,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5000871
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1858.31653,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5207677
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1858.72485,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5187449
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1859.1814,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.516819656
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1859.692,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.515065551
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1860.14282,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5131672
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1860.61426,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.5111488
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1861.13245,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.452770323
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1861.66,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.507327855
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1862.28906,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.4785949
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1862.96143,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.501836061
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1863.45,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.487644672
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1863.99927,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.496618748
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1864.52759,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.496618748
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1865.0304,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.450454384
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1865.48853,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.49108398
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1865.98425,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.49108398
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1866.51135,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.487644672
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1867.04,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.485966474
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1867.50928,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.484012842
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1868.03931,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.482110858
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1868.48376,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.482110858
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1868.9436,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.450454384
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1869.40039,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.4785949
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1869.83826,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.47490412
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1870.30615,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.47490412
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1870.81677,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.47114858
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1871.28589,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.450454384
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1871.75171,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.450454384
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1872.1344,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.439935118
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1872.6499,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.4655574
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1873.08813,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.459866583
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1873.59839,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.459866583
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1874.09509,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.459866583
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1874.55652,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.454904258
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1875.01331,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.454904258
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1875.47778,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.432056546
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1875.97717,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.452770323
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1876.40564,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.450454384
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1876.95789,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.439935118
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1877.46545,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.439935118
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1877.96277,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.439935118
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1878.418,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.432056546
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1879.90417,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.432056546
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1881.20007,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.432056546
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1881.75732,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.424849868
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1882.36218,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.419823766
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1885.10938,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.404725075
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1885.77161,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.4111024
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1887.16687,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.409448415
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1887.683,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.407816976
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1888.19714,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.406220376
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1888.64624,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.384023577
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1889.049,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.403167546
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1889.45544,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.4016779
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1889.94812,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.4001232
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1890.36157,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.398222148
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1890.83044,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.3950137
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1891.28113,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.38809976
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1891.7157,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.386237949
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1892.11731,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.389866441
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1892.63916,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.38809976
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1893.07117,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.38809976
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1893.49719,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.355807722
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1893.91418,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.3140378
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1894.30469,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.382150471
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1894.71143,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.3600191
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1895.10046,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.380233616
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1895.50647,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.3784286
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1896.00293,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.376672924
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1896.39917,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.37459445
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1896.84082,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.3728425
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1897.2323,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.3711803
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1897.68274,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.3695207
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1898.185,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.36744675
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1898.64648,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.365652978
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1899.13269,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.363848537
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1899.71094,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.361942381
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1900.20007,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.3600191
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1900.70068,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.3121577
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1901.17212,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.355807722
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1901.63062,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.334628135
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1902.17346,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.351948261
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1902.631,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.3500295
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1903.06506,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.302855164
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1903.49841,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.346210152
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1904.04,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.323249549
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1904.50854,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.330559254
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1904.97974,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.338572979
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1905.47754,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.336657077
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1905.97986,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.33261916
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1906.53223,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.334628135
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1907.07959,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.309969574
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1907.50781,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.330559254
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1908.08752,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.328511953
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1908.58862,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.3140378
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1909.07092,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.323249549
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1909.586,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.309969574
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1910.13843,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.321210921
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1910.58862,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.3195351
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1911.11816,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.317745149
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1911.58057,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.3158542
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1912.08093,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.309969574
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1912.61084,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.3121577
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1913.1355,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.309969574
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1913.67346,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.308252335
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1914.20813,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.301111758
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1914.62256,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.278675377
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1915.12988,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.302855164
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1915.5824,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.301111758
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1916.11475,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.2991718
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1916.55237,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.268574059
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1917.01978,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.288624138
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1917.51355,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.288624138
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1917.98792,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.2290283
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1918.47888,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.288624138
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1919.05029,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.181583211
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1919.49878,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.278675377
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1919.95435,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.239950061
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1920.43225,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.278675377
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1920.90833,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.278675377
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1921.36365,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.268574059
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1921.87024,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.257513076
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1924.62488,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.239950061
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1927.223,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.2290283
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1929.861,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.1627588
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1932.74963,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.20813413
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1937.3363,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.142725646
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1940.1886,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.2062995
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1940.80859,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.183348909
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1943.35693,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.154185861
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1943.93555,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.191908
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1944.5105,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.125185445
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1945.64514,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.185173
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1946.12427,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.183348909
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1946.639,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.142725646
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1947.13782,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.157495916
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1947.70288,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.1783092
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1948.12878,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.176396117
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1948.63867,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.154185861
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1949.05334,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.173080489
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1949.46484,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.16958867
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1949.88269,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.16958867
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1950.2782,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.16802986
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1950.72742,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.166171268
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1951.20251,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.16440016
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1951.64148,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.157495916
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1952.1178,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.161102384
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1952.57886,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.159206122
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1953.02881,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.117841758
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1953.43384,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.155878976
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1953.93347,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.154185861
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1954.3772,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.152566135
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1954.79944,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.150881231
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1955.25049,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.149307728
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1955.7113,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.05345317
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1956.11841,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.145904616
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1956.60376,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.102754511
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1957.06628,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.142725646
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1957.495,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.117841758
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1957.92761,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.139289826
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1958.42285,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.07067287
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1958.86951,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.135910228
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1959.29175,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.13423194
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1959.73389,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.132633612
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1960.15686,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.130610138
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1960.59692,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.128777117
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1961.00781,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.126858756
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1961.47388,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.125185445
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1961.89648,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.12326555
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1962.32288,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.121420979
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1962.72668,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.119523823
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1963.18176,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.119523823
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1963.6239,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 27,
+        "posRefType": 0,
+        "Progress": 0.6130769
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1964.00256,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.116042741
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1964.50647,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.114361055
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1964.9447,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.08796846
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1965.362,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.110766396
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1965.8905,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.108991049
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1966.36926,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.105710387
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1966.87024,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.08269847
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1967.30725,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.102754511
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1967.80859,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.101267114
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1968.29028,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.09977746
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1968.78577,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.09145303
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1969.2251,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.09304646
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1969.695,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.04747169
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1970.13416,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0455270931
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1970.607,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.08968626
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1971.073,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.08796846
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1971.53662,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0862203
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1971.97034,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0844866857
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1972.39343,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0844866857
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1972.76709,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.08269847
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1973.16541,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0807694942
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1973.55383,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0166408066
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1973.94287,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.07681517
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1974.33362,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.07681517
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1974.77661,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.07477198
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1975.20679,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.06863354
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1975.70068,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0576542877
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1976.11682,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.06863354
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1976.57825,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.06686807
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1977.02686,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0436098352
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1977.4834,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0646928
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1977.93616,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.06290183
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1978.4032,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 2,
+        "posRefType": 0,
+        "Progress": 0.8710681
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1978.907,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0576542877
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1979.40588,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.05345317
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1979.9397,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 23,
+        "posRefType": 0,
+        "Progress": 0.8710681
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1980.47327,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.05135097
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1981.06055,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0280635152
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1981.54382,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0436098352
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1982.07642,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0455270931
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1982.53748,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0436098352
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1983.10559,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.041630622
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1983.57336,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0280635152
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1984.01636,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0185074415
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1984.49414,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0377204865
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1984.94373,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 5,
+        "posRefType": 0,
+        "Progress": 0.8704881
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1985.4425,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.03225506
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1986.04089,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0166408066
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1986.58984,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0103028324
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1987.12488,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.02591222
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1987.603,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0240348633
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1988.11084,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.020376835
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1988.61157,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.020376835
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1989.12842,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0185074415
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1989.6687,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 27,
+        "posRefType": 0,
+        "Progress": 0.6130769
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1990.14954,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0144260628
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1990.60962,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0124040032
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1991.12793,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0124040032
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1991.57678,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 23,
+        "posRefType": 0,
+        "Progress": 0.8710681
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1992.0835,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 2,
+        "posRefType": 0,
+        "Progress": 0.8710681
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1992.67139,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0043757637
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1993.23315,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.00234753848
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1993.72339,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.00234753848
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1994.19434,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 3,
+        "posRefType": 0,
+        "Progress": 0.0
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1994.67871,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 30,
+        "posRefType": 0,
+        "Progress": 0.940067
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1995.16687,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 30,
+        "posRefType": 0,
+        "Progress": 0.8452531
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1995.6543,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 30,
+        "posRefType": 0,
+        "Progress": 0.630048931
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1996.23267,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 30,
+        "posRefType": 0,
+        "Progress": 0.630048931
+      },
+      {
+        "Ability": 0,
+        "RemainingTime": 1996.76074,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 30,
+        "posRefType": 0,
+        "Progress": 0.523322
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1997.30945,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 30,
+        "posRefType": 0,
+        "Progress": 0.4236729
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1997.82178,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 30,
+        "posRefType": 0,
+        "Progress": 0.3245704
+      },
+      {
+        "Ability": 2,
+        "RemainingTime": 1998.3313,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 30,
+        "posRefType": 0,
+        "Progress": 0.119240858
+      },
+      {
+        "Ability": 1,
+        "RemainingTime": 1998.8573,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 31,
+        "posRefType": 0,
+        "Progress": 0.117091723
+      },
+      {
+        "Ability": 3,
+        "RemainingTime": 1999.387,
+        "TraverseSpeed": 5.0,
+        "SkiSpeed": 10.0,
+        "PosID": 8,
+        "posRefType": 1,
+        "Progress": 0.0
+      }
+    ],
+    "weather": {
+      "Storm": false,
+      "StormHeight": -0.17562747,
+      "StormPower": 0.243163988,
+      "Timer": 1.87859309,
+      "Snowfall12Hr": 0.0,
+      "Snowfall24Hr": 0.0,
+      "Snowfall7D": 17.39464,
+      "SnowfallTracker": [
+        0.0,
+        0.0370459668,
+        0.121519193,
+        0.121407926,
+        0.12210498,
+        0.0397455655,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "SnowfallTrackerIndex": 0,
+      "BaseSnow": "2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51P9nudT/Z7nU/2e51Pw==",
+      "RecentSnow": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+    }
+  }
+}

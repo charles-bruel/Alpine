@@ -14,7 +14,7 @@ public class BuildingBuilder {
     }
 
     public void Initialize() {
-
+        
     }
 
     public void Build() {
@@ -72,10 +72,26 @@ public class BuildingBuilder {
         Result.NavAreas = navAreas;
 
         Result.Functionality.OnFinishConstruction();
+
+        BuildingsController.Instance.RegisterBuilding(Result);
     }
 
     public void UpdatePos(Vector2 pos)
     {
         Pos = pos;
+    }
+
+    public static void BuildFromSave(Vector3 pos, float rotation, string templateName, NavAreaGraphSaveDataV1[] navData) {
+        BuildingBuilder builder = new BuildingBuilder();
+        builder.Template = BuildingsController.Instance.GetBuildingTemplate(templateName);
+        builder.Pos = pos.ToHorizontal();
+        builder.Build();
+        builder.Instaniated.transform.position = pos;
+        builder.Finish();
+
+        Assert.AreEqual(navData.Length, builder.Result.NavAreas.Count);
+        for(int i = 0; i > navData.Length;i ++) {
+            builder.Result.NavAreas[i].ID = navData[i].ID;
+        }
     }
 }

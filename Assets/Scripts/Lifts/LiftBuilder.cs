@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using EPPZ.Geometry.Model;
+using Mono.Cecil;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -28,7 +29,6 @@ public class LiftBuilder
         Result = gameObject.AddComponent<Lift>();
         Result.Template = Data.Template;
         Result.Data = Data;
-        BuildingsController.Instance.RegisterBuilding(Result);
         Result.CreateSubObjects();
         Parent = gameObject.transform;
     }
@@ -73,7 +73,7 @@ public class LiftBuilder
         Result.Line.SetPositions(positions);
     }
 
-    public static void BuildFromSave(LiftConstructionData data) {
+    public static void BuildFromSave(LiftConstructionData data, NavAreaGraphSaveDataV1[] navData) {
         LiftBuilder builder = new LiftBuilder();
         builder.Data = data;
         builder.Data.PhysicalVehicle = builder.Data.Template.AvaliableLiftVehicles[builder.Data.SelectedVehicleIndex];
@@ -83,6 +83,11 @@ public class LiftBuilder
         builder.ConstructSpanSegments();
         builder.BuildTowers();
         builder.Finish();
+
+        Assert.AreEqual(navData.Length, builder.Result.NavAreas.Count);
+        for(int i = 0; i > navData.Length;i ++) {
+            builder.Result.NavAreas[i].ID = navData[i].ID;
+        }
     }
 
     public void Build() {
@@ -156,8 +161,7 @@ public class LiftBuilder
         return builder.Points.ToArray();
     }
 
-    private void FinishAll()
-    {
+    private void FinishAll() {
         for(int i = 0;i < Data.RoutingSegments.Count;i ++) {
             LiftConstructionData.RoutingSegment routingSegment = Data.RoutingSegments[i];
             routingSegment.PhysicalSegment.APILiftSegment.Finish();
@@ -365,6 +369,8 @@ public class LiftBuilder
         Result.CablePoints = CreateCables();
         Result.Footprint = GenerateFootprint();
         RegisterPolygonsAndNav();
+        
+        BuildingsController.Instance.RegisterBuilding(Result);
 
         Result.Finish();
     }
