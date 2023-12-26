@@ -4,4 +4,5 @@ public class NavLink {
     public float Cost;
     public SlopeDifficulty Difficulty;
     public INavLinkImplementation Implementation;
+    public string Marker;
 }

@@ -3,6 +3,7 @@ using System;
 [System.Serializable]
 public struct VisitorSaveDataV1 {
     public SlopeDifficulty Ability;
+    public int TemplateIndex;
     public float RemainingTime;
     public float TraverseSpeed;
     public float SkiSpeed;
@@ -24,6 +25,14 @@ public struct VisitorSaveDataV1 {
         } else {
             result.PosID = context.nodeIds[visitor.StationaryPos];
             result.posRefType = PosRef.Pos;
+        }
+
+        for(int i = 0;i < VisitorController.Instance.Templates.Length;i ++) {
+            // TODO: Get better template equality check
+            if(VisitorController.Instance.Templates[i].Ability == visitor.Ability) {
+                result.TemplateIndex = i;
+                break;
+            }
         }
 
         return result;

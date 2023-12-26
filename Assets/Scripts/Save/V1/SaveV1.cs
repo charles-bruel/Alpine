@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 public struct SaveV1 {
@@ -47,18 +48,43 @@ public struct SaveV1 {
 
     // Assumes a blank but generated map
     public void Restore() {
+        LoadingContextV1 loadingContext = new LoadingContextV1();
         foreach(LiftSaveDataV1 lift in lifts) {
-            LiftBuilder.BuildFromSave(lift.ToConstructionData(), lift.NavAreaGraphs);
+            LiftBuilder.BuildFromSave(lift.ToConstructionData(), lift.NavAreaGraphs, loadingContext);
         }
 
         foreach(SlopeSaveDataV1 slope in slopes) {
-            SlopeBuilder.BuildFromSave(slope.ToConstructionData(), slope.NavAreaGraphs);
+            SlopeBuilder.BuildFromSave(slope.ToConstructionData(), slope.NavAreaGraphs, loadingContext);
         }
 
         foreach(BuildingSaveDataV1 building in buildings) {
-            BuildingBuilder.BuildFromSave(building.Position, building.Rotation, building.Template, building.NavAreaGraphs);
+            BuildingBuilder.BuildFromSave(building.Position, building.Rotation, building.Template, building.NavAreaGraphs, loadingContext);
         }
 
         weather.Restore();
+        // Everything needs to be loaded before we can restore the mappings
+        // Get all list of all nav save data to use
+        List<NavAreaGraphSaveDataV1> navSaveData = new List<NavAreaGraphSaveDataV1>();
+        foreach(LiftSaveDataV1 lift in lifts) {
+            foreach(NavAreaGraphSaveDataV1 navAreaGraph in lift.NavAreaGraphs) {
+                navSaveData.Add(navAreaGraph);
+            }
+        }
+        foreach(SlopeSaveDataV1 slope in slopes) {
+            navSaveData.Add(slope.NavAreaGraphs);
+        }
+        foreach(BuildingSaveDataV1 building in buildings) {
+            foreach(NavAreaGraphSaveDataV1 navAreaGraph in building.NavAreaGraphs) {
+                navSaveData.Add(navAreaGraph);
+            }
+        }
+
+        loadingContext.LoadNavData(navSaveData);
+        GlobalNavController.Instance.TriggerGraphRebuild();
+
+        // Now we can restore the visitors
+        VisitorController.Instance.RestoreVisitors(visitors, loadingContext);
+
+        Debug.Log("Restored save data");
     }
 }

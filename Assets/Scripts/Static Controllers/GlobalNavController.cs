@@ -23,22 +23,26 @@ public class GlobalNavController : MonoBehaviour
         if(GraphDirty) {
             GraphDirty = false;
 
-            NavArea temp = null;
-
-            foreach(var poly in PolygonsController.Instance.PolygonObjects) {
-                if(poly is NavArea) {
-                    temp = poly as NavArea;
-                    break;
-                }
-            }
-
-            if(temp == null) return;
-
-            Graph = NavGraph.Build(temp);
+            TriggerGraphRebuild();
         }
 
         if(Graph != null) {
             Graph.DrawDebug();
         }
+    }
+
+    public void TriggerGraphRebuild() {
+        NavArea temp = null;
+
+        foreach(var poly in PolygonsController.Instance.PolygonObjects) {
+            if(poly is NavArea) {
+                temp = poly as NavArea;
+                break;
+            }
+        }
+
+        if(temp == null) return;
+
+        Graph = NavGraph.Build(temp);
     }
 }

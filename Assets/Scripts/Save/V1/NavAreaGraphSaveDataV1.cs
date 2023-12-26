@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 [System.Serializable]
 public struct NavAreaGraphSaveDataV1 {
@@ -38,6 +39,12 @@ public struct NavAreaGraphSaveDataV1 {
 
         foreach(var link in area.Links) {
             result.LinksToIds.Add(context.linkIds[link], new Tuple<int, int>(context.nodeIds[link.A], context.nodeIds[link.B]));
+        }
+
+        foreach(var node in area.Nodes) {
+            foreach(var link in node.GetExplicitLinksForSerialization()) {
+                result.LinksToIds.Add(context.linkIds[link], new Tuple<int, int>(context.nodeIds[link.A], context.nodeIds[link.B]));
+            }
         }
 
         return result;

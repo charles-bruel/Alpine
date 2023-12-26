@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Threading;
+using System;
 
 public class Visitor : MonoBehaviour {
     public SlopeDifficulty Ability;
@@ -12,6 +13,7 @@ public class Visitor : MonoBehaviour {
     public List<NavLink> Plan = new List<NavLink>();
     public float Progress = 0;
     public bool ActivelyPlanning = false;
+    public string CurrentNavLinkMarker;
     
     public void Advance(float delta) {
         RemainingTime -= delta;
@@ -41,8 +43,15 @@ public class Visitor : MonoBehaviour {
         Vector3 pos = transform.position;
         Vector3 angles = transform.eulerAngles;
         CurrentLink.Implementation.ProgressPosition(this, CurrentLink, delta, ref Progress, ref pos, ref angles);
+        if(CurrentLink.Implementation is BasicNavLinkImplementation) {
+            Vector3 pos1 = CurrentLink.A.GetPosition().Inflate3rdDim(1200);
+            Vector3 pos2 = CurrentLink.B.GetPosition().Inflate3rdDim(1200);
+            Utils.DebugDrawArrow(pos1, pos2 - pos1, Color.blue, (pos2-pos1).magnitude * 0.1f);
+        }
         transform.position = pos;
         transform.eulerAngles = angles;
+
+        CurrentNavLinkMarker = CurrentLink.Marker;
         
         if(Progress >= 1) {
             Progress = 0;
@@ -57,6 +66,21 @@ public class Visitor : MonoBehaviour {
                 CurrentLink = Plan[0];
                 Plan.RemoveAt(0);
             }
+        }
+    }
+
+    public void Restore(VisitorSaveDataV1 visitor, LoadingContextV1 loadingContext) {
+        Ability = visitor.Ability;
+        RemainingTime = visitor.RemainingTime;
+        TraverseSpeed = visitor.TraverseSpeed;
+        SkiSpeed = visitor.SkiSpeed;
+        Progress = visitor.Progress;
+
+        if(visitor.posRefType == VisitorSaveDataV1.PosRef.Link) {
+            CurrentLink = loadingContext.linkIds[visitor.PosID];
+            Plan.Add(CurrentLink);
+        } else {
+            StationaryPos = loadingContext.nodeIds[visitor.PosID];
         }
     }
 }

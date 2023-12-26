@@ -43,6 +43,7 @@ public class NavGraph {
     public void DrawDebug() {
         foreach(var edges in EdgesFromNode.Values) {
             foreach(var edge in edges) {
+                if(edge.Ref.Implementation is SlopeNavLink) continue;
                 Vector3 pos1 = edge.Ref.A.GetPosition().Inflate3rdDim(1000);
                 Vector3 pos2 = edge.Ref.B.GetPosition().Inflate3rdDim(1000);
                 Utils.DebugDrawArrow(pos1, pos2 - pos1, Color.black, (pos2-pos1).magnitude * 0.1f);
@@ -145,6 +146,7 @@ public class NavGraph {
             }
         }
         if(idTargets.Count == 0) return null;
+
         return Dijkstras(NodesToIdx[start], idTargets, Ability);
     }
     

@@ -19,6 +19,10 @@ public class NavPortal : INavNode {
     public GameObject gameObject;
     public List<NavLink> ExplicitNavLinks = new List<NavLink>();
 
+    public NavPortal() {
+        Debug.Log("Made nav portal");
+    }
+
     public Vector2 A1 {
         get {
             Vector2 prev = A.Polygon.points[A1Index];
@@ -118,6 +122,18 @@ public class NavPortal : INavNode {
         Renderer.startWidth = Renderer.endWidth = 5;
         Renderer.material = RenderingData.Instance.VertexColorMaterial;
         Renderer.SetPositions(new Vector3[] {start, end});
+    }
+
+    public List<NavLink> GetExplicitLinksForSerialization() {
+        List<NavLink> toReturn = new List<NavLink>();
+
+        foreach(var link in ExplicitNavLinks) {
+            if(link.A == this) {
+                toReturn.Add(link);
+            }
+        }
+
+        return toReturn;
     }
 
     public enum NavPortalDirectionality {

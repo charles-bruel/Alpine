@@ -132,7 +132,7 @@ public class SlopeBuilder {
         GameObject.Destroy(Result.gameObject);
     }
 
-    public static void BuildFromSave(SlopeConstructionData data, NavAreaGraphSaveDataV1 navData) {
+    public static void BuildFromSave(SlopeConstructionData data, NavAreaGraphSaveDataV1 navData, LoadingContextV1 loadingContext) {
         SlopeBuilder builder = new SlopeBuilder();
         builder.Initialize();
         builder.Data = data;
@@ -141,6 +141,7 @@ public class SlopeBuilder {
         builder.Finish();
 
         builder.Result.Footprint.ID = navData.ID;
+        loadingContext.navAreas.Add(navData.ID, builder.Result.Footprint);
     }
 
     // Only used when loading from a save, finds the snapping for all points

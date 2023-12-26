@@ -32,7 +32,6 @@ public class CreateVisitorPlanJob : Job
                 Target = Exits;
             } else {
                 // Choose a random node within skier ability and go there
-                // TODO: "Within skier ability"
                 Target = new List<INavNode>(1)
                 {
                     Graph.GetRandomNode()

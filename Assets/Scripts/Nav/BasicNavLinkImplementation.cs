@@ -1,7 +1,6 @@
 using UnityEngine;
 
-public class BasicNavLinkImplementation : INavLinkImplementation
-{
+public class BasicNavLinkImplementation : INavLinkImplementation {
     public void OnDeselected()
     {
         
@@ -17,8 +16,7 @@ public class BasicNavLinkImplementation : INavLinkImplementation
         
     }
 
-    public void ProgressPosition(Visitor self, NavLink link, float delta, ref float progress, ref Vector3 pos, ref Vector3 angles)
-    {
+    public void ProgressPosition(Visitor self, NavLink link, float delta, ref float progress, ref Vector3 pos, ref Vector3 angles) {
         // Straight line
         Vector3 pos1 = link.A.GetPosition3d();
         Vector3 pos2 = link.B.GetPosition3d();

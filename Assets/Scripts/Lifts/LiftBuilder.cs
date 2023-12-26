@@ -73,7 +73,7 @@ public class LiftBuilder
         Result.Line.SetPositions(positions);
     }
 
-    public static void BuildFromSave(LiftConstructionData data, NavAreaGraphSaveDataV1[] navData) {
+    public static void BuildFromSave(LiftConstructionData data, NavAreaGraphSaveDataV1[] navData, LoadingContextV1 loadingContext) {
         LiftBuilder builder = new LiftBuilder();
         builder.Data = data;
         builder.Data.PhysicalVehicle = builder.Data.Template.AvaliableLiftVehicles[builder.Data.SelectedVehicleIndex];
@@ -85,8 +85,9 @@ public class LiftBuilder
         builder.Finish();
 
         Assert.AreEqual(navData.Length, builder.Result.NavAreas.Count);
-        for(int i = 0; i > navData.Length;i ++) {
+        for(int i = 0; i < navData.Length;i ++) {
             builder.Result.NavAreas[i].ID = navData[i].ID;
+            loadingContext.navAreas.Add(navData[i].ID, builder.Result.NavAreas[i]);
         }
     }
 
@@ -455,6 +456,7 @@ public class LiftBuilder
                     Cost = 1,
                     Difficulty = SlopeDifficulty.GREEN,
                     Implementation = new LiftNavLink(),
+                    Marker = "Lift explicit link",
                 };
 
                 entries[i].AddExplictNavLink(link);

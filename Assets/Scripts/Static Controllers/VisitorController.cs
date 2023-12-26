@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using UnityEngine.Assertions;
 
 public class VisitorController : MonoBehaviour {
     public static VisitorController Instance;
@@ -39,5 +40,14 @@ public class VisitorController : MonoBehaviour {
     {
         Visitors.Remove(visitor);
         GameObject.Destroy(visitor.gameObject);
+    }
+
+    public void RestoreVisitors(VisitorSaveDataV1[] visitors, LoadingContextV1 loadingContext) {
+        foreach(VisitorSaveDataV1 visitor in visitors) {
+            Visitor newVisitor = GameObject.Instantiate(Templates[visitor.TemplateIndex]);
+            newVisitor.Restore(visitor, loadingContext);
+            Visitors.Add(newVisitor);
+            newVisitor.transform.parent = transform;
+        }
     }
 }

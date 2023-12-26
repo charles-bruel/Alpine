@@ -50,7 +50,15 @@ public class NavArea : AlpinePolygon {
 
     // Assume we are a simple nav area, i.e. we don't care about slopes or anything else
     public void RecalculateSimpleLinks() {
+        // Create a dictionary of old links
+        Dictionary<Tuple<INavNode, INavNode>, NavLink> oldLinks = new Dictionary<Tuple<INavNode, INavNode>, NavLink>();
+        foreach(var link in Links) {
+            oldLinks.Add(new Tuple<INavNode, INavNode>(link.A, link.B), link);
+        }
+
+        // Get all new links
         List<INavNode> allNavNodes = GetAllNavNodes();
+        Debug.Log(Nodes.Count + ", " + allNavNodes.Count + "(" + Owner.GetType().Name + ")");
         Links = new List<NavLink>();
         for(int i = 0;i < Nodes.Count;i ++) {
             for(int j = 0;j < allNavNodes.Count;j ++) {
@@ -59,17 +67,26 @@ public class NavArea : AlpinePolygon {
                 float dist = (Nodes[i].GetPosition() - allNavNodes[j].GetPosition()).magnitude;
                 if(dist == 0) continue;
 
+                // Check if we already had the link
+                if(oldLinks.ContainsKey(new Tuple<INavNode, INavNode>(Nodes[i], allNavNodes[j]))) {
+                    Links.Add(oldLinks[new Tuple<INavNode, INavNode>(Nodes[i], allNavNodes[j])]);
+                    continue;
+                }
+
                 NavLink link = new NavLink {
                     A = Nodes[i],
                     B = allNavNodes[j],
                     Cost = dist * 0.5f,
                     Difficulty = SlopeDifficulty.GREEN,
                     Implementation = new BasicNavLinkImplementation(),
+                    Marker = "Inter nav area link in area " + ID + " between " + i + " and " + j,
                 };
 
                 Links.Add(link);
             }
         }
         GlobalNavController.MarkGraphDirty();
+
+        Debug.Log(Links.Count + "(" + Owner.GetType().Name + ")");
     }
 }

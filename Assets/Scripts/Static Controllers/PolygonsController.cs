@@ -177,7 +177,7 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    private void RecalculateOverlappingNavAreas() {
+    public void RecalculateOverlappingNavAreas() {
         for(int i = 0;i < PolygonObjects.Count;i ++ ) {
             NavArea area1 = PolygonObjects[i] as NavArea;
             if(area1 == null) continue;
