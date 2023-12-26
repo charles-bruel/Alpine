@@ -455,7 +455,7 @@ public class LiftBuilder
                     B = exits[j],
                     Cost = 1,
                     Difficulty = SlopeDifficulty.GREEN,
-                    Implementation = new LiftNavLink(),
+                    Implementation = new LiftNavLinkImplementation(),
                     Marker = "Lift explicit link",
                 };
 

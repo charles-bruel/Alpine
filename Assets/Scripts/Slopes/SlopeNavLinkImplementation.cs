@@ -1,3 +1,6 @@
+using System.IO;
+using EPPZ.Cloud.Scenes.Helpers;
+using UnityEditor;
 using UnityEngine;
 
 public class SlopeNavLinkImplentation : INavLinkImplementation {
@@ -83,6 +86,12 @@ public class SlopeNavLinkImplentation : INavLinkImplementation {
         return RawData.Points[i];
     }
 
+    private float LookupWidth(int i) {
+        if(i < 0) return RawData.Widths[0];
+        if(i >= RawData.Widths.Count) return RawData.Widths[RawData.Widths.Count - 1];
+        return RawData.Widths[i];
+    }
+
     private Vector2 EvalLattice(int i) {
         Vector2 sum = Vector2.zero;
         float weightSum = 0;
@@ -93,19 +102,44 @@ public class SlopeNavLinkImplentation : INavLinkImplementation {
         return sum / weightSum;
     }
 
-    public void ProgressPosition(Visitor self, NavLink link, float delta, ref float progress, ref Vector3 pos, ref Vector3 angles) {
-        // int i = (int) (progress * RawData.Points.Count);
-        // Vector2 pos2d = ParentImplementation.Bounds.min + new Vector2(RawData.Points[i].x, RawData.Points[i].y) * SlopeInternalPathingJob.GridCellSize;
-        // pos = TerrainManager.Instance.Project(pos2d);
-        // progress += self.SkiSpeed * delta / RawData.Points.Count;
+    // TODO: Shift to visitor template, randomize?
+    private readonly float[] sines_frequencies = new float[] {0.25f, 0.5f, 2, 10};
+    private readonly float[] sines_amplitudes = new float[] {0.6f, 0.19f, 0.19f, 0.02f};
 
+    private float EvaluateSines(float animationTimer) {
+        float sum = 0;
+        for(int i = 0;i < sines_frequencies.Length;i ++) {
+            sum += Mathf.Sin(animationTimer * sines_frequencies[i]) * sines_amplitudes[i];
+        }
+        return sum;
+    }
+
+    public void ProgressPosition(Visitor self, NavLink link, float delta, ref float progress, ref Vector3 pos, ref Vector3 angles, float animationTimer) {
+
+        // Position
         float totalLength = RawData.Points.Count + center * 2;
         float overallProgress = progress * totalLength;
         int i = (int) overallProgress;
         float mod = overallProgress - i;
-        Vector2 pos2d = EvalLattice(i) * (1 - mod) + EvalLattice(i + 1) * mod;
+        i -= center;
+        Vector2 eval0 = EvalLattice(i);
+        Vector2 eval1 = EvalLattice(i + 1);
+        Vector2 pos2d = eval0 * (1 - mod) + eval1 * mod;
 
+        // Normal
+        Vector2 normal = (eval1 - eval0).normalized;
+        normal = new Vector2(-normal.y, normal.x);
+
+        float width0 = LookupWidth(i);
+        float width1 = LookupWidth(i + 1);
+        float width = width0 * (1 - mod) + width1 * mod;
+
+        Vector2 normalOffset = normal * EvaluateSines(animationTimer) * width * 0.75f;
+
+        // Combine
         pos2d = ParentImplementation.Bounds.min + pos2d * SlopeInternalPathingJob.GridCellSize;
+        pos2d += normalOffset;
+
         pos = TerrainManager.Instance.Project(pos2d);
         progress += self.SkiSpeed * delta / totalLength;
     }

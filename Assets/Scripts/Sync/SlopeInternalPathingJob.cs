@@ -17,6 +17,7 @@ public class SlopeInternalPathingJob : Job {
     private Point[,] points;
     private Vector2Int[] portals;
     private List<SlopeInternalPath> Result;
+    private int[,] rawDistances;
 
     public SlopeInternalPathingJob(Slope slope) {
         this.slope = slope;
@@ -162,7 +163,7 @@ public class SlopeInternalPathingJob : Job {
 
     private void CalculateDistanceCosts(int width, int height) {
         // First we calculate the raw distances to the edges
-        int[,] rawDistances = new int[width, height];
+        rawDistances = new int[width, height];
 
         // Populate the array
         for(int x = 0;x < width;x ++) {
@@ -207,7 +208,9 @@ public class SlopeInternalPathingJob : Job {
             if (!flag) break;
         }
 
-        // Now we make it so that the max value occurs across the enter center
+        int[,] modDistances = rawDistances.Clone() as int[,];
+
+        // Now we make it so that the max value occurs across the entire center
         cycle = 0;
         for (; cycle < 16384; cycle++) {
             bool flag = false;
@@ -217,19 +220,19 @@ public class SlopeInternalPathingJob : Job {
                         // We check if the cell has any neighbors which are exactly 1 greater
                         // If not, increase it by one (up to the maxDist)
 
-                        int currentDist = rawDistances[x, y];
+                        int currentDist = modDistances[x, y];
                         // It should never be greater than the maxDist but just in case
                         if(currentDist >= maxDist) continue;
 
                         List<Vector2Int> temp = GetNeighboringCells(x, y);
                         bool flag2 = true;
                         foreach (var c in temp) {
-                            if(rawDistances[c.x, c.y] == currentDist + 1) {
+                            if(modDistances[c.x, c.y] == currentDist + 1) {
                                 flag2 = false;
                             }
                         }
                         if(flag2) {
-                            rawDistances[x, y] ++;
+                            modDistances[x, y] ++;
                             flag = true;
                         }
                     }
@@ -244,7 +247,7 @@ public class SlopeInternalPathingJob : Job {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 if (points[x, y].within) {
-                    int inverseDistance = maxDist - rawDistances[x, y];
+                    int inverseDistance = maxDist - modDistances[x, y];
                     // Now on the interval [1,maxDist+1]
                     inverseDistance += 1;
                     float value = CenteringWeight - Mathf.Pow(b, -(inverseDistance - o));
@@ -259,7 +262,8 @@ public class SlopeInternalPathingJob : Job {
         Tuple<List<Vector2Int>, float, float> tempResult = AStar(start, end);
         SlopeInternalPath result = new SlopeInternalPath();
 
-        result.Points = tempResult.Item1;
+        result.Points = Reduce(tempResult.Item1, 3);
+        result.Widths = DetermineWidths(result.Points);
         result.TotalCost = tempResult.Item2 * GridCellSize;
         result.TotalDifficulty = tempResult.Item3  * GridCellSize;
         result.Length = result.Points.Count * GridCellSize;
@@ -268,6 +272,26 @@ public class SlopeInternalPathingJob : Job {
         result.MeanDifficulty = result.TotalDifficulty / result.Length;
 
         return result;
+    }
+
+    private List<float> DetermineWidths(List<Vector2Int> points) {
+        List<float> toReturn = new List<float>(points.Count);
+        foreach(Vector2Int point in points) {
+            toReturn.Add(rawDistances[point.x, point.y] * GridCellSize);
+        }
+        return toReturn;
+    }
+
+    // Take every nth point
+    private List<T> Reduce<T>(List<T> input, int n) {
+        List<T> toReturn = new List<T>(input.Count / n);
+        for(int i = 0;i < input.Count - 1;i += n) {
+            toReturn.Add(input[i]);
+        }
+        // Ensure we have the last item
+        toReturn.Add(input[input.Count - 1]);
+
+        return toReturn;
     }
 
     // A*
@@ -303,7 +327,7 @@ public class SlopeInternalPathingJob : Job {
             Vector2Int current = openSet.Dequeue();
             if(current == end) {
                 return new Tuple<List<Vector2Int>, float, float>(
-                    AStar_ReconstructPath(cameFrom, current), 
+                    AStar_ReconstructPath(cameFrom, current),
                     gScore[current],
                     dScore[current]
                 );
@@ -490,6 +514,7 @@ public class SlopeInternalPathingJob : Job {
         public INavNode A;
         public INavNode B;
         public List<Vector2Int> Points;
+        public List<float> Widths;
         public float TotalCost;
         public float TotalDifficulty;
         public float MeanCost;

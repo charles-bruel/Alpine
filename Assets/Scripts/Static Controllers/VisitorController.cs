@@ -27,6 +27,7 @@ public class VisitorController : MonoBehaviour {
         int spawnIndex = UnityEngine.Random.Range(0, SpawnPoints.Count);
         INavNode spawnPoint = SpawnPoints[spawnIndex];
         Visitor newVisitor = GameObject.Instantiate(Templates[UnityEngine.Random.Range(0, Templates.Length)]);
+        newVisitor.AnimationSpeed = UnityEngine.Random.Range(0.85f, 1.15f);
         newVisitor.StationaryPos = spawnPoint;
         Visitors.Add(newVisitor);
         newVisitor.transform.parent = transform;
@@ -45,6 +46,7 @@ public class VisitorController : MonoBehaviour {
     public void RestoreVisitors(VisitorSaveDataV1[] visitors, LoadingContextV1 loadingContext) {
         foreach(VisitorSaveDataV1 visitor in visitors) {
             Visitor newVisitor = GameObject.Instantiate(Templates[visitor.TemplateIndex]);
+            newVisitor.AnimationSpeed = UnityEngine.Random.Range(0.85f, 1.15f);
             newVisitor.Restore(visitor, loadingContext);
             Visitors.Add(newVisitor);
             newVisitor.transform.parent = transform;

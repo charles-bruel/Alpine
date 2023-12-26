@@ -3007,7 +3007,7 @@ MonoBehaviour:
   InterfaceController: {fileID: 830588215}
   GlobalNavController: {fileID: 757753269}
   VisitorController: {fileID: 757753270}
-  TimeMultiplier: 1
+  TimeMultiplier: 10
 --- !u!114 &757753263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3124,7 +3124,7 @@ MonoBehaviour:
   - {fileID: 6632329247608173648, guid: cd467d955b2b8b54ab22823bafa2fe3c, type: 3}
   - {fileID: 6632329247608173648, guid: 790dc12f21cf9304493631668afe130d, type: 3}
   Visitors: []
-  MaxVisitors: 20
+  MaxVisitors: 200
 --- !u!1 &763692009
 GameObject:
   m_ObjectHideFlags: 0

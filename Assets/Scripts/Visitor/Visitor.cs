@@ -14,9 +14,13 @@ public class Visitor : MonoBehaviour {
     public float Progress = 0;
     public bool ActivelyPlanning = false;
     public string CurrentNavLinkMarker;
+    // TODO: Save these
+    public float AnimationTimer = 0;
+    public float AnimationSpeed = 1;
     
     public void Advance(float delta) {
         RemainingTime -= delta;
+        AnimationTimer += delta * AnimationSpeed;
         if(Plan.Count <= 1 && !ActivelyPlanning) {
             CreateVisitorPlanJob job = new CreateVisitorPlanJob();
             job.Visitor = this;
@@ -42,12 +46,7 @@ public class Visitor : MonoBehaviour {
         }
         Vector3 pos = transform.position;
         Vector3 angles = transform.eulerAngles;
-        CurrentLink.Implementation.ProgressPosition(this, CurrentLink, delta, ref Progress, ref pos, ref angles);
-        if(CurrentLink.Implementation is BasicNavLinkImplementation) {
-            Vector3 pos1 = CurrentLink.A.GetPosition().Inflate3rdDim(1200);
-            Vector3 pos2 = CurrentLink.B.GetPosition().Inflate3rdDim(1200);
-            Utils.DebugDrawArrow(pos1, pos2 - pos1, Color.blue, (pos2-pos1).magnitude * 0.1f);
-        }
+        CurrentLink.Implementation.ProgressPosition(this, CurrentLink, delta, ref Progress, ref pos, ref angles, AnimationTimer);
         transform.position = pos;
         transform.eulerAngles = angles;
 
