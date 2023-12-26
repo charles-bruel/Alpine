@@ -16,8 +16,14 @@ public class LoadingContextV1 {
         foreach(NavAreaGraphSaveDataV1 navData in navSaveData) {
             NavArea area = navAreas[navData.ID];
             // Don't do this to slopes, etc.
-            // if((area.Flags & PolygonFlags.FLAT_NAVIGABLE) != 0) continue;
+            // Slopes get provisional links in the next foreach loop
+            if((area.Flags & PolygonFlags.FLAT_NAVIGABLE) == 0) continue;
             area.RecalculateSimpleLinks();
+        }
+        foreach(Building building in BuildingsController.Instance.Buildings) {
+            if(building is Slope slope) {
+                slope.CreateProvisionalLinks();
+            }
         }
 
         // Determine node mapping
@@ -81,12 +87,15 @@ public class LoadingContextV1 {
                         break;
                     }
                 }
+                // Skip extra check if we already have it
+                if(link != null) goto foundLink;
                 foreach(NavLink candidate in nodeIds[linkData.Value.Item2].GetLinks()) {
                     if(candidate.A == nodeIds[linkData.Value.Item1] && candidate.B == nodeIds[linkData.Value.Item2]) {
                         link = candidate;
                         break;
                     }
                 }
+                foundLink:
                 Assert.IsNotNull(link);
 
                 if(linkIds.ContainsKey(linkData.Key)) {

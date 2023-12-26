@@ -19,10 +19,6 @@ public class NavPortal : INavNode {
     public GameObject gameObject;
     public List<NavLink> ExplicitNavLinks = new List<NavLink>();
 
-    public NavPortal() {
-        Debug.Log("Made nav portal");
-    }
-
     public Vector2 A1 {
         get {
             Vector2 prev = A.Polygon.points[A1Index];

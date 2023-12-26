@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Threading;
+using System;
 
 public class Slope : Building {
     public SlopeConstructionData Data;
@@ -71,27 +72,77 @@ public class Slope : Building {
         UpdateAreaImplementation(Paths, Bounds);
     }
 
+    // When loading in from a save, we immediately need to create some links for the
+    // saved visitors to be placed on, but we're waiting on the SlopeInternalPathingJob
+    // to finish, so we make placeholder links
+    public void CreateProvisionalLinks() {
+        Footprint.Links = new List<NavLink>();
+        int linkID = 0;
+        foreach(var node1 in Footprint.Nodes) {
+            foreach(var node2 in Footprint.Nodes) {
+                if(node1 == node2) continue;
+                if(node1.GetHeight() < node2.GetHeight()) continue;
+                float dist = (node1.GetPosition() - node2.GetPosition()).magnitude;
+                NavLink link = new NavLink
+                {
+                    A = node1,
+                    B = node2,
+                    Cost = dist,
+                    Difficulty = CurrentDifficulty,
+                    Implementation = new BasicNavLinkImplementation(),
+                    Marker = "Provisional slope link " + linkID + " between " + node1 + " and " + node2 + " (" + dist + ")",
+                };
+
+                Footprint.Links.Add(link);
+                linkID++;
+            }
+        }
+    }
+
     private void UpdateNavLinks(List<SlopeInternalPathingJob.SlopeInternalPath> Paths) {
-        // TODO: Those links were probably doing something - detect links
-        // from the same place and keep them or something?
+        // Save all links
+        Dictionary<Tuple<INavNode, INavNode>, NavLink> oldLinks = new Dictionary<Tuple<INavNode, INavNode>, NavLink>();
         foreach(var link in Footprint.Links) {
+            oldLinks.Add(new Tuple<INavNode, INavNode>(link.A, link.B), link);
+        }
+
+        // Remove old link implementation. Even if the link is reused, it will get a new
+        // implementation
+        foreach(NavLink link in Footprint.Links) {
             link.Implementation.OnRemove();
         }
+
+        // Add new links
         Footprint.Links = new List<NavLink>();
         int linkID = 0;
         foreach(var path in Paths) {
-            NavLink link = new NavLink
-            {
-                A = path.A,
-                B = path.B,
-                Cost = path.TotalCost,
-                Difficulty = CurrentDifficulty,
-                Implementation = new SlopeNavLink(this, linkID, path),
-                Marker = "Slope link " + linkID + " between " + path.A + " and " + path.B + " (" + path.TotalCost + ")",
-            };
+            Tuple<INavNode, INavNode> key = new Tuple<INavNode, INavNode>(path.A, path.B);
+            if(oldLinks.ContainsKey(key)) {
+                NavLink link = oldLinks[key];
 
-            Footprint.Links.Add(link);
-            linkID++;
+                link.Cost = path.TotalCost;
+                link.Difficulty = CurrentDifficulty;
+                link.Implementation = new SlopeNavLink(this, linkID, path);
+                link.Marker = "Slope link " + linkID + " between " + path.A + " and " + path.B + " (" + path.TotalCost + ")";
+
+                Footprint.Links.Add(link);
+                linkID++;
+
+                oldLinks.Remove(key);
+            } else {
+                NavLink link = new NavLink
+                {
+                    A = path.A,
+                    B = path.B,
+                    Cost = path.TotalCost,
+                    Difficulty = CurrentDifficulty,
+                    Implementation = new SlopeNavLink(this, linkID, path),
+                    Marker = "Slope link " + linkID + " between " + path.A + " and " + path.B + " (" + path.TotalCost + ")",
+                };
+
+                Footprint.Links.Add(link);
+                linkID++;
+            }
         }
     }
 

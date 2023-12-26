@@ -58,7 +58,6 @@ public class NavArea : AlpinePolygon {
 
         // Get all new links
         List<INavNode> allNavNodes = GetAllNavNodes();
-        Debug.Log(Nodes.Count + ", " + allNavNodes.Count + "(" + Owner.GetType().Name + ")");
         Links = new List<NavLink>();
         for(int i = 0;i < Nodes.Count;i ++) {
             for(int j = 0;j < allNavNodes.Count;j ++) {
@@ -68,8 +67,10 @@ public class NavArea : AlpinePolygon {
                 if(dist == 0) continue;
 
                 // Check if we already had the link
-                if(oldLinks.ContainsKey(new Tuple<INavNode, INavNode>(Nodes[i], allNavNodes[j]))) {
-                    Links.Add(oldLinks[new Tuple<INavNode, INavNode>(Nodes[i], allNavNodes[j])]);
+                Tuple<INavNode, INavNode> key = new Tuple<INavNode, INavNode>(Nodes[i], allNavNodes[j]);
+                if(oldLinks.ContainsKey(key)) {
+                    Links.Add(oldLinks[key]);
+                    oldLinks.Remove(key);
                     continue;
                 }
 
@@ -87,6 +88,8 @@ public class NavArea : AlpinePolygon {
         }
         GlobalNavController.MarkGraphDirty();
 
-        Debug.Log(Links.Count + "(" + Owner.GetType().Name + ")");
+        foreach(var link in oldLinks.Values) {
+            link.Implementation.OnRemove();
+        }
     }
 }

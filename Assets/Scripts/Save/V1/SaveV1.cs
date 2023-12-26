@@ -84,7 +84,5 @@ public struct SaveV1 {
 
         // Now we can restore the visitors
         VisitorController.Instance.RestoreVisitors(visitors, loadingContext);
-
-        Debug.Log("Restored save data");
     }
 }
