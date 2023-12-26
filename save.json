@@ -1,128 +1,8 @@
 {
   "version": 1,
   "data": {
-    "buildings": [
-      {
-        "Template": "Entrance Building",
-        "Position": {
-          "x": 398.847137,
-          "y": 160.40097,
-          "z": 1545.46924
-        },
-        "Rotation": 0.0,
-        "NavAreaGraphs": [
-          {
-            "ID": 3,
-            "NodesToIds": {
-              "6": {
-                "Item1": -1,
-                "Item2": 0
-              }
-            },
-            "LinksToIds": {
-              "17": {
-                "Item1": 6,
-                "Item2": 0
-              },
-              "18": {
-                "Item1": 6,
-                "Item2": 5
-              },
-              "19": {
-                "Item1": 6,
-                "Item2": 1
-              }
-            }
-          }
-        ]
-      }
-    ],
-    "slopes": [
-      {
-        "Vertices": [
-          {
-            "x": 1038.36377,
-            "y": 804.4895
-          },
-          {
-            "x": 883.6204,
-            "y": 796.7494
-          },
-          {
-            "x": 724.2071,
-            "y": 975.7628
-          },
-          {
-            "x": 669.327148,
-            "y": 1084.21619
-          },
-          {
-            "x": 504.687164,
-            "y": 1276.29614
-          },
-          {
-            "x": 430.207153,
-            "y": 1354.69617
-          },
-          {
-            "x": 405.0036,
-            "y": 1489.92944
-          },
-          {
-            "x": 384.643982,
-            "y": 1511.96313
-          },
-          {
-            "x": 349.193817,
-            "y": 1438.32288
-          },
-          {
-            "x": 366.18042,
-            "y": 1353.38953
-          },
-          {
-            "x": 432.820465,
-            "y": 1196.58948
-          },
-          {
-            "x": 688.9272,
-            "y": 850.3228
-          },
-          {
-            "x": 867.9404,
-            "y": 765.3895
-          },
-          {
-            "x": 935.887,
-            "y": 743.1762
-          },
-          {
-            "x": 1058.72339,
-            "y": 782.45575
-          }
-        ],
-        "NavAreaGraphs": {
-          "ID": 2,
-          "NodesToIds": {
-            "1": {
-              "Item1": 2,
-              "Item2": 0
-            },
-            "2": {
-              "Item1": 2,
-              "Item2": 1
-            }
-          },
-          "LinksToIds": {
-            "7": {
-              "Item1": 2,
-              "Item2": 1
-            }
-          }
-        },
-        "ManualDifficulty": null
-      }
-    ],
+    "buildings": [],
+    "slopes": [],
     "lifts": [
       {
         "TemplateName": "T3",
@@ -131,18 +11,27 @@
             "RoutingSegmentType": 0,
             "TemplateIndex": 0,
             "Position": {
-              "x": 416.020477,
-              "y": 164.850983,
-              "z": 1500.10925
+              "x": -853.9265,
+              "y": 32.2891426,
+              "z": 303.20285
+            }
+          },
+          {
+            "RoutingSegmentType": 1,
+            "TemplateIndex": 0,
+            "Position": {
+              "x": 229.940338,
+              "y": 351.449432,
+              "z": 75.65622
             }
           },
           {
             "RoutingSegmentType": 0,
             "TemplateIndex": 0,
             "Position": {
-              "x": 1049.38062,
-              "y": 298.837769,
-              "z": 814.6693
+              "x": 610.6737,
+              "y": 463.882935,
+              "z": -613.8104
             }
           }
         ],
@@ -152,77 +41,203 @@
               {
                 "TemplateIndex": 0,
                 "Position": {
-                  "x": 431.9628,
-                  "y": 168.55098,
-                  "z": 1482.856
+                  "x": -830.934937,
+                  "y": 35.9891434,
+                  "z": 298.376
                 }
               },
               {
                 "TemplateIndex": 0,
                 "Position": {
-                  "x": 474.683167,
-                  "y": 190.6272,
-                  "z": 1436.6228
+                  "x": -769.3197,
+                  "y": 49.2787476,
+                  "z": 285.440521
                 }
               },
               {
                 "TemplateIndex": 0,
                 "Position": {
-                  "x": 563.514343,
-                  "y": 208.743423,
-                  "z": 1340.48718
+                  "x": -731.176941,
+                  "y": 51.73958,
+                  "z": 277.432831
                 }
               },
               {
                 "TemplateIndex": 0,
                 "Position": {
-                  "x": 652.3456,
-                  "y": 227.033813,
-                  "z": 1244.35168
+                  "x": -658.803467,
+                  "y": 60.7779236,
+                  "z": 262.23877
                 }
               },
               {
                 "TemplateIndex": 0,
                 "Position": {
-                  "x": 741.8549,
-                  "y": 245.70697,
-                  "z": 1147.48218
+                  "x": -590.342041,
+                  "y": 76.25136,
+                  "z": 247.866013
                 }
               },
               {
                 "TemplateIndex": 0,
                 "Position": {
-                  "x": 830.686157,
-                  "y": 264.9818,
-                  "z": 1051.34656
+                  "x": -521.8807,
+                  "y": 94.40949,
+                  "z": 233.493256
                 }
               },
               {
                 "TemplateIndex": 0,
                 "Position": {
-                  "x": 919.5174,
-                  "y": 284.9806,
-                  "z": 955.210938
+                  "x": -452.441254,
+                  "y": 114.56134,
+                  "z": 218.915176
                 }
               },
               {
                 "TemplateIndex": 0,
                 "Position": {
-                  "x": 1009.02673,
-                  "y": 302.537781,
-                  "z": 858.341431
+                  "x": -361.4854,
+                  "y": 143.9332,
+                  "z": 199.819916
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": -269.5515,
+                  "y": 174.605759,
+                  "z": 180.519348
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": -177.617691,
+                  "y": 203.777466,
+                  "z": 161.218811
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": -104.266144,
+                  "y": 237.2348,
+                  "z": 145.819412
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": 17.9863186,
+                  "y": 304.484039,
+                  "z": 120.15377
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": 179.3596,
+                  "y": 355.149445,
+                  "z": 86.27512
                 }
               }
             ],
             "StartIndex": 0,
             "EndIndex": 1,
             "StartPos": {
-              "x": 424.503662,
-              "y": 1490.92847
+              "x": -841.6932,
+              "y": 300.634583
             },
             "EndPos": {
-              "x": 1040.89746,
-              "y": 823.850037
+              "x": 206.744171,
+              "y": 80.52602
+            }
+          },
+          {
+            "Towers": [
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": 246.711182,
+                  "y": 355.149445,
+                  "z": 45.2860031
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": 277.141632,
+                  "y": 373.069916,
+                  "z": -9.820221
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": 301.7758,
+                  "y": 374.477661,
+                  "z": -54.4299927
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": 334.621338,
+                  "y": 385.950684,
+                  "z": -113.9097
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": 367.466919,
+                  "y": 397.7207,
+                  "z": -173.389435
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": 400.312439,
+                  "y": 406.337616,
+                  "z": -232.869141
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": 487.256561,
+                  "y": 416.969116,
+                  "z": -390.31546
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": 536.0419,
+                  "y": 436.86853,
+                  "z": -478.660339
+                }
+              },
+              {
+                "TemplateIndex": 0,
+                "Position": {
+                  "x": 588.691345,
+                  "y": 467.582947,
+                  "z": -574.0028
+                }
+              }
+            ],
+            "StartIndex": 1,
+            "EndIndex": 2,
+            "StartPos": {
+              "x": 241.397949,
+              "y": 54.9077225
+            },
+            "EndPos": {
+              "x": 604.6311,
+              "y": -602.868
             }
           }
         ],
@@ -235,51 +250,23 @@
                 "Item1": -1,
                 "Item2": 0
               },
-              "5": {
+              "1": {
                 "Item1": -1,
                 "Item2": 1
-              },
-              "1": {
-                "Item1": 2,
-                "Item2": 0
               }
             },
             "LinksToIds": {
               "0": {
                 "Item1": 0,
-                "Item2": 5
-              },
-              "1": {
-                "Item1": 0,
                 "Item2": 1
               },
               "3": {
+                "Item1": 1,
+                "Item2": 0
+              },
+              "1": {
                 "Item1": 0,
-                "Item2": 6
-              },
-              "15": {
-                "Item1": 5,
-                "Item2": 0
-              },
-              "14": {
-                "Item1": 5,
-                "Item2": 1
-              },
-              "16": {
-                "Item1": 5,
-                "Item2": 6
-              },
-              "5": {
-                "Item1": 1,
-                "Item2": 0
-              },
-              "4": {
-                "Item1": 1,
-                "Item2": 5
-              },
-              "6": {
-                "Item1": 1,
-                "Item2": 6
+                "Item2": 2
               },
               "2": {
                 "Item1": 0,
@@ -289,257 +276,68 @@
           },
           {
             "ID": 1,
+            "NodesToIds": {},
+            "LinksToIds": {}
+          },
+          {
+            "ID": 2,
             "NodesToIds": {
               "3": {
+                "Item1": -1,
+                "Item2": 0
+              },
+              "2": {
+                "Item1": -1,
+                "Item2": 1
+              }
+            },
+            "LinksToIds": {
+              "5": {
+                "Item1": 3,
+                "Item2": 2
+              },
+              "4": {
+                "Item1": 2,
+                "Item2": 3
+              },
+              "6": {
+                "Item1": 3,
+                "Item2": 4
+              }
+            }
+          },
+          {
+            "ID": 3,
+            "NodesToIds": {
+              "5": {
                 "Item1": -1,
                 "Item2": 0
               },
               "4": {
                 "Item1": -1,
                 "Item2": 1
-              },
-              "2": {
-                "Item1": 2,
-                "Item2": 1
               }
             },
             "LinksToIds": {
-              "11": {
-                "Item1": 3,
-                "Item2": 4
-              },
-              "10": {
-                "Item1": 3,
-                "Item2": 2
-              },
-              "12": {
-                "Item1": 4,
-                "Item2": 3
-              },
-              "13": {
-                "Item1": 4,
-                "Item2": 2
-              },
-              "9": {
-                "Item1": 2,
-                "Item2": 3
-              },
               "8": {
-                "Item1": 2,
+                "Item1": 5,
                 "Item2": 4
+              },
+              "7": {
+                "Item1": 4,
+                "Item2": 5
               }
             }
           }
         ]
       }
     ],
-    "visitors": [
-      {
-        "Ability": 3,
-        "TemplateIndex": 3,
-        "RemainingTime": 1521.62048,
-        "TraverseSpeed": 5.0,
-        "SkiSpeed": 10.0,
-        "PosID": 6,
-        "posRefType": 1,
-        "Progress": 0.0
-      },
-      {
-        "Ability": 3,
-        "TemplateIndex": 3,
-        "RemainingTime": 1521.62366,
-        "TraverseSpeed": 5.0,
-        "SkiSpeed": 10.0,
-        "PosID": 6,
-        "posRefType": 1,
-        "Progress": 0.0
-      },
-      {
-        "Ability": 0,
-        "TemplateIndex": 0,
-        "RemainingTime": 1521.67908,
-        "TraverseSpeed": 5.0,
-        "SkiSpeed": 10.0,
-        "PosID": 7,
-        "posRefType": 0,
-        "Progress": 0.836207032
-      },
-      {
-        "Ability": 3,
-        "TemplateIndex": 3,
-        "RemainingTime": 1521.68323,
-        "TraverseSpeed": 5.0,
-        "SkiSpeed": 10.0,
-        "PosID": 7,
-        "posRefType": 0,
-        "Progress": 0.7930485
-      },
-      {
-        "Ability": 0,
-        "TemplateIndex": 0,
-        "RemainingTime": 1521.68835,
-        "TraverseSpeed": 5.0,
-        "SkiSpeed": 10.0,
-        "PosID": 7,
-        "posRefType": 0,
-        "Progress": 0.836207032
-      },
-      {
-        "Ability": 1,
-        "TemplateIndex": 1,
-        "RemainingTime": 1521.6936,
-        "TraverseSpeed": 5.0,
-        "SkiSpeed": 10.0,
-        "PosID": 2,
-        "posRefType": 0,
-        "Progress": 0.998208642
-      },
-      {
-        "Ability": 1,
-        "TemplateIndex": 1,
-        "RemainingTime": 1521.69946,
-        "TraverseSpeed": 5.0,
-        "SkiSpeed": 10.0,
-        "PosID": 7,
-        "posRefType": 0,
-        "Progress": 0.482391149
-      },
-      {
-        "Ability": 1,
-        "TemplateIndex": 1,
-        "RemainingTime": 1521.70459,
-        "TraverseSpeed": 5.0,
-        "SkiSpeed": 10.0,
-        "PosID": 7,
-        "posRefType": 0,
-        "Progress": 0.4020475
-      },
-      {
-        "Ability": 3,
-        "TemplateIndex": 3,
-        "RemainingTime": 1521.71021,
-        "TraverseSpeed": 5.0,
-        "SkiSpeed": 10.0,
-        "PosID": 7,
-        "posRefType": 0,
-        "Progress": 0.836207032
-      },
-      {
-        "Ability": 0,
-        "TemplateIndex": 0,
-        "RemainingTime": 1521.78381,
-        "TraverseSpeed": 5.0,
-        "SkiSpeed": 10.0,
-        "PosID": 7,
-        "posRefType": 0,
-        "Progress": 0.318864316
-      },
-      {
-        "Ability": 2,
-        "TemplateIndex": 2,
-        "RemainingTime": 1521.79358,
-        "TraverseSpeed": 5.0,
-        "SkiSpeed": 10.0,
-        "PosID": 7,
-        "posRefType": 0,
-        "Progress": 0.4020475
-      },
-      {
-        "Ability": 2,
-        "TemplateIndex": 2,
-        "RemainingTime": 1521.80286,
-        "TraverseSpeed": 5.0,
-        "SkiSpeed": 10.0,
-        "PosID": 2,
-        "posRefType": 0,
-        "Progress": 0.989198744
-      },
-      {
-        "Ability": 3,
-        "TemplateIndex": 3,
-        "RemainingTime": 1521.80811,
-        "TraverseSpeed": 5.0,
-        "SkiSpeed": 10.0,
-        "PosID": 7,
-        "posRefType": 0,
-        "Progress": 0.820074558
-      },
-      {
-        "Ability": 0,
-        "TemplateIndex": 0,
-        "RemainingTime": 1521.81409,
-        "TraverseSpeed": 5.0,
-        "SkiSpeed": 10.0,
-        "PosID": 7,
-        "posRefType": 0,
-        "Progress": 0.892073154
-      },
-      {
-        "Ability": 1,
-        "TemplateIndex": 1,
-        "RemainingTime": 1521.81824,
-        "TraverseSpeed": 5.0,
-        "SkiSpeed": 10.0,
-        "PosID": 7,
-        "posRefType": 0,
-        "Progress": 0.7930485
-      },
-      {
-        "Ability": 0,
-        "TemplateIndex": 0,
-        "RemainingTime": 1521.82336,
-        "TraverseSpeed": 5.0,
-        "SkiSpeed": 10.0,
-        "PosID": 7,
-        "posRefType": 0,
-        "Progress": 0.836207032
-      },
-      {
-        "Ability": 1,
-        "TemplateIndex": 1,
-        "RemainingTime": 1521.89539,
-        "TraverseSpeed": 5.0,
-        "SkiSpeed": 10.0,
-        "PosID": 6,
-        "posRefType": 0,
-        "Progress": 0.9142469
-      },
-      {
-        "Ability": 1,
-        "TemplateIndex": 1,
-        "RemainingTime": 1521.90222,
-        "TraverseSpeed": 5.0,
-        "SkiSpeed": 10.0,
-        "PosID": 7,
-        "posRefType": 0,
-        "Progress": 0.892073154
-      },
-      {
-        "Ability": 1,
-        "TemplateIndex": 1,
-        "RemainingTime": 1521.90613,
-        "TraverseSpeed": 5.0,
-        "SkiSpeed": 10.0,
-        "PosID": 7,
-        "posRefType": 0,
-        "Progress": 0.4020475
-      },
-      {
-        "Ability": 0,
-        "TemplateIndex": 0,
-        "RemainingTime": 1521.90967,
-        "TraverseSpeed": 5.0,
-        "SkiSpeed": 10.0,
-        "PosID": 2,
-        "posRefType": 0,
-        "Progress": 0.04221551
-      }
-    ],
+    "visitors": [],
     "weather": {
       "Storm": false,
       "StormHeight": 0.0,
       "StormPower": 0.0,
-      "Timer": 4.43132925,
+      "Timer": 9.317659,
       "Snowfall12Hr": 0.0,
       "Snowfall24Hr": 0.0,
       "Snowfall7D": 0.0,
@@ -559,7 +357,7 @@
         0.0,
         0.0
       ],
-      "SnowfallTrackerIndex": 11,
+      "SnowfallTrackerIndex": 1,
       "BaseSnow": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
       "RecentSnow": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
     }

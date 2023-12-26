@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1876f084aa02bf949a9be675423e9952, type: 3}
+  m_Name: Poseidon Mons Light
+  m_EditorClassIdentifier: 
+  TileSize: 400
+  TileHeight: 467
+  TexturePath: Poseidon Mons
+  NumTilesX: 8
+  NumTilesY: 8
+  DecoMap: {fileID: 2800000, guid: cb5c29d78289d374eab91c12ed321931, type: 3}
+  NumTrees: 500000
+  NumRocks: 200000
+  MinTreeHeight: 1
+  MaxTreeHeight: 4
+  AltitudeAdjustFactor: 0.5
+  MinRockSize: 1
+  MaxRockSize: 3
+  WeatherMap: {fileID: 2800000, guid: ca79cfd4c9b7adf41a9a595f44f99285, type: 3}

@@ -2914,8 +2914,8 @@ MonoBehaviour:
   LOD_Distance: 1000
   WeatherController: {fileID: 757753261}
   ContourLayersDefinition:
-    MajorSpacing: 100
-    MinorSpacing: 25
+    MajorSpacing: 50
+    MinorSpacing: 10
     Major: []
     Minor: []
   InverseTerrainLayerMask:
@@ -3007,7 +3007,7 @@ MonoBehaviour:
   InterfaceController: {fileID: 830588215}
   GlobalNavController: {fileID: 757753269}
   VisitorController: {fileID: 757753270}
-  TimeMultiplier: 10
+  TimeMultiplier: 1
 --- !u!114 &757753263
 MonoBehaviour:
   m_ObjectHideFlags: 0

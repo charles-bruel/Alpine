@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using EPPZ.Geometry.Model;
+using UnityEngine.Assertions;
 
 public class MidStationT3 : APITurnSegment {
     public override void Build(ICustomScriptable parent, Transform current, Transform next, Transform prev) {
@@ -16,8 +18,6 @@ public class MidStationT3 : APITurnSegment {
         float primaryAngle = Mathf.Atan2(primaryVector.y, primaryVector.x) * Mathf.Rad2Deg;
         Vector2 secondaryVector = (next.position - current.position).ToHorizontal();
         float secondaryAngle = Mathf.Atan2(secondaryVector.y, secondaryVector.x) * Mathf.Rad2Deg;
-
-        float averageAngle = Mathf.LerpAngle(primaryAngle, secondaryAngle, 0.5f);
 
         float alpha;
         {
@@ -130,6 +130,74 @@ public class MidStationT3 : APITurnSegment {
 
         if(!uphill) toReturn.Reverse();
 
+        return toReturn;
+    }
+
+    public override List<AlpinePolygon> GetPolygons(ICustomScriptable parent, AlpinePolygonSource[] providedPolygons) {
+        List<AlpinePolygon> toReturn = base.GetPolygons(parent, providedPolygons);
+
+        Transform parentTrans = parent.GetGameObject().transform;
+        Transform primarySegment = parentTrans.GetChild(IntParameters[0]);
+        Transform secondarySegment = parentTrans.GetChild(IntParameters[1]);
+
+        AlpinePolygon footprint = new AlpinePolygon();
+        footprint.Guid                = System.Guid.NewGuid();
+        footprint.Level               = 10;
+        footprint.ArbitrarilyEditable = false;
+        footprint.Flags               = PolygonFlags.FLATTEN_DOWN | PolygonFlags.AERIAL_CLEARANCE;
+        footprint.Height              = parentTrans.position.y;
+        
+        Vector2[] boundingPoints = new Vector2[4];
+        boundingPoints[0] = primarySegment.GetChild(5).position.ToHorizontal();
+        boundingPoints[1] = primarySegment.GetChild(6).position.ToHorizontal();
+        boundingPoints[2] = secondarySegment.GetChild(5).position.ToHorizontal();
+        boundingPoints[3] = secondarySegment.GetChild(6).position.ToHorizontal();
+
+        footprint.Polygon = Polygon.PolygonWithPoints(GetBoundingBox(boundingPoints));
+
+        toReturn.Add(footprint);
+
+        return toReturn;
+    }
+
+    // The bounding box is 6 points - four are the given bounding ends, and the other 2 are in the angle
+    // By projecting lines perpendicular to the 2 points in a pair, twice, and finding the intersection,
+    // we can determine the final 2 points.
+    // +-------x
+    // |       |
+    // +----x  |
+    //      |  |
+    //      |  |
+    //      +--+
+    // In the above diagram, +'s are known and x's are unknown
+    // Labelling points:
+    // 0-------5
+    // |       |
+    // 1----2  |
+    //      |  |
+    //      |  |
+    //      3--4
+    // Here are the correspondences between input and output:
+    // 0 -> 0    1 -> 1    2 -> 3    3 -> 4
+    private Vector2[] GetBoundingBox(Vector2[] boundingPoints) {
+        Assert.AreEqual(boundingPoints.Length, 4);
+        Vector2[] toReturn = new Vector2[] {
+            boundingPoints[0],
+            boundingPoints[1],
+            Vector2.zero,
+            boundingPoints[2],
+            boundingPoints[3],
+            Vector2.zero
+        };
+
+        Vector2 dir01 = (boundingPoints[1] - boundingPoints[0]).normalized;
+        Vector2 dir23 = (boundingPoints[3] - boundingPoints[2]).normalized;
+        Vector2 perpDir01 = new Vector2(-dir01.y, dir01.x);
+        Vector2 perpDir23 = new Vector2(-dir23.y, dir23.x);
+
+        toReturn[2] = Utils.LineLine(boundingPoints[1], boundingPoints[1] + perpDir01, boundingPoints[2], boundingPoints[2] + perpDir23);
+        toReturn[5] = Utils.LineLine(boundingPoints[0], boundingPoints[0] + perpDir01, boundingPoints[3], boundingPoints[3] + perpDir23);
+        
         return toReturn;
     }
 }

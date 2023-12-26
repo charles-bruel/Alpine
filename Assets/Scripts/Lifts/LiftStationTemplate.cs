@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LiftStationTemplate : LiftRoutingSegmentTemplate
-{
+public class LiftStationTemplate : LiftRoutingSegmentTemplate {
+    // TODO: Expose to mod API
     public NavDestinationDefinition EntryNavNode;
     public NavDestinationDefinition ExitNavNode;
 

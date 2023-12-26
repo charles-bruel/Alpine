@@ -1,6 +1,5 @@
 using UnityEngine;
 
-public class APITurnSegment : APILiftRoutingSegment
-{   
+public class APITurnSegment : APILiftRoutingSegment {   
     
 }
