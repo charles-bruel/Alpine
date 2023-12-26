@@ -1,21 +1,22 @@
 using UnityEngine;
 
-public class LiftNavLinkImplementation : INavLinkImplementation
-{
-    public void OnDeselected()
-    {
+public class LiftNavLinkImplementation : INavLinkImplementation {
+    public LiftVehicleSystem LiftVehicleSystem;
+
+    public LiftNavLinkImplementation() {
+        
+    }
+    
+    public void OnDeselected() {
     }
 
-    public void OnRemove()
-    {
+    public void OnRemove() {
     }
 
-    public void OnSelected()
-    {
+    public void OnSelected() {
     }
 
-    public void ProgressPosition(Visitor self, NavLink link, float delta, ref float progress, ref Vector3 pos, ref Vector3 angles, float animationTimer)
-    {
+    public void ProgressPosition(Visitor self, NavLink link, float delta, ref float progress, ref Vector3 pos, ref Vector3 angles, float animationTimer) {
         // Straight line
         Vector3 pos1 = link.A.GetPosition3d();
         Vector3 pos2 = link.B.GetPosition3d();

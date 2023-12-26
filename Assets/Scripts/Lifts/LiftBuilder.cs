@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Codice.CM.Common.Tree;
 using EPPZ.Geometry.Model;
 using Mono.Cecil;
 using UnityEngine;
@@ -101,8 +102,10 @@ public class LiftBuilder
         BuildTowers();
     }
 
-    private LiftCablePoint[] CreateCables()
-    {
+    private Tuple<LiftCablePoint[], List<LiftAccessPointIntermediate>> CreateCables() {
+        // TODO: Populate this
+        List<LiftAccessPointIntermediate> exchangePoints = new List<LiftAccessPointIntermediate>();
+
         LiftCableBuilder builder = new LiftCableBuilder();
 
         for(int i = 0;i < Data.SpanSegments.Count;i ++) {
@@ -159,7 +162,7 @@ public class LiftBuilder
         builder.BuildMesh(0, new Vector3(), Data.Template.CableThickness);
         builder.FinalizeMesh();
 
-        return builder.Points.ToArray();
+        return new Tuple<LiftCablePoint[], List<LiftAccessPointIntermediate>>(builder.Points.ToArray(), exchangePoints);
     }
 
     private void FinishAll() {
@@ -367,16 +370,40 @@ public class LiftBuilder
 
     public void Finish() {
         FinishAll();
-        Result.CablePoints = CreateCables();
+
         Result.Footprint = GenerateFootprint();
-        RegisterPolygonsAndNav();
-        
+        Tuple<List<INavNode>, List<INavNode>> nodes = RegisterPolygonsAndNav();
+
+        Tuple<LiftCablePoint[], List<LiftAccessPointIntermediate>> createCablesResult = CreateCables();
+        Result.CablePoints = createCablesResult.Item1;
+
+        Result.CableJoins = CreateCableJoins(createCablesResult.Item2, nodes);
+
         BuildingsController.Instance.RegisterBuilding(Result);
 
         Result.Finish();
     }
 
-    private void RegisterPolygonsAndNav() {
+    private List<LiftVehicleSystem.LiftAccessNode> CreateCableJoins(List<LiftAccessPointIntermediate> data, Tuple<List<INavNode>, List<INavNode>> nodes) {
+        List<LiftVehicleSystem.LiftAccessNode> result = new List<LiftVehicleSystem.LiftAccessNode>(data.Count);
+
+        foreach(LiftAccessPointIntermediate point in data) {
+            LiftVehicleSystem.LiftAccessNode node = new LiftVehicleSystem.LiftAccessNode();
+            node.Index = point.Pos;
+            if(point.Entry) {
+                node.Entry = nodes.Item1[point.ID];
+            }
+            if(point.Exit) {
+                node.Exit = nodes.Item2[point.ID];
+            }
+
+            result.Add(node);
+        }
+
+        return result;
+    }
+
+    private Tuple<List<INavNode>, List<INavNode>> RegisterPolygonsAndNav() {
         List<NavArea> navAreas = new List<NavArea>();
         
         List<INavNode> entries = new List<INavNode>();
@@ -468,6 +495,8 @@ public class LiftBuilder
 
         Result.NavAreas = navAreas;
         Result.NavLinks = liftLinks;
+
+        return new Tuple<List<INavNode>, List<INavNode>>(entries, exits);
     }
 
     private AlpinePolygon GenerateFootprint() {
@@ -514,5 +543,12 @@ public class LiftBuilder
 
     public void Cancel() {
         GameObject.Destroy(Result.gameObject);
+    }
+
+    public struct LiftAccessPointIntermediate {
+        public int Pos;
+        public int ID;
+        public bool Entry;
+        public bool Exit;
     }
 }

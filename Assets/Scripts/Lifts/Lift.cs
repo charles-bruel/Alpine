@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine.Assertions;
 
 public class Lift : Building {
     public LiftTemplate Template;
@@ -8,6 +9,7 @@ public class Lift : Building {
     public AlpinePolygon Footprint;
     public LineRenderer Line;
     public LiftCablePoint[] CablePoints;
+    public List<LiftVehicleSystem.LiftAccessNode> CableJoins;
     public LiftVehicleSystem VehicleSystem;
     public List<NavArea> NavAreas;
     // These are just the links between stations, not any internal ones
@@ -50,7 +52,15 @@ public class Lift : Building {
 
     public void Finish() {
         VehicleSystem.TemplateVehicle = Data.PhysicalVehicle;
-        VehicleSystem.Initialize();
+        VehicleSystem.Initialize(CableJoins);
+
+        foreach(NavLink explicitLink in NavLinks) {
+            if (explicitLink.Implementation is LiftNavLinkImplementation impl) {
+                impl.LiftVehicleSystem = VehicleSystem;
+            } else {
+                Assert.IsTrue(false, "Lift nav link implementation is not a lift nav link implementation");
+            }
+        }
     }
 
     public void CreateSubObjects() {

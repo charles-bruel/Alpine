@@ -12,6 +12,12 @@ public class LiftVehicle : MonoBehaviour {
     public float CoMOffset;
     public float Mass;
     public float Friction;
+    [NonSerialized]
+    public Visitor[] visitors;
+
+    void Start () {
+        visitors = new Visitor[Seats.Length];
+    }
 
     private const float epsilon = 0.01f;
 
@@ -49,7 +55,6 @@ public class LiftVehicle : MonoBehaviour {
             Omega = 0f;
         }
     }
-
 
     [NonSerialized]
     public float Position;

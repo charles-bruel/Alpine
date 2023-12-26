@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class LiftVehicleSystem {
@@ -10,7 +12,11 @@ public class LiftVehicleSystem {
 
     public LiftVehicleSystemCablePoint[] CablePoints;
 
-    public void Initialize() {
+    public List<LiftAccessNode> LiftAccessNodes;
+
+    public void Initialize(List<LiftAccessNode> cableJoins) {
+        LiftAccessNodes = cableJoins;
+
         CablePoints = new LiftVehicleSystemCablePoint[Parent.CablePoints.Length];
 
         // We compute the distances
@@ -161,8 +167,6 @@ public class LiftVehicleSystem {
         vehicle.DerotateTransform.localEulerAngles = new Vector3(result.verticalAngle + vehicle.Theta * Mathf.Rad2Deg, 0, 0);
     }
 
-
-
     public struct LiftVehicleSystemCablePoint {
         public Vector3 worldPosition;
         public float speed;
@@ -174,5 +178,14 @@ public class LiftVehicleSystem {
             this.speed = speed;
             this.cablePosition = cablePosition;
         }
+    }
+
+    public struct LiftAccessNode {
+        public int Index;
+        
+        // Allowed to be null
+        public INavNode Entry;
+        // Allowed to be null
+        public INavNode Exit;
     }
 }
