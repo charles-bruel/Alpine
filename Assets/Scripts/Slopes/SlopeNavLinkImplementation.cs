@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SlopeNavLink : INavLinkImplementation {
+public class SlopeNavLinkImplentation : INavLinkImplementation {
     public Slope Owner;
     public NavArea Parent;
     public SlopeNavAreaImplementation ParentImplementation;
@@ -17,7 +17,7 @@ public class SlopeNavLink : INavLinkImplementation {
         }
     }
     
-    public SlopeNavLink(Slope owner, int linkID, SlopeInternalPathingJob.SlopeInternalPath rawData) {
+    public SlopeNavLinkImplentation(Slope owner, int linkID, SlopeInternalPathingJob.SlopeInternalPath rawData) {
         Owner = owner;
         Parent = owner.Footprint;
         LinkID = linkID;
@@ -74,10 +74,39 @@ public class SlopeNavLink : INavLinkImplementation {
             GameObject.Destroy(PathRenderer.gameObject);
     }
 
+    private static readonly float[] dist = new float[] {1, 2, 3, 4, 3, 2, 1};
+    private static readonly int center = dist.Length / 2;
+
+    private Vector2 Lookup(int i) {
+        if(i < 0) return RawData.Points[0];
+        if(i >= RawData.Points.Count) return RawData.Points[RawData.Points.Count - 1];
+        return RawData.Points[i];
+    }
+
+    private Vector2 EvalLattice(int i) {
+        Vector2 sum = Vector2.zero;
+        float weightSum = 0;
+        for(int j = 0;j < dist.Length;j ++) {
+            sum += Lookup(i + j - center) * dist[j];
+            weightSum += dist[j];
+        }
+        return sum / weightSum;
+    }
+
     public void ProgressPosition(Visitor self, NavLink link, float delta, ref float progress, ref Vector3 pos, ref Vector3 angles) {
-        int i = (int) (progress * RawData.Points.Count);
-        Vector2 pos2d = ParentImplementation.Bounds.min + new Vector2(RawData.Points[i].x, RawData.Points[i].y) * SlopeInternalPathingJob.GridCellSize;
+        // int i = (int) (progress * RawData.Points.Count);
+        // Vector2 pos2d = ParentImplementation.Bounds.min + new Vector2(RawData.Points[i].x, RawData.Points[i].y) * SlopeInternalPathingJob.GridCellSize;
+        // pos = TerrainManager.Instance.Project(pos2d);
+        // progress += self.SkiSpeed * delta / RawData.Points.Count;
+
+        float totalLength = RawData.Points.Count + center * 2;
+        float overallProgress = progress * totalLength;
+        int i = (int) overallProgress;
+        float mod = overallProgress - i;
+        Vector2 pos2d = EvalLattice(i) * (1 - mod) + EvalLattice(i + 1) * mod;
+
+        pos2d = ParentImplementation.Bounds.min + pos2d * SlopeInternalPathingJob.GridCellSize;
         pos = TerrainManager.Instance.Project(pos2d);
-        progress += self.SkiSpeed * delta / RawData.Points.Count;
+        progress += self.SkiSpeed * delta / totalLength;
     }
 }

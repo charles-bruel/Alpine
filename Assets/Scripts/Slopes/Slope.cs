@@ -122,7 +122,7 @@ public class Slope : Building {
 
                 link.Cost = path.TotalCost;
                 link.Difficulty = CurrentDifficulty;
-                link.Implementation = new SlopeNavLink(this, linkID, path);
+                link.Implementation = new SlopeNavLinkImplentation(this, linkID, path);
                 link.Marker = "Slope link " + linkID + " between " + path.A + " and " + path.B + " (" + path.TotalCost + ")";
 
                 Footprint.Links.Add(link);
@@ -136,7 +136,7 @@ public class Slope : Building {
                     B = path.B,
                     Cost = path.TotalCost,
                     Difficulty = CurrentDifficulty,
-                    Implementation = new SlopeNavLink(this, linkID, path),
+                    Implementation = new SlopeNavLinkImplentation(this, linkID, path),
                     Marker = "Slope link " + linkID + " between " + path.A + " and " + path.B + " (" + path.TotalCost + ")",
                 };
 
