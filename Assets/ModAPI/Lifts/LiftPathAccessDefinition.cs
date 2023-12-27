@@ -1,11 +1,11 @@
-public struct LiftPassAccessDefinition {
+public struct LiftPathAccessDefinition {
     public Direction Side;
-    public int Position;
+    public int Pos;
     public bool Entry;
     public bool Exit;
     // TODO: Vehicle mask? (seperate loading areas for different vehicles)
 
     public enum Direction {
-        Uphill, Downhill
+        UPHILL, DOWNHILL
     }
 }

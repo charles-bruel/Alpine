@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Codice.CM.Common.Tree;
 using EPPZ.Geometry.Model;
 using Mono.Cecil;
+using PlasticGui.WorkspaceWindow.Items;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -108,12 +109,41 @@ public class LiftBuilder
 
         LiftCableBuilder builder = new LiftCableBuilder();
 
+        //  /----+----\
+        // +     t    x
+        //  \----x----/
+        // Clockwise direction of motion
+        // +'s are caugh on the uphill run
+        // x's are caught on the downhill run
+        // (t) midstation
+        
         for(int i = 0;i < Data.SpanSegments.Count;i ++) {
             LiftRoutingSegmentTemplate routing = Data.SpanSegments[i].Start.PhysicalSegment;
+
+            // Lift access point(s)
+            LiftRoutingSegmentType type = i == 0 ? LiftRoutingSegmentType.FIRST : LiftRoutingSegmentType.MIDDLE;
+            LiftPathAccessDefinition[] definitions = routing.APILiftRoutingSegment.GetPathAccess(type);
+            foreach(LiftPathAccessDefinition definition in definitions) {
+                if(definition.Side == LiftPathAccessDefinition.Direction.DOWNHILL) {
+                    Assert.IsFalse(type == LiftRoutingSegmentType.FIRST, "First segment cannot have downhill access points");
+                    continue;
+                }
+                LiftAccessPointIntermediate point = new LiftAccessPointIntermediate
+                {
+                    Pos = builder.Points.Count + definition.Pos,
+                    ID = i,
+                    Entry = definition.Entry,
+                    Exit = definition.Exit
+                };
+                exchangePoints.Add(point);
+            }
+
+            // Cable
             List<LiftCablePoint> temp = routing.APILiftSegment.GetCablePointsUphill(routing, routing.UphillCablePoint);
             if(i != 0) builder.AddPointsWithSag(builder.LastPoint, temp[0], 1.0001f);
             builder.AddPointsWithoutSag(temp);
 
+            // Span to the next routing segment
             for(int j = 0;j < Data.SpanSegments[i].Towers.Count;j ++) {
                 LiftTowerTemplate tower = Data.SpanSegments[i].Towers[j].PhysicalTower;
                 List<LiftCablePoint> temp2 = tower.APILiftSegment.GetCablePointsUphill(tower, tower.UphillCablePoint);
@@ -131,8 +161,38 @@ public class LiftBuilder
 
         for(int i = Data.SpanSegments.Count - 1;i >= 0;i --) {
             LiftRoutingSegmentTemplate routing = Data.SpanSegments[i].End.PhysicalSegment;
+
+            LiftRoutingSegmentType type = i == Data.SpanSegments.Count - 1 ? LiftRoutingSegmentType.LAST : LiftRoutingSegmentType.MIDDLE;
+            LiftPathAccessDefinition[] definitions = routing.APILiftRoutingSegment.GetPathAccess(type);
+            foreach(LiftPathAccessDefinition definition in definitions) {
+                if(definition.Side == LiftPathAccessDefinition.Direction.UPHILL) {
+                    Assert.IsFalse(type == LiftRoutingSegmentType.LAST, "Last segment cannot have uphill access points");
+                    continue;
+                }
+                LiftAccessPointIntermediate point = new LiftAccessPointIntermediate
+                {
+                    Pos = builder.Points.Count + definition.Pos,
+                    // e.g. A lift with two midstations (CW direction)
+                    // goal:
+                    // /-1-2-\
+                    // 0     3
+                    // \-5-4-/
+                    // i:
+                    // 0 1 2 3
+                    // 
+                    // j is the ID
+                    // j=n*2-i
+                    // 5=3*2
+                    ID = Data.SpanSegments.Count * 2 - (i + 1),
+                    Entry = definition.Entry,
+                    Exit = definition.Exit
+                };
+                exchangePoints.Add(point);
+            }
+
+            // Cable
             List<LiftCablePoint> temp;
-            if(i == Data.SpanSegments.Count - 1) {
+            if(type == LiftRoutingSegmentType.LAST) {
                 temp = routing.APILiftSegment.GetCablePointsUphill(routing, routing.UphillCablePoint);
             } else {
                 temp = routing.APILiftSegment.GetCablePointsDownhill(routing, routing.DownhillCablePoint);
@@ -140,6 +200,7 @@ public class LiftBuilder
             builder.AddPointsWithSag(builder.LastPoint, temp[0], 1.0001f);
             builder.AddPointsWithoutSag(temp);
 
+            // Span to the next routing segment
             for(int j = Data.SpanSegments[i].Towers.Count - 1;j >= 0;j --) {
                 LiftTowerTemplate tower = Data.SpanSegments[i].Towers[j].PhysicalTower;
                 List<LiftCablePoint> temp2 = tower.APILiftSegment.GetCablePointsDownhill(tower, tower.DownhillCablePoint);
@@ -371,11 +432,11 @@ public class LiftBuilder
     public void Finish() {
         FinishAll();
 
-        Result.Footprint = GenerateFootprint();
-        Tuple<List<INavNode>, List<INavNode>> nodes = RegisterPolygonsAndNav();
-
         Tuple<LiftCablePoint[], List<LiftAccessPointIntermediate>> createCablesResult = CreateCables();
         Result.CablePoints = createCablesResult.Item1;
+
+        Result.Footprint = GenerateFootprint();
+        Tuple<List<INavNode>, List<INavNode>> nodes = RegisterPolygonsAndNav(createCablesResult.Item2);
 
         Result.CableJoins = CreateCableJoins(createCablesResult.Item2, nodes);
 
@@ -403,11 +464,14 @@ public class LiftBuilder
         return result;
     }
 
-    private Tuple<List<INavNode>, List<INavNode>> RegisterPolygonsAndNav() {
+    private Tuple<List<INavNode>, List<INavNode>> RegisterPolygonsAndNav(List<LiftAccessPointIntermediate> liftAccessPoints) {
         List<NavArea> navAreas = new List<NavArea>();
         
         List<INavNode> entries = new List<INavNode>();
         List<INavNode> exits = new List<INavNode>();
+
+        List<INavNode> reverseEntries = new List<INavNode>();
+        List<INavNode> reverseExits = new List<INavNode>();
 
         for(int i = 0;i < Data.RoutingSegments.Count;i ++) {
             List<AlpinePolygon> polygons = Data.RoutingSegments[i].PhysicalSegment.APILiftSegment.GetPolygons(
@@ -455,7 +519,7 @@ public class LiftBuilder
                 };
 
                 NavArea exitArea = polygons[stationTemplate.ExitNavNode.PolygonDefinitionID] as NavArea;
-                Assert.IsNotNull(entryArea);
+                Assert.IsNotNull(exitArea);
                 NavDestination exitNode = new NavDestination { 
                     Pos = ModAPIUtils.TransformBuildingCoordinates(stationTemplate.ExitNavNode.Pos, parentAngle, parentPos), 
                     Area = exitArea 
@@ -466,16 +530,67 @@ public class LiftBuilder
 
                 entries.Add(entryNode);
                 exits.Add(exitNode);
+
+            }
+            // Furthermore, if it is a midstation segment, we add the reverse nodes
+            if(Data.RoutingSegments[i].PhysicalSegment is LiftMidStationTemplate) {
+                float parentAngle = Data.RoutingSegments[i].PhysicalSegment.transform.eulerAngles.y;
+                Vector2 parentPos = Data.RoutingSegments[i].PhysicalSegment.transform.position.ToHorizontal();
+
+                LiftMidStationTemplate stationTemplate = Data.RoutingSegments[i].PhysicalSegment as LiftMidStationTemplate;
+                
+                NavArea entryArea = polygons[stationTemplate.ExtraEntryNavNode.PolygonDefinitionID] as NavArea;
+                Assert.IsNotNull(entryArea);
+                NavDestination entryNode = new NavDestination {
+                    Pos = ModAPIUtils.TransformBuildingCoordinates(stationTemplate.ExtraEntryNavNode.Pos, parentAngle, parentPos), 
+                    Area = entryArea
+                };
+
+                NavArea exitArea = polygons[stationTemplate.ExtraExitNavNode.PolygonDefinitionID] as NavArea;
+                Assert.IsNotNull(exitArea);
+                NavDestination exitNode = new NavDestination { 
+                    Pos = ModAPIUtils.TransformBuildingCoordinates(stationTemplate.ExtraExitNavNode.Pos, parentAngle, parentPos), 
+                    Area = exitArea 
+                };
+
+                entryArea.Nodes.Add(entryNode);
+                exitArea.Nodes.Add(exitNode);
+
+                reverseEntries.Add(entryNode);
+                reverseExits.Add(exitNode);
+            }
+        }
+
+        // To create the final list, we need to reverse the reverse nodes and add them to the main list
+        reverseEntries.Reverse();
+        reverseExits.Reverse();
+        entries.AddRange(reverseEntries);
+        exits.AddRange(reverseExits);
+        // TODO: This will *NOT* work with turn segments, as it is expected the indices of the list entries to
+        // be synced to the IDs. To make turns work (or any other segment that doesn't add nodes), we need to
+        // insert null dummy entries when not inserting nodes in the above loop
+        Assert.AreEqual(entries.Count, exits.Count);
+        Assert.AreEqual(entries.Count, Data.SpanSegments.Count * 2);
+
+        // Now we determine which nodes have associated lift access data and therefore should get Lift links
+        bool[] validEntries = new bool[entries.Count];
+        bool[] validExits = new bool[exits.Count];
+        for(int i = 0;i < liftAccessPoints.Count;i ++) {
+            if(liftAccessPoints[i].Entry) {
+                validEntries[liftAccessPoints[i].ID] = true;
+            }
+            if(liftAccessPoints[i].Exit) {
+                validExits[liftAccessPoints[i].ID] = true;
             }
         }
 
         List<NavLink> liftLinks = new List<NavLink>();
 
-        // TODO: Downloading
         for(int i = 0; i < entries.Count;i ++) {
+            if(!validEntries[i]) continue;
             for(int j = 0; j < exits.Count;j ++) {
                 if(i == j) continue; // Don't link the same station
-                if(i > j) continue; // Don't go downhill
+                if(!validExits[j]) continue;
                 
                 NavLink link = new NavLink {
                     A = entries[i],
@@ -483,7 +598,7 @@ public class LiftBuilder
                     Cost = 1,
                     Difficulty = SlopeDifficulty.GREEN,
                     Implementation = new LiftNavLinkImplementation(),
-                    Marker = "Lift explicit link",
+                    Marker = "Lift explicit link: " + i + " to " + j,
                 };
 
                 entries[i].AddExplictNavLink(link);

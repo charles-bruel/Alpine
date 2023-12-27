@@ -9,5 +9,30 @@ public class APILiftRoutingSegment : APILiftSegment {
         }
         return 0;
     }
-
+    
+    public virtual LiftPathAccessDefinition[] GetPathAccess(LiftRoutingSegmentType type) {
+        switch(type) {
+            case LiftRoutingSegmentType.FIRST:
+            return new LiftPathAccessDefinition[] {
+                new LiftPathAccessDefinition() {
+                    Side = LiftPathAccessDefinition.Direction.UPHILL,
+                    Pos = 0,
+                    Entry = true,
+                    Exit = true
+                }
+            };
+            case LiftRoutingSegmentType.MIDDLE:
+            return new LiftPathAccessDefinition[] {};
+            case LiftRoutingSegmentType.LAST:
+            return new LiftPathAccessDefinition[] {
+                new LiftPathAccessDefinition() {
+                    Side = LiftPathAccessDefinition.Direction.DOWNHILL,
+                    Pos = 0,
+                    Entry = true,
+                    Exit = true
+                }
+            };
+        }
+        throw new System.Exception("Invalid LiftRoutingSegmentType");
+    }
 }

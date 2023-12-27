@@ -53,6 +53,7 @@ public class APILiftSegment : APIBase
     }
 
     // This allows lifts elements to place their own effect polygons
+    // TODO: Call for regular segments too
     public virtual List<AlpinePolygon> GetPolygons(ICustomScriptable parent, AlpinePolygonSource[] providedPolygons) {
         // Provided polygons are in local space, so we must manually transform them
         // into world space
