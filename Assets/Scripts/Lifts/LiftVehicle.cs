@@ -15,10 +15,6 @@ public class LiftVehicle : MonoBehaviour {
     [NonSerialized]
     public Visitor[] visitors;
 
-    void Start () {
-        visitors = new Visitor[Seats.Length];
-    }
-
     private const float epsilon = 0.01f;
 
     public void UpdateSwing(float delta) {

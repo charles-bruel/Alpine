@@ -591,11 +591,22 @@ public class LiftBuilder
             for(int j = 0; j < exits.Count;j ++) {
                 if(i == j) continue; // Don't link the same station
                 if(!validExits[j]) continue;
+
+                float dist = 0;
+                int mindex = i; 
+                int maxdex = j;
+                if(i > j) {
+                    mindex = j;
+                    maxdex = i;
+                }
+                for(int k = mindex;k < maxdex;k ++) {
+                    dist += (Data.RoutingSegments[k].Position - Data.RoutingSegments[k + 1].Position).magnitude;
+                }
                 
                 NavLink link = new NavLink {
                     A = entries[i],
                     B = exits[j],
-                    Cost = 1,
+                    Cost = 100 * dist / Data.Template.MaxSpeed,
                     Difficulty = SlopeDifficulty.GREEN,
                     Implementation = new LiftNavLinkImplementation(),
                     Marker = "Lift explicit link: " + i + " to " + j,

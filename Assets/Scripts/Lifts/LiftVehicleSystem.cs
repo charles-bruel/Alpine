@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Codice.Utils;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -13,12 +14,18 @@ public class LiftVehicleSystem {
     public LiftVehicleSystemCablePoint[] CablePoints;
 
     public List<LiftAccessNode> LiftAccessNodes;
+    private Dictionary<INavNode, Queue<Visitor>> WaitingVisitors;
 
     public void Initialize(List<LiftAccessNode> cableJoins) {
         LiftAccessNodes = cableJoins;
+        WaitingVisitors = new Dictionary<INavNode, Queue<Visitor>>();
+        foreach (LiftAccessNode node in LiftAccessNodes) {
+            if (node.Entry != null) {
+                WaitingVisitors.Add(node.Entry, new Queue<Visitor>());
+            }
+        }
 
         CablePoints = new LiftVehicleSystemCablePoint[Parent.CablePoints.Length];
-
         // We compute the distances
         float pos = 0;
         LiftCablePoint prev = Parent.CablePoints[Parent.CablePoints.Length - 1];
@@ -46,6 +53,7 @@ public class LiftVehicleSystem {
             LiftVehicle temp = GameObject.Instantiate(template);
             temp.transform.SetParent(Parent.transform);
             temp.Position = i * actualSpacing;
+            temp.visitors = new Visitor[temp.Seats.Length];
             LiftVehicles.Add(temp);
         }
 
@@ -163,10 +171,10 @@ public class LiftVehicleSystem {
             for(int i = 0; i < final;i ++) {
                 TryCablePoint(vehicleIndex, i);
             }
-        }
-
-        for(int i = initial; i < final;i ++) {
-            TryCablePoint(vehicleIndex, i);
+        } else {
+            for(int i = initial; i < final;i ++) {
+                TryCablePoint(vehicleIndex, i);
+            }
         }
     }
 
@@ -185,11 +193,39 @@ public class LiftVehicleSystem {
     }
 
     private void OnExit(int vehicleIndex, INavNode exit) {
-        Debug.Log("OnExit");
+        LiftVehicle liftVehicle = LiftVehicles[vehicleIndex];
+        // Go through every seat and find all where the visitor wants to get off here
+        for(int i = 0;i < liftVehicle.visitors.Length;i ++) {
+            if(liftVehicle.visitors[i] != null && liftVehicle.visitors[i].CurrentLink.B == exit) {
+                Visitor visitor = liftVehicle.visitors[i];
+                liftVehicle.visitors[i] = null;
+
+                // Mark that the visitor is no longer in the vehicle
+                visitor.Progress = 1.0f;
+            }
+        }
     }
     
     private void OnEnter(int vehicleIndex, INavNode entry) {
-        Debug.Log("OnEnter");
+        LiftVehicle liftVehicle = LiftVehicles[vehicleIndex];
+        // Go through every seat and load all that are empty
+        for(int i = 0;i < liftVehicle.visitors.Length;i ++) {
+            if(liftVehicle.visitors[i] == null) {
+                if(WaitingVisitors[entry].Count == 0) {
+                    // No more visitors to load
+                    return;
+                }
+                Visitor visitor = WaitingVisitors[entry].Dequeue();
+                liftVehicle.visitors[i] = visitor;
+
+                // Mark that the visitor is in the vehicle
+                visitor.Progress = 0.5f;
+            }   
+        }
+    }
+
+    public void EnterQueue(Visitor visitor, INavNode entry) {
+        WaitingVisitors[entry].Enqueue(visitor);
     }
 
     private int FindID(float position) {
@@ -218,6 +254,13 @@ public class LiftVehicleSystem {
         vehicle.transform.localEulerAngles =         new Vector3(0, 90 - result.horizontalAngle, 0);
         vehicle.RotateTransform.localEulerAngles =   new Vector3(-90 - result.verticalAngle, 0, 0);
         vehicle.DerotateTransform.localEulerAngles = new Vector3(result.verticalAngle + vehicle.Theta * Mathf.Rad2Deg, 0, 0);
+
+        // Update visitors in the vehicle
+        for(int i = 0;i < vehicle.visitors.Length;i ++) {
+            if(vehicle.visitors[i] != null) {
+                vehicle.visitors[i].transform.position = vehicle.Seats[i].position;
+            }
+        }
     }
 
     public struct LiftVehicleSystemCablePoint {
