@@ -53,7 +53,7 @@ public class LiftVehicleSystem {
             LiftVehicle temp = GameObject.Instantiate(template);
             temp.transform.SetParent(Parent.transform);
             temp.Position = i * actualSpacing;
-            temp.visitors = new Visitor[temp.Seats.Length];
+            temp.Visitors = new Visitor[temp.Seats.Length];
             LiftVehicles.Add(temp);
         }
 
@@ -195,10 +195,10 @@ public class LiftVehicleSystem {
     private void OnExit(int vehicleIndex, INavNode exit) {
         LiftVehicle liftVehicle = LiftVehicles[vehicleIndex];
         // Go through every seat and find all where the visitor wants to get off here
-        for(int i = 0;i < liftVehicle.visitors.Length;i ++) {
-            if(liftVehicle.visitors[i] != null && liftVehicle.visitors[i].CurrentLink.B == exit) {
-                Visitor visitor = liftVehicle.visitors[i];
-                liftVehicle.visitors[i] = null;
+        for(int i = 0;i < liftVehicle.Visitors.Length;i ++) {
+            if(liftVehicle.Visitors[i] != null && liftVehicle.Visitors[i].CurrentLink.B == exit) {
+                Visitor visitor = liftVehicle.Visitors[i];
+                liftVehicle.Visitors[i] = null;
 
                 // Mark that the visitor is no longer in the vehicle
                 visitor.Progress = 1.0f;
@@ -209,14 +209,14 @@ public class LiftVehicleSystem {
     private void OnEnter(int vehicleIndex, INavNode entry) {
         LiftVehicle liftVehicle = LiftVehicles[vehicleIndex];
         // Go through every seat and load all that are empty
-        for(int i = 0;i < liftVehicle.visitors.Length;i ++) {
-            if(liftVehicle.visitors[i] == null) {
+        for(int i = 0;i < liftVehicle.Visitors.Length;i ++) {
+            if(liftVehicle.Visitors[i] == null) {
                 if(WaitingVisitors[entry].Count == 0) {
                     // No more visitors to load
                     return;
                 }
                 Visitor visitor = WaitingVisitors[entry].Dequeue();
-                liftVehicle.visitors[i] = visitor;
+                liftVehicle.Visitors[i] = visitor;
 
                 // Mark that the visitor is in the vehicle
                 visitor.Progress = 0.5f;
@@ -256,9 +256,9 @@ public class LiftVehicleSystem {
         vehicle.DerotateTransform.localEulerAngles = new Vector3(result.verticalAngle + vehicle.Theta * Mathf.Rad2Deg, 0, 0);
 
         // Update visitors in the vehicle
-        for(int i = 0;i < vehicle.visitors.Length;i ++) {
-            if(vehicle.visitors[i] != null) {
-                vehicle.visitors[i].transform.position = vehicle.Seats[i].position;
+        for(int i = 0;i < vehicle.Visitors.Length;i ++) {
+            if(vehicle.Visitors[i] != null) {
+                vehicle.Visitors[i].transform.position = vehicle.Seats[i].position;
             }
         }
     }

@@ -49,8 +49,10 @@ public struct SaveV1 {
     // Assumes a blank but generated map
     public void Restore() {
         LoadingContextV1 loadingContext = new LoadingContextV1();
+        
+        List<Lift> recreatedLifts = new List<Lift>();
         foreach(LiftSaveDataV1 lift in lifts) {
-            LiftBuilder.BuildFromSave(lift.ToConstructionData(), lift.NavAreaGraphs, loadingContext);
+            recreatedLifts.Add(LiftBuilder.BuildFromSave(lift.ToConstructionData(), lift.NavAreaGraphs, loadingContext));
         }
 
         foreach(SlopeSaveDataV1 slope in slopes) {
@@ -84,5 +86,9 @@ public struct SaveV1 {
 
         // Now we can restore the visitors
         VisitorController.Instance.RestoreVisitors(visitors, loadingContext);
+
+        for(int i = 0;i < lifts.Length;i ++) {
+            lifts[i].LiftVehicleSystem.RestoreTo(recreatedLifts[i].VehicleSystem);
+        }
     }
 }

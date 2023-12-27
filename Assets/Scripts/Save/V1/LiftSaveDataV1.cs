@@ -8,6 +8,7 @@ public struct LiftSaveDataV1 {
     public List<SpanSegmentV1> SpanSegments;
     public int SelectedVehicleIndex;
     public NavAreaGraphSaveDataV1[] NavAreaGraphs;
+    public LiftVehicleSystemSaveDataV1 LiftVehicleSystem;
 
     public static LiftSaveDataV1 FromLift(Lift lift, SavingContextV1 context) {
         LiftSaveDataV1 result = FromConstructionData(lift.Data);
@@ -16,6 +17,8 @@ public struct LiftSaveDataV1 {
         for(int i = 0;i < lift.NavAreas.Count;i ++) {
             result.NavAreaGraphs[i] = NavAreaGraphSaveDataV1.FromNavArea(lift.NavAreas[i], context);
         }
+
+        result.LiftVehicleSystem = LiftVehicleSystemSaveDataV1.FromLiftVehicleSystem(lift.VehicleSystem);
 
         return result;
     }

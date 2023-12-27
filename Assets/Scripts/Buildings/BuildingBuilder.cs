@@ -81,7 +81,7 @@ public class BuildingBuilder {
         Pos = pos;
     }
 
-    public static void BuildFromSave(Vector3 pos, float rotation, string templateName, NavAreaGraphSaveDataV1[] navData, LoadingContextV1 loadingContext) {
+    public static Building BuildFromSave(Vector3 pos, float rotation, string templateName, NavAreaGraphSaveDataV1[] navData, LoadingContextV1 loadingContext) {
         BuildingBuilder builder = new BuildingBuilder();
         builder.Template = BuildingsController.Instance.GetBuildingTemplate(templateName);
         builder.Pos = pos.ToHorizontal();
@@ -94,5 +94,7 @@ public class BuildingBuilder {
             builder.Result.NavAreas[i].ID = navData[i].ID;
             loadingContext.navAreas.Add(navData[i].ID, builder.Result.NavAreas[i]);
         }
+
+        return builder.Result;
     }
 }

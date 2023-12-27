@@ -13,7 +13,7 @@ public class LiftVehicle : MonoBehaviour {
     public float Mass;
     public float Friction;
     [NonSerialized]
-    public Visitor[] visitors;
+    public Visitor[] Visitors;
 
     private const float epsilon = 0.01f;
 

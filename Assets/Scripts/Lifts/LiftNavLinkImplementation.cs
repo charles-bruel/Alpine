@@ -32,4 +32,9 @@ public class LiftNavLinkImplementation : INavLinkImplementation {
             // The LiftVehicleSystem will also set the position and angles, so we do nothing
         }
     }
+
+    public void OnSaveLoad(Visitor visitor, ref float progress) {
+        // Progress changing to 0.1f marks that it's been added to the queue, which doesn't survive across restarts
+        if(progress == 0.1f) progress = 0;
+    }
 }
