@@ -28,6 +28,8 @@ public class VisitorController : MonoBehaviour {
         INavNode spawnPoint = SpawnPoints[spawnIndex];
         Visitor newVisitor = GameObject.Instantiate(Templates[UnityEngine.Random.Range(0, Templates.Length)]);
         newVisitor.AnimationSpeed = UnityEngine.Random.Range(0.85f, 1.15f);
+        newVisitor.SkiSpeed *= UnityEngine.Random.Range(0.8f, 1.2f);
+        newVisitor.TraverseSpeed *= UnityEngine.Random.Range(0.8f, 1.2f);
         newVisitor.StationaryPos = spawnPoint;
         Visitors.Add(newVisitor);
         newVisitor.transform.parent = transform;
