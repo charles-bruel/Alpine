@@ -849,6 +849,16 @@ MonoBehaviour:
       - 2.83312
       - 12.5
       IntParameters: 0000000001000000020000000300000004000000
+  DefaultUphillAccessPoints:
+  - Side: 0
+    Pos: 20
+    Entry: 1
+    Exit: 1
+  DefaultDownhillAccessPoints:
+  - Side: 1
+    Pos: 20
+    Entry: 1
+    Exit: 1
   EntryNavNode:
     PolygonDefinitionID: 1
     Pos: {x: 10, y: 2.5}

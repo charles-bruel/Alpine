@@ -1,3 +1,5 @@
+using System.Linq;
+
 public class APILiftRoutingSegment : APILiftSegment {
 
     // This function will return the length from the origin to the end of the station
@@ -10,28 +12,14 @@ public class APILiftRoutingSegment : APILiftSegment {
         return 0;
     }
     
-    public virtual LiftPathAccessDefinition[] GetPathAccess(LiftRoutingSegmentType type) {
+    public virtual LiftPathAccessDefinition[] GetPathAccess(LiftRoutingSegmentType type, LiftPathAccessDefinition[] defaultUphillAccessPoints, LiftPathAccessDefinition[] defaultDownhillAccessPoints) {
         switch(type) {
             case LiftRoutingSegmentType.FIRST:
-            return new LiftPathAccessDefinition[] {
-                new LiftPathAccessDefinition() {
-                    Side = LiftPathAccessDefinition.Direction.UPHILL,
-                    Pos = 0,
-                    Entry = true,
-                    Exit = true
-                }
-            };
+            return defaultUphillAccessPoints;
             case LiftRoutingSegmentType.LAST:
-            return new LiftPathAccessDefinition[] {
-                new LiftPathAccessDefinition() {
-                    Side = LiftPathAccessDefinition.Direction.DOWNHILL,
-                    Pos = 0,
-                    Entry = true,
-                    Exit = true
-                }
-            };
+            return defaultDownhillAccessPoints;
             case LiftRoutingSegmentType.MIDDLE:
-            return new LiftPathAccessDefinition[] {};
+            return defaultDownhillAccessPoints.Concat(defaultUphillAccessPoints).ToArray();
         }
         throw new System.Exception("Invalid LiftRoutingSegmentType");
     }

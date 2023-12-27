@@ -107,7 +107,7 @@ public class MidStationT3 : APITurnSegment {
         
         List<Vector2> filletResult = Utils.Fillet(A1, intersection, B1, 3, 32);
 
-        List<LiftCablePoint> toReturn = new List<LiftCablePoint>(filletResult.Count - 2 + extraPoints);
+        List<LiftCablePoint> toReturn = new List<LiftCablePoint>(filletResult.Count + extraPoints);
 
         toReturn.Add(new LiftCablePoint(primarySegmentCPTransform.position, primarySegmentCPTransform.localScale.x));
 

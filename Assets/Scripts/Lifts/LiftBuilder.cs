@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Codice.CM.Common.Tree;
 using EPPZ.Geometry.Model;
-using Mono.Cecil;
-using PlasticGui.WorkspaceWindow.Items;
+using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -122,14 +119,13 @@ public class LiftBuilder
 
             // Lift access point(s)
             LiftRoutingSegmentType type = i == 0 ? LiftRoutingSegmentType.FIRST : LiftRoutingSegmentType.MIDDLE;
-            LiftPathAccessDefinition[] definitions = routing.APILiftRoutingSegment.GetPathAccess(type);
+            LiftPathAccessDefinition[] definitions = routing.APILiftRoutingSegment.GetPathAccess(type, routing.DefaultUphillAccessPoints, routing.DefaultDownhillAccessPoints);
             foreach(LiftPathAccessDefinition definition in definitions) {
                 if(definition.Side == LiftPathAccessDefinition.Direction.DOWNHILL) {
                     Assert.IsFalse(type == LiftRoutingSegmentType.FIRST, "First segment cannot have downhill access points");
                     continue;
                 }
-                LiftAccessPointIntermediate point = new LiftAccessPointIntermediate
-                {
+                LiftAccessPointIntermediate point = new LiftAccessPointIntermediate {
                     Pos = builder.Points.Count + definition.Pos,
                     ID = i,
                     Entry = definition.Entry,
@@ -163,14 +159,13 @@ public class LiftBuilder
             LiftRoutingSegmentTemplate routing = Data.SpanSegments[i].End.PhysicalSegment;
 
             LiftRoutingSegmentType type = i == Data.SpanSegments.Count - 1 ? LiftRoutingSegmentType.LAST : LiftRoutingSegmentType.MIDDLE;
-            LiftPathAccessDefinition[] definitions = routing.APILiftRoutingSegment.GetPathAccess(type);
+            LiftPathAccessDefinition[] definitions = routing.APILiftRoutingSegment.GetPathAccess(type, routing.DefaultUphillAccessPoints, routing.DefaultDownhillAccessPoints);
             foreach(LiftPathAccessDefinition definition in definitions) {
                 if(definition.Side == LiftPathAccessDefinition.Direction.UPHILL) {
                     Assert.IsFalse(type == LiftRoutingSegmentType.LAST, "Last segment cannot have uphill access points");
                     continue;
                 }
-                LiftAccessPointIntermediate point = new LiftAccessPointIntermediate
-                {
+                LiftAccessPointIntermediate point = new LiftAccessPointIntermediate {
                     Pos = builder.Points.Count + definition.Pos,
                     // e.g. A lift with two midstations (CW direction)
                     // goal:
@@ -586,20 +581,40 @@ public class LiftBuilder
 
         List<NavLink> liftLinks = new List<NavLink>();
 
+        int segCount = Data.SpanSegments.Count;
+
         for(int i = 0; i < entries.Count;i ++) {
             if(!validEntries[i]) continue;
             for(int j = 0; j < exits.Count;j ++) {
                 if(i == j) continue; // Don't link the same station
+                // Don't go again the rotation of the flow
+                if(j != 0 && i > j) continue;
+                if(j == 0 && i < segCount) continue;
+                if(i < segCount && j > segCount) continue;
                 if(!validExits[j]) continue;
 
                 float dist = 0;
+
+                // To get the distances, we measure the distances between each routing
+                // segment and sum them up
                 int mindex = i; 
                 int maxdex = j;
-                if(i > j) {
-                    mindex = j;
-                    maxdex = i;
+                // /-1-2-\
+                // 0     3
+                // \-5-4-/
+                // i and j are the IDs of the nodes, but we need to find the indices of the segments
+                if(mindex > segCount) {
+                    mindex = segCount * 2 - mindex;
                 }
-                for(int k = mindex;k < maxdex;k ++) {
+                if(maxdex > segCount) {
+                    maxdex = segCount * 2 - maxdex;
+                }
+                if(mindex > maxdex) {
+                    (maxdex, mindex) = (mindex, maxdex);
+                }
+                
+
+                for (int k = mindex;k < maxdex;k ++) {
                     dist += (Data.RoutingSegments[k].Position - Data.RoutingSegments[k + 1].Position).magnitude;
                 }
                 
@@ -611,6 +626,8 @@ public class LiftBuilder
                     Implementation = new LiftNavLinkImplementation(),
                     Marker = "Lift explicit link: " + i + " to " + j,
                 };
+
+                Debug.Log(mindex + "->" + maxdex + " (" + i + " -> " + j + "): " + link.Cost);
 
                 entries[i].AddExplictNavLink(link);
                 exits[j].AddExplictNavLink(link);

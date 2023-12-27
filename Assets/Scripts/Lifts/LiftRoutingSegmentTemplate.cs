@@ -9,6 +9,8 @@ public class LiftRoutingSegmentTemplate : LiftSegmentTemplate
     }
 
     public APILiftRoutingSegment APILiftRoutingSegment;
+    public LiftPathAccessDefinition[] DefaultUphillAccessPoints;
+    public LiftPathAccessDefinition[] DefaultDownhillAccessPoints;
 
     private void Initialize() {
         if(APILiftRoutingSegment != null) return;

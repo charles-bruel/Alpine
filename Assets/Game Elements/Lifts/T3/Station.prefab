@@ -619,10 +619,10 @@ MonoBehaviour:
   - ParentElement: {fileID: 3711130267354381511}
     Level: 2
     Points:
-    - {x: 20, y: 0}
-    - {x: -20, y: 0}
-    - {x: -20, y: 40}
-    - {x: 20, y: 40}
+    - {x: 15, y: 0}
+    - {x: -15, y: 0}
+    - {x: -15, y: 30}
+    - {x: 15, y: 30}
     ArbitrarilyEditable: 0
     Flags: 31
     Height: 0
@@ -645,6 +645,16 @@ MonoBehaviour:
       FloatParameters:
       - 12.5
       IntParameters: 
+  DefaultUphillAccessPoints:
+  - Side: 0
+    Pos: 0
+    Entry: 1
+    Exit: 1
+  DefaultDownhillAccessPoints:
+  - Side: 1
+    Pos: -12
+    Entry: 1
+    Exit: 1
   EntryNavNode:
     PolygonDefinitionID: 0
     Pos: {x: -2.5, y: 15}

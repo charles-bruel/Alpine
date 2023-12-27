@@ -168,11 +168,11 @@ public class LiftVehicleSystem {
             for(int i = initial; i < CablePoints.Length;i ++) {
                 TryCablePoint(vehicleIndex, i);
             }
-            for(int i = 0; i < final;i ++) {
+            for(int i = 0; i <= final;i ++) {
                 TryCablePoint(vehicleIndex, i);
             }
         } else {
-            for(int i = initial; i < final;i ++) {
+            for(int i = initial; i <= final;i ++) {
                 TryCablePoint(vehicleIndex, i);
             }
         }
