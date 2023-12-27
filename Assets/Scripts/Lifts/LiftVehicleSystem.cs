@@ -142,11 +142,64 @@ public class LiftVehicleSystem {
 
     public void Advance(float delta) {
         for(int i = 0;i < LiftVehicles.Count;i ++) {
-            LiftVehicles[i].Position += delta * Speed;
+            AdvanceVehicle(i, delta * Speed);
             while(LiftVehicles[i].Position > TotalLength) LiftVehicles[i].Position -= TotalLength;
 
             MoveVehicle(LiftVehicles[i], delta);            
         }
+    }
+
+    private void AdvanceVehicle(int vehicleIndex, float quantity) {
+        int initial = FindID(LiftVehicles[vehicleIndex].Position);
+        LiftVehicles[vehicleIndex].Position += quantity;
+        int final = FindID(LiftVehicles[vehicleIndex].Position);
+        if(initial == final) return;
+
+        // We've looped around
+        if (initial > final) {
+            for(int i = initial; i < CablePoints.Length;i ++) {
+                TryCablePoint(vehicleIndex, i);
+            }
+            for(int i = 0; i < final;i ++) {
+                TryCablePoint(vehicleIndex, i);
+            }
+        }
+
+        for(int i = initial; i < final;i ++) {
+            TryCablePoint(vehicleIndex, i);
+        }
+    }
+
+    private void TryCablePoint(int vehicleIndex, int i) {
+        foreach (LiftAccessNode node in LiftAccessNodes) {
+            if (node.Index == i) {
+                // Exit first so people can board in the spaces left
+                if (node.Exit != null) {
+                    OnExit(vehicleIndex, node.Exit);
+                }
+                if (node.Entry != null) {
+                    OnEnter(vehicleIndex, node.Entry);
+                }
+            }
+        }
+    }
+
+    private void OnExit(int vehicleIndex, INavNode exit) {
+        Debug.Log("OnExit");
+    }
+    
+    private void OnEnter(int vehicleIndex, INavNode entry) {
+        Debug.Log("OnEnter");
+    }
+
+    private int FindID(float position) {
+        for(int i = 0;i < CablePoints.Length;i ++) {
+            LiftVehicleSystemCablePoint current = CablePoints[i];
+            if(current.cablePosition > position) {
+                return i - 1;
+            }
+        }
+        return -1;
     }
 
     private void MoveVehicle(LiftVehicle vehicle, float delta) {

@@ -21,8 +21,6 @@ public class APILiftRoutingSegment : APILiftSegment {
                     Exit = true
                 }
             };
-            case LiftRoutingSegmentType.MIDDLE:
-            return new LiftPathAccessDefinition[] {};
             case LiftRoutingSegmentType.LAST:
             return new LiftPathAccessDefinition[] {
                 new LiftPathAccessDefinition() {
@@ -32,6 +30,8 @@ public class APILiftRoutingSegment : APILiftSegment {
                     Exit = true
                 }
             };
+            case LiftRoutingSegmentType.MIDDLE:
+            return new LiftPathAccessDefinition[] {};
         }
         throw new System.Exception("Invalid LiftRoutingSegmentType");
     }
