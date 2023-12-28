@@ -14,12 +14,4 @@ public class UIButtons : MonoBehaviour {
     public void OnModeChangeClicked(Toggle change) {
         StateController.Instance.ToggleMode(change.isOn);
     }
-
-    public void OnSaveClicked() {
-        SaveManager.QueueSaveJob(SaveManager.GetSave(), "save");
-    }
-
-    public void OnTestLoad() {
-        SaveManager.LoadSave("save");
-    }
 }
