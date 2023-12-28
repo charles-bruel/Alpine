@@ -20,7 +20,7 @@ public struct WeatherSaveDataV1 {
         result.Storm = instance.Storm;
         result.StormHeight = instance.StormHeight;
         result.StormPower = instance.StormPower;
-        result.Timer = instance.Timer;
+        result.Timer = instance.StormTimer;
         result.Snowfall12Hr = instance.Snowfall12Hr;
         result.Snowfall24Hr = instance.Snowfall24Hr;
         result.Snowfall7D = instance.Snowfall7D;
@@ -48,7 +48,7 @@ public struct WeatherSaveDataV1 {
         WeatherController.Instance.Storm = Storm;
         WeatherController.Instance.StormHeight = StormHeight;
         WeatherController.Instance.StormPower = StormPower;
-        WeatherController.Instance.Timer = Timer;
+        WeatherController.Instance.StormTimer = Timer;
         WeatherController.Instance.Snowfall12Hr = Snowfall12Hr;
         WeatherController.Instance.Snowfall24Hr = Snowfall24Hr;
         WeatherController.Instance.Snowfall7D = Snowfall7D;

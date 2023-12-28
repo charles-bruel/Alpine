@@ -18,14 +18,25 @@ public class WeatherStatusController : MonoBehaviour
     //TODO: Make update only when needed
     void Update()
     {
-        Snow12Hr.text = Mathf.RoundToInt(TerrainManager.Instance.WeatherController.Snowfall12Hr) + "\"";
-        Snow24Hr.text = Mathf.RoundToInt(TerrainManager.Instance.WeatherController.Snowfall24Hr) + "\"";
-        Snow7D.text = Mathf.RoundToInt(TerrainManager.Instance.WeatherController.Snowfall7D) + "\"";
+        Snow12Hr.text = Mathf.RoundToInt(WeatherController.Instance.Snowfall12Hr) + "\"";
+        Snow24Hr.text = Mathf.RoundToInt(WeatherController.Instance.Snowfall24Hr) + "\"";
+        Snow7D.text = Mathf.RoundToInt(WeatherController.Instance.Snowfall7D) + "\"";
+
+        Wind.text = Mathf.RoundToInt(WeatherController.Instance.Wind) + "MPH";
+        Temp.text = Mathf.RoundToInt(WeatherController.Instance.Temperature) + "°F";
 
         if(TerrainManager.Instance.WeatherController.Storm) {
-            WeatherIcon.sprite = WeatherSprites[0];
+            if(WeatherController.Instance.Temperature > WeatherController.Instance.RainThreshold) {
+                WeatherIcon.sprite = WeatherSprites[2];
+            } else {
+                WeatherIcon.sprite = WeatherSprites[0];
+            }
         } else {
-            WeatherIcon.sprite = WeatherSprites[1];
+            if(WeatherController.Instance.Cloudy) {
+                WeatherIcon.sprite = WeatherSprites[1];
+            } else {
+                WeatherIcon.sprite = WeatherSprites[3];
+            }
         }
     }
 }

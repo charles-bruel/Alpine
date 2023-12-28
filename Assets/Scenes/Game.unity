@@ -639,7 +639,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &274151077
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1237,9 +1237,9 @@ RectTransform:
   m_Father: {fileID: 274151077}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 37.5, y: -237.5}
   m_SizeDelta: {x: 75, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &442819532
@@ -1544,6 +1544,8 @@ MonoBehaviour:
   WeatherSprites:
   - {fileID: 21300000, guid: 4d12cf7c6de4cca4893e933c59ffe9c3, type: 3}
   - {fileID: 21300000, guid: cf215e95cd56ed041aa153b68e107482, type: 3}
+  - {fileID: 21300000, guid: 7af93a1745723ac49880dc0aa06b968d, type: 3}
+  - {fileID: 21300000, guid: e5022e6f786785f498d73fd103346045, type: 3}
 --- !u!1 &543134734
 GameObject:
   m_ObjectHideFlags: 0
@@ -2551,14 +2553,33 @@ MonoBehaviour:
   MaxStormPower: 0.33333
   RecentDecay: 0.33
   BaseDecay: 0.0075
+  ConstantMeltingRate: 2
+  AirTemperatureMeltingRateMultiplier: 0.05
+  CloudyMeltingRateMultiplier: 0.25
+  CloudyProportional: 0.55
+  CloudCheckPeriodMean: 2.5
+  CloudCheckPeriodVariance: 1
+  TemperatureMeanSunny: 25
+  TemperatureMeanCloudy: 15
+  TemperatureVariability: 60
+  TemperatureRestoringPower: 0.1
+  WindPowMean: 2.5
+  WindVariability: 20
+  WindRestoringPower: 0.1
   RecentSnowPowerMultiplier: 8
-  MinStormHeight: -1
+  MinStormHeight: -2
   MaxStormHeight: 1
   HeightVariability: 0.4
+  RainThreshold: 35
+  RainDestructionMultiplier: 0.1
   Storm: 1
   StormHeight: 0
   StormPower: 0
-  Timer: 0
+  StormTimer: 0
+  Cloudy: 0
+  CloudyTimer: 0
+  Temperature: 0
+  Wind: 0
   BaseSnow:
     serializedVersion: 2
     m_Curve: []
@@ -2601,7 +2622,7 @@ MonoBehaviour:
   InterfaceController: {fileID: 830588215}
   GlobalNavController: {fileID: 757753269}
   VisitorController: {fileID: 757753270}
-  TimeMultiplier: 1
+  TimeMultiplier: 50
 --- !u!114 &757753263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5770,9 +5791,9 @@ RectTransform:
   m_Father: {fileID: 274151077}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 37.5, y: -137.5}
   m_SizeDelta: {x: 75, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1694470834
@@ -6158,9 +6179,9 @@ RectTransform:
   m_Father: {fileID: 274151077}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 37.5, y: -37.5}
   m_SizeDelta: {x: 75, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1803827441

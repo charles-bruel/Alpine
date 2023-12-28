@@ -18,15 +18,37 @@ public class WeatherController : MonoBehaviour {
     public float MaxStormPower;
     public float RecentDecay;
     public float BaseDecay;
+    public float ConstantMeltingRate;
+    [Tooltip("Per degree F above 32F")]
+    public float AirTemperatureMeltingRateMultiplier;
+    public float CloudyMeltingRateMultiplier;
+    public float CloudyProportional;
+    public float CloudCheckPeriodMean;
+    public float CloudCheckPeriodVariance;
+    public float TemperatureMeanSunny;
+    public float TemperatureMeanCloudy;
+    public float TemperatureVariability;
+    public float TemperatureRestoringPower;
+    public float WindPowMean;
+    public float WindVariability;
+    public float WindRestoringPower;
     public float RecentSnowPowerMultiplier;
     public float MinStormHeight;
     public float MaxStormHeight;
     public float HeightVariability;
+    public float RainThreshold;
+    public float RainDestructionMultiplier;
     [Header("Current Storm Settings")]
     public bool Storm;
     public float StormHeight;
     public float StormPower;
-    public float Timer;
+    public float StormTimer;
+    [Header("Current Cloud Settings")]
+    public bool Cloudy;
+    public float CloudyTimer;
+    [Header("Current Other Settings")]
+    public float Temperature;
+    public float Wind;
     [Header("Current Conditions")]
     // NOTE - these are literally *just* for visualizing in the inspector
     public AnimationCurve BaseSnow;
@@ -90,6 +112,9 @@ public class WeatherController : MonoBehaviour {
         }
 
         Initialized = true;
+
+        Temperature = TemperatureMeanSunny;
+        Wind = Mathf.Exp(WindPowMean);
     }
 
     public void UpdateMaterial(Material material, SnowCatcherType type) {
@@ -104,42 +129,102 @@ public class WeatherController : MonoBehaviour {
         material.SetBuffer("snowCurve", reference.Buffer);
     }
 
+    private float GetMeltingRateMultipler(float temperature) {
+        // Melting rate comes from two sources - the sun and air temperature
+        // The sun will be constant compared to the air temperature, whereas
+        // the air temperature rate is proportional to the difference between
+        // the air temperature and the snow (i.e. 32F).
+
+        // Sorry for imperial units
+        float meltingRate = ConstantMeltingRate;
+        if(Cloudy) {
+            meltingRate *= CloudyMeltingRateMultiplier;
+        }
+
+        if(temperature > 32) {
+            meltingRate += (temperature - 32) * AirTemperatureMeltingRateMultiplier;
+        }
+
+        return meltingRate;
+    }
+
+    private float GetNextTemperature(float temperature, float delta) {
+        float distFromMean = (Cloudy ? TemperatureMeanCloudy : TemperatureMeanSunny) - temperature;
+        float deltaAdjust = distFromMean * TemperatureRestoringPower;
+        float randomAdjust = UnityEngine.Random.Range(-TemperatureVariability, TemperatureVariability);
+
+        return temperature + delta * (deltaAdjust * deltaAdjust * Mathf.Sign(deltaAdjust) + randomAdjust);
+    }
+
+    // Wind is exp(int_wind)
+    private float GetNextWind(float wind, float delta) {
+        float prev_internal_value = Mathf.Log(wind) * 5;
+
+        float distFromMean = WindPowMean - prev_internal_value;
+        float deltaAdjust = distFromMean * WindRestoringPower;
+        float randomAdjust = UnityEngine.Random.Range(-WindVariability, WindVariability);
+
+        float new_wind_internal_value = prev_internal_value + delta * (deltaAdjust * deltaAdjust * Mathf.Sign(deltaAdjust) + randomAdjust);
+        return Mathf.Exp(new_wind_internal_value * 0.2f);
+    }
+
     public void Advance(float delta) {
         if(!Initialized) return;
         delta *= TimeFactor;
 
-        Timer -= delta;
+        StormTimer -= delta;
+
+        Temperature = GetNextTemperature(Temperature, delta);
+        Wind = GetNextWind(Wind, delta);
+
+        if(CloudyTimer < 0) {
+            System.Random random = new System.Random();
+            CloudyTimer = random.NextFloat(CloudCheckPeriodMean - CloudCheckPeriodVariance, CloudCheckPeriodMean + CloudCheckPeriodVariance);
+            Cloudy = random.NextFloat(0, 1) < CloudyProportional;
+        } else {
+            CloudyTimer -= delta;
+        }
 
         if(Storm) {
             System.Random random = new System.Random();
-            float HeightThisFrame = StormHeight + random.NextFloat(-HeightVariability, HeightVariability);
-            
-            if(HeightThisFrame < 0) HeightThisFrame = 0;
-            if(HeightThisFrame > 1) HeightThisFrame = 1;
+            if(Temperature > RainThreshold) {
+                StormHeight = 0;
 
-            Base.Affect((int) (HeightThisFrame * 256), StormPower * delta);
-            Recent.Affect((int) (HeightThisFrame * 256), StormPower * delta * RecentSnowPowerMultiplier);
+                // Rain :(
+                // TODO: Rain particle effects
+                Base.Affect(0, -StormPower * delta * RainDestructionMultiplier);
+                Recent.Affect(0, -StormPower * delta * RecentSnowPowerMultiplier);
+            } else {
+                float HeightThisFrame = StormHeight + random.NextFloat(-HeightVariability, HeightVariability);
 
-            CurrentSnowfallTracker += StormPower * delta;
+                if(HeightThisFrame < 0) HeightThisFrame = 0;
+                if(HeightThisFrame > 1) HeightThisFrame = 1;
 
-            if(Timer < 0) {
+                Base.Affect((int) (HeightThisFrame * 256), StormPower * delta);
+                Recent.Affect((int) (HeightThisFrame * 256), StormPower * delta * RecentSnowPowerMultiplier);
+
+                CurrentSnowfallTracker += StormPower * delta;
+            }
+
+            if(StormTimer < 0) {
                 Storm = false;
 
-                Timer = random.NextFloat(MinCalmTime, MaxCalmTime);
+                StormTimer = random.NextFloat(MinCalmTime, MaxCalmTime);
 
                 if(SnowParticles != null) {
                     SnowParticles.Stop();
                 }
             }
         } else {
-            Base.Affect(0, -BaseDecay * delta);
-            Recent.Affect(0, -RecentDecay * delta);
+            float meltingRate = GetMeltingRateMultipler(Temperature);
+            Base.Affect(0, -BaseDecay * meltingRate * delta);
+            Recent.Affect(0, -RecentDecay * meltingRate * delta);
 
-            if(Timer < 0) {
+            if(StormTimer < 0) {
                 Storm = true;
 
                 System.Random random = new System.Random();
-                Timer = random.NextFloat(MinStormTime, MaxStormTime);
+                StormTimer = random.NextFloat(MinStormTime, MaxStormTime);
                 StormPower = random.NextFloat(MinStormPower, MaxStormPower);
                 StormHeight = random.NextFloat(MinStormHeight, MaxStormHeight);
 
