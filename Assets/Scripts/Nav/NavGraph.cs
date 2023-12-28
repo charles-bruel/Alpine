@@ -16,7 +16,6 @@ public class NavGraph {
         foreach(var poly in PolygonsController.Instance.PolygonObjects) {
             if(poly is NavArea) {
                 temp.Add(poly as NavArea);
-                break;
             }
         }
 
@@ -26,6 +25,7 @@ public class NavGraph {
         for (int i = 1; i < temp.Count; i++) {
             result.Add(temp[i]);
         }
+
         return result;
     }
 
@@ -134,7 +134,8 @@ public class NavGraph {
 
     public INavNode GetRandomNode() {
         var rand = new System.Random();
-        return Enumerable.ToList(NodesToIdx.Keys)[rand.Next(0, NodesToIdx.Count)]; 
+        var list = Enumerable.ToList(NodesToIdx.Keys);
+        return list[rand.Next(0, list.Count)]; 
     }
 
     // Can be called from any thread

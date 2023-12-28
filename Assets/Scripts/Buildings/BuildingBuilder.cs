@@ -50,6 +50,8 @@ public class BuildingBuilder {
                 temp.ArbitrarilyEditable = polygons[i].ArbitrarilyEditable;
                 temp.Flags               = polygons[i].Flags;
                 temp.Height              = polygons[i].Height;
+
+                temp.Implementation = new BasicFlatNavigableNavAreaImplementation();
                 
                 temp.Owner = Result;
 

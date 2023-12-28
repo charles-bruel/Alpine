@@ -8,6 +8,12 @@ public class SimpleBuilding : Building {
     public INavNode ServiceNode;
     public SimpleBuildingTemplate Template;
 
+    public override void Advance(float delta) {
+        foreach(NavArea area in NavAreas) {
+            area.Advance(delta);
+        }
+    }
+
     void Update() {
         foreach(NavArea area in NavAreas) {
             if(area.Modified) {

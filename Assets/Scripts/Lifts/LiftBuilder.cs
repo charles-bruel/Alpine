@@ -491,6 +491,8 @@ public class LiftBuilder
                     temp.ArbitrarilyEditable = polygons[j].ArbitrarilyEditable;
                     temp.Flags               = polygons[j].Flags;
                     temp.Height              = polygons[j].Height;
+
+                    temp.Implementation = new BasicFlatNavigableNavAreaImplementation();
                     
                     temp.Owner = Result;
 

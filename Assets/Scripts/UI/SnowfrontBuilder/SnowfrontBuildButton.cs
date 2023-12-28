@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class SlopeBuildButton : MonoBehaviour {
+public class SnowfrontBuildButton : MonoBehaviour {
     public SlopeBuilderToolGrab GrabTemplate;
     public SlopeBuilderUI UI;
     public Canvas Canvas;
 
-    public void OnSlopeToolEnable() {
-        SlopeBuilderTool tool = new SlopeBuilderTool();
+    public void OnSnowfrontToolEnable() {
+        SnowfrontBuilderTool tool = new SnowfrontBuilderTool();
         tool.GrabTemplate = GrabTemplate;
         tool.Canvas = Canvas;
         InterfaceController.Instance.SelectedTool = tool;

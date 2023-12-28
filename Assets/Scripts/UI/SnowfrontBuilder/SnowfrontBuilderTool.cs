@@ -2,12 +2,12 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
-public class SlopeBuilderTool : ITool {
+public class SnowfrontBuilderTool : ITool {
     private bool done = false;
 
     public SlopeConstructionData Data;
     public SlopeBuilderUI UI;
-    public SlopeBuilder Builder;
+    public SnowfrontBuilder Builder;
     public SlopeBuilderToolGrab GrabTemplate;
     public List<SlopeBuilderToolGrab> Grabs = new List<SlopeBuilderToolGrab>();
     public Canvas Canvas;
@@ -35,7 +35,7 @@ public class SlopeBuilderTool : ITool {
     }
 
     public void Start() {
-        Builder = new SlopeBuilder();
+        Builder = new SnowfrontBuilder();
         Builder.Initialize();
         Data = Builder.Data;
     }

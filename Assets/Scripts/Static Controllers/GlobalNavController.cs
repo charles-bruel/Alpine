@@ -31,18 +31,20 @@ public class GlobalNavController : MonoBehaviour
         }
     }
 
-    public void TriggerGraphRebuild() {
-        NavArea temp = null;
+    public bool TriggerGraphRebuild() {
+        bool flag = false;
 
         foreach(var poly in PolygonsController.Instance.PolygonObjects) {
             if(poly is NavArea) {
-                temp = poly as NavArea;
+                flag = true;
                 break;
             }
         }
 
-        if(temp == null) return;
-
-        Graph = NavGraph.Build(temp);
+        if(flag == true){
+            Graph = NavGraph.CreateCompleteGraph();
+        }
+        
+        return flag;
     }
 }
