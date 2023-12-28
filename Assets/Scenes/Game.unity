@@ -3091,9 +3091,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 964f868c200164e46aa48d8215582d50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlueSlopeDifficultyThreshold: 0.038
-  BlackSlopeDifficultyThreshold: 0.144
-  DoubleBlackSlopeDifficultyThreshold: 0.215
+  BlueSlopeDifficultyThreshold: 0.05
+  BlackSlopeDifficultyThreshold: 0.085
+  DoubleBlackSlopeDifficultyThreshold: 0.1
 --- !u!114 &757753269
 MonoBehaviour:
   m_ObjectHideFlags: 0

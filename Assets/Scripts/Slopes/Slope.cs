@@ -164,13 +164,13 @@ public class Slope : Building {
     }
 
     private SlopeDifficulty GetDifficultyFromPath(SlopeInternalPathingJob.SlopeInternalPath Path) {
-        if(Path.MeanDifficulty > GameParameters.Instance.DoubleBlackSlopeDifficultyThreshold) {
+        if(Path.Difficulty > GameParameters.Instance.DoubleBlackSlopeDifficultyThreshold) {
             return SlopeDifficulty.DOUBLE_BLACK;
         }
-        if(Path.MeanDifficulty > GameParameters.Instance.BlackSlopeDifficultyThreshold) {
+        if(Path.Difficulty > GameParameters.Instance.BlackSlopeDifficultyThreshold) {
             return SlopeDifficulty.BLACK;
         }
-        if(Path.MeanDifficulty > GameParameters.Instance.BlueSlopeDifficultyThreshold) {
+        if(Path.Difficulty > GameParameters.Instance.BlueSlopeDifficultyThreshold) {
             return SlopeDifficulty.BLUE;
         }
         return SlopeDifficulty.GREEN;

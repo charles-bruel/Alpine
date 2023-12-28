@@ -1,3 +1,5 @@
+using System.Xml.Schema;
+using Mono.Cecil;
 using UnityEngine;
 
 public class SlopeNavAreaImplementation : INavAreaImplementation {

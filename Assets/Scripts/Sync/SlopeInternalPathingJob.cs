@@ -4,6 +4,7 @@ using System;
 using EPPZ.Geometry.Model;
 using UnityEngine.UI;
 using System.IO;
+using UnityEngine.Assertions;
 
 public class SlopeInternalPathingJob : Job {
     public static readonly float GridCellSize = 4;
@@ -264,6 +265,7 @@ public class SlopeInternalPathingJob : Job {
 
         result.Points = Reduce(tempResult.Item1, 3);
         result.Widths = DetermineWidths(result.Points);
+        result.Difficulty = DetermineDifficulty(tempResult.Item1);
         result.TotalCost = tempResult.Item2 * GridCellSize;
         result.TotalDifficulty = tempResult.Item3  * GridCellSize;
         result.Length = result.Points.Count * GridCellSize;
@@ -272,6 +274,30 @@ public class SlopeInternalPathingJob : Job {
         result.MeanDifficulty = result.TotalDifficulty / result.Length;
 
         return result;
+    }
+
+    private float DetermineDifficulty(List<Vector2Int> points) {
+        // Difficulty is more complex than width, because the difficulty at a point depends on the direction
+        // We then sort the difficulties and take the 95th percentile
+        List<float> difficulties = new List<float>(points.Count);
+        for(int i = 0;i < points.Count - 1;i ++) {
+            Vector2Int current = points[i];
+            Vector2Int next = points[i + 1];
+
+            List<Tuple<Vector2Int, float, float>> values = GetValidNeighboringCellsCostAndDifficulty(current.x, current.y);
+            bool flag = false;
+            foreach(var value in values) {
+                if(value.Item1 == next) {
+                    difficulties.Add(value.Item3);
+                    flag = true;
+                }
+            }
+            Assert.IsTrue(flag);
+        }
+
+        difficulties.Sort();
+        int index = (int) (difficulties.Count * 0.75f);
+        return difficulties[index];
     }
 
     private List<float> DetermineWidths(List<Vector2Int> points) {
@@ -376,12 +402,6 @@ public class SlopeInternalPathingJob : Job {
     public override void Complete() {
         slope.SetNewInternalPaths(Result, trueBounds);
         
-        // string text = "";
-        // foreach(var x in Result[0].Points) {
-        //     text += x.x + "," + x.y + "\n";
-        // }
-        // File.WriteAllText("E:\\dev\\Python Scripts\\points.txt", text);
-
         GlobalNavController.MarkGraphDirty();
     }
 
@@ -514,6 +534,8 @@ public class SlopeInternalPathingJob : Job {
         public INavNode A;
         public INavNode B;
         public List<Vector2Int> Points;
+        // 95th percentile difficulty value
+        public float Difficulty;
         public List<float> Widths;
         public float TotalCost;
         public float TotalDifficulty;
