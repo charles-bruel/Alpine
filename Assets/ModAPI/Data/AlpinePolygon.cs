@@ -23,4 +23,6 @@ public class AlpinePolygon {
     public virtual void OnSelected() {}
 
     public virtual void OnDeselected() {}
+
+    public virtual void OnDestroy() {}
 }

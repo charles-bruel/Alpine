@@ -132,6 +132,24 @@ public class NavPortal : INavNode {
         return toReturn;
     }
 
+    private bool Dead = false;
+
+    public void Destroy() {
+        A.Nodes.Remove(this);
+        B.Nodes.Remove(this);
+
+        A.Modified = true;
+        B.Modified = true;
+
+        GameObject.Destroy(gameObject);
+
+        Dead = true;
+    }
+
+    public bool IsDead() {
+        return Dead;
+    }
+
     public enum NavPortalDirectionality {
         BIDIRECTIONAL,
         A_TO_B,

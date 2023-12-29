@@ -82,7 +82,18 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public void DeregisterPolygon(Guid guid) {
+    public void DestroyPolygon(AlpinePolygon polygon) {
+        if(polygon.Selected) {
+            SelectedPolygon = new Guid();
+            polygon.Selected = false;
+            polygon.OnDeselected();
+        }
+        GameObject.Destroy(polygon.Filter.gameObject);
+        polygon.OnDestroy();
+        UnregisterPolygon(polygon.Guid);
+    }
+
+    public void UnregisterPolygon(Guid guid) {
         //TODO: Also remove polygon render objects
         for(int i = 0;i < PolygonObjects.Count;i ++) {
             if(PolygonObjects[i].Guid == guid) {

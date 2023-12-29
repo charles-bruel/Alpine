@@ -160,6 +160,13 @@ public class Slope : Building {
         }
     }
 
+    public override void Destroy() {
+        // Remove the nav area, which removes all associated portals, and all associated nav links
+        PolygonsController.Instance.DestroyPolygon(Footprint);
+
+        base.Destroy();
+    }
+
     private void UpdateAreaImplementation(List<SlopeInternalPathingJob.SlopeInternalPath> Paths, Rect Bounds) {
         // IDK I thought there would be more to do here
         AreaImplementation.Bounds = Bounds;

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using Codice.Client.Common.TreeGrouper;
 
 public class NavArea : AlpinePolygon {
     public List<INavNode> Nodes;
@@ -91,5 +92,24 @@ public class NavArea : AlpinePolygon {
         foreach(var link in Links) {
             link.Implementation.OnDeselected();
         }
+    }
+
+    public override void OnDestroy() {
+        var nodesCopy = new List<INavNode>(Nodes);
+        foreach(var node in nodesCopy) {
+            node.Destroy();
+        }
+
+        var linksCopy = new List<NavLink>(Links);
+        foreach(var link in linksCopy) {
+            link.Destroy();
+        }
+
+        Dead = true;
+    }
+
+    private bool Dead = false;
+    public bool IsDead() {
+        return Dead;
     }
 }

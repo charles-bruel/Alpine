@@ -61,6 +61,7 @@ public class NavGraph {
         List<INavNode> nodes = new List<INavNode>();
         List<NavLink> links = new List<NavLink>();
         foreach(var node in area.Nodes) {
+            if(node.IsDead()) continue;
             ExploreRecursive(nodes, links, node);
         }
 
@@ -98,16 +99,17 @@ public class NavGraph {
 
     private void ExploreRecursive(List<INavNode> nodes, List<NavLink> links, INavNode current) {
         foreach(var link in current.GetLinks()) {
+            if(link.IsDead()) continue;
             if(!links.Contains(link)) {
                 links.Add(link);
 
                 // We "explore" both sides. The side we are coming from has to have
                 // the node already in the list, so it doesn't introduce infinite recursion
-                if(!nodes.Contains(link.A)) {
+                if(!nodes.Contains(link.A) && !link.A.IsDead()) {
                     nodes.Add(link.A);
                     ExploreRecursive(nodes, links, link.A);
                 }
-                if(!nodes.Contains(link.B)) {
+                if(!nodes.Contains(link.B) && !link.B.IsDead()) {
                     nodes.Add(link.B);
                     ExploreRecursive(nodes, links, link.B);
                 }

@@ -75,7 +75,7 @@ public class SlopePanelUI : MonoBehaviour {
 
     public void OnDeleteButtonPressed() {
         Assert.IsNotNull(CurrentSlope);
-        throw new NotImplementedException();
+        CurrentSlope.Destroy();
     }
 
     public void OnEditButtonPressed() {

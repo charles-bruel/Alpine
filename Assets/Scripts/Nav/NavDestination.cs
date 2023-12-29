@@ -46,4 +46,18 @@ public class NavDestination : INavNode {
 
         return toReturn;
     }
+
+    private bool Dead = false;
+
+    public void Destroy() {
+        Area.Nodes.Remove(this);
+
+        Area.Modified = true;
+
+        Dead = true;
+    }
+
+    public bool IsDead() {
+        return Dead;
+    }
 }

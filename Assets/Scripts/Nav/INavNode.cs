@@ -12,4 +12,6 @@ public interface INavNode {
         return GetPosition().Inflate3rdDim(GetHeight());
     }
     public float GetHeight();
+    public void Destroy();
+    public bool IsDead();
 }
