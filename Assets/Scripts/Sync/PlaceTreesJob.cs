@@ -22,6 +22,8 @@ public class PlaceTreesJob : Job
         System.Random random = new System.Random();
 		int i = 0;
 
+        MapBounds.Expand(-10f);
+
         Vector2 size = MapBounds.size.ToHorizontal();
         Vector2 min = MapBounds.min.ToHorizontal();
 
