@@ -45,6 +45,7 @@ public class LiftVehicleSystem {
         CreateVehicles(TemplateVehicle, 50);
     }
 
+    // TODO Parameterize the spacing
     private void CreateVehicles(LiftVehicle template, float spacing) {
         int numVehicles = (int) (TotalLength / spacing);
         float actualSpacing = TotalLength / numVehicles;
@@ -244,9 +245,17 @@ public class LiftVehicleSystem {
         if(delta != 0) {
             float velocity = ((result.position - vehicle.transform.position) / delta).magnitude;
             vehicle.Acceleration = (velocity - vehicle.Velocity) / delta;
+            // Presumably we just spawned the vehicle
+            if(vehicle.Velocity == 0) {
+                vehicle.Acceleration = 0;
+            }
             vehicle.Velocity = velocity;
 
-            vehicle.UpdateSwing(delta);
+            // At high warp, the large physics timestep messes up the swing
+            // This artificially shrinks it down to roughly the same as x1 speed
+            int iterations = (int) GameController.Instance.TimeMultiplier + 1;
+            if(iterations < 3) iterations = 1;
+            for(int i = 0;i < iterations;i ++) vehicle.UpdateSwing(delta / iterations);
         }
 
         vehicle.transform.position = result.position;
