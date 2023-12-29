@@ -19,4 +19,8 @@ public class AlpinePolygon {
     // Note: To be set by PolygonController ONLY
     public bool Selected;
     public bool Selectable = true;
+
+    public virtual void OnSelected() {}
+
+    public virtual void OnDeselected() {}
 }

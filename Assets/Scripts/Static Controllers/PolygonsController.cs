@@ -298,6 +298,7 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
                 // DESELECTION LOGIC
                 PolygonObjects[i].Renderer.material = Material;
                 PolygonObjects[i].Selected = false;
+                PolygonObjects[i].OnDeselected();
             }
         }
         
@@ -315,9 +316,9 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
                         SelectedPolygon = PolygonObjects[i].Guid;
                         PolygonObjects[i].Renderer.material = SelectedMaterial;
                         PolygonObjects[i].Selected = true;
+                        PolygonObjects[i].OnSelected();
 
                         //We now break completely out of the loop to avoid selecting two polygons
-                        //TODO: Refactor to not use goto?
                         goto Selected;
                     }
                 }

@@ -3,6 +3,10 @@ using System;
 using System.Collections.Generic;
 
 public class BuildingsController : MonoBehaviour {
+    [Header("UI")]
+    public SlopePanelUI SlopePanelUI;
+    
+    [Header("Templates")]
     // Building templates functionality
     public List<LiftTemplate> LiftTemplates;
     public List<SimpleBuildingTemplate> BuildingTemplates;
@@ -21,6 +25,7 @@ public class BuildingsController : MonoBehaviour {
         return null;
     }
 
+    [Header("Current Game State")]
     // Built buildings functionality
     public List<Building> Buildings;
 

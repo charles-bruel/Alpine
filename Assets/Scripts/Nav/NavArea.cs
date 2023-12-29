@@ -13,7 +13,6 @@ public class NavArea : AlpinePolygon {
     public int ID;
     public static int IDStartIndex = 0;
 
-    private bool SelectedLast = false;
     public NavArea() {
         Nodes = new List<INavNode>();
         Links = new List<NavLink>();
@@ -22,21 +21,8 @@ public class NavArea : AlpinePolygon {
     }
 
     public void Advance(float delta) {
-        if(Selected && !SelectedLast){
-            Implementation.OnSelected();
-            foreach(var link in Links) {
-                link.Implementation.OnSelected();
-            }
-        }
-        if(!Selected && SelectedLast){
-            Implementation.OnDeselected();
-            foreach(var link in Links) {
-                link.Implementation.OnDeselected();
-            }
-        }
         Implementation.OnAdvance(delta);
         if(Selected) Implementation.OnAdvanceSelected(delta);
-        SelectedLast = Selected;
     }
 
     public List<INavNode> GetAllNavNodes() {
@@ -90,6 +76,20 @@ public class NavArea : AlpinePolygon {
 
         foreach(var link in oldLinks.Values) {
             link.Implementation.OnRemove();
+        }
+    }
+
+    public override void OnSelected() {
+        Implementation.OnSelected();
+        foreach(var link in Links) {
+            link.Implementation.OnSelected();
+        }
+    }
+
+    public override void OnDeselected() {
+        Implementation.OnDeselected();
+        foreach(var link in Links) {
+            link.Implementation.OnDeselected();
         }
     }
 }
