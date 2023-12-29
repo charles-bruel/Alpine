@@ -38,7 +38,15 @@ public class Slope : Building {
         Footprint.Advance(delta);
     }
 
+    private static int LastUsedFrameID = 0;
+
     public void RegeneratePathfinding() {
+        // If this limits us to 1 job initialization per frame
+        if(LastUsedFrameID == ASyncJobManager.FrameID) {
+            return;
+        }
+        LastUsedFrameID = ASyncJobManager.FrameID;
+
         Footprint.Modified = false;
 
         SlopeInternalPathingJob job = new SlopeInternalPathingJob(this);

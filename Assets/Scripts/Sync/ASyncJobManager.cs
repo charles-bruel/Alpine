@@ -23,10 +23,11 @@ public class ASyncJobManager : MonoBehaviour {
                 totalCost += job.GetCompleteCost();
                 job.Complete();
             }
-            
         }
+        FrameID++;
     }
 
     public static ASyncJobManager Instance;
+    public static int FrameID = 0;
 
 }
