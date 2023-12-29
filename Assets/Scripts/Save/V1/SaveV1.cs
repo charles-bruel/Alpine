@@ -56,7 +56,7 @@ public struct SaveV1 {
         }
 
         foreach(SlopeSaveDataV1 slope in slopes) {
-            SlopeBuilder.BuildFromSave(slope.ToConstructionData(), slope.NavAreaGraphs, loadingContext);
+            SlopeBuilder.BuildFromSave(slope.ToConstructionData(), slope.NavAreaGraphs, slope.CurrentDifficulty, slope.IntrinsicDifficulty, loadingContext);
         }
 
         foreach(BuildingSaveDataV1 building in buildings) {
