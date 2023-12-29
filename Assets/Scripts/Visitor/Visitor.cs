@@ -19,11 +19,16 @@ public class Visitor : MonoBehaviour {
     public float AnimationTimer = 0;
     public float AnimationSpeed = 1;
     public bool GraphDirtied = false;
+    private float PathingCooldown = 0.1f;
     
     public void Advance(float delta) {
         RemainingTime -= delta;
         AnimationTimer += delta * AnimationSpeed;
-        if(Plan.Count <= PlanningLength && !ActivelyPlanning) {
+
+        // The pathing cooldown needs to go down by real time, as it's used for internal nav reasons, not game
+        // time reasons that would be affect by speed
+        PathingCooldown -= Time.deltaTime;
+        if(Plan.Count <= PlanningLength && !ActivelyPlanning && PathingCooldown <= 0) {
             CreateVisitorPlanJob job = new CreateVisitorPlanJob();
             job.Visitor = this;
 
@@ -123,5 +128,9 @@ public class Visitor : MonoBehaviour {
         } else {
             StationaryPos = loadingContext.nodeIds[visitor.PosID];
         }
+    }
+
+    public void SetPathingCooldown(int length) {
+        PathingCooldown = length;
     }
 }

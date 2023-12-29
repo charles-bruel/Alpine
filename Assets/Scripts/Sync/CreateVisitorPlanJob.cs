@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEditorInternal;
+using Unity.Plastic.Antlr3.Runtime;
 
 public class CreateVisitorPlanJob : Job
 {
@@ -10,6 +12,7 @@ public class CreateVisitorPlanJob : Job
     private List<INavNode> Target;
     private bool PathingOut;
     private List<INavNode> Exits;
+    private bool Fail = false;
     
     public void Initialize() {
         Visitor.ActivelyPlanning = true;
@@ -26,7 +29,17 @@ public class CreateVisitorPlanJob : Job
 
     public void Run() {
         bool success = false;
+        int failCount = 0;
         while(!success) {
+            if(Graph.IsEmpty()){
+                Fail = true;
+                break;
+            }
+            if(failCount > 128) {
+                Fail = true;
+                break;
+            }
+
             // Step 1: Choose target
             if(PathingOut) {
                 Target = Exits;
@@ -40,7 +53,10 @@ public class CreateVisitorPlanJob : Job
 
             // Step 2: Path there
             Result = Graph.Dijkstras(Start, Target, Visitor.Ability);
-            if(Result == null) continue;
+            if(Result == null) { 
+                failCount++;
+                continue;
+            }
 
             // Step 3: Check that we can get home
             // Either we're pathing and and we're good, or we need to be able to (path exists; != null)
@@ -53,8 +69,13 @@ public class CreateVisitorPlanJob : Job
     }
 
     public override void Complete() {
-        Visitor.Plan.AddRange(Result);
-        Visitor.ActivelyPlanning = false;
+        if(Fail) {
+            Visitor.SetPathingCooldown(1);
+            Visitor.ActivelyPlanning = false;
+        } else {
+            Visitor.Plan.AddRange(Result);
+            Visitor.ActivelyPlanning = false;
+        }
     }
 
     public override float GetCompleteCost()

@@ -135,8 +135,8 @@ public class NavGraph {
     }
 
     public INavNode GetRandomNode() {
-        var rand = new System.Random();
         var list = Enumerable.ToList(NodesToIdx.Keys);
+        var rand = new System.Random();
         return list[rand.Next(0, list.Count)]; 
     }
 
@@ -199,6 +199,10 @@ public class NavGraph {
         }
         totalPath.Reverse();
         return totalPath;
+    }
+
+    public bool IsEmpty() {
+        return NodesToIdx == null || NodesToIdx.Count == 0;
     }
 
     public struct Edge {
