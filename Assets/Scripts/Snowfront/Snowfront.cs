@@ -36,4 +36,9 @@ public class Snowfront : Building {
         }
     }
 
+    public override void Destroy() {
+        PolygonsController.Instance.DestroyPolygon(Footprint);
+
+        base.Destroy();
+    }
 }

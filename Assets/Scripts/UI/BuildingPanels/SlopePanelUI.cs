@@ -57,7 +57,6 @@ public class SlopePanelUI : MonoBehaviour {
 
         CurrentSlope = newSlope;
         gameObject.SetActive(true);
-
     }
 
     public void Hide() {

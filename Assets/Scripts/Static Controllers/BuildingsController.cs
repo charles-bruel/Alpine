@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class BuildingsController : MonoBehaviour {
     [Header("UI")]
     public SlopePanelUI SlopePanelUI;
+    public SnowfrontPanelUI SnowfrontPanelUI;
     
     [Header("Templates")]
     // Building templates functionality

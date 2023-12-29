@@ -128,7 +128,7 @@ public class SnowfrontBuilder {
         temp.Flags               = Result.Footprint.Flags;
         temp.Height              = Result.Footprint.Height;
 
-        temp.Implementation = new BasicFlatNavigableNavAreaImplementation();
+        temp.Implementation = new SnowfrontNavAreaImplementation(Result);
 
         temp.Owner = Result;
 

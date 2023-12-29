@@ -1,14 +1,12 @@
 using UnityEngine;
 
-public class SlopeNavAreaImplementation : INavAreaImplementation {
-    public Slope Owner;
+public class SnowfrontNavAreaImplementation : INavAreaImplementation {
+    public Snowfront Owner;
     public NavArea Area;
-    public Rect Bounds;
-    
-    public SlopeNavAreaImplementation(Slope owner, Rect bounds) {
+        
+    public SnowfrontNavAreaImplementation(Snowfront owner) {
         Owner = owner;
         Area = owner.Footprint;
-        Bounds = bounds;
     }
 
     public void OnAdvance(float delta) {
@@ -20,7 +18,7 @@ public class SlopeNavAreaImplementation : INavAreaImplementation {
     }
 
     public void OnDeselected() {
-        BuildingsController.Instance.SlopePanelUI.Hide();
+        BuildingsController.Instance.SnowfrontPanelUI.Hide();
     }
 
     public void OnRemove() {
@@ -28,6 +26,6 @@ public class SlopeNavAreaImplementation : INavAreaImplementation {
     }
 
     public void OnSelected() {
-        BuildingsController.Instance.SlopePanelUI.Inflate(Owner);
+        BuildingsController.Instance.SnowfrontPanelUI.Inflate(Owner);
     }
 }
