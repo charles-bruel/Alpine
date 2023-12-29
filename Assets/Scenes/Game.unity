@@ -1395,7 +1395,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!114 &285635174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3951,7 +3951,7 @@ MonoBehaviour:
   MinCalmTime: 0.5
   MaxStormTime: 2
   MaxCalmTime: 11
-  MinStormPower: 0.03333
+  MinStormPower: 0.1
   MaxStormPower: 0.33333
   RecentDecay: 0.33
   BaseDecay: 0.0075
@@ -3974,10 +3974,10 @@ MonoBehaviour:
   HeightVariability: 0.4
   RainThreshold: 35
   RainDestructionMultiplier: 0.1
-  Storm: 1
+  Storm: 0
   StormHeight: 0
   StormPower: 0
-  StormTimer: 0
+  StormTimer: 0.1
   Cloudy: 0
   CloudyTimer: 0
   Temperature: 0
@@ -4024,7 +4024,7 @@ MonoBehaviour:
   InterfaceController: {fileID: 830588215}
   GlobalNavController: {fileID: 757753269}
   VisitorController: {fileID: 757753270}
-  TimeMultiplier: 1
+  TimeMultiplier: 0
 --- !u!114 &757753263
 MonoBehaviour:
   m_ObjectHideFlags: 0

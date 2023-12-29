@@ -115,6 +115,10 @@ public class WeatherController : MonoBehaviour {
 
         Temperature = TemperatureMeanSunny;
         Wind = Mathf.Exp(WindPowMean);
+
+        if(SnowParticles != null) {
+            SnowParticles.Stop();
+        }
     }
 
     public void UpdateMaterial(Material material, SnowCatcherType type) {

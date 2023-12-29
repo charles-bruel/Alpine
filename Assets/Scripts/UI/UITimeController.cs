@@ -31,6 +31,9 @@ public class UITimeController : MonoBehaviour {
         Initialize();
         
         float newTimeMultiplier = ToggleToTimeMultiplier[TimeToggleGroup.ActiveToggles().First()];
-        GameController.Instance.TimeMultiplier = newTimeMultiplier;
+        // It can be null right on startup
+        if(GameController.Instance != null) {
+            GameController.Instance.TimeMultiplier = newTimeMultiplier;
+        }
     }
 }

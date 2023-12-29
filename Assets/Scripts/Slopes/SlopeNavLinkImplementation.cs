@@ -68,7 +68,7 @@ public class SlopeNavLinkImplentation : INavLinkImplementation {
                 j++;
             }
         }
-        PathRenderer.positionCount = linePositions.Length;
+        PathRenderer.positionCount = j;
         PathRenderer.SetPositions(linePositions);
     }
 
