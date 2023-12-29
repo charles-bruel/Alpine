@@ -54,4 +54,10 @@ public class VisitorController : MonoBehaviour {
             newVisitor.transform.parent = transform;
         }
     }
+
+    public void MarkGraphsDirtied() {
+        foreach(Visitor visitor in Visitors) {
+            visitor.GraphDirtied = true;
+        }
+    }
 }

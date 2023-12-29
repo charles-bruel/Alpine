@@ -44,6 +44,8 @@ public class GlobalNavController : MonoBehaviour
         if(flag == true){
             Graph = NavGraph.CreateCompleteGraph();
         }
+
+        VisitorController.Instance.MarkGraphsDirtied();
         
         return flag;
     }
