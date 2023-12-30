@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 9117507003926171142}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -98,7 +98,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Ability: 1
   RemainingTime: 2000
-  TraverseSpeed: 5
-  SkiSpeed: 10
+  TraverseSpeed: 10
+  SkiSpeed: 5
   Progress: 0
   ActivelyPlanning: 0
+  CurrentNavLinkMarker: 
+  AnimationTimer: 0
+  AnimationSpeed: 1
+  GraphDirtied: 0
