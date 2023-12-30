@@ -45,7 +45,14 @@ public class TerrainTile : MonoBehaviour {
         get { return hasFullyInitialized; }
     }
 
-    void Start() {
+    private bool Initialized = false;
+
+    private void Initialize() {
+        if(Initialized) {
+            return;
+        }
+        Initialized = true;
+
         GameObject terrain = new GameObject("Terrain");
         terrain.transform.parent = transform;
         terrain.transform.localPosition = Vector3.zero;
@@ -102,8 +109,8 @@ public class TerrainTile : MonoBehaviour {
         contours.layer = LayerMask.NameToLayer("Both");
     }
 
-    public void LoadTerrain(Texture2D texture2D, Bounds bounds)
-	{
+    public void LoadTerrain(Texture2D texture2D, Bounds bounds) {
+        Initialize();
 		TerrainComponent.terrainData.heightmapResolution = texture2D.width;
 		Vector3 size = TerrainComponent.terrainData.size;
 		size.y = TerrainManager.Instance.TileHeight;
@@ -120,6 +127,8 @@ public class TerrainTile : MonoBehaviour {
 		job.Width = width;
 		job.TerrainData = TerrainComponent.terrainData;
         job.Reference = this;
+
+        job.Initialize();
 
 		Thread thread = new Thread(new ThreadStart(job.Run));
 		thread.Start();

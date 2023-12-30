@@ -54,8 +54,9 @@ public class FreeCam : MonoBehaviour
     /// </summary>
     private bool looking = false;
 
-    void Update()
-    {
+    void Update() {
+        if(!LoadingScreen.INSTANCE.IsLoaded()) return;
+
         var fastMode = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
         var movementSpeed = fastMode ? this.fastMovementSpeed : this.movementSpeed;
 

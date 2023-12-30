@@ -22,6 +22,8 @@ public class CreateTreeMeshJob : Job
     // https://github.com/Unity-Technologies/MeshApiExamples/blob/master/Assets/CreateMeshFromAllSceneMeshes/CreateMeshFromWholeScene.cs
 
     public void Initialize() {
+        LoadingScreen.INSTANCE.LoadingTasks++;
+
         int[] numVerticesPerModel = new int[Descriptors.Length];
         int[] numTrianglesPerModel = new int[Descriptors.Length];
         int totalVertices = 0;
@@ -133,8 +135,7 @@ public class CreateTreeMeshJob : Job
         }
     }
 
-    public override void Complete()
-    {
+    public override void Complete() {
         // The job had to be aborted for some reason
         // The aborter cleaned up everything it could, be these resources need to be freed from the main thread
         if(JobFailed) {
@@ -156,6 +157,8 @@ public class CreateTreeMeshJob : Job
             MeshUpdateFlags.DontNotifyMeshUsers
         );
         MeshTarget.bounds = Bounds;
+
+        LoadingScreen.INSTANCE.LoadingTasks--;
     }
 
     public class TreeTypeDescriptorForJob {

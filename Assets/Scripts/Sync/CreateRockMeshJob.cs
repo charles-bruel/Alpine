@@ -20,6 +20,8 @@ public class CreateRockMeshJob : Job
     public int[] OldTriangles;
 
     public void Initialize() {
+        LoadingScreen.INSTANCE.LoadingTasks++;
+
         int numVerticesPerModel = OldVertices.Length;
         int numTrianglesPerModel = OldTriangles.Length;
 
@@ -85,8 +87,7 @@ public class CreateRockMeshJob : Job
 		}
     }
 
-    public override void Complete()
-    {
+    public override void Complete() {
         SubMeshDescriptor subMesh = new SubMeshDescriptor(0, Triangles.Length, MeshTopology.Triangles);
         subMesh.firstVertex = 0;
         subMesh.vertexCount = Vertices.Length;
@@ -101,5 +102,7 @@ public class CreateRockMeshJob : Job
             MeshUpdateFlags.DontNotifyMeshUsers
         );
         MeshTarget.bounds = Bounds;
+
+        LoadingScreen.INSTANCE.LoadingTasks--;
     }
 }

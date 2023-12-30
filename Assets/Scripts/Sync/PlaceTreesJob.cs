@@ -69,5 +69,11 @@ public class PlaceTreesJob : Job
             TerrainManager.Instance.Tiles[i].DirtyStates |= TerrainTile.TerrainTileDirtyStates.TREES;
             TerrainManager.Instance.Dirty.Enqueue(TerrainManager.Instance.Tiles[i]);
         }
+
+        LoadingScreen.INSTANCE.LoadingTasks--;
+    }
+
+    public void Initialize() {
+        LoadingScreen.INSTANCE.LoadingTasks++;
     }
 }

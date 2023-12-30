@@ -14,12 +14,16 @@ public class GameController : MonoBehaviour{
     public InterfaceController InterfaceController;
     public GlobalNavController GlobalNavController;
     public VisitorController VisitorController;
+    public LoadingScreen LoadingScreen;
 
-    //TODO: Seperate time controller?
     public float TimeMultiplier = 1;
+
+    public static string TargetSaveGame = null;
 
     void Start() {
         Instance = this;
+
+        LoadingScreen.Initialize();
 
         RenderingData.Initialize();
         GameParameters.Initialize();

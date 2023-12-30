@@ -22,8 +22,7 @@ public class TreeLODRenderer : MonoBehaviour
     [NonSerialized]
     public Bounds Bounds;
 
-    void Start()
-    {
+    void Start() {
         UpdateBuffers(new TreePos[0]);
     }
 
@@ -32,6 +31,11 @@ public class TreeLODRenderer : MonoBehaviour
     }
 
     public void Draw(Camera camera) {
+        // For some reason, this breaks for two frames when loading from the main menu
+        if(dataBufferCulled == null) {
+            return;
+        }
+
         //Render
         dataBufferCulled.SetCounterValue(0U);
         cullShaderArgsBuffer.SetData(new uint[] { (uint) dataBuffer.count, TargetType });

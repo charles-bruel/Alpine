@@ -218,6 +218,8 @@ public class TerrainManager : MonoBehaviour {
         job.MapBounds.min = new Vector3((-NumTilesX/2) * TileSize, 0, (-NumTilesY/2) * TileSize);
         job.MapBounds.max = new Vector3((NumTilesX -NumTilesX/2) * TileSize, 0, (NumTilesY -NumTilesY/2) * TileSize);
 
+        job.Initialize();
+
         Thread thread = new Thread(new ThreadStart(job.Run));
 		thread.Start();
 
@@ -228,6 +230,8 @@ public class TerrainManager : MonoBehaviour {
         job2.MapBounds   = job.MapBounds;
         job2.MinSize     = MinRockSize;
         job2.MaxSize     = MaxRockSize;
+
+        job2.Initialize();
 
         Thread thread2 = new Thread(new ThreadStart(job2.Run));
 		thread2.Start();

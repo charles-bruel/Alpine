@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using UnityEngine;
 
@@ -60,5 +61,11 @@ public class PlaceRocksJob : Job
             TerrainManager.Instance.Tiles[i].DirtyStates |= TerrainTile.TerrainTileDirtyStates.ROCKS;
             TerrainManager.Instance.Dirty.Enqueue(TerrainManager.Instance.Tiles[i]);
         }
+
+        LoadingScreen.INSTANCE.LoadingTasks--;
+    }
+
+    public void Initialize() {
+        LoadingScreen.INSTANCE.LoadingTasks++;
     }
 }

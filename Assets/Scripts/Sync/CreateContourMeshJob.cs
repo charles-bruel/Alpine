@@ -18,6 +18,8 @@ public class RecreateContourMeshJob : Job
     private ContourDefinition Contours;
 
     public void Initialize() {
+        LoadingScreen.INSTANCE.LoadingTasks++;
+
         int numPoints = 0;
         Contours = ContoursUtils.GetContours(LayersDefinition, Tile.HeightData, Bounds);
 
@@ -99,5 +101,6 @@ public class RecreateContourMeshJob : Job
         );
         MeshTarget.bounds = Bounds;
 
+        LoadingScreen.INSTANCE.LoadingTasks--;
     }
 }

@@ -47,5 +47,11 @@ public class LoadTerrainJob : Job {
 		}
 
 		Interlocked.Decrement(ref ActiveJobs);
+
+		LoadingScreen.INSTANCE.LoadingTasks--;
+    }
+
+    public void Initialize() {
+        LoadingScreen.INSTANCE.LoadingTasks++;
     }
 }
