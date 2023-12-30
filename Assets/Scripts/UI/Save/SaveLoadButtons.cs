@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SaveLoadButtons : MonoBehaviour {
     public SaveLoadScreen SaveLoadScreen;
@@ -6,8 +7,11 @@ public class SaveLoadButtons : MonoBehaviour {
         SaveLoadScreen.Inflate(true, false);
     }
 
-    public void OnTestLoad() {
+    public void OnLoad() {
         SaveLoadScreen.Inflate(false, true);
     }
 
+    public void OnReturnToMainMenu() {
+        SceneManager.LoadScene("MainMenu");
+    }
 }
