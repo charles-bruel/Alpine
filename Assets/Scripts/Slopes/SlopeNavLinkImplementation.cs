@@ -140,7 +140,7 @@ public class SlopeNavLinkImplentation : INavLinkImplementation {
         pos2d = ParentImplementation.Bounds.min + pos2d * SlopeInternalPathingJob.GridCellSize;
         pos2d += normalOffset;
 
-        pos = TerrainManager.Instance.Project(pos2d);
+        pos = TerrainManager.Instance.Project(pos2d) + Vector3.up;
         progress += self.SkiSpeed * delta / totalLength;
     }
 }

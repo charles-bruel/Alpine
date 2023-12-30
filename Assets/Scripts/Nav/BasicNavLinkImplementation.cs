@@ -18,10 +18,11 @@ public class BasicNavLinkImplementation : INavLinkImplementation {
 
     public void ProgressPosition(Visitor self, NavLink link, float delta, ref float progress, ref Vector3 pos, ref Vector3 angles, float animationTimer) {
         // Straight line
-        Vector3 pos1 = link.A.GetPosition3d();
-        Vector3 pos2 = link.B.GetPosition3d();
+        Vector2 pos1 = link.A.GetPosition();
+        Vector2 pos2 = link.B.GetPosition();
         float dist = (pos1 - pos2).magnitude;
-        pos = Vector3.Lerp(pos1, pos2, progress);
+        Vector2 pos2d = Vector2.Lerp(pos1, pos2, progress);
+        pos = TerrainManager.Instance.Project(pos2d) + Vector3.up;
         progress += self.TraverseSpeed * delta / dist;
     }
 }
