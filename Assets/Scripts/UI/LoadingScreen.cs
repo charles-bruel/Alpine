@@ -3,6 +3,7 @@ using Codice.CM.Common.Merge;
 using TMPro;
 using UnityEngine;
 
+// TODO: Rename this. It is not obvious that LoadingScreen contains actual save load logic
 public class LoadingScreen : MonoBehaviour {
     public static LoadingScreen INSTANCE;
     
@@ -28,9 +29,14 @@ public class LoadingScreen : MonoBehaviour {
         }
 
         if(LoadingTasks == 0) {
-            Loaded = true;
-            Canvas.gameObject.SetActive(false);
-            gameObject.SetActive(false);
+            if(GameController.TargetSaveGame != null) {
+                SaveManager.LoadSave(GameController.TargetSaveGame);
+                GameController.TargetSaveGame = null;
+            } else {
+                Loaded = true;
+                Canvas.gameObject.SetActive(false);
+                gameObject.SetActive(false);
+            }
         }
     }
 

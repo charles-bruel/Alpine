@@ -4,14 +4,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour {
+    public SaveLoadScreen SaveLoadScreen;
+
     public void OnNewGame() {
         GameController.TargetSaveGame = null;
         SceneManager.LoadSceneAsync("Game");
     }
 
     public void OnLoadGame() {
-        GameController.TargetSaveGame = "Test";
-        SceneManager.LoadSceneAsync("Game");
+        SaveLoadScreen.Inflate(false, true);
     }
 
     public void OnQuit() {
