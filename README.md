@@ -1,3 +1,3 @@
-# Alpine
+# Alpine: Ski Resort Tycoon
 
-WIP ski resort tycoon game. Terrain rendering is done by Spruce.
+This is a free and open source (GPL v3) ski tycoon game I am working on. It is currently in very early alpha stages, and right now is just a proof of concept of the terrain system, lift building, slope building, and basic visitor interactions.
