@@ -6557,6 +6557,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33269c09cd22d1740acfd82b3c9cc5f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GrabTemplate: {fileID: 7150836915057828470, guid: 1d1773609911f05448843fa7125f159a,
+    type: 3}
+  UI: {fileID: 1349235619}
+  Canvas: {fileID: 1163915560}
   DifficultyToggleGroup: {fileID: 654750929}
   Green: {fileID: 1198408206}
   Blue: {fileID: 1022704967}
@@ -8532,6 +8536,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00cdd84daa9ea0f479e52dd38f12a12b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GrabTemplate: {fileID: 7150836915057828470, guid: 1d1773609911f05448843fa7125f159a,
+    type: 3}
+  UI: {fileID: 1349235619}
+  Canvas: {fileID: 1163915560}
 --- !u!1 &1285173156
 GameObject:
   m_ObjectHideFlags: 0

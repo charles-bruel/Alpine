@@ -3,6 +3,11 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 public class SnowfrontPanelUI : MonoBehaviour {
+    [Header("Edit settings")]
+    public SlopeBuilderToolGrab GrabTemplate;
+    public SlopeBuilderUI UI;
+    public Canvas Canvas;
+
     [NonSerialized]
     public Snowfront CurrentSnowfront;
 
@@ -22,6 +27,18 @@ public class SnowfrontPanelUI : MonoBehaviour {
     }
 
     public void OnEditButtonPressed() {
-        throw new NotImplementedException();
+        Assert.IsNotNull(CurrentSnowfront);
+
+        SnowfrontBuilderTool tool = new SnowfrontBuilderTool();
+        tool.GrabTemplate = GrabTemplate;
+        tool.Canvas = Canvas;
+        InterfaceController.Instance.SelectedTool = tool;
+        tool.UI = UI;
+        UI.gameObject.SetActive(true);
+        foreach(var point in CurrentSnowfront.Footprint.Polygon.points) {
+            tool.AddPoint(point);
+        }
+
+        CurrentSnowfront.Destroy();
     }
 }

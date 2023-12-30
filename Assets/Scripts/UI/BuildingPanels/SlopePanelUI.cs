@@ -7,6 +7,11 @@ using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 public class SlopePanelUI : MonoBehaviour {
+    [Header("Edit settings")]
+    public SlopeBuilderToolGrab GrabTemplate;
+    public SlopeBuilderUI UI;
+    public Canvas Canvas;
+    [Header("UI settings")]
     public ToggleGroup DifficultyToggleGroup;
     public Toggle Green;
     public Toggle Blue;
@@ -79,6 +84,17 @@ public class SlopePanelUI : MonoBehaviour {
 
     public void OnEditButtonPressed() {
         Assert.IsNotNull(CurrentSlope);
-        throw new NotImplementedException();
+
+        SlopeBuilderTool tool = new SlopeBuilderTool();
+        tool.GrabTemplate = GrabTemplate;
+        tool.Canvas = Canvas;
+        InterfaceController.Instance.SelectedTool = tool;
+        tool.UI = UI;
+        UI.gameObject.SetActive(true);
+        foreach(var point in CurrentSlope.Footprint.Polygon.points) {
+            tool.AddPoint(point);
+        }
+
+        CurrentSlope.Destroy();
     }
 }
