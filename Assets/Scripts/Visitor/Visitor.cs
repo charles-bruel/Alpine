@@ -29,6 +29,11 @@ public class Visitor : MonoBehaviour {
         // time reasons that would be affect by speed
         PathingCooldown -= Time.deltaTime;
         if(Plan.Count <= PlanningLength && !ActivelyPlanning && PathingCooldown <= 0) {
+            if(GlobalNavController.Instance.Graph.IsEmpty()) {
+                // Literally empty graph. Safe to die
+                VisitorController.Instance.RemoveVisitor(this);
+                return;
+            }
             CreateVisitorPlanJob job = new CreateVisitorPlanJob();
             job.Visitor = this;
 
@@ -67,6 +72,7 @@ public class Visitor : MonoBehaviour {
                 // Visitor is well and truly lost/messed up.
                 // At this point the best we can do is yeet them out of existence
                 VisitorController.Instance.RemoveVisitor(this);
+                return;
             }
             CurrentLink = Plan[0];
             Plan.RemoveAt(0);

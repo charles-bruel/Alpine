@@ -1,5 +1,9 @@
-public class BasicFlatNavigableNavAreaImplementation : INavAreaImplementation
-{
+public class BasicFlatNavigableNavAreaImplementation : INavAreaImplementation {
+    public Building Owner;
+    public BasicFlatNavigableNavAreaImplementation(Building owner) {
+        this.Owner = owner;
+    }
+
     public void OnAdvance(float delta) {
         
     }
@@ -9,7 +13,7 @@ public class BasicFlatNavigableNavAreaImplementation : INavAreaImplementation
     }
 
     public void OnDeselected() {
-        
+        BuildingsController.Instance.BuildingPanelUI.Hide();
     }
 
     public void OnRemove() {
@@ -17,6 +21,6 @@ public class BasicFlatNavigableNavAreaImplementation : INavAreaImplementation
     }
 
     public void OnSelected() {
-        
+        BuildingsController.Instance.BuildingPanelUI.Inflate(Owner);
     }
 }

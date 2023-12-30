@@ -6,7 +6,8 @@ using UnityEngine.Assertions;
 public class Lift : Building {
     public LiftTemplate Template;
     public LiftConstructionData Data;
-    public AlpinePolygon Footprint;
+    // Includes nav areas
+    public List<AlpinePolygon> Polygons;
     public LineRenderer Line;
     public LiftCablePoint[] CablePoints;
     public List<LiftVehicleSystem.LiftAccessNode> CableJoins;
@@ -72,5 +73,17 @@ public class Lift : Building {
         Line.material = RenderingData.Instance.VertexColorMaterial;
         Line.startColor = Color.red;
         Line.endColor = Color.red;
+    }
+
+    public override void Destroy() {
+        foreach(AlpinePolygon polygon in Polygons) {
+            PolygonsController.Instance.DestroyPolygon(polygon);
+        }
+
+        base.Destroy();
+    }
+
+    public override string GetBuildingTypeName() {
+        return Template.name;
     }
 }

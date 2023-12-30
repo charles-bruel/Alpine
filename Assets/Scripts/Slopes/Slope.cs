@@ -205,4 +205,7 @@ public class Slope : Building {
         return SlopeDifficulty.GREEN;
     }
 
+    public override string GetBuildingTypeName() {
+        return "Slope";
+    }
 }

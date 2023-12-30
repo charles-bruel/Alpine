@@ -6,6 +6,7 @@ public class BuildingsController : MonoBehaviour {
     [Header("UI")]
     public SlopePanelUI SlopePanelUI;
     public SnowfrontPanelUI SnowfrontPanelUI;
+    public BuildingPanelUI BuildingPanelUI;
     
     [Header("Templates")]
     // Building templates functionality

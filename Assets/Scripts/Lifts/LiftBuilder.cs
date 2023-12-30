@@ -15,6 +15,7 @@ public class LiftBuilder
     private Pool<LiftTowerTemplate>[] TowerPools;
 
     private Lift Result;
+    private AlpinePolygon Footprint;
 
     private APITowerPlacer APITowerPlacer;
 
@@ -432,7 +433,7 @@ public class LiftBuilder
         Tuple<LiftCablePoint[], List<LiftAccessPointIntermediate>> createCablesResult = CreateCables();
         Result.CablePoints = createCablesResult.Item1;
 
-        Result.Footprint = GenerateFootprint();
+        Footprint = GenerateFootprint();
         Tuple<List<INavNode>, List<INavNode>> nodes = RegisterPolygonsAndNav(createCablesResult.Item2);
 
         Result.CableJoins = CreateCableJoins(createCablesResult.Item2, nodes);
@@ -463,7 +464,9 @@ public class LiftBuilder
 
     private Tuple<List<INavNode>, List<INavNode>> RegisterPolygonsAndNav(List<LiftAccessPointIntermediate> liftAccessPoints) {
         List<NavArea> navAreas = new List<NavArea>();
-        
+        List<AlpinePolygon> alpinePolygons = new List<AlpinePolygon>();
+        alpinePolygons.Add(Footprint);
+
         List<INavNode> entries = new List<INavNode>();
         List<INavNode> exits = new List<INavNode>();
 
@@ -492,7 +495,7 @@ public class LiftBuilder
                     temp.Flags               = polygons[j].Flags;
                     temp.Height              = polygons[j].Height;
 
-                    temp.Implementation = new BasicFlatNavigableNavAreaImplementation();
+                    temp.Implementation = new BasicFlatNavigableNavAreaImplementation(Result);
                     
                     temp.Owner = Result;
 
@@ -502,6 +505,8 @@ public class LiftBuilder
 
                 PolygonsController.Instance.RegisterPolygon(polygons[j]);
             }
+
+            alpinePolygons.AddRange(polygons);
 
             // Entry and exit nodes
             if(Data.RoutingSegments[i].PhysicalSegment is LiftStationTemplate) {
@@ -637,6 +642,8 @@ public class LiftBuilder
                 liftLinks.Add(link);
             }
         }
+
+        Result.Polygons = alpinePolygons;
 
         Result.NavAreas = navAreas;
         Result.NavLinks = liftLinks;

@@ -39,8 +39,7 @@ public class VisitorController : MonoBehaviour {
         Instance = this;
     }
 
-    public void RemoveVisitor(Visitor visitor)
-    {
+    public void RemoveVisitor(Visitor visitor) {
         Visitors.Remove(visitor);
         GameObject.Destroy(visitor.gameObject);
     }

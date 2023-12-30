@@ -131,7 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Polygons:
   - ParentElement: {fileID: 1069266081895738410}
-    Level: 0
+    Level: 3
     Points:
     - {x: -25, y: -25}
     - {x: 25, y: -25}
@@ -156,3 +156,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b7c4dde7ba1879408337d96c7fd1352, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Building: {fileID: 0}

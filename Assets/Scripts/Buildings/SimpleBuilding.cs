@@ -22,4 +22,19 @@ public class SimpleBuilding : Building {
             }
         }
     }
+
+    // TODO: Support non-NavArea polygons
+    public override void Destroy() {
+        Functionality.OnDestroy();
+
+        foreach(NavArea area in NavAreas) {
+            PolygonsController.Instance.DestroyPolygon(area);
+        }
+
+        base.Destroy();
+    }
+
+    public override string GetBuildingTypeName() {
+        return Template.name;
+    }
 }

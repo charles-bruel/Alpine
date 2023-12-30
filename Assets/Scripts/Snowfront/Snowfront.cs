@@ -41,4 +41,8 @@ public class Snowfront : Building {
 
         base.Destroy();
     }
+
+    public override string GetBuildingTypeName() {
+        return "Snowfront";
+    }
 }

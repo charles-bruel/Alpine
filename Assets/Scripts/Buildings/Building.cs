@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public class Building : MonoBehaviour {
+public abstract class Building : MonoBehaviour {
     public virtual void Advance(float delta) {
 
     }
@@ -14,4 +14,6 @@ public class Building : MonoBehaviour {
         BuildingsController.Instance.UnregisterBuilding(this);
         Destroy(gameObject);
     }
+
+    public abstract string GetBuildingTypeName();
 }

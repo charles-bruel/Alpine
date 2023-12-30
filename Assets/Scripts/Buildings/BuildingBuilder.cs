@@ -51,7 +51,7 @@ public class BuildingBuilder {
                 temp.Flags               = polygons[i].Flags;
                 temp.Height              = polygons[i].Height;
 
-                temp.Implementation = new BasicFlatNavigableNavAreaImplementation();
+                temp.Implementation = new BasicFlatNavigableNavAreaImplementation(Result);
                 
                 temp.Owner = Result;
 
