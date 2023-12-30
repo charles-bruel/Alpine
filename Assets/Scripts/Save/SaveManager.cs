@@ -4,6 +4,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class SaveManager {
     public static Save GetSave() {
@@ -15,18 +16,20 @@ public class SaveManager {
     }
 
     // TODO: Second thread
-    public static void QueueSaveJob(Save save, String name) {
+    public static void QueueSaveJob(Save save, String name, SaveLoadScreen screen) {
         CreateSaveGameDirectory();
         string json = JsonConvert.SerializeObject(save, Formatting.Indented, new JsonSerializerSettings
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Error
         });
         System.IO.File.WriteAllText(GetSaveGameFilePath(name), json);
+
+        if(screen != null) screen.Hide();
     }
 
     public static void LoadSave(String name) {
         CreateSaveGameDirectory();
-        string json = System.IO.File.ReadAllText(name + ".json");
+        string json = System.IO.File.ReadAllText(GetSaveGameFilePath(name));
         Save save = JsonConvert.DeserializeObject<Save>(json);
         JObject jobject = (JObject) save.data;
         switch(save.version) {

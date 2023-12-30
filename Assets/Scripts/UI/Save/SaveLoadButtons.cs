@@ -1,12 +1,13 @@
 using UnityEngine;
 
 public class SaveLoadButtons : MonoBehaviour {
+    public SaveLoadScreen SaveLoadScreen;
     public void OnSaveClicked() {
-        SaveManager.QueueSaveJob(SaveManager.GetSave(), "save");
+        SaveLoadScreen.Inflate(true, false);
     }
 
     public void OnTestLoad() {
-        SaveManager.LoadSave("save");
+        SaveLoadScreen.Inflate(false, true);
     }
 
 }

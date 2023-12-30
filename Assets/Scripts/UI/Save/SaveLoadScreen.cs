@@ -10,5 +10,6 @@ public class SaveLoadScreen : MonoBehaviour {
 
     public void Hide() {
         gameObject.SetActive(false);
+        SaveList.Reset();
     }
 }

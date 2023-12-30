@@ -7,6 +7,7 @@ public class SaveListEntry : MonoBehaviour {
     public TMP_Text SaveNameField;
     public GameObject SaveButton;
     public GameObject LoadButton;
+    public SaveLoadScreen SaveLoadScreen;
 
     public void Inflate(string saveName, bool save, bool load) {
         SaveName = saveName;
@@ -16,7 +17,7 @@ public class SaveListEntry : MonoBehaviour {
     }
 
     public void OnSaveButtonClicked() {
-        SaveManager.QueueSaveJob(SaveManager.GetSave(), SaveName);
+        SaveManager.QueueSaveJob(SaveManager.GetSave(), SaveName, SaveLoadScreen);
     }
 
     public void OnLoadButtonClicked() {
