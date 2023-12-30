@@ -37,6 +37,8 @@ public class VisitorController : MonoBehaviour {
 
     public void Initialize() {
         Instance = this;
+
+        MaxVisitors = ConfigHelper.GetFile(ConfigHelper.CONFIG_NAME).GetInt("max_visitors");
     }
 
     public void RemoveVisitor(Visitor visitor) {

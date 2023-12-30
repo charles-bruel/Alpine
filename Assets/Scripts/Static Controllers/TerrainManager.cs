@@ -108,6 +108,8 @@ public class TerrainManager : MonoBehaviour {
 
         StartPlacementJobs();
 
+        LOD_Distance = ConfigHelper.GetFile(ConfigHelper.CONFIG_NAME).GetFloat("tree_lod_distance");
+
         Initialized = true;
     }
 
@@ -210,7 +212,7 @@ public class TerrainManager : MonoBehaviour {
 
         job.DecoMap     = DecoMap.GetPixels();
         job.DecoMapSize = DecoMap.width;
-        job.TreeCount   = NumTrees;
+        job.TreeCount   = (int) (NumTrees * ConfigHelper.GetFile(ConfigHelper.CONFIG_NAME).GetFloat("tree_mul"));
         job.MinHeight   = MinTreeHeight;
         job.MaxHeight   = MaxTreeHeight;
 
@@ -226,7 +228,7 @@ public class TerrainManager : MonoBehaviour {
         PlaceRocksJob job2 = new PlaceRocksJob();
         job2.DecoMap     = job.DecoMap;
         job2.DecoMapSize = DecoMap.width;
-        job2.RockCount   = NumRocks;
+        job2.RockCount   = (int) (NumRocks * ConfigHelper.GetFile(ConfigHelper.CONFIG_NAME).GetFloat("rock_mul"));
         job2.MapBounds   = job.MapBounds;
         job2.MinSize     = MinRockSize;
         job2.MaxSize     = MaxRockSize;
