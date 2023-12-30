@@ -1,7 +1,4 @@
 using System.Collections.Generic;
-using Mono.Cecil;
-using PlasticGui;
-using UnityEditor.TextCore.Text;
 using UnityEngine;
 using UnityEngine.UI;
 

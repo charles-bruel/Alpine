@@ -1,7 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEditorInternal;
-using Unity.Plastic.Antlr3.Runtime;
 
 public class CreateVisitorPlanJob : Job
 {

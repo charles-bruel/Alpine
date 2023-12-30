@@ -1,7 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
 using System;
-using Codice.Client.Common.TreeGrouper;
 
 public class NavArea : AlpinePolygon {
     public List<INavNode> Nodes;

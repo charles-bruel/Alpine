@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Codice.Utils;
-using JetBrains.Annotations;
 using UnityEngine;
 
 public class LiftVehicleSystem {
