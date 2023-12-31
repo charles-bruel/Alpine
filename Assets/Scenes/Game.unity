@@ -5206,7 +5206,7 @@ MonoBehaviour:
   InterfaceController: {fileID: 830588215}
   GlobalNavController: {fileID: 757753269}
   VisitorController: {fileID: 757753270}
-  UIsController: {fileID: 0}
+  UIsController: {fileID: 757753271}
   LoadingScreen: {fileID: 2097636219}
   TimeMultiplier: 0
 --- !u!114 &757753263

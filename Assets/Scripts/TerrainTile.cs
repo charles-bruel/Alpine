@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class TerrainTile : MonoBehaviour {
     
@@ -47,7 +48,7 @@ public class TerrainTile : MonoBehaviour {
 
     private bool Initialized = false;
 
-    private void Initialize() {
+    private void Initialize(int texSize) {
         if(Initialized) {
             return;
         }
@@ -61,7 +62,9 @@ public class TerrainTile : MonoBehaviour {
         TerrainComponent = terrain.AddComponent<Terrain>();
         TerrainComponent.terrainData = new TerrainData();
         TerrainComponent.materialTemplate = TerrainMaterial;
-        TerrainComponent.heightmapPixelError = 5;
+        // We want resolution/pixelError = 128
+        // Thus we want pixelError = resolution/128
+        TerrainComponent.heightmapPixelError = texSize / 128f;
 
         TerrainCollider collider = terrain.AddComponent<TerrainCollider>();
         collider.terrainData = TerrainComponent.terrainData;
@@ -110,7 +113,7 @@ public class TerrainTile : MonoBehaviour {
     }
 
     public void LoadTerrain(Texture2D texture2D, Bounds bounds) {
-        Initialize();
+        Initialize(texture2D.width);
 		TerrainComponent.terrainData.heightmapResolution = texture2D.width;
 		Vector3 size = TerrainComponent.terrainData.size;
 		size.y = TerrainManager.Instance.TileHeight;

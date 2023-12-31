@@ -17,7 +17,7 @@ public class LoadingScreen : MonoBehaviour {
 
     public void Initialize() {
         INSTANCE = this;
-        Canvas.gameObject.SetActive(true);
+        // Canvas.gameObject.SetActive(true);
     }
 
     void Update() {

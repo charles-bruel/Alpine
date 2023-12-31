@@ -41,7 +41,8 @@ public static class ContoursUtils {
         List<Vector2> toReturn = new List<Vector2>();
 
         //Pixel jump
-        int j = 16;
+        // Each tile should have a grid of 32 points to make contours off of
+        int j = data.GetLength(0) / 16;
 
         int xl = data.GetLength(1) - 1;
         int yl = data.GetLength(0) - 1;

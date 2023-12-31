@@ -77,6 +77,8 @@ public class TerrainManager : MonoBehaviour {
 
     public void Initialize() {
         CopyMapData();
+        // CopyMapData(AvalancheMap.Load("Mount Lafayette"));
+        // CopyMapData(AvalancheMap.Load("8k-3 - sector"));
 
         CreateTreeLODRenderers();
 
@@ -132,6 +134,28 @@ public class TerrainManager : MonoBehaviour {
         for(int i = 0;i < Textures.Length;i ++) {
             Textures[i] = Resources.Load<Texture2D>(Map.TexturePath + "\\height-" + i);
         }
+    }
+
+    private void CopyMapData(AvalancheMap map) {
+        map.LoadTextures();
+
+        // Use 4x4 tile grid
+        TileSize             = map.Size / 4;
+        TileHeight           = map.Height;
+        NumTilesX            = 4;
+        NumTilesY            = 4;
+        DecoMap              = map.DecorationMaps;
+        NumTrees             = map.Trees;
+        NumRocks             = map.Rocks;
+        WeatherMap           = map.GenerateWeatherMap();
+        MinTreeHeight        = 1;
+        MaxTreeHeight        = 4;
+        MinRockSize          = 3;
+        MaxRockSize          = 1;
+        AltitudeAdjustFactor = 0.5f;
+
+        Textures = new Texture2D[NumTilesX * NumTilesY];
+        Textures = map.SplitIntoTiles(4);
     }
 
     private void CreateTreeLODRenderers() {
