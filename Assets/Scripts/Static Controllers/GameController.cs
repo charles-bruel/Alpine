@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameController : MonoBehaviour{
+public class GameController : MonoBehaviour {
+    [Header("Controllers")]
     public RenderingData RenderingData;
     public GameParameters GameParameters;
     public TerrainManager TerrainManager;
@@ -14,6 +15,9 @@ public class GameController : MonoBehaviour{
     public InterfaceController InterfaceController;
     public GlobalNavController GlobalNavController;
     public VisitorController VisitorController;
+    public UIsController UIsController;
+
+    [Header("Other")]
     public LoadingScreen LoadingScreen;
 
     public float TimeMultiplier = 1;
@@ -35,6 +39,7 @@ public class GameController : MonoBehaviour{
         InterfaceController.Initialize();
         GlobalNavController.Initialize();
         VisitorController.Initialize();
+        UIsController.Initialize();
     }
 
     void Update() {

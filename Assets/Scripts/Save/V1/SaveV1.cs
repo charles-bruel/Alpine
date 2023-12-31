@@ -4,6 +4,7 @@ using UnityEngine;
 
 [System.Serializable]
 public struct SaveV1 {
+    public MetaSaveInformationV1 Meta;
     public BuildingSaveDataV1[] buildings;
     public SlopeSaveDataV1[] slopes;
     public LiftSaveDataV1[] lifts;
@@ -49,6 +50,8 @@ public struct SaveV1 {
         result.snowfronts = snowfronts.ToArray();
 
         result.weather = WeatherSaveDataV1.FromWeather(WeatherController.Instance);
+
+        result.Meta = MetaSaveInformationV1.Create();
 
         return result;
     }
@@ -105,5 +108,7 @@ public struct SaveV1 {
         for(int i = 0;i < lifts.Length;i ++) {
             lifts[i].LiftVehicleSystem.RestoreTo(recreatedLifts[i].VehicleSystem);
         }
+
+        Meta.Restore();
     }
 }

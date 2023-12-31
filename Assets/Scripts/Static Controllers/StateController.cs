@@ -7,6 +7,8 @@ public class StateController : MonoBehaviour {
     public bool Mode3D { get { return !Mode2D; } }
     public GameObject[] TwoDOnlyObjects;
     public GameObject[] ThreeDOnlyObjects;
+    public Camera TwoDCamera;
+    public Camera ThreeDCamera;
 
     public void ToggleMode(bool mode) {
         for(int i = 0;i < TwoDOnlyObjects.Length;i ++) {

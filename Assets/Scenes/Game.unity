@@ -5036,6 +5036,7 @@ GameObject:
   - component: {fileID: 757753268}
   - component: {fileID: 757753269}
   - component: {fileID: 757753270}
+  - component: {fileID: 757753271}
   m_Layer: 0
   m_Name: Statics
   m_TagString: Untagged
@@ -5205,6 +5206,7 @@ MonoBehaviour:
   InterfaceController: {fileID: 830588215}
   GlobalNavController: {fileID: 757753269}
   VisitorController: {fileID: 757753270}
+  UIsController: {fileID: 0}
   LoadingScreen: {fileID: 2097636219}
   TimeMultiplier: 0
 --- !u!114 &757753263
@@ -5225,6 +5227,8 @@ MonoBehaviour:
   - {fileID: 274151076}
   ThreeDOnlyObjects:
   - {fileID: 1803827441}
+  TwoDCamera: {fileID: 138825118}
+  ThreeDCamera: {fileID: 1803827446}
 --- !u!114 &757753264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5327,6 +5331,19 @@ MonoBehaviour:
   - {fileID: 6632329247608173648, guid: 790dc12f21cf9304493631668afe130d, type: 3}
   Visitors: []
   MaxVisitors: 1200
+--- !u!114 &757753271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757753257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33d494bd7c543c4408b22322bfd98e19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UITimeController: {fileID: 867067802}
 --- !u!1 &763692009
 GameObject:
   m_ObjectHideFlags: 0
@@ -12200,7 +12217,7 @@ GameObject:
   - component: {fileID: 1890460092}
   - component: {fileID: 1890460091}
   m_Layer: 5
-  m_Name: IO
+  m_Name: IO and time controls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
