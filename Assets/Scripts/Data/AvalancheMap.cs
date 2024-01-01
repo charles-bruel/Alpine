@@ -8,7 +8,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class AvalancheMap {
+public class AvalancheMap : IMap {
 	public static AvalancheMap Load(string path) {
 		CultureInfo.CurrentCulture = new CultureInfo("en-US");
 		AvalancheMap result;
@@ -88,10 +88,10 @@ public class AvalancheMap {
 					else if (param_name == "treesraw")
 					{
 						moddedMap.Trees = int.Parse(line_contents[1]);
-						if (ConfigHelper.GetFloat("ModData\\basic.cfg", "tree_cloning_refine") == -1f)
-						{
-							moddedMap.Trees = (int)Math.Round((double)((float)moddedMap.Trees * ConfigHelper.GetFloat("ModData\\basic.cfg", "tree_multiplier")));
-						}
+						// if (ConfigHelper.GetFloat("ModData\\basic.cfg", "tree_cloning_refine") == -1f)
+						// {
+						// 	moddedMap.Trees = (int)Math.Round((double)((float)moddedMap.Trees * ConfigHelper.GetFloat("ModData\\basic.cfg", "tree_multiplier")));
+						// }
 					}
 					else if (param_name == "rocksraw" || param_name == "rocks")
 					{
@@ -325,6 +325,31 @@ public class AvalancheMap {
         int gInt = (intVal & 0x00FF00) >>  8;
         int bInt = (intVal & 0xFF0000) >> 16;
         return new Color(rInt/255f, gInt/255f, bInt/255f);
+    }
+
+    public void Load(TerrainManager terrainManager) {
+        terrainManager.CopyMapData(this);
+    }
+
+	public static List<AvalancheMap> GetMaps() {
+		string path = Path.Combine(Application.persistentDataPath, "CustomMaps");
+		List<AvalancheMap> list = new List<AvalancheMap>();
+		if (!Directory.Exists(path)) {
+			Debug.Log("Unable to find maps directory");
+			return new List<AvalancheMap>();
+		}
+		string[] directories = Directory.GetDirectories(path);
+		for (int i = 0; i < directories.Length; i++) {
+			AvalancheMap moddedMap = AvalancheMap.Load(directories[i]);
+			if (moddedMap != null) {
+				list.Add(moddedMap);
+			}
+		}
+		return list;
+	}
+
+    public string GetName() {
+        return Name;
     }
 
     public float Difficulty = 3f;

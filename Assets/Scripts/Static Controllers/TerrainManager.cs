@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.Assertions;
 using System.Threading;
+using System.Linq;
+using UnityEngine.AI;
 
 public class TerrainManager : MonoBehaviour {
     [Header("Map")]
-    public Map Map;
+    public AlpineMap Map;
     [Header("Materials & Shaders")]
     public Material TerrainMaterial;
     public Material ObjectMaterial;
@@ -75,10 +77,10 @@ public class TerrainManager : MonoBehaviour {
 
     private bool Initialized = false;
 
+    public static IMap TargetMap;
+
     public void Initialize() {
-        CopyMapData();
-        // CopyMapData(AvalancheMap.Load("Mount Lafayette"));
-        // CopyMapData(AvalancheMap.Load("8k-3 - sector"));
+        TargetMap.Load(this);
 
         CreateTreeLODRenderers();
 
@@ -115,28 +117,28 @@ public class TerrainManager : MonoBehaviour {
         Initialized = true;
     }
 
-    private void CopyMapData() {
-        TileSize             = Map.TileSize;
-        TileHeight           = Map.TileHeight;
-        NumTilesX            = Map.NumTilesX;
-        NumTilesY            = Map.NumTilesY;
-        DecoMap              = Map.DecoMap;
-        NumTrees             = Map.NumTrees;
-        NumRocks             = Map.NumRocks;
-        WeatherMap           = Map.WeatherMap;
-        MinTreeHeight        = Map.MinTreeHeight;
-        MaxTreeHeight        = Map.MaxTreeHeight;
-        MinRockSize          = Map.MinRockSize;
-        MaxRockSize          = Map.MaxRockSize;
-        AltitudeAdjustFactor = Map.AltitudeAdjustFactor;
+    public void CopyMapData(AlpineMap alpineMap) {
+        TileSize             = alpineMap.TileSize;
+        TileHeight           = alpineMap.TileHeight;
+        NumTilesX            = alpineMap.NumTilesX;
+        NumTilesY            = alpineMap.NumTilesY;
+        DecoMap              = alpineMap.DecoMap;
+        NumTrees             = alpineMap.NumTrees;
+        NumRocks             = alpineMap.NumRocks;
+        WeatherMap           = alpineMap.WeatherMap;
+        MinTreeHeight        = alpineMap.MinTreeHeight;
+        MaxTreeHeight        = alpineMap.MaxTreeHeight;
+        MinRockSize          = alpineMap.MinRockSize;
+        MaxRockSize          = alpineMap.MaxRockSize;
+        AltitudeAdjustFactor = alpineMap.AltitudeAdjustFactor;
 
         Textures = new Texture2D[NumTilesX * NumTilesY];
         for(int i = 0;i < Textures.Length;i ++) {
-            Textures[i] = Resources.Load<Texture2D>(Map.TexturePath + "\\height-" + i);
+            Textures[i] = Resources.Load<Texture2D>(alpineMap.TexturePath + "\\height-" + i);
         }
     }
 
-    private void CopyMapData(AvalancheMap map) {
+    public void CopyMapData(AvalancheMap map) {
         map.LoadTextures();
 
         // Use 4x4 tile grid
@@ -353,6 +355,8 @@ public class TerrainManager : MonoBehaviour {
     }
 
     private void UpdateTreeLODBuffers() {
+        if(TreesData == null) return;
+        
         int numTrees = 0;
         //We go through things twice to reduce memory allocations
         for(int i = 0;i < Tiles.Count;i ++) {
@@ -415,6 +419,20 @@ public class TerrainManager : MonoBehaviour {
     }
 
     public static TerrainManager Instance;
+
+    public static List<IMap> GetAllMaps() {
+        List<IMap> maps = new List<IMap>();
+
+        // Get all AlpineMap objects
+        AlpineMap[] alpineMaps = Resources.LoadAll<AlpineMap>("Maps");
+        maps.AddRange(from alpineMap in alpineMaps where alpineMap.Include select alpineMap as IMap);
+
+        // Load all AvalancheMap objects from disk
+        List<AvalancheMap> avalancheMaps = AvalancheMap.GetMaps();
+        maps.AddRange(avalancheMaps);
+
+        return maps;
+    }
 
     [System.Serializable]
     public class TreeTypeDescriptor {

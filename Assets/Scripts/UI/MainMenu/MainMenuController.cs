@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour {
     public SaveLoadScreen SaveLoadScreen;
+    public NewGameScreen NewGameScreen;
 
     void Start() {
         StartupConfig.Initialize();
     }
 
     public void OnNewGame() {
-        GameController.TargetSaveGame = null;
-        SceneManager.LoadSceneAsync("Game");
+        NewGameScreen.Inflate();
     }
 
     public void OnLoadGame() {

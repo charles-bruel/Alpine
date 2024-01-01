@@ -1,8 +1,12 @@
 using UnityEngine;
 using System;
+using UnityEngine.UIElements;
 
 [CreateAssetMenu(fileName = "Map", menuName = "Game Elements/Map", order = 1)]
-public class Map : ScriptableObject {
+public class AlpineMap : ScriptableObject, IMap {
+    [Header("Meta")]
+    public bool Include;
+    public string MapName;
     [Header("Tile & Map Information")]
     public float TileSize;
     public float TileHeight;
@@ -21,4 +25,12 @@ public class Map : ScriptableObject {
     public float MaxRockSize = 0.5f;
     [Header("Weather Settings")]
     public Texture2D WeatherMap;
+
+    public string GetName() {
+        return MapName;
+    }
+
+    public void Load(TerrainManager terrainManager) {
+        terrainManager.CopyMapData(this);
+    }
 }

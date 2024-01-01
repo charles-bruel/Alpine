@@ -248,6 +248,8 @@ public class TerrainTile : MonoBehaviour {
     }
 
     public void AdjustTreeRendering() {
+        if(TreesComponent == null) return;
+        
         bool currentLODLevel = GetWithinLOD();
         TreesComponent.gameObject.SetActive(!currentLODLevel);
     }
