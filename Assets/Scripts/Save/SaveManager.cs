@@ -56,18 +56,26 @@ public class SaveManager {
         }
     }
 
-    public static List<string> GetSaves() {
+    public static List<Tuple<DateTime, string>> GetSaves() {
+        // Get directory
         string saveGameDirectory = Path.Combine(Application.persistentDataPath, "Saves");
         if(!Directory.Exists(saveGameDirectory)) {
-            return new List<string>();
+            return new List<Tuple<DateTime, string>>();
         }
+
+        // Get files and timestamps
         string[] files = Directory.GetFiles(saveGameDirectory);
-        List<string> saves = new List<string>();
+        List<Tuple<DateTime, string>> saves = new List<Tuple<DateTime, string>>();
         foreach(string file in files) {
             if(file.EndsWith(".json")) {
-                saves.Add(Path.GetFileNameWithoutExtension(file));
+                string filename = Path.GetFileNameWithoutExtension(file);
+                DateTime timestamp = File.GetLastWriteTime(file);
+                saves.Add(new Tuple<DateTime, string>(timestamp, filename));
             }
         }
+
+        // Sort by last moodified
+        saves.Sort((x, y) => y.Item1.CompareTo(x.Item1));
         return saves;
     }
 }

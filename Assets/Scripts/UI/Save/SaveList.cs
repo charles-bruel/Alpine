@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +14,7 @@ public class SaveList : MonoBehaviour {
     public List<GameObject> SaveListEntries = new List<GameObject>();
 
     public void Inflate(bool save, bool load) {
-        List<string> saves = SaveManager.GetSaves();
+        List<Tuple<DateTime, string>> saves = SaveManager.GetSaves();
 
         int length = saves.Count;
         if(save) {
@@ -28,7 +29,8 @@ public class SaveList : MonoBehaviour {
             SaveListEntries.Add(entry.gameObject);
         }
 
-        foreach(string saveName in saves) {
+        foreach(var value in saves) {
+            string saveName = value.Item2;
             SaveListEntry entry = Instantiate(SaveListEntryPrefab, SaveListParent.transform);
             entry.SaveLoadScreen = SaveLoadScreen;
             entry.Inflate(saveName, save, load);
