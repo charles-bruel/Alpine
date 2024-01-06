@@ -78,6 +78,11 @@ public class TerrainManager : MonoBehaviour {
     public static IMap TargetMap;
 
     public void Initialize() {
+        // Check if we are loading from a save
+        if(GameController.TargetSaveGame != null) {
+            SaveManager.LoadMap(GameController.TargetSaveGame);
+        }
+
         // Load a default map
         // We are probably in the unity editor testing something
         if(TargetMap == null) {

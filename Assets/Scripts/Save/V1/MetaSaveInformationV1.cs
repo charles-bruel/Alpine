@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public struct MetaSaveInformationV1 {
     public int TimeSpeedIndex;
+    public string MapID;
     public Vector3POD CameraPosition2d;
     public float CameraOrthographicSize2d;
     public Vector3POD CameraPosition3d;
@@ -21,6 +22,7 @@ public struct MetaSaveInformationV1 {
         };
 
         return new MetaSaveInformationV1() {
+            MapID = TerrainManager.TargetMap.GetID(),
             TimeSpeedIndex = togglesToId[UIsController.Instance.UITimeController.TimeToggleGroup.ActiveToggles().First()],
             CameraPosition3d = StateController.Instance.ThreeDCamera.transform.position,
             CameraRotation3d = StateController.Instance.ThreeDCamera.transform.rotation,
@@ -47,5 +49,13 @@ public struct MetaSaveInformationV1 {
 
         StateController.Instance.TwoDCamera.transform.position = CameraPosition2d;
         StateController.Instance.TwoDCamera.orthographicSize = CameraOrthographicSize2d;
+    }
+
+    public void RestoreMap() {
+        foreach(IMap map in TerrainManager.GetAllMaps()) {
+            if(map.GetID() == MapID) {
+                TerrainManager.TargetMap = map;
+            }
+        }
     }
 }

@@ -27,10 +27,22 @@ public class SaveManager {
         if(screen != null) screen.Hide();
     }
 
-    public static void LoadSave(String name) {
+    private static Save save;
+    public static void LoadMap(String name) {
         CreateSaveGameDirectory();
         string json = System.IO.File.ReadAllText(GetSaveGameFilePath(name));
-        Save save = JsonConvert.DeserializeObject<Save>(json);
+        save = JsonConvert.DeserializeObject<Save>(json);
+        JObject jobject = (JObject) save.data;
+        switch(save.version) {
+            case 1:
+                SaveV1 data = jobject.ToObject<SaveV1>();
+                data.Meta.RestoreMap();
+                break;
+        }
+    }
+
+    // We assume that earlier in the loading process, the save was loading so the map could be loaded.
+    public static void LoadSave(String name) {
         JObject jobject = (JObject) save.data;
         switch(save.version) {
             case 1:

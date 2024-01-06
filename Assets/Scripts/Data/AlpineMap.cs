@@ -7,6 +7,8 @@ public class AlpineMap : ScriptableObject, IMap {
     [Header("Meta")]
     public bool Include;
     public string MapName;
+    public string Guid = System.Guid.NewGuid().ToString();
+
     [Header("Tile & Map Information")]
     public float TileSize;
     public float TileHeight;
@@ -25,6 +27,10 @@ public class AlpineMap : ScriptableObject, IMap {
     public float MaxRockSize = 0.5f;
     [Header("Weather Settings")]
     public Texture2D WeatherMap;
+
+    public string GetID() {
+        return "alp-" + Guid;
+    }
 
     public string GetName() {
         return MapName;

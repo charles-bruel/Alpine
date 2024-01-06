@@ -88,10 +88,6 @@ public class AvalancheMap : IMap {
 					else if (param_name == "treesraw")
 					{
 						moddedMap.Trees = int.Parse(line_contents[1]);
-						// if (ConfigHelper.GetFloat("ModData\\basic.cfg", "tree_cloning_refine") == -1f)
-						// {
-						// 	moddedMap.Trees = (int)Math.Round((double)((float)moddedMap.Trees * ConfigHelper.GetFloat("ModData\\basic.cfg", "tree_multiplier")));
-						// }
 					}
 					else if (param_name == "rocksraw" || param_name == "rocks")
 					{
@@ -350,6 +346,10 @@ public class AvalancheMap : IMap {
 
     public string GetName() {
         return Name;
+    }
+
+    public string GetID() {
+		return "avl-" + MapPath;
     }
 
     public float Difficulty = 3f;
