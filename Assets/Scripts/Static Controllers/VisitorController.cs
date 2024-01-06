@@ -12,10 +12,18 @@ public class VisitorController : MonoBehaviour {
     public List<INavNode> SpawnPoints = new List<INavNode>();
 
     public int MaxVisitors = 10;
+    public float VisitorTimer = 1;
     
     public void Advance(float delta) {
-        if(SpawnPoints.Count != 0 && Visitors.Count < MaxVisitors) {
+        VisitorTimer -= delta;
+        if(SpawnPoints.Count != 0 && Visitors.Count < MaxVisitors && VisitorTimer < 0) {
             SpawnVisitor();
+            // Determine new visitor timer
+            float fraction = (float) Visitors.Count / MaxVisitors;
+            fraction *= 1.609f; // Roughly ln(5) -> one visitor every 5 seconds at max capacity
+            float rate = Mathf.Exp(-fraction);
+            float time = 1 / rate;
+            VisitorTimer = time;
         }
 
         for(int i = 0;i < Visitors.Count;i ++) {
