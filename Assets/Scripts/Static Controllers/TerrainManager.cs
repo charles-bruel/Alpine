@@ -7,8 +7,6 @@ using System.Linq;
 using UnityEngine.AI;
 
 public class TerrainManager : MonoBehaviour {
-    [Header("Map")]
-    public AlpineMap Map;
     [Header("Materials & Shaders")]
     public Material TerrainMaterial;
     public Material ObjectMaterial;
@@ -80,6 +78,11 @@ public class TerrainManager : MonoBehaviour {
     public static IMap TargetMap;
 
     public void Initialize() {
+        // Load a default map
+        // We are probably in the unity editor testing something
+        if(TargetMap == null) {
+            TargetMap = GetAllMaps()[0];
+        }
         TargetMap.Load(this);
 
         CreateTreeLODRenderers();

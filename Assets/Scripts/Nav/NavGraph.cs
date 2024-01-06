@@ -8,6 +8,10 @@ using UnityEngine.Assertions;
 // information. It will be constructed from the nav information so pathfinding can
 // occur on another thread without sync issues.
 public class NavGraph {
+    public NavGraph() {
+        NodesToIdx = new Dictionary<INavNode, uint>();
+        EdgesFromNode = new Dictionary<uint, List<Edge>>();
+    }
 
     public static NavGraph CreateCompleteGraph() {
         List<NavArea> temp = new List<NavArea>();
@@ -31,8 +35,6 @@ public class NavGraph {
     // Call from main thread
     public static NavGraph Build(NavArea area) {
         NavGraph temp = new NavGraph();
-        temp.NodesToIdx = new Dictionary<INavNode, uint>();
-        temp.EdgesFromNode = new Dictionary<uint, List<Edge>>();
         temp.Add(area);
 
         return temp;
