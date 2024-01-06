@@ -8,6 +8,7 @@ public class AlpineMap : ScriptableObject, IMap {
     public bool Include;
     public string MapName;
     public string Guid = System.Guid.NewGuid().ToString();
+    public Sprite Thumb;
 
     [Header("Tile & Map Information")]
     public float TileSize;
@@ -34,6 +35,10 @@ public class AlpineMap : ScriptableObject, IMap {
 
     public string GetName() {
         return MapName;
+    }
+
+    public Sprite GetThumbnail() {
+        return Thumb;
     }
 
     public void Load(TerrainManager terrainManager) {

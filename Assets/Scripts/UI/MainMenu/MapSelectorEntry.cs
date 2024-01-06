@@ -16,7 +16,7 @@ public class MapSelectorEntry : MonoBehaviour {
         MapList = mapList;
         Map = map;
         MapName.text = map.GetName();
-        // Thumbnail.sprite = map.GetThumbnail();
+        Thumbnail.sprite = map.GetThumbnail();
     }
 
     public void OnClicked() {

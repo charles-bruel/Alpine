@@ -42,6 +42,7 @@ public class AvalancheMap : IMap {
 
 					else if (param_name == "thumb")
 					{
+						// TODO: Don't automatically load thumbnails?
 						Texture2D texture2D = AvalancheMap.LoadPNG(Path.Combine(diskPath, line_contents[1]));
 						moddedMap.Thumb = Sprite.Create(texture2D, new Rect(0f, 0f, (float)texture2D.width, (float)texture2D.height), new Vector2(0.5f, 0.5f));
 					}
@@ -350,6 +351,10 @@ public class AvalancheMap : IMap {
 
     public string GetID() {
 		return "avl-" + MapPath;
+    }
+
+    public Sprite GetThumbnail() {
+        return Thumb;
     }
 
     public float Difficulty = 3f;

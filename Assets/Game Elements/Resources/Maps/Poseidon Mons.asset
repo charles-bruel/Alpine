@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Include: 1
   MapName: Poseidon Mons (scaled up)
+  Guid: b227bb10-a0e8-42b6-8310-69d198bc31df
+  Thumb: {fileID: 21300000, guid: b4e41ee1d469e2c4d93c9fedacb0e947, type: 3}
   TileSize: 600
   TileHeight: 700
   TexturePath: Poseidon Mons
