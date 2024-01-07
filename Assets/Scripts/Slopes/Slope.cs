@@ -208,4 +208,12 @@ public class Slope : Building {
     public override string GetBuildingTypeName() {
         return "Slope";
     }
+
+    public override void OnSelected() {
+        BuildingsController.Instance.SlopePanelUI.Inflate(this);
+    }
+
+    public override void OnDeselected() {
+        BuildingsController.Instance.SlopePanelUI.Hide();
+    }
 }

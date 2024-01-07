@@ -86,4 +86,12 @@ public class Lift : Building {
     public override string GetBuildingTypeName() {
         return Template.name;
     }
+
+    public override void OnSelected() {
+        BuildingsController.Instance.BuildingPanelUI.Inflate(this);
+    }
+
+    public override void OnDeselected() {
+        BuildingsController.Instance.BuildingPanelUI.Hide();
+    }
 }

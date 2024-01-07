@@ -20,7 +20,7 @@ public class SlopeNavAreaImplementation : INavAreaImplementation {
     }
 
     public void OnDeselected() {
-        BuildingsController.Instance.SlopePanelUI.Hide();
+
     }
 
     public void OnRemove() {
@@ -28,6 +28,6 @@ public class SlopeNavAreaImplementation : INavAreaImplementation {
     }
 
     public void OnSelected() {
-        BuildingsController.Instance.SlopePanelUI.Inflate(Owner);
+        
     }
 }

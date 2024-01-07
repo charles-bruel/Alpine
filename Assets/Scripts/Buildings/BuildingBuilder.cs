@@ -38,6 +38,8 @@ public class BuildingBuilder {
             Transform parentTransform = Instaniated.Polygons[i].ParentElement;
             polygons.Add(ModAPIUtils.TransformPolygon(Instaniated.Polygons[i], parentTransform.eulerAngles.y, parentTransform.position));
         
+            polygons[i].Owner = Result;
+
             if((polygons[i].Flags & PolygonFlags.NAVIGABLE_MASK) != 0) {
                 NavArea temp = new NavArea();
 
@@ -50,11 +52,10 @@ public class BuildingBuilder {
                 temp.ArbitrarilyEditable = polygons[i].ArbitrarilyEditable;
                 temp.Flags               = polygons[i].Flags;
                 temp.Height              = polygons[i].Height;
+                temp.Owner               = polygons[i].Owner;
 
                 temp.Implementation = new BasicFlatNavigableNavAreaImplementation(Result);
                 
-                temp.Owner = Result;
-
                 navAreas.Add(temp);
                 polygons[i] = temp;
             }
@@ -72,6 +73,7 @@ public class BuildingBuilder {
 
         Result.ServiceNode = serviceNode;
         Result.NavAreas = navAreas;
+        Result.Polygons = polygons;
 
         Result.Functionality.OnFinishConstruction();
 

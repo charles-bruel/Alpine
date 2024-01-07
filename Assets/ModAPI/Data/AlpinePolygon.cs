@@ -15,14 +15,19 @@ public class AlpinePolygon {
     public Color Color;
     public bool ArbitrarilyEditable;
     public PolygonFlags Flags;
+    public IUISelectable Owner;
     public float Height;
     // Note: To be set by PolygonController ONLY
     public bool Selected;
     public bool Selectable = true;
 
-    public virtual void OnSelected() {}
+    public virtual void OnSelected() {
+        Owner.OnSelected();
+    }
 
-    public virtual void OnDeselected() {}
+    public virtual void OnDeselected() {
+        Owner.OnDeselected();
+    }
 
     public virtual void OnDestroy() {}
 }

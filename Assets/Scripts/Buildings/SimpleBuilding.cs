@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SimpleBuilding : Building {
     public List<NavArea> NavAreas = new List<NavArea>();
+    // Includes nav areas
+    public List<AlpinePolygon> Polygons = new List<AlpinePolygon>();
     public BuildingFunctionality Functionality;
     public INavNode ServiceNode;
     public SimpleBuildingTemplate Template;
@@ -23,12 +25,11 @@ public class SimpleBuilding : Building {
         }
     }
 
-    // TODO: Support non-NavArea polygons
     public override void Destroy() {
         Functionality.OnDestroy();
 
-        foreach(NavArea area in NavAreas) {
-            PolygonsController.Instance.DestroyPolygon(area);
+        foreach(AlpinePolygon polygon in Polygons) {
+            PolygonsController.Instance.DestroyPolygon(polygon);
         }
 
         base.Destroy();
@@ -36,5 +37,13 @@ public class SimpleBuilding : Building {
 
     public override string GetBuildingTypeName() {
         return Template.name;
+    }
+
+    public override void OnSelected() {
+        BuildingsController.Instance.BuildingPanelUI.Inflate(this);
+    }
+
+    public override void OnDeselected() {
+        BuildingsController.Instance.BuildingPanelUI.Hide();
     }
 }

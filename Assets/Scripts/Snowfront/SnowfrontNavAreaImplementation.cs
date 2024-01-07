@@ -18,7 +18,7 @@ public class SnowfrontNavAreaImplementation : INavAreaImplementation {
     }
 
     public void OnDeselected() {
-        BuildingsController.Instance.SnowfrontPanelUI.Hide();
+        
     }
 
     public void OnRemove() {
@@ -26,6 +26,6 @@ public class SnowfrontNavAreaImplementation : INavAreaImplementation {
     }
 
     public void OnSelected() {
-        BuildingsController.Instance.SnowfrontPanelUI.Inflate(Owner);
+
     }
 }

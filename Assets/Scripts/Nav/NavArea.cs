@@ -6,7 +6,6 @@ public class NavArea : AlpinePolygon {
     // All links from this area to other overlapping nav areas
     public List<NavLink> Links;
     public List<NavArea> OverlappingNavAreas;
-    public Building Owner;
     public bool Modified = false;
     public INavAreaImplementation Implementation;
     public int ID;
@@ -79,6 +78,7 @@ public class NavArea : AlpinePolygon {
     }
 
     public override void OnSelected() {
+        base.OnSelected();
         Implementation.OnSelected();
         foreach(var link in Links) {
             link.Implementation.OnSelected();
@@ -86,6 +86,7 @@ public class NavArea : AlpinePolygon {
     }
 
     public override void OnDeselected() {
+        base.OnDeselected();
         Implementation.OnDeselected();
         foreach(var link in Links) {
             link.Implementation.OnDeselected();
@@ -93,6 +94,7 @@ public class NavArea : AlpinePolygon {
     }
 
     public override void OnDestroy() {
+        base.OnDestroy();
         var nodesCopy = new List<INavNode>(Nodes);
         foreach(var node in nodesCopy) {
             node.Destroy();

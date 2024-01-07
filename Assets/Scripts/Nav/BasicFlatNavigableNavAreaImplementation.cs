@@ -13,7 +13,7 @@ public class BasicFlatNavigableNavAreaImplementation : INavAreaImplementation {
     }
 
     public void OnDeselected() {
-        BuildingsController.Instance.BuildingPanelUI.Hide();
+        
     }
 
     public void OnRemove() {
@@ -21,6 +21,6 @@ public class BasicFlatNavigableNavAreaImplementation : INavAreaImplementation {
     }
 
     public void OnSelected() {
-        BuildingsController.Instance.BuildingPanelUI.Inflate(Owner);
+
     }
 }

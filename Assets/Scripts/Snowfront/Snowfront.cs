@@ -45,4 +45,12 @@ public class Snowfront : Building {
     public override string GetBuildingTypeName() {
         return "Snowfront";
     }
+
+    public override void OnDeselected() {
+        BuildingsController.Instance.SnowfrontPanelUI.Hide();
+    }
+
+    public override void OnSelected() {
+        BuildingsController.Instance.SnowfrontPanelUI.Inflate(this);
+    }
 }

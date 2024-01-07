@@ -481,6 +481,8 @@ public class LiftBuilder
 
             // Nav polygons
             for(int j = 0;j < polygons.Count;j ++) {
+                polygons[j].Owner = Result;
+
                 // We need to create nav information if it's marked as navigable
                 if((polygons[j].Flags & PolygonFlags.NAVIGABLE_MASK) != 0) {
                     NavArea temp = new NavArea();
@@ -494,11 +496,10 @@ public class LiftBuilder
                     temp.ArbitrarilyEditable = polygons[j].ArbitrarilyEditable;
                     temp.Flags               = polygons[j].Flags;
                     temp.Height              = polygons[j].Height;
+                    temp.Owner               = polygons[j].Owner;
 
                     temp.Implementation = new BasicFlatNavigableNavAreaImplementation(Result);
                     
-                    temp.Owner = Result;
-
                     navAreas.Add(temp);
                     polygons[j] = temp;
                 }
@@ -689,6 +690,8 @@ public class LiftBuilder
         poly.Flags = PolygonFlags.AERIAL_CLEARANCE;
 
         PolygonsController.Instance.RegisterPolygon(poly);
+
+        poly.Owner = Result;
 
         return poly;
     }
