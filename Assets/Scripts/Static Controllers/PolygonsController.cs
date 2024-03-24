@@ -291,8 +291,10 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
 
     }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
+    public void OnPointerClick(PointerEventData eventData) {
+        // Only allow left clicks though
+        if(eventData.button != PointerEventData.InputButton.Left) return;
+
         Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition).ToHorizontal();
 
         uint max = 0;
