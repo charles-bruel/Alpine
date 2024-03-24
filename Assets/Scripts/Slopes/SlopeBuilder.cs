@@ -16,6 +16,8 @@ public class SlopeBuilder {
 
         Data = new SlopeConstructionData();
 
+        Result.CurrentDifficultySetting = SlopeDifficultySetting.AUTO;
+
         Result.Footprint = new NavArea();
         Result.Footprint.Owner = Result;
 
@@ -132,7 +134,7 @@ public class SlopeBuilder {
         GameObject.Destroy(Result.gameObject);
     }
 
-    public static Slope BuildFromSave(SlopeConstructionData data, NavAreaGraphSaveDataV1 navData, SlopeDifficulty currentDifficulty, SlopeDifficulty intrinsicDifficulty, LoadingContextV1 loadingContext) {
+    public static Slope BuildFromSave(SlopeConstructionData data, NavAreaGraphSaveDataV1 navData, SlopeDifficultySetting currentDifficulty, SlopeDifficulty intrinsicDifficulty, LoadingContextV1 loadingContext) {
         SlopeBuilder builder = new SlopeBuilder();
         builder.Initialize();
         builder.Data = data;
@@ -143,8 +145,9 @@ public class SlopeBuilder {
         builder.Result.Footprint.ID = navData.ID;
         loadingContext.navAreas.Add(navData.ID, builder.Result.Footprint);
 
-        builder.Result.UpdateDifficulty(currentDifficulty);
         builder.Result.IntrinsicDifficulty = intrinsicDifficulty;
+        builder.Result.CurrentDifficultySetting = currentDifficulty;
+        builder.Result.UpdateDifficulty();
 
         return builder.Result;
     }

@@ -6,8 +6,14 @@ using System;
 public class Slope : Building {
     public SlopeConstructionData Data;
     public NavArea Footprint;
-    public SlopeNavAreaImplementation AreaImplementation; 
-    public SlopeDifficulty CurrentDifficulty;
+    public SlopeNavAreaImplementation AreaImplementation;
+    public SlopeDifficulty CurrentDifficulty {
+        get {
+            return CurrentDifficultySetting == SlopeDifficultySetting.AUTO ? IntrinsicDifficulty : (SlopeDifficulty)CurrentDifficultySetting;
+        }
+    }
+
+    public SlopeDifficultySetting CurrentDifficultySetting;
     public SlopeDifficulty IntrinsicDifficulty;
 
     public void Inflate(List<NavPortal> portals) {
@@ -58,12 +64,8 @@ public class Slope : Building {
     public void SetNewInternalPaths(List<SlopeInternalPathingJob.SlopeInternalPath> Paths, Rect Bounds) {
         SlopeDifficulty calculatedDifficulty = CalculateNewDifficulty(Paths);
         
-        // If the intrinsic difficulty is the same as the current difficulty, we assume it's in auto mode
-        // and we update the difficulty to the new calculated difficulty
-        if(IntrinsicDifficulty == CurrentDifficulty) {
-            UpdateDifficulty(calculatedDifficulty);
-        }
         IntrinsicDifficulty = calculatedDifficulty;
+        UpdateDifficulty();
 
         // Polygon is not selectable during building, this ensures
         // it is never selected while there are null paths
@@ -72,9 +74,7 @@ public class Slope : Building {
         UpdateAreaImplementation(Paths, Bounds);
     }
 
-    public void UpdateDifficulty(SlopeDifficulty newDifficulty) {
-        CurrentDifficulty = newDifficulty;
-
+    public void UpdateDifficulty() {
         Footprint.Flags &= ~PolygonFlags.SLOPE_MASK;
         switch(CurrentDifficulty) {
             case SlopeDifficulty.GREEN:
