@@ -381,9 +381,9 @@ public class TerrainManager : MonoBehaviour {
             if(!Tiles[i].GetWithinLOD()/* || Tiles[i].DirtyStates != 0*/) continue;
 
             bounds.x = Mathf.Min(bounds.x, Tiles[i].PosX * TileSize);
-            bounds.y = Mathf.Min(bounds.y, (Tiles[i].PosY + 1) * TileSize);
+            bounds.y = Mathf.Min(bounds.y, Tiles[i].PosY * TileSize);
             bounds.z = Mathf.Max(bounds.z, (Tiles[i].PosX + 1) * TileSize);
-            bounds.w = Mathf.Max(bounds.w, (Tiles[i].PosY + 2) * TileSize);
+            bounds.w = Mathf.Max(bounds.w, (Tiles[i].PosY + 1) * TileSize);
 
             var enumerator = TreesData.GetEnumerator(Tiles[i].IndexX, Tiles[i].IndexY);
             while(enumerator.MoveNext()) {
@@ -391,11 +391,13 @@ public class TerrainManager : MonoBehaviour {
             }
         }
 
-        Bounds boundsFinal = new Bounds();
-        boundsFinal.min = new Vector3(bounds.x, 0, bounds.y);
-        boundsFinal.max = new Vector3(bounds.z, TileHeight + 128, bounds.w);
+        Bounds boundsFinal = new()
+        {
+            min = new Vector3(bounds.x, 0, bounds.y),
+            max = new Vector3(bounds.z, TileHeight + 100, bounds.w)
+        };
 
-        for(int i = 0;i < TreeLODRenderers.Length;i ++) {
+        for (int i = 0;i < TreeLODRenderers.Length;i ++) {
             TreeLODRenderers[i].Bounds = boundsFinal;
             TreeLODRenderers[i].UpdateBuffers(treePosses);
         }
