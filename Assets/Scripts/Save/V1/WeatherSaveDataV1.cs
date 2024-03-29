@@ -59,7 +59,7 @@ public struct WeatherSaveDataV1 {
         float[] RecentSnow = Utils.ByteArrayToFloatArray(this.RecentSnow);
 
         for(int i = 0;i < BaseSnow.Length;i ++) {
-            WeatherController.Instance.Recent.Data[i] = BaseSnow[i];
+            WeatherController.Instance.Base.Data[i] = BaseSnow[i];
         }
 
         for(int i = 0;i < RecentSnow.Length;i ++) {
