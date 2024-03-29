@@ -24,12 +24,12 @@ public struct SlopeSaveDataV1 {
         return result;
     }
 
-    public SlopeConstructionData ToConstructionData() {
-        SlopeConstructionData result = new SlopeConstructionData();
-        result.SlopePoints = new List<SlopeConstructionData.SlopePoint>();
+    public PolygonConstructionData ToConstructionData() {
+        PolygonConstructionData result = new PolygonConstructionData();
+        result.SlopePoints = new List<PolygonConstructionData.SlopePoint>();
 
         foreach(Vector2POD point in Vertices) {
-            result.SlopePoints.Add(new SlopeConstructionData.SlopePoint(point));
+            result.SlopePoints.Add(new PolygonConstructionData.SlopePoint(point));
         }
 
         return result;

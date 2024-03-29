@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1619407732403443945}
   - component: {fileID: 7150836915057828470}
   m_Layer: 5
-  m_Name: SlopeBuilderGrab
+  m_Name: PolygonBuilderGrab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class SlopePanelUI : MonoBehaviour {
     [Header("Edit settings")]
-    public SlopeBuilderToolGrab GrabTemplate;
+    public PolygonBuilderToolGrab GrabTemplate;
     public SlopeBuilderUI UI;
     public Canvas Canvas;
     [Header("UI settings")]

@@ -71,11 +71,11 @@ public struct SaveV1 {
 
         // Slopes and snowfronts have to go last, because they can place portals, but they will only regenerate properly if the other buildings are already there
         foreach(SlopeSaveDataV1 slope in slopes) {
-            SlopeBuilder.BuildFromSave(slope.ToConstructionData(), slope.NavAreaGraphs, slope.CurrentDifficulty, slope.IntrinsicDifficulty, loadingContext);
+            PolygonBuilder.BuildFromSave(slope.ToConstructionData(), slope.NavAreaGraphs, slope.CurrentDifficulty, slope.IntrinsicDifficulty, loadingContext);
         }
 
         foreach(SnowfrontSaveDataV1 snowfront in snowfronts) {
-            SnowfrontBuilder.BuildFromSave(snowfront.ToConstructionData(), snowfront.NavAreaGraphs, loadingContext);
+            PolygonBuilder.BuildFromSave(snowfront.ToConstructionData(), snowfront.NavAreaGraphs, loadingContext);
         }
 
         weather.Restore();

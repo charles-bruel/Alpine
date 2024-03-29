@@ -4,14 +4,14 @@ using EPPZ.Geometry.Model;
 using UnityEngine;
 
 public class PolygonBuilder {
-    public SlopeConstructionData Data;
+    public PolygonConstructionData Data;
     public PolygonBuilding Result;
 
     public void Initialize(PolygonBuilding result, PolygonFlags flags) {
         Result = result;
         Result.Data = Data;
 
-        Data = new SlopeConstructionData();
+        Data = new PolygonConstructionData();
 
         Result.Footprint = new NavArea();
         Result.Footprint.Owner = Result;
@@ -51,14 +51,14 @@ public class PolygonBuilder {
         List<int> validPortals = new List<int>();
 
         for(int i = 0;i < Data.SlopePoints.Count;i ++) {
-            SlopeConstructionData.SlopePoint current = Data.SlopePoints[i];
+            PolygonConstructionData.SlopePoint current = Data.SlopePoints[i];
             int nextIndex;
             if(i == Data.SlopePoints.Count - 1) {
                 nextIndex = 0;
             } else {
                 nextIndex = i + 1;
             }
-            SlopeConstructionData.SlopePoint next = Data.SlopePoints[nextIndex];
+            PolygonConstructionData.SlopePoint next = Data.SlopePoints[nextIndex];
             if(current.Snapping.HasValue && next.Snapping.HasValue) {
                 PolygonsController.PolygonSnappingResult currentSnap = current.Snapping.Value;
                 PolygonsController.PolygonSnappingResult nextSnap = next.Snapping.Value;
@@ -130,12 +130,12 @@ public class PolygonBuilder {
         for(int i = 0;i < Data.SlopePoints.Count;i ++) {
             PolygonsController.PolygonSnappingResult? snapping = PolygonsController.Instance.CheckForSnapping(Data.SlopePoints[i].Pos, epsilon, epsilon, PolygonFlags.NAVIGABLE_MASK, Result.Footprint);
             if(snapping != null) {
-                Data.SlopePoints[i] = new SlopeConstructionData.SlopePoint(snapping.Value.Pos, snapping.Value);
+                Data.SlopePoints[i] = new PolygonConstructionData.SlopePoint(snapping.Value.Pos, snapping.Value);
             }
         }
     }
 
-    public static Slope BuildFromSave(SlopeConstructionData data, NavAreaGraphSaveDataV1 navData, SlopeDifficultySetting currentDifficulty, SlopeDifficulty intrinsicDifficulty, LoadingContextV1 loadingContext) {
+    public static Slope BuildFromSave(PolygonConstructionData data, NavAreaGraphSaveDataV1 navData, SlopeDifficultySetting currentDifficulty, SlopeDifficulty intrinsicDifficulty, LoadingContextV1 loadingContext) {
         PolygonBuilder builder = new PolygonBuilder();
 
         GameObject gameObject = new GameObject("Slope");
@@ -157,7 +157,7 @@ public class PolygonBuilder {
         return slope;
     }
 
-    public static Snowfront BuildFromSave(SlopeConstructionData data, NavAreaGraphSaveDataV1 navData, LoadingContextV1 loadingContext) {
+    public static Snowfront BuildFromSave(PolygonConstructionData data, NavAreaGraphSaveDataV1 navData, LoadingContextV1 loadingContext) {
         PolygonBuilder builder = new PolygonBuilder();
         
         GameObject gameObject = new GameObject("Snowfront");

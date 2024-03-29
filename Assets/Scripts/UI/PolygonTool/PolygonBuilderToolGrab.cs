@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class SlopeBuilderToolGrab : GenericGrab {
+public class PolygonBuilderToolGrab : GenericGrab {
     public int SlopePointGroupIndex;
     public int SlopePointIndex;
-    public SlopeConstructionData Data;
+    public PolygonConstructionData Data;
     public AlpinePolygon Footprint;
 
     public override void OnDragBehavior(Vector2 newPos) {
@@ -13,9 +13,9 @@ public class SlopeBuilderToolGrab : GenericGrab {
             newPos = snapping.Value.Pos;
             RectTransform.anchoredPosition = newPos;
 
-            Data.SlopePoints[SlopePointIndex] = new SlopeConstructionData.SlopePoint(newPos, snapping.Value);
+            Data.SlopePoints[SlopePointIndex] = new PolygonConstructionData.SlopePoint(newPos, snapping.Value);
         } else {
-            Data.SlopePoints[SlopePointIndex] = new SlopeConstructionData.SlopePoint(newPos);
+            Data.SlopePoints[SlopePointIndex] = new PolygonConstructionData.SlopePoint(newPos);
         }
         PolygonsController.Instance.MarkPolygonsDirty();
     }

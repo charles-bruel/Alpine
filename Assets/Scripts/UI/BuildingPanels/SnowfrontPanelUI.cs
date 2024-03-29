@@ -4,7 +4,7 @@ using UnityEngine.Assertions;
 
 public class SnowfrontPanelUI : MonoBehaviour {
     [Header("Edit settings")]
-    public SlopeBuilderToolGrab GrabTemplate;
+    public PolygonBuilderToolGrab GrabTemplate;
     public SlopeBuilderUI UI;
     public Canvas Canvas;
 

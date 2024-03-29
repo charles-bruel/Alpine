@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class SlopeBuildButton : MonoBehaviour {
-    public SlopeBuilderToolGrab GrabTemplate;
+    public PolygonBuilderToolGrab GrabTemplate;
     public SlopeBuilderUI UI;
     public Canvas Canvas;
 

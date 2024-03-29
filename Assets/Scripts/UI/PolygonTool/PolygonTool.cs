@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
 public class PolygonTool {
-    public SlopeConstructionData Data;
+    public PolygonConstructionData Data;
     public PolygonBuilder Builder;
-    public SlopeBuilderToolGrab GrabTemplate;
-    public List<SlopeBuilderToolGrab> Grabs = new List<SlopeBuilderToolGrab>();
+    public PolygonBuilderToolGrab GrabTemplate;
+    public List<PolygonBuilderToolGrab> Grabs = new List<PolygonBuilderToolGrab>();
     public Canvas Canvas;
 
     public void OnCancel() {
@@ -17,13 +17,13 @@ public class PolygonTool {
 
     public void AddPoint(Vector2 pos) {
         // Universal setup
-        SlopeBuilderToolGrab grab = GameObject.Instantiate(GrabTemplate);
+        PolygonBuilderToolGrab grab = GameObject.Instantiate(GrabTemplate);
         grab.transform.SetParent(Canvas.transform, false);
         grab.Data = Data;
         grab.Footprint = Builder.Result.Footprint;
         Grabs.Add(grab);
 
-        Data.SlopePoints.Add(new SlopeConstructionData.SlopePoint(pos));
+        Data.SlopePoints.Add(new PolygonConstructionData.SlopePoint(pos));
         grab.SlopePointIndex = Data.SlopePoints.Count - 1;
 
         // Universal finalization code

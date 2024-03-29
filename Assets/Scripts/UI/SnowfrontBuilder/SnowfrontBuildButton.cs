@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class SnowfrontBuildButton : MonoBehaviour {
-    public SlopeBuilderToolGrab GrabTemplate;
+    public PolygonBuilderToolGrab GrabTemplate;
     public SlopeBuilderUI UI;
     public Canvas Canvas;
 

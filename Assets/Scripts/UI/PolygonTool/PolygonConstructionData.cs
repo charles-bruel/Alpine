@@ -1,8 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class SlopeConstructionData {
-    public SlopeConstructionData() {
+public class PolygonConstructionData {
+    public PolygonConstructionData() {
         SlopePoints = new List<SlopePoint>();
     }
 

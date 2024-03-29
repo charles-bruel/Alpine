@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class PolygonBuilding : Building {
     public NavArea Footprint;
-    public SlopeConstructionData Data;
+    public PolygonConstructionData Data;
     
     public override void Advance(float delta) {
         if(Footprint != null) {
