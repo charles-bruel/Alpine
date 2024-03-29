@@ -30,13 +30,13 @@ public class SnowfrontPanelUI : MonoBehaviour {
         Assert.IsNotNull(CurrentSnowfront);
 
         SnowfrontBuilderTool tool = new SnowfrontBuilderTool();
-        tool.GrabTemplate = GrabTemplate;
-        tool.Canvas = Canvas;
+        tool.PolygonTool.GrabTemplate = GrabTemplate;
+        tool.PolygonTool.Canvas = Canvas;
         InterfaceController.Instance.SelectedTool = tool;
         tool.UI = UI;
         UI.gameObject.SetActive(true);
         foreach(var point in CurrentSnowfront.Footprint.Polygon.points) {
-            tool.AddPoint(point);
+            tool.PolygonTool.AddPoint(point);
         }
 
         CurrentSnowfront.Destroy();

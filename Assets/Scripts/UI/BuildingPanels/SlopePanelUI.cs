@@ -100,13 +100,13 @@ public class SlopePanelUI : MonoBehaviour {
         Assert.IsNotNull(CurrentSlope);
 
         SlopeBuilderTool tool = new SlopeBuilderTool();
-        tool.GrabTemplate = GrabTemplate;
-        tool.Canvas = Canvas;
+        tool.PolygonTool.GrabTemplate = GrabTemplate;
+        tool.PolygonTool.Canvas = Canvas;
         InterfaceController.Instance.SelectedTool = tool;
         tool.UI = UI;
         UI.gameObject.SetActive(true);
         foreach(var point in CurrentSlope.Footprint.Polygon.points) {
-            tool.AddPoint(point);
+            tool.PolygonTool.AddPoint(point);
         }
 
         CurrentSlope.Destroy();

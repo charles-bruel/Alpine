@@ -7,8 +7,8 @@ public class SlopeBuildButton : MonoBehaviour {
 
     public void OnSlopeToolEnable() {
         SlopeBuilderTool tool = new SlopeBuilderTool();
-        tool.GrabTemplate = GrabTemplate;
-        tool.Canvas = Canvas;
+        tool.PolygonTool.GrabTemplate = GrabTemplate;
+        tool.PolygonTool.Canvas = Canvas;
         InterfaceController.Instance.SelectedTool = tool;
         tool.UI = UI;
         UI.gameObject.SetActive(true);

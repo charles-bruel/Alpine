@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System;
 
-public class Slope : Building {
-    public SlopeConstructionData Data;
-    public NavArea Footprint;
+public class Slope : PolygonBuilding {
     public SlopeNavAreaImplementation AreaImplementation;
     public SlopeDifficulty CurrentDifficulty {
         get {
@@ -16,32 +14,10 @@ public class Slope : Building {
     public SlopeDifficultySetting CurrentDifficultySetting;
     public SlopeDifficulty IntrinsicDifficulty;
 
-    public void Inflate(List<NavPortal> portals) {
-        foreach(NavPortal portal in portals) {
-            GameObject temp = new GameObject();
-            temp.transform.SetParent(transform);
-            temp.name = "Portal";
-            temp.layer = LayerMask.NameToLayer("2D");
-
-            portal.gameObject = temp;
-            portal.Inflate();
-
-            portal.A.Nodes.Add(portal);
-            portal.A.Modified = true;
-
-            portal.B.Nodes.Add(portal);
-            portal.B.Modified = true;
-        }
-    }
-
     void Update() {
         if(Footprint.Modified) {
             RegeneratePathfinding();
         }
-    }
-
-    public override void Advance(float delta) {
-        Footprint.Advance(delta);
     }
 
     private static int LastUsedFrameID = 0;
@@ -166,13 +142,6 @@ public class Slope : Building {
                 linkID++;
             }
         }
-    }
-
-    public override void Destroy() {
-        // Remove the nav area, which removes all associated portals, and all associated nav links
-        PolygonsController.Instance.DestroyPolygon(Footprint);
-
-        base.Destroy();
     }
 
     private void UpdateAreaImplementation(List<SlopeInternalPathingJob.SlopeInternalPath> Paths, Rect Bounds) {
