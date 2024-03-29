@@ -8,6 +8,7 @@ public class BuildingBuilder {
     public Canvas WorldUICanvas;
 
     public Vector2 Pos;
+    public float Rotation;
     public SimpleBuildingTemplate Template;
     private SimpleBuildingTemplate Instaniated;
     private SimpleBuilding Result;
@@ -18,8 +19,9 @@ public class BuildingBuilder {
     public void LightBuild() {
         // Place above any contour lines
         MapDisplay.rectTransform.localPosition = new Vector3(Pos.x, Pos.y, -(TerrainManager.Instance.TileHeight + 128));
+        MapDisplay.rectTransform.localRotation = Quaternion.Euler(0, 0, -Rotation);
 
-        PolygonsPreview.Update(0, Pos);
+        PolygonsPreview.Update(Rotation, Pos);
     }
 
     public void Initialize() {
@@ -38,6 +40,7 @@ public class BuildingBuilder {
     public void Build() {
         Instaniated = GameObject.Instantiate(Template);
         Instaniated.transform.position = TerrainManager.Instance.Project(Pos);
+        Instaniated.transform.rotation = Quaternion.Euler(0, Rotation, 0);
         Result = Instaniated.gameObject.AddComponent<SimpleBuilding>();
         Result.Template = Template;
         Result.Functionality = Instaniated.Functionality;
@@ -104,8 +107,7 @@ public class BuildingBuilder {
         PolygonsPreview.Destroy();
     }
 
-    public void UpdatePos(Vector2 pos)
-    {
+    public void UpdatePos(Vector2 pos) {
         Pos = pos;
     }
 

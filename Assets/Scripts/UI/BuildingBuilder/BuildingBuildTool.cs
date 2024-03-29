@@ -1,5 +1,6 @@
 using UnityEngine.EventSystems;
 using UnityEngine;
+using Codice.Client.BaseCommands.BranchExplorer.Layout;
 
 public class BuildingBuilderTool : ITool {
     private bool done = false;
@@ -51,5 +52,20 @@ public class BuildingBuilderTool : ITool {
         Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition).ToHorizontal();
         Builder.UpdatePos(pos);
         Builder.LightBuild();
+
+        int dir = 0;
+
+        if(Input.GetKey(KeyCode.M)) {
+            dir = 1;
+        }
+        if(Input.GetKey(KeyCode.N)) {
+            dir = -1;
+        }
+
+        if(Input.GetKey(KeyCode.LeftShift)) {
+            Builder.Rotation += dir * Time.deltaTime * 5;
+        } else {
+            Builder.Rotation += dir * Time.deltaTime * 90;
+        }
     }
 }
