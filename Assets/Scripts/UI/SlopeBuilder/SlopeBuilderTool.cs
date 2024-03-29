@@ -51,9 +51,9 @@ public class SlopeBuilderTool : ITool {
     public void OnPointerClick(PointerEventData eventData) {
         Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition).ToHorizontal();
         if(eventData.button == PointerEventData.InputButton.Left) {
-            PolygonTool.AddPoint(pos);
+            PolygonTool.AddPoint(pos, Input.GetKey(KeyCode.LeftControl));
         } else if(eventData.button == PointerEventData.InputButton.Right) {
-            PolygonTool.RemovePoint(pos);
+            PolygonTool.RemovePoint(pos, Input.GetKey(KeyCode.LeftControl));
         }
     }
 }

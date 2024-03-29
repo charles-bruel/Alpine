@@ -15,17 +15,43 @@ public class PolygonTool {
         }
     }
 
-    public void AddPoint(Vector2 pos) {
+    public void AddPoint(Vector2 pos, bool altMode = false) {
         // Universal setup
         PolygonBuilderToolGrab grab = GameObject.Instantiate(GrabTemplate);
         grab.transform.SetParent(Canvas.transform, false);
         grab.Data = Data;
         grab.Footprint = Builder.Result.Footprint;
-        Grabs.Add(grab);
 
-        Data.SlopePoints.Add(new PolygonConstructionData.SlopePoint(pos));
-        grab.SlopePointIndex = Data.SlopePoints.Count - 1;
+        // If we are pressing control, we should insert into the sequence
+        if(altMode && Data.SlopePoints.Count > 2) {
+            // Identify between which points we should insert this one
+            float minDisp = GetLengthChange(Data.SlopePoints[Data.SlopePoints.Count - 1].Pos, Data.SlopePoints[0].Pos, pos);
+            grab.SlopePointIndex = 0;
+            for(int i = 0;i < Data.SlopePoints.Count - 1;i ++) {
+                float disp = GetLengthChange(Data.SlopePoints[i].Pos, Data.SlopePoints[i + 1].Pos, pos);
+                if(disp < minDisp) {
+                    minDisp = disp;
+                    grab.SlopePointIndex = i + 1;
+                }
+            }
 
+            Data.SlopePoints.Insert(grab.SlopePointIndex, new PolygonConstructionData.SlopePoint(pos));
+
+            // We now need to go through all the grabs and update their indices
+            for(int i = 0;i < Grabs.Count;i ++) {
+                if(Grabs[i].SlopePointIndex >= grab.SlopePointIndex) {
+                    Grabs[i].SlopePointIndex++;
+                }
+            }
+
+            Grabs.Insert(grab.SlopePointIndex, grab);
+        } else {
+            Data.SlopePoints.Add(new PolygonConstructionData.SlopePoint(pos));
+            grab.SlopePointIndex = Data.SlopePoints.Count - 1;
+
+            Grabs.Add(grab);
+        }
+        
         // Universal finalization code
         grab.RectTransform.anchoredPosition = Data.SlopePoints[grab.SlopePointIndex].Pos;
 
@@ -37,7 +63,13 @@ public class PolygonTool {
         }
     }
 
-    public void RemovePoint(Vector2 pos) {
+    // Returns (AP + BP ) - AB, i.e. how much length is added if a node 
+    // inserted between a and b at p
+    private float GetLengthChange(Vector2 a, Vector2 b, Vector2 p) {
+        return (a - p).magnitude + (p - b).magnitude - (a - b).magnitude;
+    }
+
+    public void RemovePoint(Vector2 pos, bool altMode = false) {
         //Find the closest station to the position and remove it
         float sqrMinDist = Mathf.Infinity;
         int index = -1;
