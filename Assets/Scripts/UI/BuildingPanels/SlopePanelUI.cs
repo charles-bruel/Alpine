@@ -105,10 +105,7 @@ public class SlopePanelUI : MonoBehaviour {
         InterfaceController.Instance.SelectedTool = tool;
         tool.UI = UI;
         UI.gameObject.SetActive(true);
-        foreach(var point in CurrentSlope.Footprint.Polygon.points) {
-            tool.PolygonTool.AddPoint(point);
-        }
 
-        CurrentSlope.Destroy();
+        tool.PolygonTool.PrepareForEditing(CurrentSlope);
     }
 }

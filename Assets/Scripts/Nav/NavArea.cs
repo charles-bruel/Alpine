@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using UnityEngine;
 
 public class NavArea : AlpinePolygon {
     public List<INavNode> Nodes;
@@ -37,6 +38,12 @@ public class NavArea : AlpinePolygon {
         // Create a dictionary of old links
         Dictionary<Tuple<INavNode, INavNode>, NavLink> oldLinks = new Dictionary<Tuple<INavNode, INavNode>, NavLink>();
         foreach(var link in Links) {
+            // I've seen an issue once with a error adding a duplicate key, so here's a check
+            if(oldLinks.ContainsKey(new Tuple<INavNode, INavNode>(link.A, link.B))) {
+                Debug.LogError("Duplicate key in RecalculateSimpleLinks");
+                continue;
+            }
+            
             oldLinks.Add(new Tuple<INavNode, INavNode>(link.A, link.B), link);
         }
 

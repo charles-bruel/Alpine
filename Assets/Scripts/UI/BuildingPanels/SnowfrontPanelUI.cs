@@ -35,10 +35,7 @@ public class SnowfrontPanelUI : MonoBehaviour {
         InterfaceController.Instance.SelectedTool = tool;
         tool.UI = UI;
         UI.gameObject.SetActive(true);
-        foreach(var point in CurrentSnowfront.Footprint.Polygon.points) {
-            tool.PolygonTool.AddPoint(point);
-        }
 
-        CurrentSnowfront.Destroy();
+        tool.PolygonTool.PrepareForEditing(CurrentSnowfront);
     }
 }

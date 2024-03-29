@@ -19,8 +19,8 @@ public class SlopeBuilderTool : ITool {
     public void Cancel(bool confirm) {
         PolygonsController.Instance.PolygonObjects.Remove(PolygonTool.Builder.Result.Footprint);
         if(confirm && PolygonTool.Data.SlopePoints.Count > 2) {
-            PolygonTool.Builder.Build();
-            PolygonTool.Builder.Finish();
+            PolygonTool.Build();
+            PolygonTool.Finish();
         } else {
             PolygonTool.Builder.Cancel();
         }

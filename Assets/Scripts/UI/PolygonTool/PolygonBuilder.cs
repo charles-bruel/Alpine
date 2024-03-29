@@ -33,7 +33,7 @@ public class PolygonBuilder {
         LightBuild();
     }
 
-    private List<NavPortal> PlacePortals() {
+    public static List<NavPortal> PlacePortals(NavArea selfNavArea, PolygonConstructionData data) {
         List<NavPortal> toReturn = new List<NavPortal>();
 
         // Portals occur along straight segments of the polygon
@@ -48,17 +48,16 @@ public class PolygonBuilder {
         // the snapped polygon.
         // Because the form is guarunteed, we only have to track the
         // start indices
-        List<int> validPortals = new List<int>();
 
-        for(int i = 0;i < Data.SlopePoints.Count;i ++) {
-            PolygonConstructionData.SlopePoint current = Data.SlopePoints[i];
+        for(int i = 0;i < data.SlopePoints.Count;i ++) {
+            PolygonConstructionData.SlopePoint current = data.SlopePoints[i];
             int nextIndex;
-            if(i == Data.SlopePoints.Count - 1) {
+            if(i == data.SlopePoints.Count - 1) {
                 nextIndex = 0;
             } else {
                 nextIndex = i + 1;
             }
-            PolygonConstructionData.SlopePoint next = Data.SlopePoints[nextIndex];
+            PolygonConstructionData.SlopePoint next = data.SlopePoints[nextIndex];
             if(current.Snapping.HasValue && next.Snapping.HasValue) {
                 PolygonsController.PolygonSnappingResult currentSnap = current.Snapping.Value;
                 PolygonsController.PolygonSnappingResult nextSnap = next.Snapping.Value;
@@ -90,7 +89,7 @@ public class PolygonBuilder {
 
                 // We've found a valid portal solution, time to generate it
                 NavPortal portal = new NavPortal();
-                portal.A = Result.Footprint;
+                portal.A = selfNavArea;
                 portal.A1Index = i;
                 portal.A1Offset = 0;
                 portal.A2Index = nextIndex;
@@ -113,7 +112,7 @@ public class PolygonBuilder {
     }
 
     public void Finish() {
-        Result.Inflate(PlacePortals());
+        Result.Inflate(PlacePortals(Result.Footprint, Data));
 
         PolygonsController.Instance.RegisterPolygon(Result.Footprint);
         BuildingsController.Instance.RegisterBuilding(Result);
@@ -126,11 +125,11 @@ public class PolygonBuilder {
         GameObject.Destroy(Result.gameObject);
     }
 
-    private void FindSnapping(float epsilon) {
-        for(int i = 0;i < Data.SlopePoints.Count;i ++) {
-            PolygonsController.PolygonSnappingResult? snapping = PolygonsController.Instance.CheckForSnapping(Data.SlopePoints[i].Pos, epsilon, epsilon, PolygonFlags.NAVIGABLE_MASK, Result.Footprint);
+    public static void FindSnapping(float epsilon, NavArea selfNavArea, PolygonConstructionData data) {
+        for(int i = 0;i < data.SlopePoints.Count;i ++) {
+            PolygonsController.PolygonSnappingResult? snapping = PolygonsController.Instance.CheckForSnapping(data.SlopePoints[i].Pos, epsilon, epsilon, PolygonFlags.NAVIGABLE_MASK, selfNavArea);
             if(snapping != null) {
-                Data.SlopePoints[i] = new PolygonConstructionData.SlopePoint(snapping.Value.Pos, snapping.Value);
+                data.SlopePoints[i] = new PolygonConstructionData.SlopePoint(snapping.Value.Pos, snapping.Value);
             }
         }
     }
@@ -143,7 +142,7 @@ public class PolygonBuilder {
         builder.Initialize(slope, PolygonFlags.CLEARANCE | PolygonFlags.SLOPE_NAVIGABLE);
 
         builder.Data = data;
-        builder.FindSnapping(0.1f);
+        FindSnapping(0.1f, builder.Result.Footprint, builder.Data);
         builder.Build();
         builder.Finish();
 
@@ -166,7 +165,7 @@ public class PolygonBuilder {
         builder.Initialize(snowfront, PolygonFlags.CLEARANCE | PolygonFlags.FLAT_NAVIGABLE);
 
         builder.Data = data;
-        builder.FindSnapping(0.1f);
+        FindSnapping(0.1f, builder.Result.Footprint, builder.Data);
         builder.Build();
         builder.Finish();
 
@@ -175,6 +174,4 @@ public class PolygonBuilder {
 
         return snowfront;
     }
-
-
 }

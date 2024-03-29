@@ -18,7 +18,7 @@ public class SnowfrontBuilderTool : ITool {
     public void Cancel(bool confirm) {
         PolygonsController.Instance.PolygonObjects.Remove(PolygonTool.Builder.Result.Footprint);
         if(confirm && PolygonTool.Data.SlopePoints.Count > 2) {
-            PolygonTool.Builder.Build();
+            PolygonTool.Build();
 
             NavArea temp = new NavArea();
 
@@ -38,7 +38,7 @@ public class SnowfrontBuilderTool : ITool {
 
             Result.Footprint = temp;
 
-            PolygonTool.Builder.Finish();
+            PolygonTool.Finish();
         } else {
             PolygonTool.Builder.Cancel();
         }

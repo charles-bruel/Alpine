@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.EventSystems;
+using GluonGui.Dialog;
 
 public class PolygonTool {
     public PolygonConstructionData Data;
@@ -8,6 +8,7 @@ public class PolygonTool {
     public PolygonBuilderToolGrab GrabTemplate;
     public List<PolygonBuilderToolGrab> Grabs = new List<PolygonBuilderToolGrab>();
     public Canvas Canvas;
+    private HashSet<NavArea> EditedLinkedAreas = new HashSet<NavArea>();
 
     public void OnCancel() {
         for(int i = 0;i < Grabs.Count;i ++) {
@@ -100,14 +101,109 @@ public class PolygonTool {
         if(Data.SlopePoints.Count <= 2) {
             PolygonsController.Instance.PolygonObjects.Remove(Builder.Result.Footprint);
             // TODO: More elegant system
-            if(Builder.Result.Footprint.Filter != null && Builder.Result.Footprint.Filter.gameObject != null) GameObject.Destroy(Builder.Result.Footprint.Filter.gameObject);
+            if(Builder.Result.Footprint.Filter != null && Builder.Result.Footprint.Filter.gameObject != null) {
+                GameObject.Destroy(Builder.Result.Footprint.Filter.gameObject);
+            }
         }
         PolygonsController.Instance.MarkPolygonsDirty();
+    }
+
+    public void Build() {
+        Builder.Build();
+    }
+
+    public void Finish() {
+        Builder.Finish();
+
+        foreach(NavArea area in EditedLinkedAreas) {
+            // We need to recalculate the portals on these nav areas, and see if there are any new portals
+            // that we need to add to the polygon
+            
+            // To do this, we can create dummy PolygonConstructionData to find portals with
+            PolygonConstructionData data = new PolygonConstructionData();
+            data.SlopePoints = new List<PolygonConstructionData.SlopePoint>();
+            foreach(var point in area.Polygon.points) {
+                data.SlopePoints.Add(new PolygonConstructionData.SlopePoint(point));
+            }
+
+            PolygonBuilder.FindSnapping(0.1f, area, data);
+            List<NavPortal> portals = PolygonBuilder.PlacePortals(area, data);
+
+            // First filter pass - remove all portals that are not connected to the edited area
+            for(int i = 0;i < portals.Count;i ++) {
+                if(portals[i].A != area && portals[i].B != area) {
+                    portals.RemoveAt(i);
+                    i--;
+                }
+            }
+
+            // Second filter pass - remove all portals that are already associated with the polygon.
+            // We will assume for the sake of this operation that the portals are duplicate iff
+            // the A1, A2, B1, B2 indices are the same
+            for(int i = 0;i < portals.Count;i ++) {
+                NavPortal portal = portals[i];
+                bool duplicate = false;
+                foreach(INavNode node in area.Nodes) {
+                    if(node is NavPortal) {
+                        NavPortal other = node as NavPortal;
+                        // A = A, B = B
+                        {
+                            bool aMatchAligned = other.A1 == portal.A1 && other.A2 == portal.A2;
+                            bool bMatchAligned = other.B1 == portal.B1 && other.B2 == portal.B2;
+                            bool aMatchFlipped = other.A1 == portal.A2 && other.A2 == portal.A1;
+                            bool bMatchFlipped = other.B1 == portal.B2 && other.B2 == portal.B1;
+
+                            if((aMatchAligned || aMatchFlipped) && (bMatchAligned || bMatchFlipped)) {
+                                duplicate = true;
+                                break;
+                            }
+                        }
+
+                        // A = B, B = A
+                        {
+                            bool abMatchAligned = other.A1 == portal.B1 && other.A2 == portal.B2;
+                            bool baMatchAligned = other.B1 == portal.A1 && other.B2 == portal.A2;
+                            bool abMatchFlipped = other.A1 == portal.B2 && other.A2 == portal.B1;
+                            bool baMatchFlipped = other.B1 == portal.A2 && other.B2 == portal.A1;
+
+                            if((abMatchAligned || abMatchFlipped) && (baMatchAligned || baMatchFlipped)) {
+                                duplicate = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if(duplicate) {
+                    portals.RemoveAt(i);
+                    i--;
+                }
+            }
+            
+            // For these new portals, we can now add them to the polygon
+            Builder.Result.Inflate(portals);
+        }
     }
 
     public void Start(PolygonBuilding polygonBuilding, PolygonFlags flags) {
         Builder = new PolygonBuilder();
         Builder.Initialize(polygonBuilding, flags);
         Data = Builder.Data;
+    }
+
+    public void PrepareForEditing(PolygonBuilding building) {
+        NavArea footprint = building.Footprint;
+        foreach(var point in footprint.Polygon.points) {
+            AddPoint(point);
+        }
+
+        foreach(NavPortal navPortal in footprint.Nodes) {
+            if(navPortal.A != footprint) EditedLinkedAreas.Add(navPortal.A);
+            if(navPortal.B != footprint) EditedLinkedAreas.Add(navPortal.B);
+        }
+
+        building.Destroy();
+
+        PolygonBuilder.FindSnapping(0.1f, Builder.Result.Footprint, Builder.Data);
     }
 }
