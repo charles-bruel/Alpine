@@ -6827,7 +6827,7 @@ MonoBehaviour:
   UI: {fileID: 1349235619}
   Canvas: {fileID: 1163915560}
   DifficultyToggleGroup: {fileID: 654750929}
-  Automatic: {fileID: 724730785}
+  Auto: {fileID: 724730785}
   Green: {fileID: 1198408206}
   Blue: {fileID: 1022704967}
   Black: {fileID: 2039274306}
@@ -12942,6 +12942,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Template: {fileID: 1387057713747083293, guid: 0727b73e76f20684b981df5fdc6424c2,
     type: 3}
+  WorldUICanvas: {fileID: 1163915560}
 --- !u!114 &1938643392
 MonoBehaviour:
   m_ObjectHideFlags: 0

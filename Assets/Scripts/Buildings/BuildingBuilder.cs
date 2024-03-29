@@ -2,19 +2,30 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 public class BuildingBuilder {
+    public Canvas WorldUICanvas;
+
     public Vector2 Pos;
     public SimpleBuildingTemplate Template;
     private SimpleBuildingTemplate Instaniated;
     private SimpleBuilding Result;
+    private Image MapDisplay;
 
     public void LightBuild() {
-
+        // Place above any contour lines
+        MapDisplay.rectTransform.localPosition = new Vector3(Pos.x, Pos.y, -(TerrainManager.Instance.TileHeight + 128));
     }
 
     public void Initialize() {
-        
+        GameObject gameObject = new GameObject();
+        MapDisplay = gameObject.AddComponent<Image>();
+        MapDisplay.sprite = Template.Icon2D;
+        MapDisplay.rectTransform.SetParent(WorldUICanvas.transform);
+        MapDisplay.rectTransform.localRotation = Quaternion.Euler(0, 0, 0);
+        MapDisplay.rectTransform.localScale = new Vector3(Template.IconSize.x, Template.IconSize.y, 1) / 100;
+        MapDisplay.raycastTarget = false;
     }
 
     public void Build() {
@@ -27,7 +38,7 @@ public class BuildingBuilder {
     }
 
     public void Cancel() {
-
+        GameObject.Destroy(MapDisplay.gameObject);
     }
 
     public void Finish() {
@@ -74,6 +85,8 @@ public class BuildingBuilder {
         Result.ServiceNode = serviceNode;
         Result.NavAreas = navAreas;
         Result.Polygons = polygons;
+
+        Result.WorldUIIcon = MapDisplay.rectTransform;
 
         Result.Functionality.OnFinishConstruction();
 

@@ -7,6 +7,10 @@ public class SimpleBuildingTemplate : MonoBehaviour {
     public NavDestinationDefinition ServiceNode;
     public BuildingFunctionality Functionality;
 
+    [Header("2D Icon")]
+    public Sprite Icon2D;
+    public Vector2 IconSize;
+
     void OnDrawGizmos() {
         if(Polygons == null) return;
         for(int i = 0;i < Polygons.Length;i ++) {

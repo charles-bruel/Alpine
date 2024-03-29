@@ -3,15 +3,17 @@ using UnityEngine;
 
 public class BuildingBuilderTool : ITool {
     private bool done = false;
-
+    
+    public Canvas WorldUICanvas;
     public SimpleBuildingTemplate Template;
     public BuildingBuilder Builder;
 
     public void Start()
     {
         Builder = new BuildingBuilder();
-        Builder.Initialize();
         Builder.Template = Template;
+        Builder.WorldUICanvas = WorldUICanvas;
+        Builder.Initialize();
     }
 
     public void Cancel(bool confirm)
@@ -35,9 +37,7 @@ public class BuildingBuilderTool : ITool {
             InterfaceController.Instance.SelectedTool = null;
         }
         if (eventData.button == PointerEventData.InputButton.Left) {
-            Builder.Build();
-            Builder.Finish();
-            InterfaceController.Instance.SelectedTool = null;
+            InterfaceController.Instance.Finish();
         }
     }
 

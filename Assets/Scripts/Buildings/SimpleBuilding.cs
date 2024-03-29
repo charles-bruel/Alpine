@@ -10,6 +10,8 @@ public class SimpleBuilding : Building {
     public INavNode ServiceNode;
     public SimpleBuildingTemplate Template;
 
+    public RectTransform WorldUIIcon;
+
     public override void Advance(float delta) {
         foreach(NavArea area in NavAreas) {
             area.Advance(delta);
@@ -31,6 +33,8 @@ public class SimpleBuilding : Building {
         foreach(AlpinePolygon polygon in Polygons) {
             PolygonsController.Instance.DestroyPolygon(polygon);
         }
+
+        Destroy(WorldUIIcon.gameObject);
 
         base.Destroy();
     }
