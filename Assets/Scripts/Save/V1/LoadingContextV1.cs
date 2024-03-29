@@ -96,7 +96,13 @@ public class LoadingContextV1 {
                     }
                 }
                 foundLink:
-                Assert.IsNotNull(link);
+
+                if(link == null) {
+                    Debug.LogWarning("Link not found for " + linkData.Value.Item1 + " " + linkData.Value.Item2);
+                    continue;
+                }
+
+                // Assert.IsNotNull(link);
 
                 if(linkIds.ContainsKey(linkData.Key)) {
                     Assert.AreEqual(linkIds[linkData.Key], link);

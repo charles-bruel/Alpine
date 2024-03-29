@@ -134,15 +134,18 @@ public class PolygonBuilder {
         }
     }
 
+    // TODO: Refactor out the nav area implementation initialization. Also possibly make it consistent?
     public static Slope BuildFromSave(PolygonConstructionData data, NavAreaGraphSaveDataV1 navData, SlopeDifficultySetting currentDifficulty, SlopeDifficulty intrinsicDifficulty, LoadingContextV1 loadingContext) {
         PolygonBuilder builder = new PolygonBuilder();
 
         GameObject gameObject = new GameObject("Slope");
         Slope slope = gameObject.AddComponent<Slope>();
         builder.Initialize(slope, PolygonFlags.CLEARANCE | PolygonFlags.SLOPE_NAVIGABLE);
-
         builder.Data = data;
-        // FindSnapping(0.1f, builder.Result.Footprint, builder.Data);
+        
+        slope.AreaImplementation = new SlopeNavAreaImplementation(slope, default(Rect));
+        slope.Footprint.Implementation = slope.AreaImplementation;
+
         builder.Build();
         builder.Finish();
 
@@ -161,12 +164,30 @@ public class PolygonBuilder {
         
         GameObject gameObject = new GameObject("Snowfront");
         Snowfront snowfront = gameObject.AddComponent<Snowfront>();
-
         builder.Initialize(snowfront, PolygonFlags.CLEARANCE | PolygonFlags.FLAT_NAVIGABLE);
-
         builder.Data = data;
-        // FindSnapping(0.1f, builder.Result.Footprint, builder.Data);
+
         builder.Build();
+
+        NavArea temp = new NavArea();
+
+        temp.Guid                = snowfront.Footprint.Guid;
+        temp.Level               = snowfront.Footprint.Level;
+        temp.Polygon             = snowfront.Footprint.Polygon;
+        temp.Filter              = snowfront.Footprint.Filter;
+        temp.Renderer            = snowfront.Footprint.Renderer;
+        temp.Color               = snowfront.Footprint.Color;
+        temp.ArbitrarilyEditable = snowfront.Footprint.ArbitrarilyEditable;
+        temp.Flags               = snowfront.Footprint.Flags;
+        temp.Height              = snowfront.Footprint.Height;
+
+        temp.Implementation = new SnowfrontNavAreaImplementation(snowfront);
+
+        temp.Owner = snowfront;
+
+        snowfront.Footprint = temp;
+
+
         builder.Finish();
 
         builder.Result.Footprint.ID = navData.ID;

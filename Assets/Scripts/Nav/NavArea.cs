@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using System.Runtime.Serialization.Json;
 
 public class NavArea : AlpinePolygon {
     public List<INavNode> Nodes;
@@ -20,6 +21,7 @@ public class NavArea : AlpinePolygon {
     }
 
     public void Advance(float delta) {
+        if(Implementation == null) Debug.Log(ID);
         Implementation.OnAdvance(delta);
         if(Selected) Implementation.OnAdvanceSelected(delta);
     }
