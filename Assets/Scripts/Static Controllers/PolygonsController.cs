@@ -29,9 +29,9 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
         PolygonsDirty = true;
     }
 
-    public void RegisterPolygon(AlpinePolygon polygon) {
+    public void RegisterPolygon(AlpinePolygon polygon, bool AutoColor = true) {
         PolygonObjects.Add(polygon);
-        polygon.Color = ColorFromFlags(polygon.Flags);
+         if(AutoColor) polygon.Color = ColorFromFlags(polygon.Flags);
 
         ApplyPolygonEffects(polygon);
 

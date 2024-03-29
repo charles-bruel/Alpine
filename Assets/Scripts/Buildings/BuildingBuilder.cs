@@ -13,9 +13,13 @@ public class BuildingBuilder {
     private SimpleBuilding Result;
     private Image MapDisplay;
 
+    private PolygonsPreview PolygonsPreview;
+
     public void LightBuild() {
         // Place above any contour lines
         MapDisplay.rectTransform.localPosition = new Vector3(Pos.x, Pos.y, -(TerrainManager.Instance.TileHeight + 128));
+
+        PolygonsPreview.Update(0, Pos);
     }
 
     public void Initialize() {
@@ -26,6 +30,9 @@ public class BuildingBuilder {
         MapDisplay.rectTransform.localRotation = Quaternion.Euler(0, 0, 0);
         MapDisplay.rectTransform.localScale = new Vector3(Template.IconSize.x, Template.IconSize.y, 1) / 100;
         MapDisplay.raycastTarget = false;
+
+        PolygonsPreview = new PolygonsPreview();
+        PolygonsPreview.SetPolygons(Template.Polygons);
     }
 
     public void Build() {
@@ -39,6 +46,8 @@ public class BuildingBuilder {
 
     public void Cancel() {
         GameObject.Destroy(MapDisplay.gameObject);
+
+        PolygonsPreview.Destroy();
     }
 
     public void Finish() {
@@ -91,6 +100,8 @@ public class BuildingBuilder {
         Result.Functionality.OnFinishConstruction();
 
         BuildingsController.Instance.RegisterBuilding(Result);
+
+        PolygonsPreview.Destroy();
     }
 
     public void UpdatePos(Vector2 pos)
