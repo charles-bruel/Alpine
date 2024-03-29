@@ -17,7 +17,7 @@
 //    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //>============================================================================<
 
-﻿//THIS SHADER IS OUT OF DATE WITH INSTANCE RENDERER
+//THIS SHADER IS OUT OF DATE WITH INSTANCE RENDERER
 
 Shader "Custom/Instance" {
 	Properties{

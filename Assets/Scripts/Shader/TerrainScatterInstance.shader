@@ -17,7 +17,7 @@
 //    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //>============================================================================<
 
-﻿Shader "Custom/TerrainScatterInstance" {
+Shader "Custom/TerrainScatterInstance" {
 	Properties{
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _SnowTex ("Snow Level (B channel)", 2D) = "white" {}
