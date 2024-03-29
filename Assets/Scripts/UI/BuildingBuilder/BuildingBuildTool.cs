@@ -19,7 +19,6 @@
 
 using UnityEngine.EventSystems;
 using UnityEngine;
-using Codice.Client.BaseCommands.BranchExplorer.Layout;
 
 public class BuildingBuilderTool : ITool {
     private bool done = false;

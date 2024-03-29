@@ -19,7 +19,6 @@
 
 using UnityEngine;
 using System.Collections.Generic;
-using GluonGui.Dialog;
 
 public class PolygonTool {
     public PolygonConstructionData Data;
