@@ -14,6 +14,7 @@ public class LoadingScreen : MonoBehaviour {
     public float Timer = 0;
 
     private bool Loaded = false;
+    private bool AttemptedToLoadSave = false;
 
     public void Initialize() {
         INSTANCE = this;
@@ -28,7 +29,8 @@ public class LoadingScreen : MonoBehaviour {
         }
 
         if(LoadingTasks == 0) {
-            if(GameController.TargetSaveGame != null) {
+            if(GameController.TargetSaveGame != null && !AttemptedToLoadSave) {
+                AttemptedToLoadSave = true;
                 SaveManager.LoadSave(GameController.TargetSaveGame);
                 GameController.TargetSaveGame = null;
             } else {

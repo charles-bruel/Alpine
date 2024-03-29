@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
+using System.Security.AccessControl;
 
 public class BuildingBuilder {
     public Canvas WorldUICanvas;
@@ -25,6 +26,17 @@ public class BuildingBuilder {
     }
 
     public void Initialize() {
+        // TODO: Better? (or more consistent?) solution
+        if(WorldUICanvas == null) {
+            var objs = GameObject.FindObjectsOfType<Canvas>(true);
+            foreach(var obj in objs) {
+                if(obj.transform.parent != null && obj.transform.parent.name == "WorldUI") {
+                    WorldUICanvas = obj;
+                    break;
+                }
+            }
+        }
+
         GameObject gameObject = new GameObject();
         MapDisplay = gameObject.AddComponent<Image>();
         MapDisplay.sprite = Template.Icon2D;
@@ -114,7 +126,9 @@ public class BuildingBuilder {
     public static Building BuildFromSave(Vector3 pos, float rotation, string templateName, NavAreaGraphSaveDataV1[] navData, LoadingContextV1 loadingContext) {
         BuildingBuilder builder = new BuildingBuilder();
         builder.Template = BuildingsController.Instance.GetBuildingTemplate(templateName);
+        builder.Initialize();
         builder.Pos = pos.ToHorizontal();
+        builder.Rotation = rotation;
         builder.Build();
         builder.Instaniated.transform.position = pos;
         builder.Finish();

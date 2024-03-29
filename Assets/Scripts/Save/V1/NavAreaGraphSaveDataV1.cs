@@ -4,7 +4,8 @@
 // Each nav area gets a consistent ID, and dictionary containing save-specific small IDs of all associated nodes and links
 
 // The node dictionary maps from (area, area) in the case of portals, and (-1, index) for service nodes. *This assumes service
-// node indices are consistent across instances of the game*, which should be accurate since service nodes
+// node indices are consistent across instances of the game*, which should be accurate since service nodes are only created by
+// buildings in a controlled manner.
 
 // The links dictionary maps from (node, node), where the node IDs are the local ones defined in the save data.
 

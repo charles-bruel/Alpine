@@ -69,13 +69,31 @@ public struct SaveV1 {
             BuildingBuilder.BuildFromSave(building.Position, building.Rotation, building.Template, building.NavAreaGraphs, loadingContext);
         }
 
-        // Slopes and snowfronts have to go last, because they can place portals, but they will only regenerate properly if the other buildings are already there
         foreach(SlopeSaveDataV1 slope in slopes) {
             PolygonBuilder.BuildFromSave(slope.ToConstructionData(), slope.NavAreaGraphs, slope.CurrentDifficulty, slope.IntrinsicDifficulty, loadingContext);
         }
 
         foreach(SnowfrontSaveDataV1 snowfront in snowfronts) {
             PolygonBuilder.BuildFromSave(snowfront.ToConstructionData(), snowfront.NavAreaGraphs, loadingContext);
+        }
+
+        // Portals must be regenerated last
+        foreach(Building building in BuildingsController.Instance.Buildings) {
+            if(building is PolygonBuilding polygonBuilding) {
+                // Find portals and inflate them. We are guaranteed that there are no portals yet
+                // so we can avoid the complicated checking process.
+
+                // TODO: Refactor this out of here
+                PolygonConstructionData data = new PolygonConstructionData();
+                data.SlopePoints = new List<PolygonConstructionData.SlopePoint>();
+                foreach(var point in polygonBuilding.Footprint.Polygon.points) {
+                    data.SlopePoints.Add(new PolygonConstructionData.SlopePoint(point));
+                }
+
+                PolygonBuilder.FindSnapping(0.1f, polygonBuilding.Footprint, data);
+                List<NavPortal> portals = PolygonBuilder.PlacePortals(polygonBuilding.Footprint, data);
+                polygonBuilding.Inflate(portals);
+            }
         }
 
         weather.Restore();

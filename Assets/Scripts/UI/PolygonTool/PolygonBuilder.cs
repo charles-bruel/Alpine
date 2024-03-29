@@ -142,7 +142,7 @@ public class PolygonBuilder {
         builder.Initialize(slope, PolygonFlags.CLEARANCE | PolygonFlags.SLOPE_NAVIGABLE);
 
         builder.Data = data;
-        FindSnapping(0.1f, builder.Result.Footprint, builder.Data);
+        // FindSnapping(0.1f, builder.Result.Footprint, builder.Data);
         builder.Build();
         builder.Finish();
 
@@ -165,7 +165,7 @@ public class PolygonBuilder {
         builder.Initialize(snowfront, PolygonFlags.CLEARANCE | PolygonFlags.FLAT_NAVIGABLE);
 
         builder.Data = data;
-        FindSnapping(0.1f, builder.Result.Footprint, builder.Data);
+        // FindSnapping(0.1f, builder.Result.Footprint, builder.Data);
         builder.Build();
         builder.Finish();
 

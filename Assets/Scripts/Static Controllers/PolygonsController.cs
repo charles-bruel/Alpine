@@ -88,7 +88,9 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
             polygon.Selected = false;
             polygon.OnDeselected();
         }
-        GameObject.Destroy(polygon.Filter.gameObject);
+        if (polygon.Filter != null) {
+            GameObject.Destroy(polygon.Filter.gameObject);
+        }
         polygon.OnDestroy();
         UnregisterPolygon(polygon.Guid);
     }
