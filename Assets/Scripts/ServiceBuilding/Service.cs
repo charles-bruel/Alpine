@@ -17,23 +17,15 @@
 //    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //>============================================================================<
 
-using System;
-using System.Collections.Generic;
-using UnityEngine;
+[System.Serializable]
+public struct Service {
+    public Need Need;
+    public float NeedValue;
+    public float ServiceTime;
 
-public class EntranceBuildingFunctionality : BuildingFunctionality {
-    
-    public override void OnFinishConstruction() {
-        VisitorController.Instance.SpawnPoints.Add(Building.FunctionalityNode);
-    }
-
-    public override void OnDestroy() {
-        VisitorController.Instance.SpawnPoints.Remove(Building.FunctionalityNode);
-    }
-
-    public override void OnVisitorArrival(Visitor visitor) {
-        if(visitor.RemainingTime < 0) {
-            VisitorController.Instance.RemoveVisitor(visitor);
-        }
+    public Service(Need need, float needValue, float serviceTime) {
+        Need = need;
+        NeedValue = needValue;
+        ServiceTime = serviceTime;
     }
 }

@@ -23,7 +23,7 @@ using UnityEngine;
 
 public class SimpleBuildingTemplate : MonoBehaviour {
     public AlpinePolygonSource[] Polygons;
-    public NavDestinationDefinition ServiceNode;
+    public NavDestinationDefinition FunctionalityNode;
     public BuildingFunctionality Functionality;
 
     [Header("2D Icon")]
@@ -48,9 +48,9 @@ public class SimpleBuildingTemplate : MonoBehaviour {
                 new Vector3(poly.Points[0].x, poly.Height, poly.Points[0].y)
             );
         }
-        if(ServiceNode.PolygonDefinitionID < Polygons.Length) {
+        if(FunctionalityNode.PolygonDefinitionID < Polygons.Length) {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(ServiceNode.Pos.Inflate3rdDim(Polygons[ServiceNode.PolygonDefinitionID].Height), 1);
+            Gizmos.DrawSphere(FunctionalityNode.Pos.Inflate3rdDim(Polygons[FunctionalityNode.PolygonDefinitionID].Height), 1);
         }
     }
 

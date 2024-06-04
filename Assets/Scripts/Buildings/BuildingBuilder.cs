@@ -116,16 +116,17 @@ public class BuildingBuilder {
             PolygonsController.Instance.RegisterPolygon(polygons[i]);
         }
 
-        NavArea serviceArea = polygons[Template.ServiceNode.PolygonDefinitionID] as NavArea;
+        NavArea serviceArea = polygons[Template.FunctionalityNode.PolygonDefinitionID] as NavArea;
         Assert.IsNotNull(serviceArea);
-        NavDestination serviceNode = new NavDestination {
-            Pos = ModAPIUtils.TransformBuildingCoordinates(Instaniated.ServiceNode.Pos, Instaniated.transform.eulerAngles.y, Instaniated.transform.position.ToHorizontal()), 
-            Area = serviceArea
+        NavFunctionalityNode functionality = new NavFunctionalityNode {
+            Pos = ModAPIUtils.TransformBuildingCoordinates(Instaniated.FunctionalityNode.Pos, Instaniated.transform.eulerAngles.y, Instaniated.transform.position.ToHorizontal()), 
+            Area = serviceArea,
+            BuildingFunctionality = Result.Functionality
         };
 
-        serviceArea.Nodes.Add(serviceNode);
+        serviceArea.Nodes.Add(functionality);
 
-        Result.ServiceNode = serviceNode;
+        Result.FunctionalityNode = functionality;
         Result.NavAreas = navAreas;
         Result.Polygons = polygons;
 

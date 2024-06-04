@@ -21,19 +21,27 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntranceBuildingFunctionality : BuildingFunctionality {
-    
-    public override void OnFinishConstruction() {
-        VisitorController.Instance.SpawnPoints.Add(Building.FunctionalityNode);
-    }
+public class ConfigurableServiceProvider : ServiceProvider {
 
-    public override void OnDestroy() {
-        VisitorController.Instance.SpawnPoints.Remove(Building.FunctionalityNode);
-    }
+    [Header("Building Information")]
+    public bool HasBathroom;
+    public int Slots;
+    public float Volume;
 
-    public override void OnVisitorArrival(Visitor visitor) {
-        if(visitor.RemainingTime < 0) {
-            VisitorController.Instance.RemoveVisitor(visitor);
+    [Header("Configuration Information")]
+    public List<ServiceInformation> CurrentServices = new List<ServiceInformation>();
+
+    public override Service[] Services() {
+        List<Service> services = new List<Service>();
+        foreach(var info in CurrentServices) {
+            foreach(var service in info.Service) {
+                services.Add(service);
+            }
         }
+        if(HasBathroom) {
+            // TODO: Extract to somewhere else for easy configuration
+            services.Add(new Service(Need.BATHROOM, 1f, 5));
+        }
+        return services.ToArray();
     }
 }

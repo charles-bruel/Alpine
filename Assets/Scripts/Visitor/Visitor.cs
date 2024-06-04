@@ -21,29 +21,39 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Threading;
 using System;
+using JetBrains.Annotations;
 
 public class Visitor : MonoBehaviour {
     public static readonly int PlanningLength = 5;
+    [Header("Visitor Data")]
     public SlopeDifficulty Ability;
     public float RemainingTime = 360;
     public float TraverseSpeed = 1;
     public float SkiSpeed = 5;
+    [Header("Visitor Needs")]
+    public Needs Needs;
+    [Header("Visitor Positioning State")]
+    public float VisitorServiceTimer;
     public INavNode StationaryPos;
     public NavLink CurrentLink = null;
     public List<NavLink> Plan = new List<NavLink>();
     public float Progress = 0;
+    [Header("Visitor Planning")]
     public bool ActivelyPlanning = false;
     public string CurrentNavLinkMarker;
+    public bool GraphDirtied = false;
+    private float PathingCooldown = 0.1f;
+    [Header("Visitor Animation")]
     // TODO: Save these
     public float AnimationTimer = 0;
     public float AnimationSpeed = 1;
-    public bool GraphDirtied = false;
-    private float PathingCooldown = 0.1f;
     
     public void Advance(float delta) {
+        // Step 1) Timers
         RemainingTime -= delta;
         AnimationTimer += delta * AnimationSpeed;
 
+        // Step 2) Pathing
         // The pathing cooldown needs to go down by real time, as it's used for internal nav reasons, not game
         // time reasons that would be affect by speed
         PathingCooldown -= Time.deltaTime;
@@ -65,24 +75,12 @@ public class Visitor : MonoBehaviour {
 
         ProgressPosition(delta);
 
-        if(GraphDirtied && CurrentLink != null) {
-            GraphDirtied = false;
-
-            // We need to skip forward
-            if(CurrentLink.IsDead()) {
-                SkipDeadLinks();
-                return;
-            }
-
-            // Otherwise we can just invalid the plan
-            // Check every link to see if it is dead, if so remove it and all future links in the plan
-            for(int i = 0; i < Plan.Count; i++) {
-                if(Plan[i].IsDead()) {
-                    Plan.RemoveRange(i, Plan.Count - i);
-                    break;
-                }
-            }
-        }
+        // Update needs
+        Needs.warmth   += delta * 0.005f * Mathf.Max(0, (WeatherController.Instance.Temperature - 40.0f) / 20.0f);
+        Needs.rest     += delta * 0.005f;
+        Needs.bathroom += delta * 0.010f * Needs.drink;
+        Needs.food     += delta * 0.001f;
+        Needs.drink    += delta * 0.005f;
     }
 
     private void SkipDeadLinks() {
@@ -100,6 +98,17 @@ public class Visitor : MonoBehaviour {
     }
 
     public void ProgressPosition(float delta) {
+        // Freeze the visitor for the duration they are receiving service
+        if(VisitorServiceTimer > 0) {
+            VisitorServiceTimer -= delta;
+            if (VisitorServiceTimer <= 0) {
+                // Notify the service that the wait is over
+                NavFunctionalityNode functionalityNode = CurrentLink.B as NavFunctionalityNode;
+                functionalityNode.BuildingFunctionality.OnVisitorDeparture(this);
+            }
+            return;
+        }
+
         if(CurrentLink == null) {
             if(Plan.Count == 0) {
                 transform.position = StationaryPos.GetPosition().Inflate3rdDim(StationaryPos.GetHeight());
@@ -126,8 +135,15 @@ public class Visitor : MonoBehaviour {
         
         if(Progress >= 1) {
             Progress = 0;
-            if(RemainingTime <= 0 && VisitorController.Instance.SpawnPoints.Contains(CurrentLink.B)) {
-                VisitorController.Instance.RemoveVisitor(this);
+
+            // Detect if we are at service nodes which are relevant to us
+            
+            // Functionality node
+            if (CurrentLink.B is NavFunctionalityNode functionalityNode) {
+                if(functionalityNode.BuildingFunctionality != null) {
+                    functionalityNode.BuildingFunctionality.OnVisitorArrival(this);
+                    StationaryPos = CurrentLink.B; // If we freeze, we need to know where
+                }
             }
 
             if(Plan.Count == 0) {
@@ -136,6 +152,25 @@ public class Visitor : MonoBehaviour {
             } else {
                 CurrentLink = Plan[0];
                 Plan.RemoveAt(0);
+            }
+        }
+
+        if(GraphDirtied && CurrentLink != null) {
+            GraphDirtied = false;
+
+            // We need to skip forward
+            if(CurrentLink.IsDead()) {
+                SkipDeadLinks();
+                return;
+            }
+
+            // Otherwise we can just invalid the plan
+            // Check every link to see if it is dead, if so remove it and all future links in the plan
+            for(int i = 0; i < Plan.Count; i++) {
+                if(Plan[i].IsDead()) {
+                    Plan.RemoveRange(i, Plan.Count - i);
+                    break;
+                }
             }
         }
     }

@@ -29,6 +29,7 @@ public class VisitorController : MonoBehaviour {
     public Visitor[] Templates;
     public List<Visitor> Visitors = new List<Visitor>();
     public List<INavNode> SpawnPoints = new List<INavNode>();
+    public List<ServiceProvider> Services = new List<ServiceProvider>();
 
     public int MaxVisitors = 10;
     public float VisitorTimer = 1;

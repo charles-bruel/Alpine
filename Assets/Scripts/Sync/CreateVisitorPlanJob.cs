@@ -19,16 +19,20 @@
 
 using UnityEngine;
 using System.Collections.Generic;
+using System.Data.Odbc;
+using System;
+using Codice.CM.Common.Merge;
+using UnityEngine.AI;
 
-public class CreateVisitorPlanJob : Job
-{
+public class CreateVisitorPlanJob : Job {
     public Visitor Visitor;
     private NavGraph Graph;
     private List<NavLink> Result;
     private INavNode Start;
-    private List<INavNode> Target;
     private bool PathingOut;
     private List<INavNode> Exits;
+    private List<ServiceProvider> ServiceNodes;
+    private Needs Needs;
     private bool Fail = false;
     
     public void Initialize() {
@@ -42,43 +46,56 @@ public class CreateVisitorPlanJob : Job
 
         PathingOut = Visitor.RemainingTime < 0;
         Exits = VisitorController.Instance.SpawnPoints;
+        ServiceNodes = VisitorController.Instance.Services;
+        Needs = new Needs(Visitor.Needs);
     }
+
+    private readonly uint MaxFailCount = 128;
 
     public void Run() {
         try {
             bool success = false;
-            int failCount = 0;
+            uint failCount = 0;
             while(!success) {
                 if(Graph.IsEmpty()){
                     Fail = true;
                     break;
                 }
-                if(failCount > 128) {
+                if(failCount > MaxFailCount) {
                     Fail = true;
                     break;
                 }
 
+                INavNode Destination = null;
+
                 // Step 1: Choose target
+                // Step 2: Path there
                 if(PathingOut) {
-                    Target = Exits;
+                    Result = Graph.Dijkstras(Start, Exits, Visitor.Ability);
+                    if(Result == null || Result.Count == 0) { 
+                        Fail = true;
+                        break;
+                    }
+                } else if (failCount == 0 && ShouldPathToService(Needs)) {
+                    Result = Graph.Dijkstras(Graph.NodeID(Start), GetNeedsEndCondition(Graph, Needs), Visitor.Ability);
+                    if(Result == null || Result.Count == 0) { 
+                        failCount++;
+                        continue;
+                    }
                 } else {
                     // Choose a random node within skier ability and go there
-                    Target = new List<INavNode>(1)
-                    {
-                        Graph.GetRandomNode()
-                    };
+                    Result = Graph.Dijkstras(Start, new List<INavNode>(1) { Graph.GetRandomNode() }, Visitor.Ability);
+                    if(Result == null || Result.Count == 0) { 
+                        failCount++;
+                        continue;
+                    }
                 }
 
-                // Step 2: Path there
-                Result = Graph.Dijkstras(Start, Target, Visitor.Ability);
-                if(Result == null) { 
-                    failCount++;
-                    continue;
-                }
+                Destination = Result[Result.Count - 1].B;            
 
                 // Step 3: Check that we can get home
                 // Either we're pathing and and we're good, or we need to be able to (path exists; != null)
-                success = PathingOut || (Graph.Dijkstras(Target[0], Exits, Visitor.Ability) != null);
+                success = PathingOut || (Graph.Dijkstras(Destination, Exits, Visitor.Ability) != null);
             }
         } catch(KeyNotFoundException) {
             Fail = true;
@@ -87,6 +104,43 @@ public class CreateVisitorPlanJob : Job
         lock(ASyncJobManager.completedJobsLock) {
         	ASyncJobManager.Instance.completedJobs.Enqueue(this);
 		}
+    }
+
+    private Func<uint, float, bool> GetNeedsEndCondition(NavGraph Graph, Needs needs) {
+        Dictionary<uint, float> services = new Dictionary<uint, float>();
+        foreach(ServiceProvider serviceProvider in ServiceNodes) {
+            uint Node = Graph.NodeID(serviceProvider.Building.FunctionalityNode);
+            float maxLen = 0;
+            foreach(Service service in serviceProvider.Services()) {
+                float newLen = AllowableLengthByNeed(needs[service.Need]);
+                if(newLen > maxLen) {
+                    maxLen = newLen;
+                }
+            }
+            if (maxLen > 0) {
+                services[Node] = maxLen;
+            }
+        }
+
+        return (uint id, float cost) => {
+            if(services.ContainsKey(id)) {
+                return cost <= services[id];
+            }
+            return false;
+        };
+    }
+
+    private bool ShouldPathToService(Needs needs) {
+        return needs.food > 0.5f || needs.drink > 0.5f || needs.bathroom > 0.5f || needs.rest > 0.5f || needs.warmth > 0.5f;
+    }
+
+    private float AllowableLengthByNeed(float needStrength) {
+        if (needStrength <= 0.5f) {
+            return 0.5f;
+        }
+        float factor = 1/Mathf.Sqrt(2- 2 * needStrength) - 1;
+        // TODO: Pull out constant factor to make it easier to adjust
+        return factor * 400f;
     }
 
     public override void Complete() {

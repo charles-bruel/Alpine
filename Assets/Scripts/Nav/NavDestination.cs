@@ -23,6 +23,7 @@ using UnityEngine;
 public class NavDestination : INavNode {
     public NavArea Area;
     public Vector2 Pos;
+    
     public List<NavLink> ExplicitNavLinks = new List<NavLink>();
 
     public float GetHeight() {

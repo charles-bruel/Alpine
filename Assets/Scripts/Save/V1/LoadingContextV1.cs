@@ -50,24 +50,24 @@ public class LoadingContextV1 {
             foreach(var nodeData in navData.NodesToIds) {
                 NavArea area = navAreas[navData.ID];
                 if(nodeData.Value.Item1 == -1) {
-                    // Find the service node
-                    int serviceNodeId = 0;
-                    NavDestination serviceNode = null;
+                    // Find the functionality node
+                    int functionalityNodeId = 0;
+                    NavDestination functionalityNode = null;
                     foreach(INavNode node in area.Nodes) {
                         if(node is NavDestination destination) {
-                            if(serviceNodeId == nodeData.Value.Item2) {
-                                serviceNode = destination;
+                            if(functionalityNodeId == nodeData.Value.Item2) {
+                                functionalityNode = destination;
                                 break;
                             }
-                            serviceNodeId++;
+                            functionalityNodeId++;
                         }
                     }
-                    Assert.IsNotNull(serviceNode);
+                    Assert.IsNotNull(functionalityNode);
 
                     if(nodeIds.ContainsKey(nodeData.Key)) {
-                        Assert.AreEqual(nodeIds[nodeData.Key], serviceNode);
+                        Assert.AreEqual(nodeIds[nodeData.Key], functionalityNode);
                     } else {
-                        nodeIds.Add(nodeData.Key, serviceNode);
+                        nodeIds.Add(nodeData.Key, functionalityNode);
                     }
                 } else {
                     // Find the portal

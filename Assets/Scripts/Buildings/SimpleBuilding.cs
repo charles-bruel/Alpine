@@ -26,7 +26,7 @@ public class SimpleBuilding : Building {
     // Includes nav areas
     public List<AlpinePolygon> Polygons = new List<AlpinePolygon>();
     public BuildingFunctionality Functionality;
-    public INavNode ServiceNode;
+    public INavNode FunctionalityNode;
     public SimpleBuildingTemplate Template;
 
     public RectTransform WorldUIIcon;

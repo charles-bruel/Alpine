@@ -17,23 +17,6 @@
 //    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //>============================================================================<
 
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class EntranceBuildingFunctionality : BuildingFunctionality {
-    
-    public override void OnFinishConstruction() {
-        VisitorController.Instance.SpawnPoints.Add(Building.FunctionalityNode);
-    }
-
-    public override void OnDestroy() {
-        VisitorController.Instance.SpawnPoints.Remove(Building.FunctionalityNode);
-    }
-
-    public override void OnVisitorArrival(Visitor visitor) {
-        if(visitor.RemainingTime < 0) {
-            VisitorController.Instance.RemoveVisitor(visitor);
-        }
-    }
+public class NavFunctionalityNode : NavDestination {
+    public BuildingFunctionality BuildingFunctionality;
 }

@@ -31,6 +31,7 @@ public class BuildingsController : MonoBehaviour {
     // Building templates functionality
     public List<LiftTemplate> LiftTemplates;
     public List<SimpleBuildingTemplate> BuildingTemplates;
+    public List<ServiceInformation> ServiceTemplates;
     
     public LiftTemplate GetLiftTemplate(string name) {
         foreach(var template in LiftTemplates) {

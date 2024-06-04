@@ -17,23 +17,21 @@
 //    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //>============================================================================<
 
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EntranceBuildingFunctionality : BuildingFunctionality {
-    
-    public override void OnFinishConstruction() {
-        VisitorController.Instance.SpawnPoints.Add(Building.FunctionalityNode);
-    }
+[System.Serializable]
+public struct ServiceInformation {
+    public Service[] Service;
+    public float Volume;
+    public string Name;
+    public int MaxPatrons;
+    public Sprite Icon;
 
-    public override void OnDestroy() {
-        VisitorController.Instance.SpawnPoints.Remove(Building.FunctionalityNode);
-    }
-
-    public override void OnVisitorArrival(Visitor visitor) {
-        if(visitor.RemainingTime < 0) {
-            VisitorController.Instance.RemoveVisitor(visitor);
-        }
+    public ServiceInformation(Service[] service, float volume, string name, int maxPatrons, Sprite icon) {
+        Service = service;
+        Volume = volume;
+        Name = name;
+        MaxPatrons = maxPatrons;
+        Icon = icon;
     }
 }

@@ -44,14 +44,15 @@ public struct NavAreaGraphSaveDataV1 {
         result.NodesToIds = new Dictionary<int, Tuple<int, int>>();
         result.LinksToIds = new Dictionary<int, Tuple<int, int>>();
 
-        int serviceNodeId = 0;
+        int functionalityNodeId = 0;
         foreach(var node in area.Nodes) {
             if(node is NavPortal) {
                 NavPortal portal = (NavPortal)node;
                 result.NodesToIds.Add(context.nodeIds[node], new Tuple<int, int>(portal.A.ID, portal.B.ID));
             } else if(node is NavDestination) {
+                // TODO: Look at this in context of new node type
                 NavDestination destination = (NavDestination)node;
-                result.NodesToIds.Add(context.nodeIds[node], new Tuple<int, int>(-1, serviceNodeId++));
+                result.NodesToIds.Add(context.nodeIds[node], new Tuple<int, int>(-1, functionalityNodeId++));
             } else {
                 throw new Exception("Unknown node type");
             }

@@ -66,6 +66,7 @@ public class NavGraph {
                 if(edge.Ref.Implementation is SlopeNavLinkImplentation) continue;
                 Vector3 pos1 = edge.Ref.A.GetPosition().Inflate3rdDim(1000);
                 Vector3 pos2 = edge.Ref.B.GetPosition().Inflate3rdDim(1000);
+                if(pos1 == pos2) continue;
                 Utils.DebugDrawArrow(pos1, pos2 - pos1, Color.black, (pos2-pos1).magnitude * 0.1f);
             }
         }
@@ -140,6 +141,10 @@ public class NavGraph {
     private Dictionary<INavNode, uint> NodesToIdx;
     private Dictionary<uint, List<Edge>> EdgesFromNode;
 
+    public uint NodeID(INavNode navNode) {
+        return NodesToIdx[navNode];
+    }
+
     public List<INavNode> GetAllNodesInGraph() {
         return Enumerable.ToList(NodesToIdx.Keys);
     }
@@ -167,6 +172,7 @@ public class NavGraph {
             if(NodesToIdx.ContainsKey(node)) {
                 idTargets.Add(NodesToIdx[node]);
             }
+            // TODO: Fail condition?
         }
         if(idTargets.Count == 0) return null;
 
@@ -176,6 +182,10 @@ public class NavGraph {
     // Can be called from any thread
     public List<NavLink> Dijkstras(uint start, List<uint> end, SlopeDifficulty Ability) {
         Assert.AreNotEqual(end.Count, 0);
+        return Dijkstras(start, (uint id, float cost) => end.Contains(id), Ability);
+    }
+
+    public List<NavLink> Dijkstras(uint start, Func<uint, float, bool> endCondition, SlopeDifficulty Ability) {
         PriorityQueue<uint, float> openSet = new PriorityQueue<uint, float>();
         Dictionary<uint, Tuple<uint, NavLink>> cameFrom = new Dictionary<uint, Tuple<uint, NavLink>>();
         Dictionary<uint, float> costs = new Dictionary<uint, float>();
@@ -187,7 +197,7 @@ public class NavGraph {
             uint current = openSet.Dequeue();
             if(Visited.Contains(current)) continue;
 
-            if(end.Contains(current)) {
+            if(endCondition(current, costs[current])) {
                 return ReconstructPath(cameFrom, current);
             }
 

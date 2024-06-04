@@ -17,6 +17,7 @@
 //    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //>============================================================================<
 
+using System;
 using UnityEngine;
 
 public abstract class BuildingFunctionality : MonoBehaviour {
@@ -24,4 +25,9 @@ public abstract class BuildingFunctionality : MonoBehaviour {
 
     public abstract void OnFinishConstruction();
     public abstract void OnDestroy();
+    public abstract void OnVisitorArrival(Visitor visitor);
+
+    public void OnVisitorDeparture(Visitor visitor) {
+        // Do nothing by default
+    }
 }
