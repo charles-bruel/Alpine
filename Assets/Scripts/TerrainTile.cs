@@ -114,6 +114,10 @@ public class TerrainTile : MonoBehaviour {
         rockMesh.indexFormat = IndexFormat.UInt32;
         rockMesh.MarkDynamic();
 
+        LayerMask treeRockLayer = LayerMask.NameToLayer("Trees & Rocks");
+        trees.layer = treeRockLayer;
+        rocks.layer = treeRockLayer;
+
         GameObject contours = new GameObject("Contours");
         contours.transform.parent = transform;
         contours.transform.position = Vector3.zero;
@@ -270,7 +274,8 @@ public class TerrainTile : MonoBehaviour {
         if(TreesComponent == null) return;
         
         bool currentLODLevel = GetWithinLOD();
-        TreesComponent.gameObject.SetActive(!currentLODLevel);
+        // TreesComponent.gameObject.SetActive(!currentLODLevel);
+        TreesComponent.gameObject.layer = currentLODLevel ? LayerMask.NameToLayer("Trees & Rocks Overlay Only") : LayerMask.NameToLayer("Trees & Rocks");
     }
 
     public bool GetWithinLOD() {

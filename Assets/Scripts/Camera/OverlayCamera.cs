@@ -17,23 +17,26 @@
 //    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //>============================================================================<
 
-[System.Flags]
-public enum PolygonFlags : uint {
-    AERIAL_CLEARANCE = 1,
-    GROUND_CLEARANCE = 2,
-    CLEARANCE = AERIAL_CLEARANCE | GROUND_CLEARANCE,
-    FLAT_NAVIGABLE = 4,
-    FLATTEN_DOWN = 8,
-    FLATTEN_UP = 16,
-    FLATTEN = FLATTEN_DOWN | FLATTEN_UP,
-    SLOPE_NAVIGABLE = 32,
-    NAVIGABLE_MASK = FLAT_NAVIGABLE | SLOPE_NAVIGABLE,
-    // All slopes are of the form 0001 xy00 0000
-    // Where xy determines the difficulty
-    SLOPE_GREEN = 256,
-    SLOPE_BLUE = 320,
-    SLOPE_BLACK = 384,
-    SLOPE_DOUBLE_BLACK = 448,
-    SLOPE_MASK = 448,
-    STRUCTURE = 512,
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class OverlayCamera : MonoBehaviour {
+    public Camera Camera;
+    public Camera Camera2D;
+    public Shader DrawShader;
+    public RenderTexture Target;
+
+    void Start() {
+        Camera.SetReplacementShader(DrawShader, "");
+    }
+
+    void Update() {
+        Camera.orthographicSize = Camera2D.orthographicSize;
+        Camera.aspect           = Camera2D.aspect;
+
+        Target.Release();
+        Target.width = Camera2D.pixelWidth;
+        Target.height = Camera2D.pixelHeight;
+    }
 }

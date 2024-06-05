@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using EPPZ.Geometry.Model;
 using UnityEngine.Assertions;
+using System;
 
 public class MidStationT3 : APITurnSegment {
     public override void Build(ICustomScriptable parent, Transform current, Transform next, Transform prev) {
@@ -163,16 +164,20 @@ public class MidStationT3 : APITurnSegment {
         footprint.Guid                = System.Guid.NewGuid();
         footprint.Level               = 10;
         footprint.ArbitrarilyEditable = false;
-        footprint.Flags               = PolygonFlags.FLATTEN_DOWN | PolygonFlags.AERIAL_CLEARANCE;
+        footprint.Flags               = PolygonFlags.FLATTEN_DOWN | PolygonFlags.AERIAL_CLEARANCE | PolygonFlags.STRUCTURE;
         footprint.Height              = parentTrans.position.y;
         
         Vector2[] boundingPoints = new Vector2[4];
         boundingPoints[0] = primarySegment.GetChild(5).position.ToHorizontal();
         boundingPoints[1] = primarySegment.GetChild(6).position.ToHorizontal();
-        boundingPoints[2] = secondarySegment.GetChild(5).position.ToHorizontal();
-        boundingPoints[3] = secondarySegment.GetChild(6).position.ToHorizontal();
+        boundingPoints[2] = secondarySegment.GetChild(6).position.ToHorizontal();
+        boundingPoints[3] = secondarySegment.GetChild(5).position.ToHorizontal();
 
-        footprint.Polygon = Polygon.PolygonWithPoints(GetBoundingBox(boundingPoints));
+        Vector2[] boundingBox = GetBoundingBox(boundingPoints);
+
+        Array.Reverse(boundingBox);
+
+        footprint.Polygon = Polygon.PolygonWithPoints(boundingBox);
 
         toReturn.Add(footprint);
 

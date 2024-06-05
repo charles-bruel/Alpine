@@ -27,9 +27,9 @@ public class AlpinePolygon {
     //Note: Polygons on level 0 do not recieve mouse events
     public uint Level;
     public Polygon Polygon;
-    [NonSerialized]
+    // [NonSerialized]
     public MeshFilter Filter;
-    [NonSerialized]
+    // [NonSerialized]
     public MeshRenderer Renderer;
     public Color Color;
     public bool ArbitrarilyEditable;

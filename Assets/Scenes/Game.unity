@@ -395,7 +395,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2147483774
+    m_Bits: 104
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -418,7 +418,8 @@ Transform:
   m_LocalPosition: {x: 1374.1937, y: 5000, z: 146.66943}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1785577019}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -5312,6 +5313,8 @@ MonoBehaviour:
     type: 2}
   SnowCatcher: {fileID: 2100000, guid: 4965e37d17daf5940940c012c4af0397, type: 2}
   SnowCatcherRecent: {fileID: 2100000, guid: a28a118be15aa3e41abeef96a1a11c7f, type: 2}
+  VertexColorWroldOverlay: {fileID: 2100000, guid: 4e1a603247445384f8b8e92c22924363,
+    type: 2}
   CullingShader: {fileID: 7200000, guid: 021a9d138cb223d448b43c715cbdf9d7, type: 3}
   RockModel: {fileID: 4013275331872712965, guid: bc9ea1b2d012c874883a85416bf1318c,
     type: 3}
@@ -5329,6 +5332,7 @@ MonoBehaviour:
     LODSnowMultiplier: 0.2
   LOD_Distance: 1000
   WeatherController: {fileID: 757753261}
+  OverlayCamera: {fileID: 1785577022}
   ContourLayersDefinition:
     MajorSpacing: 50
     MinorSpacing: 10
@@ -5461,6 +5465,7 @@ MonoBehaviour:
   - {fileID: 138825116}
   - {fileID: 1821605588}
   - {fileID: 274151076}
+  - {fileID: 1785577018}
   ThreeDOnlyObjects:
   - {fileID: 1803827441}
   TwoDCamera: {fileID: 138825118}
@@ -5483,6 +5488,7 @@ MonoBehaviour:
   SnowfrontColor: {r: 1, g: 1, b: 1, a: 1}
   SlopeDraftColor: {r: 1, g: 0.6556604, b: 0.6556604, a: 1}
   PortalColor: {r: 0, g: 0, b: 0, a: 1}
+  StructureColor: {r: 0.44, g: 0.44, b: 0.44, a: 1}
   GreenSlopeColor: {r: 0.375, g: 0.5, b: 0.375, a: 1}
   BlueSlopeColor: {r: 0.5625, g: 0.5625, b: 0.75, a: 1}
   BlackSlopeColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
@@ -6143,6 +6149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Triangulator: 1
   Material: {fileID: 2100000, guid: fafa70cd7799f6243bacb72de18a51e1, type: 2}
+  BaseLayerMaterial: {fileID: 2100000, guid: 4e1a603247445384f8b8e92c22924363, type: 2}
   SelectedMaterial: {fileID: 2100000, guid: 7c3e107bcaf81dd45b25c3be9a3f7fda, type: 2}
   PolygonObjects: []
   PolygonEditor: {fileID: 1821605590}
@@ -12161,6 +12168,98 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1743146769}
   m_CullTransparentMesh: 1
+--- !u!1 &1785577018
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1785577019}
+  - component: {fileID: 1785577021}
+  - component: {fileID: 1785577022}
+  m_Layer: 0
+  m_Name: Overlay Cam
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1785577019
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785577018}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 138825119}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &1785577021
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785577018}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.5137255, g: 0.627451, b: 0.47843137, a: 1}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 6000
+  field of view: 26.991467
+  orthographic: 1
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 768
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 8400000, guid: 7df65d1462dab134098bee2bdf5266cb, type: 2}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 0
+  m_AllowMSAA: 0
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!114 &1785577022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785577018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc0f1a539adc83a4680562ba423c7551, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Camera: {fileID: 1785577021}
+  Camera2D: {fileID: 138825118}
+  DrawShader: {fileID: 4800000, guid: a9be38f7087c5cf429a45198f69244b7, type: 3}
+  Target: {fileID: 8400000, guid: 7df65d1462dab134098bee2bdf5266cb, type: 2}
 --- !u!1 &1803827441
 GameObject:
   m_ObjectHideFlags: 0
@@ -12297,7 +12396,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2147483895
+    m_Bits: 2147484151
   m_RenderingPath: 3
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

@@ -812,10 +812,10 @@ MonoBehaviour:
   - ParentElement: {fileID: 4116895625065423103}
     Level: 2
     Points:
-    - {x: -32.5, y: 15}
     - {x: -32.5, y: -15}
-    - {x: -2.5, y: -15}
+    - {x: -32.5, y: 15}
     - {x: -2.5, y: 15}
+    - {x: -2.5, y: -15}
     ArbitrarilyEditable: 0
     Flags: 31
     Height: 0
@@ -830,12 +830,12 @@ MonoBehaviour:
     Flags: 31
     Height: 0
   - ParentElement: {fileID: 4116895625065423103}
-    Level: 9
+    Level: 2
     Points:
-    - {x: -2.5, y: 15}
     - {x: -2.5, y: -15}
-    - {x: 2.5, y: -15}
+    - {x: -2.5, y: 15}
     - {x: 2.5, y: 15}
+    - {x: 2.5, y: -15}
     ArbitrarilyEditable: 0
     Flags: 27
     Height: 0

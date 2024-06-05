@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using ClipperLib;
+using Codice.Client.BaseCommands.Download;
 using EPPZ.Geometry.AddOns;
 using EPPZ.Geometry.Model;
 using UnityEngine;
@@ -32,6 +33,7 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
 {
     public TriangulatorType Triangulator = TriangulatorType.Dwyer;
     public Material Material;
+    public Material BaseLayerMaterial;
     public Material SelectedMaterial;
     public List<AlpinePolygon> PolygonObjects;
     public Guid SelectedPolygon = Guid.Empty;
@@ -63,6 +65,9 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
     }
 
     public static Color ColorFromFlags(PolygonFlags flags) {
+        if((flags & PolygonFlags.STRUCTURE) != 0) {
+            return RenderingData.Instance.StructureColor;
+        }
         PolygonFlags slopeIsolated = flags & PolygonFlags.SLOPE_MASK;
         if(slopeIsolated == PolygonFlags.SLOPE_GREEN) {
             return RenderingData.Instance.GreenSlopeColor;
@@ -154,9 +159,9 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
         backgroundPolygon.Level = 0;
         backgroundPolygon.Polygon = Polygon.PolygonWithPoints(new Vector2[] {
             new Vector2(x1, y1),
-            new Vector2(x1, y2),
+            new Vector2(x2, y1),
             new Vector2(x2, y2),
-            new Vector2(x2, y1)
+            new Vector2(x1, y2)
         });
         backgroundPolygon.Color = RenderingData.Instance.UndevelopedBackgroundColor;
 
@@ -168,44 +173,7 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
     private void Remesh() {
         for(int i = 0;i < PolygonObjects.Count;i ++) {
             AlpinePolygon poly = PolygonObjects[i];
-            Polygon meshPoly = poly.Polygon;
-
-            if(poly.Filter == null) {
-                var temp = CreateMeshRenderer(poly);
-                poly.Renderer = temp.Item1;
-                poly.Filter = temp.Item2;
-            }
-
-            List<Path> others = new List<Path>();
-            for(int j = 0;j < PolygonObjects.Count;j ++) {
-                if(PolygonObjects[j].Level > poly.Level) {
-                    others.Add(PolygonObjects[j].Polygon.ClipperPath(Polygon.clipperScale));
-                }
-            }
-
-            //If there are meshes that would subtract from here, we need to deal with them
-            if(others.Count > 0) {
-                Clipper clipper = new Clipper();
-                Path path = poly.Polygon.ClipperPath(Polygon.clipperScale);
-                clipper.AddPath(path, PolyType.ptSubject, true);
-                clipper.AddPaths(others, PolyType.ptClip, true);
-                List<Path> sol = new List<Path>();
-                clipper.Execute(ClipType.ctDifference, sol, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);
-
-                if(sol.Count == 0) {
-                    Debug.LogWarning("No object returned from clip!");
-                    poly.Filter.gameObject.SetActive(false);
-                    return;
-                }
-
-                meshPoly = Polygon.PolygonWithPoints(ClipperAddOns.PointsFromClipperPath(sol[0], Polygon.clipperScale));
-                //Capture any extra polygon pieces
-                for(int j = 1;j < sol.Count;j ++) {
-                    meshPoly.AddPolygon(Polygon.PolygonWithPoints(ClipperAddOns.PointsFromClipperPath(sol[j], Polygon.clipperScale)));
-                }
-            }
-
-            poly.Filter.mesh = meshPoly.Mesh(poly.Filter.mesh, poly.Color, Triangulator, poly.Guid.ToString());
+            RemeshPolygon(poly);
         }
     }
 
@@ -272,17 +240,20 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
 
         //If there are meshes that would subtract from here, we need to deal with them
         if(others.Count > 0) {
-            Clipper clipper = new Clipper();
-            Path path = poly.Polygon.ClipperPath(Polygon.clipperScale);
-            clipper.AddPath(path, PolyType.ptSubject, true);
-            clipper.AddPaths(others, PolyType.ptClip, true);
             List<Path> sol = new List<Path>();
-            clipper.Execute(ClipType.ctDifference, sol, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);
+            sol.Add(poly.Polygon.ClipperPath(Polygon.clipperScale));
 
-            if(sol.Count == 0) {
-                Debug.LogWarning("No object returned from clip!");
-                poly.Filter.gameObject.SetActive(false);
-                return;
+            for(int i = 0;i < others.Count;i ++) {
+                Clipper clipper = new Clipper();
+                clipper.AddPaths(sol, PolyType.ptSubject, true);
+                clipper.AddPath(others[i], PolyType.ptClip, true);
+                sol.Clear();
+                clipper.Execute(ClipType.ctDifference, sol, PolyFillType.pftNonZero, PolyFillType.pftNonZero);
+                if(sol.Count == 0) {
+                    // Completley covered; no mesh for this object
+                    // TODO: Delete mesh?
+                    return;
+                }
             }
 
             meshPoly = Polygon.PolygonWithPoints(ClipperAddOns.PointsFromClipperPath(sol[0], Polygon.clipperScale));
@@ -304,7 +275,7 @@ public class PolygonsController : MonoBehaviour, IPointerClickHandler
         meshObject.layer = gameObject.layer;
 
         MeshRenderer meshRenderer = meshObject.AddComponent<MeshRenderer>();
-        meshRenderer.material = Material;
+        meshRenderer.material = poly.Level != 0 ? Material : BaseLayerMaterial;
 
         MeshFilter meshFilter = meshObject.AddComponent<MeshFilter>();
 

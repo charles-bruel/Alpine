@@ -45,6 +45,9 @@ public class PolygonBuilder {
     public void LightBuild() {
         if(Data.SlopePoints.Count > 2) {
             Result.Footprint.Polygon = Polygon.PolygonWithPoints(Data.GetPoints());
+            if(Result.Footprint.Polygon.area < 0) {
+                Result.Footprint.Polygon.Reverse();
+            }
         }
     }
 

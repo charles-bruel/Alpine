@@ -24,6 +24,8 @@ using UnityEngine.Assertions;
 using System.Threading;
 using System.Linq;
 using UnityEngine.AI;
+using UnityEditor.Overlays;
+using UnityEngine.Tilemaps;
 
 public class TerrainManager : MonoBehaviour {
     [Header("Materials & Shaders")]
@@ -33,6 +35,7 @@ public class TerrainManager : MonoBehaviour {
     public Material ObjectInstanceMaterial;
     public Material SnowCatcher;
     public Material SnowCatcherRecent;
+    public Material VertexColorWroldOverlay;
     public ComputeShader CullingShader;
     [Header("Scatters")]
     public Mesh RockModel;
@@ -42,6 +45,7 @@ public class TerrainManager : MonoBehaviour {
     public float LOD_Distance = 200.0f;
     [Header("Linking")]
     public WeatherController WeatherController;
+    public OverlayCamera OverlayCamera;
     [Header("Other")]
     public ContourLayersDefinition ContourLayersDefinition;
     [NonSerialized]
@@ -120,11 +124,14 @@ public class TerrainManager : MonoBehaviour {
             (NumTilesX -NumTilesX/2) * TileSize, (NumTilesY -NumTilesY/2) * TileSize
         );
 
-        UpdateMaterials(bounds, WeatherMap);
-
         TerrainBounds = new Bounds();
         TerrainBounds.min = new Vector3(bounds.x, 0, bounds.y);
         TerrainBounds.max = new Vector3(bounds.z, TileHeight, bounds.w);
+
+        // OverlayCamera.Camera.orthographicSize = Mathf.Max(NumTilesX, NumTilesY) * TileSize / 2;
+        // OverlayCamera.transform.position = new Vector3(TerrainBounds.center.x, TileHeight + 128, TerrainBounds.center.z);
+
+        UpdateMaterials(bounds, WeatherMap);
 
         Instance = this;
         int id = 0;
@@ -234,6 +241,10 @@ public class TerrainManager : MonoBehaviour {
 
         if(TerrainMaterial.HasTexture("_SnowTex")) {
             TerrainMaterial.SetTexture("_SnowTex", weatherMap);
+        }
+
+        if(VertexColorWroldOverlay.HasVector("_Bounds")) {
+            VertexColorWroldOverlay.SetVector("_Bounds", bounds);
         }
 
         for(int i = 0;i < TreeLODRenderers.Length;i ++) {

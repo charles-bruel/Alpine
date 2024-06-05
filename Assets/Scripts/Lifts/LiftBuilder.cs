@@ -697,7 +697,7 @@ public class LiftBuilder
             }
         }
 
-        pointsRight.Reverse();
+        pointsLeft.Reverse();
         pointsLeft.AddRange(pointsRight);
         Vector2[] points = pointsLeft.ToArray();
 
