@@ -274,8 +274,8 @@ public class TerrainTile : MonoBehaviour {
         if(TreesComponent == null) return;
         
         bool currentLODLevel = GetWithinLOD();
-        // TreesComponent.gameObject.SetActive(!currentLODLevel);
-        TreesComponent.gameObject.layer = currentLODLevel ? LayerMask.NameToLayer("Trees & Rocks Overlay Only") : LayerMask.NameToLayer("Trees & Rocks");
+        TreesComponent.gameObject.SetActive(!currentLODLevel);
+        // TreesComponent.gameObject.layer = currentLODLevel ? LayerMask.NameToLayer("Trees & Rocks Overlay Only") : LayerMask.NameToLayer("Trees & Rocks");
     }
 
     public bool GetWithinLOD() {

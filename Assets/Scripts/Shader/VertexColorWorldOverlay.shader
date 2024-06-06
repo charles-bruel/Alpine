@@ -25,6 +25,8 @@ Shader "Unlit/VertexColorWorldOverlay"
         _OverlayTex ("Overlay Texture", 2D) = "white" {}
         _Bounds ("World Area", Vector) = (-1, -1, 1, 1)
         _OverlayStrength ("Overlay Strength", Range(0, 1)) = 0.1
+        _Aspect ("Camera Aspect", Float) = 1
+        _OverlayRockColor ("Overlay Rock Color", Color) = (0.5, 0.5, 0.5, 1)
     }
     SubShader
     {
@@ -32,7 +34,7 @@ Shader "Unlit/VertexColorWorldOverlay"
         LOD 100
 
         Pass
-        {
+        {            
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -56,9 +58,11 @@ Shader "Unlit/VertexColorWorldOverlay"
             };
 
             fixed4 _Color;
+            fixed4 _OverlayRockColor;
             float4 _Bounds;
             float _OverlayStrength;
             sampler2D _OverlayTex;
+            float _Aspect;
 
             v2f vert (appdata v)
             {
@@ -87,8 +91,17 @@ Shader "Unlit/VertexColorWorldOverlay"
                 // overlay texture
                 fixed4 overlay = tex2D(_OverlayTex, i.overlay_tex_uv);
 
+                fixed tree_channel_sign = max(0, sign(overlay.g - 0.1f));
+                fixed tree_strip_sign = tree_channel_sign * max(0, sign((i.overlay_tex_uv.x * _Aspect + i.overlay_tex_uv.y) * 100 % 2 - 1));
+
+                fixed rock_channel_sign = max(0, sign(overlay.b - 0.1f));
+                fixed rock_strip_sign = rock_channel_sign * max(0, -sign((i.overlay_tex_uv.x * _Aspect + i.overlay_tex_uv.y) * 100 % 2 - 1));
+
                 // combine
-                fixed4 col = c  * (1 - _OverlayStrength) + overlay * _OverlayStrength;
+                fixed4 col = c * (1 - tree_strip_sign - rock_strip_sign) 
+                                + c * (1 - _OverlayStrength) * tree_strip_sign 
+                                + rock_strip_sign * _OverlayRockColor * 5 * _OverlayStrength
+                                + c * (1 - 5 * _OverlayStrength) * rock_strip_sign;
 
                 // fixed4 col = fixed4(i.overlay_tex_uv.x, i.overlay_tex_uv.y, 0, 1);
 

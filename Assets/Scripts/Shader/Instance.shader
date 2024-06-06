@@ -42,7 +42,7 @@ Shader "Custom/Instance" {
 			};
 
 		#ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
-			StructuredBuffer<float4> positionBuffer;
+			StructuredBuffer<float3> positionBuffer;
 		#endif
 
 			void rotate2D(inout float2 v, float r)
@@ -55,7 +55,8 @@ Shader "Custom/Instance" {
 			void setup()
 			{
 			#ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
-				float4 data = positionBuffer[unity_InstanceID];
+				float3 temp = positionBuffer[unity_InstanceID];
+				float4 data = float4(temp.xy, 0, 1);
 
 				float rotation = data.w * data.w * _Time.y * 0.5f;
 				rotate2D(data.xz, rotation);

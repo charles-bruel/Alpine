@@ -24,7 +24,6 @@ using UnityEngine.Assertions;
 using System.Threading;
 using System.Linq;
 using UnityEngine.AI;
-using UnityEditor.Overlays;
 using UnityEngine.Tilemaps;
 
 public class TerrainManager : MonoBehaviour {
@@ -36,7 +35,10 @@ public class TerrainManager : MonoBehaviour {
     public Material SnowCatcher;
     public Material SnowCatcherRecent;
     public Material VertexColorWroldOverlay;
+    public Material OverlayTreeMaterial;
+    public Material OverlayRockMaterial;
     public ComputeShader CullingShader;
+    public ComputeShader CullingShaderOverlay;
     [Header("Scatters")]
     public Mesh RockModel;
     public float RockSnowMultiplier;
@@ -45,7 +47,10 @@ public class TerrainManager : MonoBehaviour {
     public float LOD_Distance = 200.0f;
     [Header("Linking")]
     public WeatherController WeatherController;
+    [Header("Overlay Layer Settings")]
     public OverlayCamera OverlayCamera;
+    public GameObject Overlays;
+    public Mesh OverlayRenderMesh;
     [Header("Other")]
     public ContourLayersDefinition ContourLayersDefinition;
     [NonSerialized]
@@ -62,6 +67,10 @@ public class TerrainManager : MonoBehaviour {
     public GridArray<RockPos> RocksData;
     [NonSerialized]
     public TreeLODRenderer[] TreeLODRenderers;
+    [NonSerialized]
+    public OverlayRenderer OverlayRendererTree;
+    [NonSerialized]
+    public OverlayRenderer OverlayRendererRock;
     [NonSerialized]
     public Bounds TerrainBounds;
 
@@ -114,6 +123,7 @@ public class TerrainManager : MonoBehaviour {
         TargetMap.Load(this);
 
         CreateTreeLODRenderers();
+        CreateOverlayRenderers();
 
         ObjectMaterial = new Material(ObjectMaterial);
         RockMaterial = new Material(ObjectMaterial);
@@ -127,9 +137,6 @@ public class TerrainManager : MonoBehaviour {
         TerrainBounds = new Bounds();
         TerrainBounds.min = new Vector3(bounds.x, 0, bounds.y);
         TerrainBounds.max = new Vector3(bounds.z, TileHeight, bounds.w);
-
-        // OverlayCamera.Camera.orthographicSize = Mathf.Max(NumTilesX, NumTilesY) * TileSize / 2;
-        // OverlayCamera.transform.position = new Vector3(TerrainBounds.center.x, TileHeight + 128, TerrainBounds.center.z);
 
         UpdateMaterials(bounds, WeatherMap);
 
@@ -200,6 +207,24 @@ public class TerrainManager : MonoBehaviour {
             TreeLODRenderers[i] = CreateTreeLODRenderer(i, TreeTypeDescriptors[i].Mesh, TreeTypeDescriptors[i].SnowMultiplier);
             TreeLODRenderers[i].InstanceMaterial = new Material(ObjectInstanceMaterial);
         }
+    }
+
+    private void CreateOverlayRenderers() {
+        OverlayRendererTree = Overlays.AddComponent<OverlayRenderer>();
+
+        OverlayRendererTree.instanceMesh = OverlayRenderMesh;
+        OverlayRendererTree.subMeshIndex = 0;
+        OverlayRendererTree.CullingShader = CullingShaderOverlay;
+        OverlayRendererTree.OverlayCamera = OverlayCamera.Camera;
+        OverlayRendererTree.InstanceMaterial = OverlayTreeMaterial;
+
+        OverlayRendererRock = Overlays.AddComponent<OverlayRenderer>();
+
+        OverlayRendererRock.instanceMesh = OverlayRenderMesh;
+        OverlayRendererRock.subMeshIndex = 0;
+        OverlayRendererRock.CullingShader = CullingShaderOverlay;
+        OverlayRendererRock.OverlayCamera = OverlayCamera.Camera;
+        OverlayRendererRock.InstanceMaterial = OverlayRockMaterial;
     }
 
     private void UpdateMaterials(Vector4 bounds, Texture2D weatherMap) {
@@ -353,10 +378,14 @@ public class TerrainManager : MonoBehaviour {
             if((nextDirty.DirtyStates & TerrainTile.TerrainTileDirtyStates.TREES) != 0) {
                 nextDirty.RecreateTreeMesh(bounds, TreeTypeDescriptors);
                 nextDirty.DirtyStates &= ~TerrainTile.TerrainTileDirtyStates.TREES;
+
+                UpdateOverlayLODBuffers();
             }
             if((nextDirty.DirtyStates & TerrainTile.TerrainTileDirtyStates.ROCKS) != 0) {
                 nextDirty.RecreateRockMesh(bounds, RockModel);
                 nextDirty.DirtyStates &= ~TerrainTile.TerrainTileDirtyStates.ROCKS;
+
+                UpdateOverlayLODBuffers();
             }
             nextDirty.HasFullyInitialized = true;
         }
@@ -433,6 +462,80 @@ public class TerrainManager : MonoBehaviour {
         }
 
         TreeLODRenderersDirty = false;
+    }
+
+    private void UpdateOverlayLODBuffers() {
+        // TODO: Clean up
+
+        // Tree overlay
+        if(TreesData != null) {
+            int numTrees = 0;
+            //We go through things twice to reduce memory allocations
+            for(int i = 0;i < Tiles.Count;i ++) {
+                numTrees += TreesData.GetCountInCell(Tiles[i].IndexX, Tiles[i].IndexY);
+            }
+
+            Vector3[] data = new Vector3[numTrees];
+            Vector4 bounds = new Vector4();
+            int id = 0;
+            for(int i = 0;i < Tiles.Count;i ++) {
+                bounds.x = Mathf.Min(bounds.x, Tiles[i].PosX * TileSize);
+                bounds.y = Mathf.Min(bounds.y, Tiles[i].PosY * TileSize);
+                bounds.z = Mathf.Max(bounds.z, (Tiles[i].PosX + 1) * TileSize);
+                bounds.w = Mathf.Max(bounds.w, (Tiles[i].PosY + 1) * TileSize);
+
+                var enumerator = TreesData.GetEnumerator(Tiles[i].IndexX, Tiles[i].IndexY);
+                while(enumerator.MoveNext()) {
+                    TreePos current = enumerator.Current;
+                    data[id++] = new Vector3(current.pos.x, current.pos.z, current.scale);
+                }
+            }
+
+            Bounds boundsFinal = new()
+            {
+                min = new Vector3(bounds.x, 0, bounds.y),
+                max = new Vector3(bounds.z, TileHeight + 100, bounds.w)
+            };
+
+            
+            OverlayRendererTree.Bounds = boundsFinal;
+            OverlayRendererTree.UpdateBuffers(data);
+        }
+
+        // Tree overlay
+        if(TreesData != null) {
+            int numTrees = 0;
+            //We go through things twice to reduce memory allocations
+            for(int i = 0;i < Tiles.Count;i ++) {
+                numTrees += RocksData.GetCountInCell(Tiles[i].IndexX, Tiles[i].IndexY);
+            }
+
+            Vector3[] data = new Vector3[numTrees];
+            Vector4 bounds = new Vector4();
+            int id = 0;
+            for(int i = 0;i < Tiles.Count;i ++) {
+                bounds.x = Mathf.Min(bounds.x, Tiles[i].PosX * TileSize);
+                bounds.y = Mathf.Min(bounds.y, Tiles[i].PosY * TileSize);
+                bounds.z = Mathf.Max(bounds.z, (Tiles[i].PosX + 1) * TileSize);
+                bounds.w = Mathf.Max(bounds.w, (Tiles[i].PosY + 1) * TileSize);
+
+                var enumerator = RocksData.GetEnumerator(Tiles[i].IndexX, Tiles[i].IndexY);
+                while(enumerator.MoveNext()) {
+                    RockPos current = enumerator.Current;
+                    data[id++] = new Vector3(current.pos.x, current.pos.z, current.scale);
+                }
+            }
+
+            Bounds boundsFinal = new()
+            {
+                min = new Vector3(bounds.x, 0, bounds.y),
+                max = new Vector3(bounds.z, TileHeight + 100, bounds.w)
+            };
+
+            
+            OverlayRendererRock.Bounds = boundsFinal;
+            OverlayRendererRock.UpdateBuffers(data);
+        }
     }
 
     public Vector2Int GetTilePos(Vector3 position) {

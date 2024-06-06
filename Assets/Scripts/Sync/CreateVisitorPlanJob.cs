@@ -21,7 +21,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Data.Odbc;
 using System;
-using Codice.CM.Common.Merge;
 using UnityEngine.AI;
 
 public class CreateVisitorPlanJob : Job {

@@ -20,7 +20,6 @@
 using System;
 using System.Collections.Generic;
 using ClipperLib;
-using Codice.Client.BaseCommands.Download;
 using EPPZ.Geometry.AddOns;
 using EPPZ.Geometry.Model;
 using UnityEngine;

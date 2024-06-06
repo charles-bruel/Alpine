@@ -24,16 +24,14 @@ using UnityEngine;
 public class OverlayCamera : MonoBehaviour {
     public Camera Camera;
     public Camera Camera2D;
-    public Shader DrawShader;
     public RenderTexture Target;
-
-    void Start() {
-        Camera.SetReplacementShader(DrawShader, "");
-    }
+    public Material OverlayMaterial;
 
     void Update() {
         Camera.orthographicSize = Camera2D.orthographicSize;
         Camera.aspect           = Camera2D.aspect;
+
+        OverlayMaterial.SetFloat("_Aspect", Camera2D.aspect);
 
         Target.Release();
         Target.width = Camera2D.pixelWidth;
