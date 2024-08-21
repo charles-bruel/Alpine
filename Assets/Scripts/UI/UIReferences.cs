@@ -19,17 +19,14 @@
 
 using UnityEngine;
 
-public class SlopeBuildButton : MonoBehaviour {
+[System.Serializable]
+public class UIReferences {
+    // Universal references
     public PolygonBuilderToolGrab GrabTemplate;
-    public SlopeBuilderUI UI;
-    public Canvas Canvas;
-
-    public void OnSlopeToolEnable() {
-        SlopeBuilderTool tool = new SlopeBuilderTool();
-        tool.PolygonTool.GrabTemplate = GrabTemplate;
-        tool.PolygonTool.Canvas = Canvas;
-        InterfaceController.Instance.SelectedTool = tool;
-        tool.UI = UI;
-        UI.gameObject.SetActive(true);
-    }
+    public Canvas WorldCanvas;
+    
+    // Various construction UIs
+    public LiftBuilderUI LiftBuilderUI;
+    public LiftBuilderToolGrab LiftBuilderGrabTemplate;
+    public SlopeBuilderUI SlopeBuilderUI;
 }

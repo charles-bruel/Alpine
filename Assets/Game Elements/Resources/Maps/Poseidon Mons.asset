@@ -22,8 +22,8 @@ MonoBehaviour:
   NumTilesX: 8
   NumTilesY: 8
   DecoMap: {fileID: 2800000, guid: cb5c29d78289d374eab91c12ed321931, type: 3}
-  NumTrees: 1000000
-  NumRocks: 250000
+  NumTrees: 100
+  NumRocks: 25
   MinTreeHeight: 1
   MaxTreeHeight: 4
   AltitudeAdjustFactor: 0.5

@@ -140,10 +140,11 @@ MonoBehaviour:
     ArbitrarilyEditable: 0
     Flags: 31
     Height: 0
-  ServiceNode:
+  FunctionalityNode:
     PolygonDefinitionID: 0
     Pos: {x: 0, y: 0}
   Functionality: {fileID: 5021506697257712871}
+  BuildingIcon: {fileID: 21300000, guid: f88bf138076bee344b368443c3ccf4c2, type: 3}
   Icon2D: {fileID: 21300000, guid: cbec6a0d042882e498cf8993615add98, type: 3}
   IconSize: {x: 35, y: 35}
 --- !u!114 &5021506697257712871

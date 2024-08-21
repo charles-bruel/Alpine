@@ -22,8 +22,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Lift", menuName = "Game Elements/Lifts/Lift", order = 1)]
-public class LiftTemplate : ScriptableObject
+public class LiftTemplate : ScriptableObject, IUIToolbarItemProvider
 {
+    [Header("UI Info")]
+    public string Name;
+    public Sprite Sprite;
     [Header("Objects")]
     public LiftStationTemplate[] AvaliableStations;
     public LiftTowerTemplate[] AvaliableTowers;
@@ -54,4 +57,28 @@ public class LiftTemplate : ScriptableObject
     
     public bool VehicleMixingAllowed;
 
+    public Sprite GetSprite() {
+        return Sprite;
+    }
+
+    public void OnToolEnabled(UIReferences uiReferences) {
+        LiftBuilderTool tool = new();
+
+        LiftConstructionData data = new()
+        {
+            Template = this,
+            RoutingSegments = new List<LiftConstructionData.RoutingSegment>(),
+            SpanSegments = new List<LiftConstructionData.SpanSegment>(),
+        };
+
+        tool.Data = data;
+        tool.GrabTemplate = uiReferences.LiftBuilderGrabTemplate;
+        tool.Canvas = uiReferences.WorldCanvas;
+        InterfaceController.Instance.SelectedTool = tool;
+
+        var UI = uiReferences.LiftBuilderUI;
+        UI.Tool = tool;
+        tool.UI = UI;
+        UI.gameObject.SetActive(true);
+    }
 }

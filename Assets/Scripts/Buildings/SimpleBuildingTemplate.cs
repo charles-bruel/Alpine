@@ -21,14 +21,20 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SimpleBuildingTemplate : MonoBehaviour {
+public class SimpleBuildingTemplate : MonoBehaviour, IUIToolbarItemProvider {
     public AlpinePolygonSource[] Polygons;
     public NavDestinationDefinition FunctionalityNode;
     public BuildingFunctionality Functionality;
+    public Sprite BuildingIcon;
+    
 
     [Header("2D Icon")]
     public Sprite Icon2D;
     public Vector2 IconSize;
+
+    public Sprite GetSprite() {
+        return BuildingIcon;
+    }
 
     void OnDrawGizmos() {
         if(Polygons == null) return;
@@ -54,4 +60,12 @@ public class SimpleBuildingTemplate : MonoBehaviour {
         }
     }
 
+    public void OnToolEnabled(UIReferences uiReferences) {
+        BuildingBuilderTool tool = new()
+        {
+            Template = this,
+            WorldUICanvas = uiReferences.WorldCanvas
+        };
+        InterfaceController.Instance.SelectedTool = tool;
+    }
 }

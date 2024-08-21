@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd4f01f2eb24e89489bf300cc1a034f2, type: 3}
   m_Name: T3
   m_EditorClassIdentifier: 
+  Name: 
+  Sprite: {fileID: 21300000, guid: f8337b11f9c28c54ba6410bdfa8386bd, type: 3}
   AvaliableStations:
   - {fileID: 543573159736028783, guid: b9daadc4a7021854d91ad33c885b5ddd, type: 3}
   AvaliableTowers:
